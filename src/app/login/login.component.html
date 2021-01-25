@@ -1,19 +1,27 @@
-<h5>Login</h5>
+<mat-card style="text-align: center">
+  <mat-card-header>
+    <mat-card-title>Login</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
 
-<div class="row">
-  <div class="input-field col s12">
-    <input [(ngModel)]="usuario.email" id="email" type="text" class="validate">
-    <label class="active" for="email">E-mail</label>
-  </div>
-</div>
+    <form class="example-form">
+      <mat-form-field class="example-full-width">
+        <mat-label>Email</mat-label>
+        <input matInput [(ngModel)]="usuario.email" placeholder="email" name="email" type="text">
+      </mat-form-field>
 
-<div class="row">
-  <div class="input-field col s12">
-    <input [(ngModel)]="usuario.password" id="password" type="password" class="validate">
-    <label class="active" for="password">Senha</label>
-  </div>
-</div>
+      <br/>
 
-<button type="submit" name="action" (click)="fazerLogin()">
-  Login
-</button>
+      <mat-form-field class="example-full-width">
+        <mat-label>Senha</mat-label>
+        <input matInput [(ngModel)]="usuario.password" placeholder="password" name="password" type="password">
+      </mat-form-field>
+    </form>
+
+  </mat-card-content>
+  <mat-card-actions>
+    <button mat-raised-button color="warn" (click)="fazerLogin()" name="action" type="submit">
+      Login
+    </button>
+  </mat-card-actions>
+</mat-card>
