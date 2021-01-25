@@ -16,8 +16,17 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  fazerLogin() {
-    this.authService.fazerLogin(this.usuario);
+  fazerLogin(): void {
+    this.authService.fazerLogin(this.usuario).subscribe(
+      next => {
+        alert('Sucesso!');
+      },
+      error => {
+        alert('Dados nao conferem');
+        this.usuario.email = 'errou seu noom';
+        this.usuario.password = '';
+      }
+    );
   }
 
 }
