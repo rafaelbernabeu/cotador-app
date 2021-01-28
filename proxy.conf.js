@@ -1,8 +1,10 @@
 const proxy = [
   {
     context: '/',
-    target: 'http://localhost:8080',
+    target: 'http://cotador-saude.herokuapp.com',
     secure: false,
+    changeOrigin: true,
+    logLevel: 'debug'
   }
 ];
 
