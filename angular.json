@@ -71,7 +71,8 @@
           },
           "configurations": {
             "production": {
-              "browserTarget": "cotador-app:build:production"
+              "browserTarget": "cotador-app:build:production",
+              "proxyConfig": "proxy.conf.js"
             }
           }
         },
