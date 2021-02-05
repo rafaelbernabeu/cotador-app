@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../auth/auth.service';
-import { Usuario } from '../auth/usuario';
+import { AuthService } from '../../services/auth/auth.service';
+import { Login } from './login';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class LoginComponent implements OnInit {
 
-  usuario: Usuario = new Usuario();
+  usuario: Login = new Login();
 
   constructor(
     private authService: AuthService,
