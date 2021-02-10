@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
-import {Usuario} from './usuario';
-import {HttpClient} from '@angular/common/http';
 import {AuthService} from '../auth/auth.service';
+import {HttpClient} from '@angular/common/http';
+import {Usuario} from '../usuario/usuario';
 import {Observable} from 'rxjs';
+import {Entidade} from './entidade';
 import {ApiService} from '../api/api.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsuarioService {
+export class EntidadeService {
 
   constructor(
     private authServie: AuthService,
@@ -16,7 +17,7 @@ export class UsuarioService {
     private api: ApiService,
   ) { }
 
-  public getAllUsuarios(): Observable<Usuario[]> {
-    return this.http.get<Usuario[]>(this.api.USUARIO_API_URL,  this.authServie.getTokenHeader());
+  public getAllEntidades(): Observable<Entidade[]> {
+    return this.http.get<Entidade[]>(this.api.ENTIDADE_API_URL, this.authServie.getTokenHeader());
   }
 }

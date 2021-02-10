@@ -22,13 +22,15 @@ import { MatInputModule } from '@angular/material/input';
 import { UsuarioComponent } from './components/usuario/usuario.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
+import { EntidadeComponent } from './components/entidade/entidade.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    UsuarioComponent
+    UsuarioComponent,
+    EntidadeComponent
   ],
   imports: [
     FormsModule,

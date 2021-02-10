@@ -5,6 +5,7 @@ import { Login } from '../../components/login/login';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, observable } from 'rxjs';
 import { Token } from './token';
+import {ApiService} from '../api/api.service';
 
 @Injectable()
 export class AuthService {
@@ -14,13 +15,14 @@ export class AuthService {
 
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private api: ApiService,
   ) { }
 
   fazerLogin(login: Login): Observable<boolean> {
     this.usuarioAutenticado = false;
     return new Observable(observer => {
-      this.http.get<Token>('/api/login', this.getAuthHeaders(login)).subscribe(
+      this.http.get<Token>(this.api.LOGIN_API_URL, this.getAuthHeaders(login)).subscribe(
         data => {
           if (data.token) {
             this.tokenUsuario = data.token;
