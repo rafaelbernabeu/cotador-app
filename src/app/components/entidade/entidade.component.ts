@@ -23,7 +23,7 @@ export class EntidadeComponent implements OnInit {
   dataSourceProfissao = new MatTableDataSource<Profissao>();
   dataSourceEntidade = new MatTableDataSource<Entidade>();
 
-  editar = false;
+  editando = false;
   profissoes: Profissao[];
   todasProfissoes: Profissao[];
 
@@ -58,12 +58,24 @@ export class EntidadeComponent implements OnInit {
           }
         });
       });
-
-      this.dataSourceProfissao = new MatTableDataSource<Profissao>(this.todasProfissoes);
-      this.dataSourceProfissao.sort = this.sortProfissao;
-      this.dataSourceProfissao.paginator = this.paginatorProfissao;
+      this.configuraDataSource();
     });
 
+  }
+
+  editar(): void {
+    this.editando = !this.editando;
+    this.configuraDataSource();
+  }
+
+  private configuraDataSource(): void {
+    if (this.editando) {
+      this.dataSourceProfissao = new MatTableDataSource<Profissao>(this.todasProfissoes);
+    } else {
+      this.dataSourceProfissao = new MatTableDataSource<Profissao>(this.profissoes);
+    }
+    this.dataSourceProfissao.sort = this.sortProfissao;
+    this.dataSourceProfissao.paginator = this.paginatorProfissao;
   }
 
   private preparaParaNovaVerificacao(): void {

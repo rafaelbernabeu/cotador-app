@@ -33,7 +33,7 @@
 
       <mat-card-title>
         Lista de Profissoes Vinculadas
-        <a (click)="editar = !editar">
+        <a (click)="editar()">
           <mat-icon>edit</mat-icon>
         </a>
         <a (click)="profissoes = null">
@@ -43,7 +43,7 @@
       <br/>
 
       <mat-card-content>
-        <div *ngIf="editar">
+        <div *ngIf="editando">
 
           <mat-table #profissoesSort="matSort" [dataSource]="dataSourceProfissao" matSort class="mat-elevation-z8">
             <ng-container matColumnDef="id">
@@ -58,9 +58,9 @@
 
             <ng-container matColumnDef="selecionado">
               <mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center"> Selecione </mat-header-cell>
-              <mat-cell *matCellDef="let profissao" (click)="profissao.selected = !profissao.selected" >
+              <mat-cell *matCellDef="let profissao">
                 <section style="width: 100%; text-align: center">
-                  <mat-checkbox [checked]="profissao.selected"></mat-checkbox>
+                  <mat-checkbox [(ngModel)]="profissao.selected"></mat-checkbox>
                 </section>
               </mat-cell>
             </ng-container>
@@ -82,7 +82,7 @@
 <!--          </mat-selection-list>-->
         </div>
 
-        <div *ngIf="!editar">
+        <div *ngIf="!editando">
 
           <mat-table #profissoesSort="matSort" [dataSource]="dataSourceProfissao" matSort class="mat-elevation-z8">
             <ng-container matColumnDef="id">
