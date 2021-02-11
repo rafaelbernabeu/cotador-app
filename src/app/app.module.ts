@@ -25,6 +25,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { EntidadeComponent } from './components/entidade/entidade.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import { ProfissaoComponent } from './components/profissao/profissao.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { ProfissaoComponent } from './components/profissao/profissao.component';
     AppRoutingModule,
     MatSidenavModule,
     MatToolbarModule,
+    MatCheckboxModule,
     MatSnackBarModule,
     BrowserAnimationsModule,
     MatPaginatorModule,

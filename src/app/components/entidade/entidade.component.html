@@ -1,28 +1,36 @@
-<div class="flex-container">
+<div class="flex-container" xmlns="http://www.w3.org/1999/html">
   <div>
     <mat-card>
-      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+      <mat-card-title>
+        Lista de Entidades
+      </mat-card-title>
+      <br/>
 
-        <ng-container matColumnDef="id">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
-          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-        </ng-container>
+      <mat-card-content>
+        <mat-table #entidadesSort="matSort" [dataSource]="dataSourceEntidade" matSort class="mat-elevation-z8">
+          <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+            <mat-cell *matCellDef="let entidade"> {{entidade.id}} </mat-cell>
+          </ng-container>
 
-        <ng-container matColumnDef="nome" align="center">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header align="center" width="100%"> Nome </th>
-          <td mat-cell *matCellDef="let element" (click)="selectEntidade(element.id)" align="center"> {{element.nome}} </td>
-        </ng-container>
+          <ng-container matColumnDef="nome">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+            <mat-cell *matCellDef="let entidade" (click)="selectEntidade(entidade.id)"> {{entidade.nome}} </mat-cell>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-      <mat-paginator [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons [length]="2"></mat-paginator>
-
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator #paginatorEntidades [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceEntidade.data.length" showFirstLastButtons></mat-paginator>
+      </mat-card-content>
     </mat-card>
   </div>
 
+  <div *ngIf="profissoes" style="width: 20px"></div>
+
   <div>
     <mat-card *ngIf="profissoes">
+
       <mat-card-title>
         Lista de Profissoes Vinculadas
         <a (click)="editar = !editar">
@@ -32,35 +40,75 @@
           <mat-icon>close</mat-icon>
         </a>
       </mat-card-title>
-      <mat-card-actions>
+      <br/>
 
-      </mat-card-actions>
-      <div *ngIf="editar">
-        <mat-selection-list #profissoesList>
-          <mat-list-option *ngFor="let profissao of profissoes" [selected]="profissao.id == 3">
-            {{profissao.nome}}
-          </mat-list-option>
-        </mat-selection-list>
+      <mat-card-content>
+        <div *ngIf="editar">
 
-        <p>
-          Options selected: {{profissoesList.selectedOptions.selected.length}}
-          <br/>
-          Objects selected: {{profissoesList.selectedOptions.selected.values()}}
-        </p>
+          <mat-table #profissoesSort="matSort" [dataSource]="dataSourceProfissao" matSort class="mat-elevation-z8">
+            <ng-container matColumnDef="id">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+              <mat-cell *matCellDef="let profissao"> {{profissao.id}} </mat-cell>
+            </ng-container>
 
-        {{profissoes | json}}
-      </div>
+            <ng-container matColumnDef="nome">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+              <mat-cell *matCellDef="let profissao" > {{profissao.nome}} </mat-cell>
+            </ng-container>
 
-      <div *ngIf="!editar">
-        <mat-list>
-          <mat-list-item *ngFor="let profissao of profissoes">
-            {{profissao.nome}}
-          </mat-list-item>
-        </mat-list>
-      </div>
+            <ng-container matColumnDef="selecionado">
+              <mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center"> Selecione </mat-header-cell>
+              <mat-cell *matCellDef="let profissao" (click)="profissao.selected = !profissao.selected" >
+                <section style="width: 100%; text-align: center">
+                  <mat-checkbox [checked]="profissao.selected"></mat-checkbox>
+                </section>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="['id', 'nome', 'selecionado']"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: ['id', 'nome', 'selecionado'];"></mat-row>
+          </mat-table>
+          <mat-paginator #paginatorProfissoes [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceProfissao.data.length" showFirstLastButtons></mat-paginator>
+
+
+<!--          <mat-selection-list #profissoesList>-->
+<!--            <mat-list-option *ngFor="let profissao of todasProfissoes"-->
+<!--                             [selected]="profissao.selected"-->
+<!--                             (click)="profissao.selected = !profissao.selected">-->
+
+<!--              {{profissao.nome}}-->
+<!--            </mat-list-option>-->
+<!--            <mat-paginator [pageSizeOptions]="[10, 50, 100]" showFirstLastButtons></mat-paginator>-->
+<!--          </mat-selection-list>-->
+        </div>
+
+        <div *ngIf="!editar">
+
+          <mat-table #profissoesSort="matSort" [dataSource]="dataSourceProfissao" matSort class="mat-elevation-z8">
+            <ng-container matColumnDef="id">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+              <mat-cell *matCellDef="let profissao"> {{profissao.id}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="nome">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+              <mat-cell *matCellDef="let profissao" > {{profissao.nome}} </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="['id', 'nome']"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: ['id', 'nome'];"></mat-row>
+          </mat-table>
+          <mat-paginator #paginatorProfissoes [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceProfissao.data.length" showFirstLastButtons></mat-paginator>
+
+        </div>
+
+      </mat-card-content>
+
     </mat-card>
-  </div>
 
+  </div>
 
 </div>
 
+{{profissoes | json}}
+{{todasProfissoes | json}}

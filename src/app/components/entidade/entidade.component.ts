@@ -1,7 +1,6 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import {Usuario} from '../../services/usuario/usuario';
 import {EntidadeService} from '../../services/entidade/entidade.service';
 import {Entidade} from '../../services/entidade/entidade';
 import {MatPaginator} from '@angular/material/paginator';
@@ -15,11 +14,14 @@ import {ProfissaoService} from '../../services/profissao/profissao.service';
 })
 export class EntidadeComponent implements OnInit {
 
-  @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('entidadesSort') sortEntidade: MatSort;
+  @ViewChild('profissoesSort') sortProfissao: MatSort;
+  @ViewChild('paginatorEntidades') paginatorEntidade: MatPaginator;
+  @ViewChild('paginatorProfissoes') paginatorProfissao: MatPaginator;
 
   displayedColumns: string[] = ['id', 'nome'];
-  dataSource = new MatTableDataSource<Entidade>();
+  dataSourceProfissao = new MatTableDataSource<Profissao>();
+  dataSourceEntidade = new MatTableDataSource<Entidade>();
 
   editar = false;
   profissoes: Profissao[];
@@ -32,9 +34,9 @@ export class EntidadeComponent implements OnInit {
 
   ngOnInit(): void {
     this.entidadeService.getAllEntidades().subscribe(response => {
-        this.dataSource = new MatTableDataSource<Entidade>(response);
-        this.dataSource.sort = this.sort;
-        this.dataSource.paginator = this.paginator;
+        this.dataSourceEntidade = new MatTableDataSource<Entidade>(response);
+        this.dataSourceEntidade.sort = this.sortEntidade;
+        this.dataSourceEntidade.paginator = this.paginatorEntidade;
       }
     );
 
@@ -44,10 +46,28 @@ export class EntidadeComponent implements OnInit {
   }
 
   selectEntidade(id: number): void {
+    this.preparaParaNovaVerificacao();
+
     this.entidadeService.getProfissoesByEntidadeId(id).subscribe(response => {
       this.profissoes = response;
+
+      this.todasProfissoes.forEach(todas => {
+        this.profissoes.forEach(profissao => {
+          if (todas.id === profissao.id) {
+            todas.selected = true;
+          }
+        });
+      });
+
+      this.dataSourceProfissao = new MatTableDataSource<Profissao>(this.todasProfissoes);
+      this.dataSourceProfissao.sort = this.sortProfissao;
+      this.dataSourceProfissao.paginator = this.paginatorProfissao;
     });
+
   }
 
+  private preparaParaNovaVerificacao(): void {
+    this.todasProfissoes.forEach(p => p.selected = false);
+  }
 
 }
