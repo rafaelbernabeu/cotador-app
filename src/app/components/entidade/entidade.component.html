@@ -32,13 +32,23 @@
     <mat-card *ngIf="profissoes">
 
       <mat-card-title>
-        Lista de Profissoes Vinculadas
-        <a (click)="editar()">
-          <mat-icon>edit</mat-icon>
-        </a>
-        <a (click)="profissoes = null">
-          <mat-icon>close</mat-icon>
-        </a>
+        <span>
+          Lista de Profissoes Vinculadas
+        </span>
+        <span style="float: right">
+          <a *ngIf="editando" (click)="editar()">
+            <mat-icon>save</mat-icon>
+          </a>
+          <a *ngIf="editando" (click)="editar()">
+            <mat-icon>delete</mat-icon>
+          </a>
+          <a *ngIf="!editando" (click)="editar()">
+            <mat-icon>edit</mat-icon>
+          </a>
+          <a (click)="profissoes = null">
+            <mat-icon>close</mat-icon>
+          </a>
+        </span>
       </mat-card-title>
       <br/>
 
