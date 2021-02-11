@@ -23,6 +23,8 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { EntidadeComponent } from './components/entidade/entidade.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import { ProfissaoComponent } from './components/profissao/profissao.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,8 @@ import { EntidadeComponent } from './components/entidade/entidade.component';
     HomeComponent,
     LoginComponent,
     UsuarioComponent,
-    EntidadeComponent
+    EntidadeComponent,
+    ProfissaoComponent
   ],
   imports: [
     FormsModule,
@@ -50,6 +53,7 @@ import { EntidadeComponent } from './components/entidade/entidade.component';
     MatToolbarModule,
     MatSnackBarModule,
     BrowserAnimationsModule,
+    MatPaginatorModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

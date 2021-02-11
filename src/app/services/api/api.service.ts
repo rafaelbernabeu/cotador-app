@@ -5,8 +5,11 @@ import { Injectable } from '@angular/core';
 })
 export class ApiService {
 
-  LOGIN_API_URL = '/api/login';
-  USUARIO_API_URL = '/api/usuario';
-  ENTIDADE_API_URL = '/api/entidade';
+  BASE_API_URL = '/api';
+  LOGIN_API_URL = '/login';
+
+  USUARIO_API_URL = '/usuarios';
+  ENTIDADE_API_URL = '/entidades';
+  PROFISSAO_API_URL = '/profissoes';
 
 }

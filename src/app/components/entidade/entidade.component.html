@@ -1,15 +1,66 @@
-<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+<div class="flex-container">
+  <div>
+    <mat-card>
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
-  <ng-container matColumnDef="id">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
-    <td mat-cell *matCellDef="let element"> {{element.id}} </td>
-  </ng-container>
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
 
-  <ng-container matColumnDef="nome">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
-    <td mat-cell *matCellDef="let element"> {{element.nome}} </td>
-  </ng-container>
+        <ng-container matColumnDef="nome" align="center">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header align="center" width="100%"> Nome </th>
+          <td mat-cell *matCellDef="let element" (click)="selectEntidade(element.id)" align="center"> {{element.nome}} </td>
+        </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <mat-paginator [pageSizeOptions]="[20, 50, 100]" showFirstLastButtons [length]="2"></mat-paginator>
+
+    </mat-card>
+  </div>
+
+  <div>
+    <mat-card *ngIf="profissoes">
+      <mat-card-title>
+        Lista de Profissoes Vinculadas
+        <a (click)="editar = !editar">
+          <mat-icon>edit</mat-icon>
+        </a>
+        <a (click)="profissoes = null">
+          <mat-icon>close</mat-icon>
+        </a>
+      </mat-card-title>
+      <mat-card-actions>
+
+      </mat-card-actions>
+      <div *ngIf="editar">
+        <mat-selection-list #profissoesList>
+          <mat-list-option *ngFor="let profissao of profissoes" [selected]="profissao.id == 3">
+            {{profissao.nome}}
+          </mat-list-option>
+        </mat-selection-list>
+
+        <p>
+          Options selected: {{profissoesList.selectedOptions.selected.length}}
+          <br/>
+          Objects selected: {{profissoesList.selectedOptions.selected.values()}}
+        </p>
+
+        {{profissoes | json}}
+      </div>
+
+      <div *ngIf="!editar">
+        <mat-list>
+          <mat-list-item *ngFor="let profissao of profissoes">
+            {{profissao.nome}}
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </mat-card>
+  </div>
+
+
+</div>
+

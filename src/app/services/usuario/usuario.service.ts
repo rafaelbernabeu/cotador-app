@@ -17,6 +17,11 @@ export class UsuarioService {
   ) { }
 
   public getAllUsuarios(): Observable<Usuario[]> {
-    return this.http.get<Usuario[]>(this.api.USUARIO_API_URL,  this.authServie.getTokenHeader());
+    return this.http.get<Usuario[]>(this.getApiUrl(), this.authServie.getTokenHeader());
   }
+
+  private getApiUrl(): string {
+    return this.api.BASE_API_URL + this.api.USUARIO_API_URL;
+  }
+
 }

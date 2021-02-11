@@ -22,7 +22,7 @@ export class AuthService {
   fazerLogin(login: Login): Observable<boolean> {
     this.usuarioAutenticado = false;
     return new Observable(observer => {
-      this.http.get<Token>(this.api.LOGIN_API_URL, this.getAuthHeaders(login)).subscribe(
+      this.http.get<Token>(this.getLoginUrl(), this.getAuthHeaders(login)).subscribe(
         data => {
           if (data.token) {
             this.tokenUsuario = data.token;
@@ -49,9 +49,13 @@ export class AuthService {
     };
   }
 
+  private getLoginUrl(): string {
+    return this.api.BASE_API_URL + this.api.LOGIN_API_URL;
+  }
+
   public getTokenHeader(): object {
     if (!this.tokenUsuario) {
-      this.router.navigate(['login']);
+      // this.router.navigate(['/login']);
     } else {
       return {
         headers: new HttpHeaders({ Authorization: 'Bearer ' + this.tokenUsuario })
