@@ -22,12 +22,16 @@ export class EntidadeService {
     return this.http.get<Entidade[]>(this.getApiUrl(), this.authServie.getTokenHeader());
   }
 
-  public getProfissoesByEntidadeId(id: number): Observable<Profissao[]> {
-    return this.http.get<Profissao[]>(this.getApiUrl() + '/' + id + this.api.PROFISSAO_API_URL, this.authServie.getTokenHeader());
+  public getProfissoesByEntidade(entidade: Entidade): Observable<Profissao[]> {
+    return this.http.get<Profissao[]>(this.getApiUrl() + '/' + entidade.id + this.api.PROFISSAO_API_URL, this.authServie.getTokenHeader());
+  }
+
+  public atualizarProfissoesDaEntidade(entidade: Entidade, profissoes: Profissao[]): Observable<Entidade> {
+    return this.http.post<Entidade>(this.getApiUrl() + '/' + entidade.id + this.api.PROFISSAO_API_URL,
+      profissoes, this.authServie.getTokenHeader());
   }
 
   private getApiUrl(): string {
     return this.api.BASE_API_URL + this.api.ENTIDADE_API_URL;
   }
-
 }

@@ -6,6 +6,7 @@ import {Entidade} from '../../services/entidade/entidade';
 import {MatPaginator} from '@angular/material/paginator';
 import {Profissao} from '../../services/profissao/profissao';
 import {ProfissaoService} from '../../services/profissao/profissao.service';
+import {SnackbarService} from '../../services/snackbar/snackbar.service';
 
 @Component({
   selector: 'app-entidade',
@@ -26,8 +27,10 @@ export class EntidadeComponent implements OnInit {
   editando = false;
   profissoes: Profissao[];
   todasProfissoes: Profissao[];
+  entidadeSelecionada: Entidade;
 
   constructor(
+    private snackBar: SnackbarService,
     private entidadeService: EntidadeService,
     private profissaoService: ProfissaoService,
   ) {}
@@ -45,10 +48,11 @@ export class EntidadeComponent implements OnInit {
     });
   }
 
-  selectEntidade(id: number): void {
+  selecionaEntidade(entidade: Entidade): void {
+    this.entidadeSelecionada = entidade;
     this.preparaParaNovaVerificacao();
 
-    this.entidadeService.getProfissoesByEntidadeId(id).subscribe(response => {
+    this.entidadeService.getProfissoesByEntidade(entidade).subscribe(response => {
       this.profissoes = response;
 
       this.todasProfissoes.forEach(todas => {
@@ -80,6 +84,16 @@ export class EntidadeComponent implements OnInit {
 
   private preparaParaNovaVerificacao(): void {
     this.todasProfissoes.forEach(p => p.selected = false);
+  }
+
+  salvar(): void {
+    const profissoesSelecionadas = this.todasProfissoes.filter(p => p.selected);
+    console.log(profissoesSelecionadas);
+    this.entidadeService.atualizarProfissoesDaEntidade(this.entidadeSelecionada, profissoesSelecionadas).subscribe(response => {
+      this.snackBar.openSnackBar('Dados salvos com sucesso!');
+      this.profissoes = null;
+      this.entidadeSelecionada = null;
+    });
   }
 
 }

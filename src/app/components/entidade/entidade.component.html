@@ -15,7 +15,7 @@
 
           <ng-container matColumnDef="nome">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-            <mat-cell *matCellDef="let entidade" (click)="selectEntidade(entidade.id)"> {{entidade.nome}} </mat-cell>
+            <mat-cell *matCellDef="let entidade" (click)="selecionaEntidade(entidade)"> {{entidade.nome}} </mat-cell>
           </ng-container>
 
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -36,7 +36,7 @@
           Lista de Profissoes Vinculadas
         </span>
         <span style="float: right">
-          <a *ngIf="editando" (click)="editar()">
+          <a *ngIf="editando" (click)="salvar()">
             <mat-icon>save</mat-icon>
           </a>
           <a *ngIf="editando" (click)="editar()">
