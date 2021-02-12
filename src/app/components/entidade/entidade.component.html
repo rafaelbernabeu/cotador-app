@@ -2,7 +2,17 @@
   <div>
     <mat-card>
       <mat-card-title>
-        Lista de Entidades
+        <span>
+          Lista de Entidades
+        </span>
+        <span style="float: right">
+          <a (click)="adicionar()">
+            <mat-icon>add</mat-icon>
+          </a>
+          <a (click)="editarEntidade()">
+            <mat-icon>create</mat-icon>
+          </a>
+        </span>
       </mat-card-title>
       <br/>
 
@@ -27,25 +37,23 @@
   </div>
 
   <div *ngIf="profissoes" style="width: 20px"></div>
-
-  <div>
-    <mat-card *ngIf="profissoes">
-
+  <div *ngIf="profissoes">
+    <mat-card>
       <mat-card-title>
         <span>
-          Lista de Profissoes Vinculadas
+          Lista de Profissoes Vinculadas - {{entidadeSelecionada.nome}}
         </span>
-        <span style="float: right">
-          <a *ngIf="editando" (click)="salvar()">
+        <span style="float: right; padding-left: 20px">
+          <a *ngIf="editandoRelacionamento()" (click)="salvarProfissoes()">
             <mat-icon>save</mat-icon>
           </a>
-          <a *ngIf="editando" (click)="editar()">
-            <mat-icon>delete</mat-icon>
+          <a *ngIf="editandoRelacionamento()" (click)="editarRelacionamento()">
+            <mat-icon>block</mat-icon>
           </a>
-          <a *ngIf="!editando" (click)="editar()">
+          <a *ngIf="!editandoRelacionamento()" (click)="editarRelacionamento()">
             <mat-icon>edit</mat-icon>
           </a>
-          <a (click)="profissoes = null">
+          <a (click)="cancelar()">
             <mat-icon>close</mat-icon>
           </a>
         </span>
@@ -53,7 +61,7 @@
       <br/>
 
       <mat-card-content>
-        <div *ngIf="editando">
+        <div *ngIf="editandoRelacionamento()">
 
           <mat-table #profissoesSort="matSort" [dataSource]="dataSourceProfissao" matSort class="mat-elevation-z8">
             <ng-container matColumnDef="id">
@@ -63,10 +71,10 @@
 
             <ng-container matColumnDef="nome">
               <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-              <mat-cell *matCellDef="let profissao" > {{profissao.nome}} </mat-cell>
+              <mat-cell *matCellDef="let profissao"> {{profissao.nome}} </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="selecionado">
+            <ng-container matColumnDef="selected">
               <mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center"> Selecione </mat-header-cell>
               <mat-cell *matCellDef="let profissao">
                 <section style="width: 100%; text-align: center">
@@ -75,24 +83,14 @@
               </mat-cell>
             </ng-container>
 
-            <mat-header-row *matHeaderRowDef="['id', 'nome', 'selecionado']"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: ['id', 'nome', 'selecionado'];"></mat-row>
+            <mat-header-row *matHeaderRowDef="['id', 'nome', 'selected']"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: ['id', 'nome', 'selected'];"></mat-row>
           </mat-table>
           <mat-paginator #paginatorProfissoes [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceProfissao.data.length" showFirstLastButtons></mat-paginator>
 
-
-<!--          <mat-selection-list #profissoesList>-->
-<!--            <mat-list-option *ngFor="let profissao of todasProfissoes"-->
-<!--                             [selected]="profissao.selected"-->
-<!--                             (click)="profissao.selected = !profissao.selected">-->
-
-<!--              {{profissao.nome}}-->
-<!--            </mat-list-option>-->
-<!--            <mat-paginator [pageSizeOptions]="[10, 50, 100]" showFirstLastButtons></mat-paginator>-->
-<!--          </mat-selection-list>-->
         </div>
 
-        <div *ngIf="!editando">
+        <div *ngIf="!editandoRelacionamento()">
 
           <mat-table #profissoesSort="matSort" [dataSource]="dataSourceProfissao" matSort class="mat-elevation-z8">
             <ng-container matColumnDef="id">
@@ -111,14 +109,37 @@
           <mat-paginator #paginatorProfissoes [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceProfissao.data.length" showFirstLastButtons></mat-paginator>
 
         </div>
-
       </mat-card-content>
 
+    </mat-card>
+  </div>
+
+  <div *ngIf="adicionando()" style="width: 20px"></div>
+  <div *ngIf="adicionando()">
+    <mat-card>
+      <mat-card-title>
+        <span>
+          Adicionar / Editar Entidade
+        </span>
+        <span style="float: right; padding-left: 20px">
+          <a (click)="salvarNovaEntidade()">
+            <mat-icon>save</mat-icon>
+          </a>
+          <a (click)="cancelar()">
+            <mat-icon>delete</mat-icon>
+          </a>
+        </span>
+      </mat-card-title>
+      <br/>
+
+      <mat-card-content>
+        <mat-form-field appearance="outline" style="width: 100%">
+          <mat-label>Nome</mat-label>
+          <input matInput placeholder="Nome" [(ngModel)]="entidadeSelecionada.nome">
+        </mat-form-field>
+      </mat-card-content>
     </mat-card>
 
   </div>
 
 </div>
-
-{{profissoes | json}}
-{{todasProfissoes | json}}

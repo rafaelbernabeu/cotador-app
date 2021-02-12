@@ -24,7 +24,7 @@ export class EntidadeComponent implements OnInit {
   dataSourceProfissao = new MatTableDataSource<Profissao>();
   dataSourceEntidade = new MatTableDataSource<Entidade>();
 
-  editando = false;
+  estado: string;
   profissoes: Profissao[];
   todasProfissoes: Profissao[];
   entidadeSelecionada: Entidade;
@@ -36,16 +36,20 @@ export class EntidadeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.carregaTabelaEntidades();
+
+    this.profissaoService.getAllProfissoes().subscribe(response => {
+      this.todasProfissoes = response;
+    });
+  }
+
+  private carregaTabelaEntidades(): void {
     this.entidadeService.getAllEntidades().subscribe(response => {
         this.dataSourceEntidade = new MatTableDataSource<Entidade>(response);
         this.dataSourceEntidade.sort = this.sortEntidade;
         this.dataSourceEntidade.paginator = this.paginatorEntidade;
       }
     );
-
-    this.profissaoService.getAllProfissoes().subscribe(response => {
-      this.todasProfissoes = response;
-    });
   }
 
   selecionaEntidade(entidade: Entidade): void {
@@ -64,16 +68,44 @@ export class EntidadeComponent implements OnInit {
       });
       this.configuraDataSource();
     });
-
   }
 
-  editar(): void {
-    this.editando = !this.editando;
+  editarRelacionamento(): void {
+    this.estado = 'editandoRelacionamento';
     this.configuraDataSource();
   }
 
+  editarEntidade(): void {
+    this.estado = 'editandoEntidade';
+  }
+
+  salvarProfissoes(): void {
+    const profissoesSelecionadas = this.todasProfissoes.filter(p => p.selected);
+    console.log(profissoesSelecionadas);
+    this.entidadeService.atualizarProfissoesDaEntidade(this.entidadeSelecionada, profissoesSelecionadas).subscribe(response => {
+      this.snackBar.openSnackBar('Dados salvos com sucesso!');
+      this.carregaTabelaEntidades();
+      this.limpar();
+    });
+  }
+
+  cancelar(): void {
+    this.limpar();
+  }
+
+  adicionar(): void {
+    this.estado = 'adicionando';
+    this.entidadeSelecionada = new Entidade();
+  }
+
+  limpar(): void {
+    this.estado = null;
+    this.profissoes = null;
+    this.entidadeSelecionada = null;
+  }
+
   private configuraDataSource(): void {
-    if (this.editando) {
+    if (this.estado === 'editandoRelacionamento') {
       this.dataSourceProfissao = new MatTableDataSource<Profissao>(this.todasProfissoes);
     } else {
       this.dataSourceProfissao = new MatTableDataSource<Profissao>(this.profissoes);
@@ -86,13 +118,23 @@ export class EntidadeComponent implements OnInit {
     this.todasProfissoes.forEach(p => p.selected = false);
   }
 
-  salvar(): void {
-    const profissoesSelecionadas = this.todasProfissoes.filter(p => p.selected);
-    console.log(profissoesSelecionadas);
-    this.entidadeService.atualizarProfissoesDaEntidade(this.entidadeSelecionada, profissoesSelecionadas).subscribe(response => {
-      this.snackBar.openSnackBar('Dados salvos com sucesso!');
-      this.profissoes = null;
-      this.entidadeSelecionada = null;
+  editandoRelacionamento(): boolean {
+    return this.estado === 'editandoRelacionamento';
+  }
+
+  editandoEntidade(): boolean {
+    return this.estado === 'editandoEntidade';
+  }
+
+  adicionando(): boolean {
+    return this.estado === 'adicionando';
+  }
+
+  salvarNovaEntidade(): void {
+    this.entidadeService.adicionarEntidade(this.entidadeSelecionada).subscribe(response => {
+      this.snackBar.openSnackBar('Entidade adicionada com sucesso!');
+      this.limpar();
+      this.carregaTabelaEntidades();
     });
   }
 

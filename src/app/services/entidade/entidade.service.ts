@@ -31,6 +31,14 @@ export class EntidadeService {
       profissoes, this.authServie.getTokenHeader());
   }
 
+  public adicionarEntidade(entidade: Entidade): Observable<Entidade> {
+    return this.http.post<Entidade>(this.getApiUrl(), entidade, this.authServie.getTokenHeader());
+  }
+
+  public editarEntidade(entidade: Entidade): Observable<Entidade> {
+    return this.http.put<Entidade>(this.getApiUrl() + '/' + entidade.id, entidade, this.authServie.getTokenHeader());
+  }
+
   private getApiUrl(): string {
     return this.api.BASE_API_URL + this.api.ENTIDADE_API_URL;
   }
