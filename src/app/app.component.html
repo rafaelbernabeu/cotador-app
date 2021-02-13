@@ -3,14 +3,14 @@
   <mat-sidenav #sidenav mode="side">
     <mat-list>
       <mat-list-item>
-        <a routerLink="/usuarios">Usuarios</a>
+        <a routerLink="/usuarios" (click)="sidenav.toggle()">Usuarios</a>
       </mat-list-item>
       <mat-divider></mat-divider>
       <mat-list-item>
-        <a routerLink="/entidades">Entidades</a>
+        <a routerLink="/entidades" (click)="sidenav.toggle()">Entidades</a>
       </mat-list-item>
       <mat-divider></mat-divider>
-      <mat-list-item>Item 3</mat-list-item>
+      <mat-list-item (click)="sidenav.toggle()">Item 3</mat-list-item>
     </mat-list>
   </mat-sidenav>
 
