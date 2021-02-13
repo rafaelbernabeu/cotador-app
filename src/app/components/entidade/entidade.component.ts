@@ -53,6 +53,7 @@ export class EntidadeComponent implements OnInit {
   }
 
   selecionaEntidade(entidade: Entidade): void {
+    this.estado = null;
     this.entidadeSelecionada = entidade;
     this.preparaParaNovaVerificacao();
 
@@ -93,8 +94,18 @@ export class EntidadeComponent implements OnInit {
     this.limpar();
   }
 
+  cancelarEdicao(): void {
+    this.estado = null;
+  }
+
+  cancelarAdicao(): void {
+    this.estado = null;
+    this.entidadeSelecionada = null;
+  }
+
   adicionar(): void {
     this.estado = 'adicionando';
+    this.profissoes = null;
     this.entidadeSelecionada = new Entidade();
   }
 

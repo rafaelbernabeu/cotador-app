@@ -53,7 +53,10 @@
           <a *ngIf="editandoEntidade()" (click)="salvarEntidadeEditada()">
             <mat-icon>save</mat-icon>
           </a>
-          <a (click)="cancelar()">
+          <a *ngIf="adicionandoEntidade()" (click)="cancelarAdicao()">
+            <mat-icon>close</mat-icon>
+          </a>
+          <a *ngIf="editandoEntidade()" (click)="cancelarEdicao()">
             <mat-icon>close</mat-icon>
           </a>
         </span>
