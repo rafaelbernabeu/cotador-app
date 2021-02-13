@@ -19,6 +19,8 @@ export class EntidadeComponent implements OnInit {
   @ViewChild('profissoesSort') sortProfissao: MatSort;
   @ViewChild('paginatorEntidades') paginatorEntidade: MatPaginator;
   @ViewChild('paginatorProfissoes') paginatorProfissao: MatPaginator;
+  @ViewChild('profissoesSortEditando') sortProfissaoEditando: MatSort;
+  @ViewChild('paginatorEditandoProfissoes') paginatorEditandoProfissao: MatPaginator;
 
   displayedColumns: string[] = ['id', 'nome'];
   dataSourceProfissao = new MatTableDataSource<Profissao>();
@@ -90,6 +92,11 @@ export class EntidadeComponent implements OnInit {
     });
   }
 
+  cancelarEdicaoRelacionamento(): void {
+    this.cancelarEdicao();
+    this.configuraDataSource();
+  }
+
   cancelarEdicao(): void {
     this.estado = null;
   }
@@ -114,11 +121,13 @@ export class EntidadeComponent implements OnInit {
   private configuraDataSource(): void {
     if (this.estado === 'editandoRelacionamento') {
       this.dataSourceProfissao = new MatTableDataSource<Profissao>(this.todasProfissoes);
+      this.dataSourceProfissao.sort = this.sortProfissaoEditando;
+      this.dataSourceProfissao.paginator = this.paginatorEditandoProfissao;
     } else {
       this.dataSourceProfissao = new MatTableDataSource<Profissao>(this.profissoes);
+      this.dataSourceProfissao.sort = this.sortProfissao;
+      this.dataSourceProfissao.paginator = this.paginatorProfissao;
     }
-    this.dataSourceProfissao.sort = this.sortProfissao;
-    this.dataSourceProfissao.paginator = this.paginatorProfissao;
   }
 
   private preparaParaNovaVerificacao(): void {
