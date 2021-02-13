@@ -28,6 +28,7 @@ export class EntidadeComponent implements OnInit {
 
   estado: string;
   profissoes: Profissao[];
+  entidadeEditando: Entidade;
   todasProfissoes: Profissao[];
   entidadeSelecionada: Entidade;
 
@@ -57,6 +58,7 @@ export class EntidadeComponent implements OnInit {
   selecionaEntidade(entidade: Entidade): void {
     this.estado = null;
     this.entidadeSelecionada = entidade;
+    this.entidadeEditando = {...entidade};
     this.preparaParaNovaVerificacao();
 
     this.entidadeService.getProfissoesByEntidade(entidade).subscribe(response => {
@@ -75,11 +77,16 @@ export class EntidadeComponent implements OnInit {
 
   editarRelacionamento(): void {
     this.estado = 'editandoRelacionamento';
+    this.entidadeEditando = {...this.entidadeSelecionada};
     this.configuraDataSource();
   }
 
   editarEntidade(): void {
+    const estadoAnterior = this.estado;
     this.estado = 'editandoEntidade';
+    if (estadoAnterior === 'editandoRelacionamento') {
+      this.configuraDataSource();
+    }
   }
 
   salvarProfissoes(): void {
@@ -87,8 +94,9 @@ export class EntidadeComponent implements OnInit {
     console.log(profissoesSelecionadas);
     this.entidadeService.atualizarProfissoesDaEntidade(this.entidadeSelecionada, profissoesSelecionadas).subscribe(response => {
       this.snackBar.openSnackBar('Dados salvos com sucesso!');
-      this.carregaTabelaEntidades();
-      this.limpar();
+      this.profissoes = response;
+      this.visualizar();
+      this.configuraDataSource();
     });
   }
 
@@ -99,6 +107,7 @@ export class EntidadeComponent implements OnInit {
 
   cancelarEdicao(): void {
     this.estado = null;
+    this.entidadeEditando = {...this.entidadeSelecionada};
   }
 
   cancelarAdicao(): void {
@@ -110,11 +119,17 @@ export class EntidadeComponent implements OnInit {
     this.estado = 'adicionando';
     this.profissoes = null;
     this.entidadeSelecionada = new Entidade();
+    this.entidadeEditando = this.entidadeSelecionada;
+  }
+
+  visualizar(): void {
+    this.estado = null;
   }
 
   limpar(): void {
     this.estado = null;
     this.profissoes = null;
+    this.entidadeEditando = null;
     this.entidadeSelecionada = null;
   }
 
@@ -148,7 +163,7 @@ export class EntidadeComponent implements OnInit {
   }
 
   salvarNovaEntidade(): void {
-    this.entidadeService.adicionarEntidade(this.entidadeSelecionada).subscribe(response => {
+    this.entidadeService.adicionarEntidade(this.entidadeEditando).subscribe(response => {
       this.snackBar.openSnackBar('Entidade adicionada com sucesso!');
       this.limpar();
       this.carregaTabelaEntidades();
@@ -156,10 +171,11 @@ export class EntidadeComponent implements OnInit {
   }
 
   atualizarEntidade(): void {
-    this.entidadeService.editarEntidade(this.entidadeSelecionada).subscribe(response => {
+    this.entidadeService.editarEntidade(this.entidadeEditando).subscribe(response => {
       this.snackBar.openSnackBar('Entidade atualizada com sucesso!');
-      this.limpar();
+      this.visualizar();
       this.carregaTabelaEntidades();
+      this.entidadeSelecionada = response;
     });
   }
 

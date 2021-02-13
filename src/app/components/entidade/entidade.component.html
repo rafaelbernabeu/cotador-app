@@ -70,7 +70,7 @@
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Nome</mat-label>
             <input matInput placeholder="Nome" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
-                   [(ngModel)]="entidadeSelecionada.nome">
+                   [(ngModel)]="entidadeEditando.nome">
           </mat-form-field>
         </mat-card-content>
       </mat-card>
