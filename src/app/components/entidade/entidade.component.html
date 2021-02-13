@@ -76,7 +76,7 @@
       </mat-card>
     </div>
     <div *ngIf="profissoes" style="height: 20px"></div>
-    <div *ngIf="profissoes">
+    <div [hidden]="!profissoes">
       <mat-card>
         <mat-card-title>
         <span>
