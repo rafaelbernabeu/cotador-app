@@ -126,7 +126,7 @@ export class EntidadeComponent implements OnInit {
     return this.estado === 'editandoEntidade';
   }
 
-  adicionando(): boolean {
+  adicionandoEntidade(): boolean {
     return this.estado === 'adicionando';
   }
 
@@ -138,4 +138,11 @@ export class EntidadeComponent implements OnInit {
     });
   }
 
+  salvarEntidadeEditada(): void {
+    this.entidadeService.editarEntidade(this.entidadeSelecionada).subscribe(response => {
+      this.snackBar.openSnackBar('Entidade atualizada com sucesso!');
+      this.limpar();
+      this.carregaTabelaEntidades();
+    });
+  }
 }

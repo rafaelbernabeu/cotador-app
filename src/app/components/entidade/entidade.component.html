@@ -9,9 +9,6 @@
           <a (click)="adicionar()">
             <mat-icon>add</mat-icon>
           </a>
-          <a (click)="editarEntidade()">
-            <mat-icon>create</mat-icon>
-          </a>
         </span>
       </mat-card-title>
       <br/>
@@ -42,15 +39,22 @@
     <div>
       <mat-card>
         <mat-card-title>
-        <span>
-          Adicionar / Editar Entidade
-        </span>
-          <span style="float: right; padding-left: 20px">
-          <a (click)="salvarNovaEntidade()">
+        <span *ngIf="adicionandoEntidade()">Adicionando entidade</span>
+        <span *ngIf="editandoEntidade()">Editando entidade</span>
+        <span *ngIf="!adicionandoEntidade() && !editandoEntidade()">Visualizando entidade</span>
+
+        <span style="float: right; padding-left: 20px">
+          <a *ngIf="!editandoEntidade() && !adicionandoEntidade()" (click)="editarEntidade()">
+            <mat-icon>create</mat-icon>
+          </a>
+          <a *ngIf="adicionandoEntidade()" (click)="salvarNovaEntidade()">
+            <mat-icon>save</mat-icon>
+          </a>
+          <a *ngIf="editandoEntidade()" (click)="salvarEntidadeEditada()">
             <mat-icon>save</mat-icon>
           </a>
           <a (click)="cancelar()">
-            <mat-icon>delete</mat-icon>
+            <mat-icon>close</mat-icon>
           </a>
         </span>
         </mat-card-title>
@@ -59,7 +63,8 @@
         <mat-card-content>
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Nome</mat-label>
-            <input matInput placeholder="Nome" [(ngModel)]="entidadeSelecionada.nome">
+            <input matInput placeholder="Nome" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
+                   [(ngModel)]="entidadeSelecionada.nome">
           </mat-form-field>
         </mat-card-content>
       </mat-card>
@@ -74,9 +79,6 @@
           <span style="float: right; padding-left: 20px">
           <a *ngIf="editandoRelacionamento()" (click)="salvarProfissoes()">
             <mat-icon>save</mat-icon>
-          </a>
-          <a *ngIf="editandoRelacionamento()" (click)="editarRelacionamento()">
-            <mat-icon>block</mat-icon>
           </a>
           <a *ngIf="!editandoRelacionamento()" (click)="editarRelacionamento()">
             <mat-icon>edit</mat-icon>
