@@ -91,7 +91,6 @@ export class EntidadeComponent implements OnInit {
 
   salvarProfissoes(): void {
     const profissoesSelecionadas = this.todasProfissoes.filter(p => p.selected);
-    console.log(profissoesSelecionadas);
     this.entidadeService.atualizarProfissoesDaEntidade(this.entidadeSelecionada, profissoesSelecionadas).subscribe(response => {
       this.snackBar.openSnackBar('Dados salvos com sucesso!');
       this.profissoes = response;
