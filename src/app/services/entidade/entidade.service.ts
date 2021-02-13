@@ -39,6 +39,10 @@ export class EntidadeService {
     return this.http.put<Entidade>(this.getApiUrl() + '/' + entidade.id, entidade, this.authServie.getTokenHeader());
   }
 
+  public excluirEntidade(entidade: Entidade): Observable<Entidade> {
+    return this.http.delete<Entidade>(this.getApiUrl() + '/' + entidade.id, this.authServie.getTokenHeader());
+  }
+
   private getApiUrl(): string {
     return this.api.BASE_API_URL + this.api.ENTIDADE_API_URL;
   }

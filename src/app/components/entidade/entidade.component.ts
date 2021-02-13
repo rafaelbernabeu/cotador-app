@@ -149,9 +149,17 @@ export class EntidadeComponent implements OnInit {
     });
   }
 
-  salvarEntidadeEditada(): void {
+  atualizarEntidade(): void {
     this.entidadeService.editarEntidade(this.entidadeSelecionada).subscribe(response => {
       this.snackBar.openSnackBar('Entidade atualizada com sucesso!');
+      this.limpar();
+      this.carregaTabelaEntidades();
+    });
+  }
+
+  removerEntidade(): void {
+    this.entidadeService.excluirEntidade(this.entidadeSelecionada).subscribe(response => {
+      this.snackBar.openSnackBar('Entidade apagada com sucesso!');
       this.limpar();
       this.carregaTabelaEntidades();
     });
