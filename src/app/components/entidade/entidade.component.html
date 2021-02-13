@@ -7,7 +7,7 @@
         </span>
         <span style="float: right">
           <a (click)="adicionar()">
-            <mat-icon>add</mat-icon>
+            <mat-icon class="mouse-pointer">add</mat-icon>
           </a>
         </span>
       </mat-card-title>
@@ -17,12 +17,12 @@
         <mat-table #entidadesSort="matSort" [dataSource]="dataSourceEntidade" matSort class="mat-elevation-z8">
           <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-            <mat-cell *matCellDef="let entidade"> {{entidade.id}} </mat-cell>
+            <mat-cell *matCellDef="let entidade" (click)="selecionaEntidade(entidade)" class="mouse-pointer"> {{entidade.id}} </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="nome">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-            <mat-cell *matCellDef="let entidade" (click)="selecionaEntidade(entidade)"> {{entidade.nome}} </mat-cell>
+            <mat-cell *matCellDef="let entidade" (click)="selecionaEntidade(entidade)" class="mouse-pointer"> {{entidade.nome}} </mat-cell>
           </ng-container>
 
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -45,22 +45,22 @@
 
         <span style="float: right; padding-left: 20px">
           <a *ngIf="!editandoEntidade() && !adicionandoEntidade()" (click)="editarEntidade()">
-            <mat-icon>create</mat-icon>
+            <mat-icon class="mouse-pointer">create</mat-icon>
           </a>
           <a *ngIf="!editandoEntidade() && !adicionandoEntidade()" (click)="removerEntidade()">
-            <mat-icon>delete</mat-icon>
+            <mat-icon class="mouse-pointer">delete</mat-icon>
           </a>
           <a *ngIf="adicionandoEntidade()" (click)="salvarNovaEntidade()">
-            <mat-icon>save</mat-icon>
+            <mat-icon class="mouse-pointer">save</mat-icon>
           </a>
           <a *ngIf="editandoEntidade()" (click)="atualizarEntidade()">
-            <mat-icon>save</mat-icon>
+            <mat-icon class="mouse-pointer">save</mat-icon>
           </a>
           <a *ngIf="adicionandoEntidade()" (click)="cancelarAdicao()">
-            <mat-icon>close</mat-icon>
+            <mat-icon class="mouse-pointer">close</mat-icon>
           </a>
           <a *ngIf="editandoEntidade()" (click)="cancelarEdicao()">
-            <mat-icon>close</mat-icon>
+            <mat-icon class="mouse-pointer">close</mat-icon>
           </a>
         </span>
         </mat-card-title>
@@ -84,13 +84,13 @@
         </span>
           <span style="float: right; padding-left: 20px">
           <a *ngIf="editandoRelacionamento()" (click)="salvarProfissoes()">
-            <mat-icon>save</mat-icon>
+            <mat-icon class="mouse-pointer">save</mat-icon>
           </a>
           <a *ngIf="!editandoRelacionamento()" (click)="editarRelacionamento()">
-            <mat-icon>edit</mat-icon>
+            <mat-icon class="mouse-pointer">edit</mat-icon>
           </a>
           <a *ngIf="editandoRelacionamento()" (click)="cancelarEdicaoRelacionamento()">
-            <mat-icon>close</mat-icon>
+            <mat-icon class="mouse-pointer">close</mat-icon>
           </a>
         </span>
         </mat-card-title>
@@ -101,12 +101,12 @@
             <mat-table #profissoesSortEditando="matSort" [dataSource]="dataSourceProfissao" matSort class="mat-elevation-z8">
               <ng-container matColumnDef="id">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-                <mat-cell *matCellDef="let profissao"> {{profissao.id}} </mat-cell>
+                <mat-cell *matCellDef="let profissao" (click)="profissao.selected = !profissao.selected" class="mouse-pointer"> {{profissao.id}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="nome">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-                <mat-cell *matCellDef="let profissao"> {{profissao.nome}} </mat-cell>
+                <mat-cell *matCellDef="let profissao" (click)="profissao.selected = !profissao.selected" class="mouse-pointer"> {{profissao.nome}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="selected">
