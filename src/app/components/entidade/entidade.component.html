@@ -39,9 +39,9 @@
     <div>
       <mat-card>
         <mat-card-title>
-        <span *ngIf="adicionandoEntidade()">Adicionando entidade</span>
-        <span *ngIf="editandoEntidade()">Editando entidade</span>
-        <span *ngIf="!adicionandoEntidade() && !editandoEntidade()">Visualizando entidade</span>
+        <span *ngIf="adicionandoEntidade()">Adicionando Entidade</span>
+        <span *ngIf="editandoEntidade()">Editando Entidade</span>
+        <span *ngIf="!adicionandoEntidade() && !editandoEntidade()">Visualizando Entidade</span>
 
         <span style="float: right; padding-left: 20px">
           <a *ngIf="!editandoEntidade() && !adicionandoEntidade()" (click)="editarEntidade()">
