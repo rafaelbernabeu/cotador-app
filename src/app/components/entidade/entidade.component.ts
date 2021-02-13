@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnChanges, OnInit, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {EntidadeService} from '../../services/entidade/entidade.service';
@@ -90,10 +90,6 @@ export class EntidadeComponent implements OnInit {
     });
   }
 
-  cancelar(): void {
-    this.limpar();
-  }
-
   cancelarEdicao(): void {
     this.estado = null;
   }
@@ -131,6 +127,7 @@ export class EntidadeComponent implements OnInit {
 
   editandoRelacionamento(): boolean {
     return this.estado === 'editandoRelacionamento';
+    this.configuraDataSource();
   }
 
   editandoEntidade(): boolean {

@@ -89,7 +89,7 @@
           <a *ngIf="!editandoRelacionamento()" (click)="editarRelacionamento()">
             <mat-icon>edit</mat-icon>
           </a>
-          <a (click)="cancelar()">
+          <a *ngIf="editandoRelacionamento()" (click)="cancelarEdicao()">
             <mat-icon>close</mat-icon>
           </a>
         </span>
