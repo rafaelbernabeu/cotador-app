@@ -13,6 +13,4 @@ export class AppComponent {
     public authService: AuthService
   ) {}
 
-
-
 }

@@ -10,14 +10,14 @@ import { Usuario } from '../usuario/usuario';
 @Injectable()
 export class AuthService {
 
-  private usuarioAutenticado = false;
   private tokenUsuario: string;
+  private usuarioAutenticado = false;
 
   constructor(
     private router: Router,
-    private http: HttpClient,
     private api: ApiService,
-  ) { }
+    private http: HttpClient,
+  ) { this.existeTokenStorage(); }
 
   fazerLogin(usuario: Usuario): Observable<boolean> {
     this.usuarioAutenticado = false;
@@ -25,6 +25,7 @@ export class AuthService {
       this.http.get<Token>(this.getLoginUrl(), this.getAuthHeaders(usuario)).subscribe(
         data => {
           if (data.token) {
+            localStorage.setItem('token', data.token);
             this.tokenUsuario = data.token;
             this.usuarioAutenticado = true;
             console.log(this.tokenUsuario);
@@ -33,15 +34,25 @@ export class AuthService {
         },
         erro => {
           this.usuarioAutenticado = false;
-          observer.error('dados nao conferem');
+          observer.error();
         }
       );
     });
   }
 
-  public usuarioEstaAutenticado(): boolean {
+  public existeTokenStorage(): boolean {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.tokenUsuario = token;
+      this.usuarioAutenticado = true;
+    }
     return this.usuarioAutenticado;
   }
+
+  public isUsuarioAutenticado(): boolean {
+    return this.usuarioAutenticado;
+  }
+
   private getAuthHeaders(usuario: Usuario): object {
     return {
       headers: new HttpHeaders({ Authorization: 'Basic ' + btoa(usuario.email + ':' + usuario.password) })
@@ -54,7 +65,7 @@ export class AuthService {
 
   public getTokenHeader(): object {
     if (!this.tokenUsuario) {
-      // this.router.navigate(['/login']);
+      this.router.navigate(['/login']);
     } else {
       return {
         headers: new HttpHeaders({ Authorization: 'Bearer ' + this.tokenUsuario })

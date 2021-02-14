@@ -21,6 +21,9 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    if (this.authService.existeTokenStorage()) {
+      this.router.navigate(['/home']);
+    }
   }
 
   fazerLogin(): void {

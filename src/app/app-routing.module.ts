@@ -28,7 +28,7 @@ const routes: Routes = [
   { path: 'profissoes', component: ProfissaoComponent },
   { path: 'operadoras', component: OperadoraComponent },
   { path: 'laboratorios', component: LaboratorioComponent },
-  { path: 'administradora', component: AdministradoraComponent },
+  { path: 'administradoras', component: AdministradoraComponent },
 
 ];
 
