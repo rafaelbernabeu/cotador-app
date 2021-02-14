@@ -25,6 +25,11 @@
             <mat-cell *matCellDef="let usuario" (click)="selecionarUsuario(usuario)" class="mouse-pointer"> {{usuario.nome}} </mat-cell>
           </ng-container>
 
+          <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Email </mat-header-cell>
+            <mat-cell *matCellDef="let usuario" (click)="selecionarUsuario(usuario)" class="mouse-pointer"> {{usuario.email}} </mat-cell>
+          </ng-container>
+
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
@@ -80,7 +85,7 @@
       <mat-card>
         <mat-card-title>
         <span>
-          Lista de Roles Vinculadas - {{usuarioSelecionado.nome}}
+          Roles do Usuario - {{usuarioSelecionado.nome}}
         </span>
           <span style="float: right; padding-left: 20px">
           <a *ngIf="editandoRelacionamento()" (click)="salvarRoles()">

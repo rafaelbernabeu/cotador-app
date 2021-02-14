@@ -22,7 +22,7 @@ export class UsuarioComponent implements OnInit {
   @ViewChild('rolesSortEditando') sortProfissaoEditando: MatSort;
   @ViewChild('paginatorEditandoRoles') paginatorEditandoProfissao: MatPaginator;
 
-  displayedColumns: string[] = ['id', 'nome'];
+  displayedColumns: string[] = ['id', 'nome', 'email'];
   dataSourceRoles = new MatTableDataSource<Role>();
   dataSourceUsuario = new MatTableDataSource<Usuario>();
 
