@@ -28,6 +28,13 @@ import { ProfissaoComponent } from './components/profissao/profissao.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { DialogComponent } from './components/dialog/dialog.component';
+import { CotacaoComponent } from './components/cotacao/cotacao.component';
+import { ProdutoComponent } from './components/produto/produto.component';
+import { HospitalComponent } from './components/hospital/hospital.component';
+import { LaboratorioComponent } from './components/laboratorio/laboratorio.component';
+import { OperadoraComponent } from './components/operadora/operadora.component';
+import { AdministradoraComponent } from './components/administradora/administradora.component';
+import { AuditoriaComponent } from './components/auditoria/auditoria.component';
 
 @NgModule({
   declarations: [
@@ -36,8 +43,15 @@ import { DialogComponent } from './components/dialog/dialog.component';
     LoginComponent,
     DialogComponent,
     UsuarioComponent,
+    CotacaoComponent,
+    ProdutoComponent,
     EntidadeComponent,
+    HospitalComponent,
     ProfissaoComponent,
+    OperadoraComponent,
+    AuditoriaComponent,
+    LaboratorioComponent,
+    AdministradoraComponent,
   ],
   imports: [
     FormsModule,
