@@ -12,5 +12,6 @@ export class ApiService {
   USUARIO_API_URL = '/usuarios';
   ENTIDADE_API_URL = '/entidades';
   PROFISSAO_API_URL = '/profissoes';
+  ADMINISTRADORA_API_URL = '/administradoras';
 
 }
