@@ -1,6 +1,6 @@
 <mat-sidenav-container class="example-container" style="height: 100%" hasBackdrop>
   <mat-sidenav (click)="sidenav.toggle()" #sidenav mode="side">
-    <mat-list>
+    <mat-list *ngIf="authService.usuarioEstaAutenticado()">
       <mat-list-item>
         <mat-icon class="icon-spacer">table_rows</mat-icon>
         Menu
