@@ -1,6 +1,6 @@
 <h2 mat-dialog-title>{{data.titulo}}</h2>
 <mat-dialog-content>{{data.descricao}}</mat-dialog-content>
-<mat-dialog-actions>
-  <button *ngIf="data.cancela" mat-button [mat-dialog-close]="false">{{data.cancela}}</button>
-  <button mat-button [mat-dialog-close]="true">{{data.confirma}}</button>
+<mat-dialog-actions style="float: right">
+  <button *ngIf="data.cancela" mat-raised-button color="primary" [mat-dialog-close]="false">{{data.cancela}}</button>
+  <button mat-raised-button color="warn" [mat-dialog-close]="true">{{data.confirma}}</button>
 </mat-dialog-actions>

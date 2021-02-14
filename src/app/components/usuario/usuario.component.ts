@@ -7,6 +7,8 @@ import {MatPaginator} from '@angular/material/paginator';
 import {SnackbarService} from '../../services/snackbar/snackbar.service';
 import {RoleService} from '../../services/role/role.service';
 import {Role} from '../../services/role/role';
+import {DialogComponent} from '../dialog/dialog.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-usuario',
@@ -33,6 +35,7 @@ export class UsuarioComponent implements OnInit {
   usuarioSelecionado: Usuario;
 
   constructor(
+    private dialog: MatDialog,
     private roleService: RoleService,
     private snackBar: SnackbarService,
     private usuarioService: UsuarioService,
@@ -179,11 +182,21 @@ export class UsuarioComponent implements OnInit {
   }
 
   removerUsuario(): void {
-    this.usuarioService.excluirUsuario(this.usuarioSelecionado).subscribe(response => {
-      this.snackBar.openSnackBar('Usuario apagado com sucesso!');
-      this.limpar();
-      this.carregaTabelaUsuarios();
+    this.dialog.open(DialogComponent, {
+      data: {
+        titulo: 'Tem certeza?',
+        descricao: 'Deseja remover o usuario ' + this.usuarioSelecionado.nome + '?',
+        confirma: 'Sim',
+        cancela: 'Nao',
+      }
+    }).afterClosed().subscribe(confirmacao => {
+      if (confirmacao) {
+        this.usuarioService.excluirUsuario(this.usuarioSelecionado).subscribe(response => {
+          this.snackBar.openSnackBar('Usuario removido com sucesso!');
+          this.limpar();
+          this.carregaTabelaUsuarios();
+        });
+      }
     });
   }
-
 }
