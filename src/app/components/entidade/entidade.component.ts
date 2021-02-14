@@ -7,6 +7,8 @@ import {MatPaginator} from '@angular/material/paginator';
 import {Profissao} from '../../services/profissao/profissao';
 import {ProfissaoService} from '../../services/profissao/profissao.service';
 import {SnackbarService} from '../../services/snackbar/snackbar.service';
+import {MatDialog} from '@angular/material/dialog';
+import {DialogComponent} from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-entidade',
@@ -33,6 +35,7 @@ export class EntidadeComponent implements OnInit {
   entidadeSelecionada: Entidade;
 
   constructor(
+    private dialog: MatDialog,
     private snackBar: SnackbarService,
     private entidadeService: EntidadeService,
     private profissaoService: ProfissaoService,
@@ -179,10 +182,21 @@ export class EntidadeComponent implements OnInit {
   }
 
   removerEntidade(): void {
-    this.entidadeService.excluirEntidade(this.entidadeSelecionada).subscribe(response => {
-      this.snackBar.openSnackBar('Entidade apagada com sucesso!');
-      this.limpar();
-      this.carregaTabelaEntidades();
+    this.dialog.open(DialogComponent, {
+      data: {
+        titulo: 'Tem certeza?',
+        descricao: 'Deseja remover a entidade ' + this.entidadeSelecionada.nome + '?',
+        confirma: 'Sim',
+        cancela: 'Nao',
+      }
+    }).afterClosed().subscribe(confirmacao => {
+      if (confirmacao) {
+        this.entidadeService.excluirEntidade(this.entidadeSelecionada).subscribe(response => {
+          this.snackBar.openSnackBar('Entidade apagada com sucesso!');
+          this.limpar();
+          this.carregaTabelaEntidades();
+        });
+      }
     });
   }
 }

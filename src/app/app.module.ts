@@ -23,18 +23,21 @@ import { UsuarioComponent } from './components/usuario/usuario.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { EntidadeComponent } from './components/entidade/entidade.component';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { ProfissaoComponent } from './components/profissao/profissao.component';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
+    DialogComponent,
     UsuarioComponent,
     EntidadeComponent,
-    ProfissaoComponent
+    ProfissaoComponent,
   ],
   imports: [
     FormsModule,
@@ -47,6 +50,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatInputModule,
     MatTableModule,
     MatButtonModule,
+    MatDialogModule,
     HttpClientModule,
     MatDividerModule,
     AppRoutingModule,
@@ -54,8 +58,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatToolbarModule,
     MatCheckboxModule,
     MatSnackBarModule,
-    BrowserAnimationsModule,
     MatPaginatorModule,
+    BrowserAnimationsModule,
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]
