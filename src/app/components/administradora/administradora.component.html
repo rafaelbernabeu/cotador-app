@@ -1,1 +1,149 @@
-<p>administradora works!</p>
+<div class="flex-container" xmlns="http://www.w3.org/1999/html">
+  <div>
+    <mat-card>
+      <mat-card-title>
+        <span>
+          Lista de Entidades
+        </span>
+        <span style="float: right">
+          <a (click)="adicionar()">
+            <mat-icon class="mouse-pointer">add</mat-icon>
+          </a>
+        </span>
+      </mat-card-title>
+      <br/>
+
+      <mat-card-content>
+        <mat-table #entidadesSort="matSort" [dataSource]="dataSourceEntidade" matSort class="mat-elevation-z8">
+          <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+            <mat-cell *matCellDef="let entidade" (click)="selecionaEntidade(entidade)" class="mouse-pointer"> {{entidade.id}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="nome">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+            <mat-cell *matCellDef="let entidade" (click)="selecionaEntidade(entidade)" class="mouse-pointer"> {{entidade.nome}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator #paginatorEntidades [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceEntidade.data.length" showFirstLastButtons></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div *ngIf="entidadeSelecionada" style="width: 20px"></div>
+
+  <div *ngIf="entidadeSelecionada" style="flex-direction: column">
+    <div>
+      <mat-card>
+        <mat-card-title>
+          <span *ngIf="adicionandoEntidade()">Adicionando Entidade</span>
+          <span *ngIf="editandoEntidade()">Editando Entidade</span>
+          <span *ngIf="!adicionandoEntidade() && !editandoEntidade()">Visualizando Entidade</span>
+
+          <span style="float: right; padding-left: 20px">
+          <a *ngIf="!editandoEntidade() && !adicionandoEntidade()" (click)="editarEntidade()">
+            <mat-icon class="mouse-pointer">create</mat-icon>
+          </a>
+          <a *ngIf="!editandoEntidade() && !adicionandoEntidade()" (click)="removerEntidade()">
+            <mat-icon class="mouse-pointer">delete</mat-icon>
+          </a>
+          <a *ngIf="adicionandoEntidade()" (click)="salvarNovaEntidade()">
+            <mat-icon class="mouse-pointer">save</mat-icon>
+          </a>
+          <a *ngIf="editandoEntidade()" (click)="atualizarEntidade()">
+            <mat-icon class="mouse-pointer">save</mat-icon>
+          </a>
+          <a *ngIf="adicionandoEntidade()" (click)="cancelarAdicao()">
+            <mat-icon class="mouse-pointer">close</mat-icon>
+          </a>
+          <a *ngIf="editandoEntidade()" (click)="cancelarEdicao()">
+            <mat-icon class="mouse-pointer">close</mat-icon>
+          </a>
+        </span>
+        </mat-card-title>
+        <br/>
+
+        <mat-card-content>
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Nome</mat-label>
+            <input matInput placeholder="Nome" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
+                   [(ngModel)]="entidadeEditando.nome">
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div *ngIf="profissoes" style="height: 20px"></div>
+    <div [hidden]="!profissoes">
+      <mat-card>
+        <mat-card-title>
+        <span>
+          Lista de Profissoes Vinculadas - {{entidadeSelecionada.nome}}
+        </span>
+          <span style="float: right; padding-left: 20px">
+          <a *ngIf="editandoRelacionamento()" (click)="salvarProfissoes()">
+            <mat-icon class="mouse-pointer">save</mat-icon>
+          </a>
+          <a *ngIf="!editandoRelacionamento()" (click)="editarRelacionamento()">
+            <mat-icon class="mouse-pointer">edit</mat-icon>
+          </a>
+          <a *ngIf="editandoRelacionamento()" (click)="cancelarEdicaoRelacionamento()">
+            <mat-icon class="mouse-pointer">close</mat-icon>
+          </a>
+        </span>
+        </mat-card-title>
+        <br/>
+
+        <mat-card-content>
+          <div [hidden]="!editandoRelacionamento()">
+            <mat-table #profissoesSortEditando="matSort" [dataSource]="dataSourceProfissao" matSort class="mat-elevation-z8">
+              <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+                <mat-cell *matCellDef="let profissao" (click)="profissao.selected = !profissao.selected" class="mouse-pointer"> {{profissao.id}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="nome">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+                <mat-cell *matCellDef="let profissao" (click)="profissao.selected = !profissao.selected" class="mouse-pointer"> {{profissao.nome}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="selected">
+                <mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center"> Selecione </mat-header-cell>
+                <mat-cell *matCellDef="let profissao">
+                  <section style="width: 100%; text-align: center">
+                    <mat-checkbox [(ngModel)]="profissao.selected"></mat-checkbox>
+                  </section>
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="['id', 'nome', 'selected']"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: ['id', 'nome', 'selected'];"></mat-row>
+            </mat-table>
+            <mat-paginator #paginatorEditandoProfissoes [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceProfissao.data.length" showFirstLastButtons></mat-paginator>
+          </div>
+
+          <div [hidden]="editandoRelacionamento()">
+            <mat-table #profissoesSort="matSort" [dataSource]="dataSourceProfissao" matSort class="mat-elevation-z8">
+              <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+                <mat-cell *matCellDef="let profissao"> {{profissao.id}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="nome">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+                <mat-cell *matCellDef="let profissao" > {{profissao.nome}} </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="['id', 'nome']"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: ['id', 'nome'];"></mat-row>
+            </mat-table>
+            <mat-paginator #paginatorProfissoes [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceProfissao.data.length" showFirstLastButtons></mat-paginator>
+          </div>
+        </mat-card-content>
+
+      </mat-card>
+    </div>
+  </div>
+</div>
