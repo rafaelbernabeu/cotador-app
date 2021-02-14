@@ -1,11 +1,11 @@
 import { Router } from '@angular/router';
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
 
-import { Login } from '../../components/login/login';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Token } from './token';
-import {ApiService} from '../api/api.service';
+import { ApiService } from '../api/api.service';
+import { Usuario } from '../usuario/usuario';
 
 @Injectable()
 export class AuthService {
@@ -19,10 +19,10 @@ export class AuthService {
     private api: ApiService,
   ) { }
 
-  fazerLogin(login: Login): Observable<boolean> {
+  fazerLogin(usuario: Usuario): Observable<boolean> {
     this.usuarioAutenticado = false;
     return new Observable(observer => {
-      this.http.get<Token>(this.getLoginUrl(), this.getAuthHeaders(login)).subscribe(
+      this.http.get<Token>(this.getLoginUrl(), this.getAuthHeaders(usuario)).subscribe(
         data => {
           if (data.token) {
             this.tokenUsuario = data.token;
@@ -42,10 +42,9 @@ export class AuthService {
   public usuarioEstaAutenticado(): boolean {
     return this.usuarioAutenticado;
   }
-
-  private getAuthHeaders(login: Login): object {
+  private getAuthHeaders(usuario: Usuario): object {
     return {
-      headers: new HttpHeaders({ Authorization: 'Basic ' + btoa(login.email + ':' + login.password) })
+      headers: new HttpHeaders({ Authorization: 'Basic ' + btoa(usuario.email + ':' + usuario.password) })
     };
   }
 

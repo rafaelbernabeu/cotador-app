@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
-import { Login } from './login';
 import { Router } from '@angular/router';
 import { SnackbarService } from '../../services/snackbar/snackbar.service';
+import { Usuario } from '../../services/usuario/usuario';
+import * as bcrypt from 'bcryptjs';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { SnackbarService } from '../../services/snackbar/snackbar.service';
 })
 export class LoginComponent implements OnInit {
 
-  usuario: Login = new Login();
+  usuario: Usuario = new Usuario();
 
   constructor(
     private router: Router,
