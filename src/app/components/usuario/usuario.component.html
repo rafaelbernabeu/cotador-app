@@ -77,6 +77,15 @@
             <input matInput placeholder="Nome" [disabled]="!adicionandoUsuario() && !editandoUsuario()"
                    [(ngModel)]="usuarioEditando.nome">
           </mat-form-field>
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email" [disabled]="!adicionandoUsuario() && !editandoUsuario()"
+                   [(ngModel)]="usuarioEditando.email">
+          </mat-form-field>
+          <mat-form-field appearance="outline" style="width: 100%" *ngIf="adicionandoUsuario()">
+            <mat-label>Senha</mat-label>
+            <input matInput placeholder="Senha" [(ngModel)]="usuarioEditando.password">
+          </mat-form-field>
         </mat-card-content>
       </mat-card>
     </div>
