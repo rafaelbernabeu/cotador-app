@@ -9,6 +9,7 @@ import {RoleService} from '../../services/role/role.service';
 import {Role} from '../../services/role/role';
 import {DialogComponent} from '../dialog/dialog.component';
 import {MatDialog} from '@angular/material/dialog';
+import * as bcrypt from 'bcryptjs';
 
 @Component({
   selector: 'app-usuario',
@@ -165,6 +166,7 @@ export class UsuarioComponent implements OnInit {
   }
 
   salvarNovoUsuario(): void {
+    this.usuarioEditando.password = bcrypt.hashSync(this.usuarioEditando.password, 10);
     this.usuarioService.adicionarUsuario(this.usuarioEditando).subscribe(response => {
       this.snackBar.openSnackBar('Usuario adicionado com sucesso!');
       this.limpar();
