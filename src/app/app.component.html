@@ -1,16 +1,62 @@
 <mat-sidenav-container class="example-container" style="height: 100%" hasBackdrop>
-
-  <mat-sidenav #sidenav mode="side">
+  <mat-sidenav (click)="sidenav.toggle()" #sidenav mode="side">
     <mat-list>
       <mat-list-item>
-        <a routerLink="/usuarios" (click)="sidenav.toggle()">Usuarios</a>
+        <mat-icon class="icon-spacer">table_rows</mat-icon>
+        Menu
       </mat-list-item>
       <mat-divider></mat-divider>
-      <mat-list-item>
-        <a routerLink="/entidades" (click)="sidenav.toggle()">Entidades</a>
+      <mat-divider></mat-divider>
+      <mat-list-item class="mouse-pointer">
+        <mat-icon class="icon-spacer">query_stats</mat-icon>
+        Cotaçao
       </mat-list-item>
       <mat-divider></mat-divider>
-      <mat-list-item (click)="sidenav.toggle()">Item 3</mat-list-item>
+      <mat-list-item class="mouse-pointer">
+        <mat-icon class="icon-spacer">book</mat-icon>
+        Produtos
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="mouse-pointer">
+        <mat-icon class="icon-spacer">local_hospital</mat-icon>
+        Hospitais
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="mouse-pointer">
+        <mat-icon class="icon-spacer">science</mat-icon>
+        Laboratorios
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item routerLink="/entidades" class="mouse-pointer">
+        <mat-icon class="icon-spacer">groups</mat-icon>
+        Entidades
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="mouse-pointer">
+        <mat-icon class="icon-spacer">business_center</mat-icon>
+        Profissoes
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="mouse-pointer">
+        <mat-icon class="icon-spacer">corporate_fare</mat-icon>
+        Operadoras
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="mouse-pointer">
+        <mat-icon class="icon-spacer">business</mat-icon>
+        Administradoras
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item routerLink="/usuarios" class="mouse-pointer">
+        <mat-icon class="icon-spacer">manage_accounts</mat-icon>
+        Usuarios
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item class="mouse-pointer">
+        <mat-icon class="icon-spacer">security</mat-icon>
+        Auditoria
+      </mat-list-item>
+      <mat-divider></mat-divider>
     </mat-list>
   </mat-sidenav>
 
