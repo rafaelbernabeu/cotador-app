@@ -66,7 +66,7 @@ export class UsuarioComponent implements OnInit {
 
       this.todasRoles.forEach(todas => {
         this.roles.forEach(role => {
-          if (todas.nome === role.nome) {
+          if (todas.role === role.role) {
             todas.selected = true;
           }
         });
@@ -180,7 +180,7 @@ export class UsuarioComponent implements OnInit {
 
   removerUsuario(): void {
     this.usuarioService.excluirUsuario(this.usuarioSelecionado).subscribe(response => {
-      this.snackBar.openSnackBar('Entidade apagada com sucesso!');
+      this.snackBar.openSnackBar('Usuario apagado com sucesso!');
       this.limpar();
       this.carregaTabelaUsuarios();
     });

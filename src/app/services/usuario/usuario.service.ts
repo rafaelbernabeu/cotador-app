@@ -23,11 +23,11 @@ export class UsuarioService {
   }
 
   public getRolesByUsuario(usuario: Usuario): Observable<Role[]> {
-    return this.http.get<Profissao[]>(this.getApiUrl() + '/' + usuario.id + this.api.ROLE_API_URL, this.authServie.getTokenHeader());
+    return this.http.get<Role[]>(this.getApiUrl() + '/' + usuario.id + this.api.ROLE_API_URL, this.authServie.getTokenHeader());
   }
 
   public atualizarRolesDoUsuario(usuario: Usuario, roles: Role[]): Observable<Role[]> {
-    return this.http.post<Profissao[]>(this.getApiUrl() + '/' + usuario.id + this.api.ROLE_API_URL,
+    return this.http.post<Role[]>(this.getApiUrl() + '/' + usuario.id + this.api.ROLE_API_URL,
       roles, this.authServie.getTokenHeader());
   }
 
@@ -42,7 +42,6 @@ export class UsuarioService {
   public excluirUsuario(usuario: Usuario): Observable<Usuario> {
     return this.http.delete<Usuario>(this.getApiUrl() + '/' + usuario.id, this.authServie.getTokenHeader());
   }
-
 
   private getApiUrl(): string {
     return this.api.BASE_API_URL + this.api.USUARIO_API_URL;

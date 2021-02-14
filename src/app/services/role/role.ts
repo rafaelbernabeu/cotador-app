@@ -1,7 +1,8 @@
 
 export class Role {
 
-  nome: string;
+  id: number;
+  role: string;
   selected: boolean;
 
 }
