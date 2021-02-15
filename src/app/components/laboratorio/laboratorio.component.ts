@@ -51,7 +51,6 @@ export class LaboratorioComponent implements OnInit {
   }
 
   editarLaboratorio(): void {
-    const estadoAnterior = this.estado;
     this.estado = 'editandoLaboratorio';
   }
 

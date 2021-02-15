@@ -1,1 +1,79 @@
-<p>operadora works!</p>
+<div class="flex-container" xmlns="http://www.w3.org/1999/html">
+  <div>
+    <mat-card>
+      <mat-card-title>
+        <span>
+          Lista de Operadoras
+        </span>
+        <span style="float: right">
+          <a (click)="adicionar()">
+            <mat-icon class="mouse-pointer">add</mat-icon>
+          </a>
+        </span>
+      </mat-card-title>
+      <br/>
+
+      <mat-card-content>
+        <mat-table [dataSource]="dataSourceOperadora" matSort class="mat-elevation-z8">
+          <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+            <mat-cell *matCellDef="let administradora" (click)="selecionaOperadora(administradora)" class="mouse-pointer"> {{administradora.id}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="nome">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+            <mat-cell *matCellDef="let administradora" (click)="selecionaOperadora(administradora)" class="mouse-pointer"> {{administradora.nome}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceOperadora.data.length" showFirstLastButtons></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div *ngIf="operadoraSelecionada" style="width: 20px"></div>
+
+  <div *ngIf="operadoraSelecionada" style="flex-direction: column">
+    <div>
+      <mat-card>
+        <mat-card-title>
+          <span *ngIf="adicionandoOperadora()">Adicionando Operadora</span>
+          <span *ngIf="editandoOperadora()">Editando Operadora</span>
+          <span *ngIf="!adicionandoOperadora() && !editandoOperadora()">Visualizando Operadora</span>
+
+          <span style="float: right; padding-left: 20px">
+          <a *ngIf="!editandoOperadora() && !adicionandoOperadora()" (click)="editarOperadora()">
+            <mat-icon class="mouse-pointer">create</mat-icon>
+          </a>
+          <a *ngIf="!editandoOperadora() && !adicionandoOperadora()" (click)="removerOperadora()">
+            <mat-icon class="mouse-pointer">delete</mat-icon>
+          </a>
+          <a *ngIf="adicionandoOperadora()" (click)="salvarNovaOperadora()">
+            <mat-icon class="mouse-pointer">save</mat-icon>
+          </a>
+          <a *ngIf="editandoOperadora()" (click)="atualizarOperadora()">
+            <mat-icon class="mouse-pointer">save</mat-icon>
+          </a>
+          <a *ngIf="adicionandoOperadora()" (click)="cancelarAdicao()">
+            <mat-icon class="mouse-pointer">close</mat-icon>
+          </a>
+          <a *ngIf="editandoOperadora()" (click)="cancelarEdicao()">
+            <mat-icon class="mouse-pointer">close</mat-icon>
+          </a>
+        </span>
+        </mat-card-title>
+        <br/>
+
+        <mat-card-content>
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Nome</mat-label>
+            <input matInput placeholder="Nome" [disabled]="!adicionandoOperadora() && !editandoOperadora()"
+                   [(ngModel)]="operadoraEditando.nome">
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

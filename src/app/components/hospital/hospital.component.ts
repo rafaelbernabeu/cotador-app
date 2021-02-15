@@ -51,7 +51,6 @@ export class HospitalComponent implements OnInit {
   }
 
   editarHospital(): void {
-    const estadoAnterior = this.estado;
     this.estado = 'editandoHospital';
   }
 

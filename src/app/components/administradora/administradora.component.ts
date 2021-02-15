@@ -51,7 +51,6 @@ export class AdministradoraComponent implements OnInit {
   }
 
   editarAdministradora(): void {
-    const estadoAnterior = this.estado;
     this.estado = 'editandoAdministradora';
   }
 
