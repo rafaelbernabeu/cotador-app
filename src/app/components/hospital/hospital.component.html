@@ -3,7 +3,7 @@
     <mat-card>
       <mat-card-title>
         <span>
-          Lista de Administradoras
+          Lista de Hospitais
         </span>
         <span style="float: right">
           <a (click)="adicionar()">
@@ -39,9 +39,9 @@
     <div>
       <mat-card>
         <mat-card-title>
-          <span *ngIf="adicionandoHospital()">Adicionando Administradora</span>
-          <span *ngIf="editandoHospital()">Editando Administradora</span>
-          <span *ngIf="!adicionandoHospital() && !editandoHospital()">Visualizando Administradora</span>
+          <span *ngIf="adicionandoHospital()">Adicionando Hospital</span>
+          <span *ngIf="editandoHospital()">Editando Hospital</span>
+          <span *ngIf="!adicionandoHospital() && !editandoHospital()">Visualizando Hospital</span>
 
           <span style="float: right; padding-left: 20px">
           <a *ngIf="!editandoHospital() && !adicionandoHospital()" (click)="editarHospital()">

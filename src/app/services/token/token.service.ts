@@ -39,9 +39,9 @@ export class TokenService {
   }
 
   public tentaCarregarTokenLocalStorage(): boolean {
-    const token = localStorage.getItem('token');
-    if (token) {
-      this.parseToken(token);
+    this.rawToken = localStorage.getItem('token');
+    if (this.rawToken) {
+      this.parseToken(this.rawToken);
       return this.isTokenValido();
     }
     return false;
