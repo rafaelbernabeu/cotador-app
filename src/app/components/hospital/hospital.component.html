@@ -17,12 +17,17 @@
         <mat-table [dataSource]="dataSourceHospital" matSort class="mat-elevation-z8">
           <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-            <mat-cell *matCellDef="let administradora" (click)="selecionaHospital(administradora)" class="mouse-pointer"> {{administradora.id}} </mat-cell>
+            <mat-cell *matCellDef="let hospital" (click)="selecionaHospital(hospital)" class="mouse-pointer"> {{hospital.id}} </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="nome">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-            <mat-cell *matCellDef="let administradora" (click)="selecionaHospital(administradora)" class="mouse-pointer"> {{administradora.nome}} </mat-cell>
+            <mat-cell *matCellDef="let hospital" (click)="selecionaHospital(hospital)" class="mouse-pointer"> {{hospital.nome}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="local">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Local </mat-header-cell>
+            <mat-cell *matCellDef="let hospital" (click)="selecionaHospital(hospital)" class="mouse-pointer"> {{hospital.local}} </mat-cell>
           </ng-container>
 
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -71,6 +76,11 @@
             <mat-label>Nome</mat-label>
             <input matInput placeholder="Nome" [disabled]="!adicionandoHospital() && !editandoHospital()"
                    [(ngModel)]="hospitalEditando.nome">
+          </mat-form-field>
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Local</mat-label>
+            <input matInput placeholder="Local" [disabled]="!adicionandoHospital() && !editandoHospital()"
+                   [(ngModel)]="hospitalEditando.local">
           </mat-form-field>
         </mat-card-content>
       </mat-card>

@@ -18,7 +18,7 @@ export class HospitalComponent implements OnInit {
   @ViewChild(MatSort) sortHospital: MatSort;
   @ViewChild(MatPaginator) paginatorHospital: MatPaginator;
 
-  displayedColumns: string[] = ['id', 'nome'];
+  displayedColumns: string[] = ['id', 'nome', 'local'];
   dataSourceHospital = new MatTableDataSource<Hospital>();
 
   estado: string;
