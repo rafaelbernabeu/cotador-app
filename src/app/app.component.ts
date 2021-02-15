@@ -13,4 +13,8 @@ export class AppComponent {
     public authService: AuthService
   ) {}
 
+  logout(): void {
+    this.authService.logout();
+  }
+
 }

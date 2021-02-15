@@ -13,12 +13,14 @@ import {ProfissaoComponent} from './components/profissao/profissao.component';
 import {OperadoraComponent} from './components/operadora/operadora.component';
 import {AdministradoraComponent} from './components/administradora/administradora.component';
 import {AuditoriaComponent} from './components/auditoria/auditoria.component';
+import {TabelaComponent} from './components/tabela/tabela.component';
 
 const routes: Routes = [
 
   { path: '', component: LoginComponent },
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'tabela', component: TabelaComponent },
   { path: 'cotacao', component: CotacaoComponent },
   { path: 'usuarios', component: UsuarioComponent },
   { path: 'produtos', component: ProdutoComponent },

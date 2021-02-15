@@ -12,6 +12,11 @@
         Cotaçao
       </mat-list-item>
       <mat-divider></mat-divider>
+      <mat-list-item routerLink="/tabela" class="mouse-pointer">
+        <mat-icon class="icon-spacer">table_chart</mat-icon>
+        Tabela
+      </mat-list-item>
+      <mat-divider></mat-divider>
       <mat-list-item routerLink="/produtos" class="mouse-pointer">
         <mat-icon class="icon-spacer">book</mat-icon>
         Produtos
@@ -61,11 +66,16 @@
   </mat-sidenav>
 
   <mat-sidenav-content>
-    <mat-toolbar color="primary" >
+    <mat-toolbar color="primary">
       <button mat-icon-button (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
-      <span>SUPER Cotador Web</span>
+      <span> Cotador SUPER </span>
+      <span *ngIf="authService.isUsuarioAutenticado()" style="width: 100%">
+        <button mat-icon-button style="float: right" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+        </button>
+      </span>
     </mat-toolbar>
 
     <br/>

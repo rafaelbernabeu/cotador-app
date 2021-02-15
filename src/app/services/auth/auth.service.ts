@@ -75,4 +75,10 @@ export class AuthService {
     return this.api.BASE_API_URL + this.api.LOGIN_API_URL;
   }
 
+  public logout(): void {
+    this.usuarioAutenticado = false;
+    this.tokenService.limpar();
+    this.router.navigate(['/login']);
+  }
+
 }

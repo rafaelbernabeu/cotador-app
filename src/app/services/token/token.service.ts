@@ -33,7 +33,7 @@ export class TokenService {
   public isTokenValido(): boolean {
     const isValido = this.token.exp * 1000 > new Date().getTime();
     if (!isValido) {
-      localStorage.clear();
+      this.limpar();
     }
     return isValido;
   }
@@ -46,4 +46,11 @@ export class TokenService {
     }
     return false;
   }
+
+  public limpar(): void {
+    this.token = null;
+    this.rawToken = null;
+    localStorage.clear();
+  }
+
 }
