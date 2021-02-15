@@ -9,9 +9,15 @@ export class ApiService {
   LOGIN_API_URL = '/login';
 
   ROLE_API_URL = '/roles';
+  OPCAO_API_URL = '/opcoes';
+  TABELA_API_URL = '/tabela';
   USUARIO_API_URL = '/usuarios';
+  PRODUTO_API_URL = '/produtos';
   ENTIDADE_API_URL = '/entidades';
+  HOSPITAL_API_URL = '/hospitais';
   PROFISSAO_API_URL = '/profissoes';
+  OPERADORA_API_URL = '/operadoras';
+  LABORATORIO_API_URL = '/laboratorios';
   ADMINISTRADORA_API_URL = '/administradoras';
 
 }
