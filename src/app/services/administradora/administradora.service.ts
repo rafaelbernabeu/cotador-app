@@ -29,8 +29,8 @@ export class AdministradoraService {
     return this.http.put<Administradora>(this.getApiUrl() + '/' + administradora.id, administradora, this.authServie.getTokenHeader());
   }
 
-  public excluirAdministradora(administradora: Administradora): Observable<Entidade> {
-    return this.http.delete<Entidade>(this.getApiUrl() + '/' + administradora.id, this.authServie.getTokenHeader());
+  public excluirAdministradora(administradora: Administradora): Observable<Administradora> {
+    return this.http.delete<Administradora>(this.getApiUrl() + '/' + administradora.id, this.authServie.getTokenHeader());
   }
 
   private getApiUrl(): string {

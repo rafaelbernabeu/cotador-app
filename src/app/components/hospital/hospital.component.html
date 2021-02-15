@@ -1,1 +1,79 @@
-<p>hospital works!</p>
+<div class="flex-container" xmlns="http://www.w3.org/1999/html">
+  <div>
+    <mat-card>
+      <mat-card-title>
+        <span>
+          Lista de Administradoras
+        </span>
+        <span style="float: right">
+          <a (click)="adicionar()">
+            <mat-icon class="mouse-pointer">add</mat-icon>
+          </a>
+        </span>
+      </mat-card-title>
+      <br/>
+
+      <mat-card-content>
+        <mat-table [dataSource]="dataSourceHospital" matSort class="mat-elevation-z8">
+          <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+            <mat-cell *matCellDef="let administradora" (click)="selecionaHospital(administradora)" class="mouse-pointer"> {{administradora.id}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="nome">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+            <mat-cell *matCellDef="let administradora" (click)="selecionaHospital(administradora)" class="mouse-pointer"> {{administradora.nome}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceHospital.data.length" showFirstLastButtons></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div *ngIf="hospitalSelecionado" style="width: 20px"></div>
+
+  <div *ngIf="hospitalSelecionado" style="flex-direction: column">
+    <div>
+      <mat-card>
+        <mat-card-title>
+          <span *ngIf="adicionandoHospital()">Adicionando Administradora</span>
+          <span *ngIf="editandoHospital()">Editando Administradora</span>
+          <span *ngIf="!adicionandoHospital() && !editandoHospital()">Visualizando Administradora</span>
+
+          <span style="float: right; padding-left: 20px">
+          <a *ngIf="!editandoHospital() && !adicionandoHospital()" (click)="editarHospital()">
+            <mat-icon class="mouse-pointer">create</mat-icon>
+          </a>
+          <a *ngIf="!editandoHospital() && !adicionandoHospital()" (click)="removerHospital()">
+            <mat-icon class="mouse-pointer">delete</mat-icon>
+          </a>
+          <a *ngIf="adicionandoHospital()" (click)="salvarNovoHospital()">
+            <mat-icon class="mouse-pointer">save</mat-icon>
+          </a>
+          <a *ngIf="editandoHospital()" (click)="atualizarHospital()">
+            <mat-icon class="mouse-pointer">save</mat-icon>
+          </a>
+          <a *ngIf="adicionandoHospital()" (click)="cancelarAdicao()">
+            <mat-icon class="mouse-pointer">close</mat-icon>
+          </a>
+          <a *ngIf="editandoHospital()" (click)="cancelarEdicao()">
+            <mat-icon class="mouse-pointer">close</mat-icon>
+          </a>
+        </span>
+        </mat-card-title>
+        <br/>
+
+        <mat-card-content>
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Nome</mat-label>
+            <input matInput placeholder="Nome" [disabled]="!adicionandoHospital() && !editandoHospital()"
+                   [(ngModel)]="hospitalEditando.nome">
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

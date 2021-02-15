@@ -50,7 +50,7 @@ export class AdministradoraComponent implements OnInit {
     this.AdministradoraEditando = {...administradora};
   }
 
-  editarEntidade(): void {
+  editarAdministradora(): void {
     const estadoAnterior = this.estado;
     this.estado = 'editandoAdministradora';
   }
@@ -81,11 +81,11 @@ export class AdministradoraComponent implements OnInit {
     this.administradoraSelecionada = null;
   }
 
-  editandoEntidade(): boolean {
+  editandoAdministradora(): boolean {
     return this.estado === 'editandoAdministradora';
   }
 
-  adicionandoEntidade(): boolean {
+  adicionandoAdministradora(): boolean {
     return this.estado === 'adicionando';
   }
 

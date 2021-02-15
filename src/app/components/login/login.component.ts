@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    if (this.authService.existeTokenStorage()) {
+    if (this.authService.isUsuarioAutenticado()) {
       this.router.navigate(['/home']);
     }
   }
@@ -29,17 +29,14 @@ export class LoginComponent implements OnInit {
   fazerLogin(): void {
     this.authService.fazerLogin(this.usuario).subscribe(
       next => {
-        this.snackBar.openSnackBar('Sucesso!');
+        this.snackBar.openSnackBar('Login efetuado com sucesso!');
         this.router.navigate(['/home']);
       },
       error => {
-        this.snackBar.openSnackBar('Dados nao conferem');
+        this.snackBar.openSnackBar('Dados nao conferem!');
         this.usuario.email = '';
         this.usuario.password = '';
       }
     );
   }
-
-
-
 }
