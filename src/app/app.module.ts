@@ -36,6 +36,7 @@ import { OperadoraComponent } from './components/operadora/operadora.component';
 import { AdministradoraComponent } from './components/administradora/administradora.component';
 import { AuditoriaComponent } from './components/auditoria/auditoria.component';
 import { TabelaComponent } from './components/tabela/tabela.component';
+import { OpcaoComponent } from './components/opcao/opcao.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { TabelaComponent } from './components/tabela/tabela.component';
     LaboratorioComponent,
     AdministradoraComponent,
     TabelaComponent,
+    OpcaoComponent,
   ],
   imports: [
     FormsModule,
