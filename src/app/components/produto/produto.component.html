@@ -33,7 +33,7 @@
 
           <ng-container matColumnDef="operadora">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Operadora </mat-header-cell>
-            <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.operadora}} </mat-cell>
+            <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.operadora.nome}} </mat-cell>
           </ng-container>
 
 
@@ -98,6 +98,13 @@
             <mat-label>Reembolso</mat-label>
             <input matInput placeholder="Reembolso" [disabled]="!adicionandoProduto() && !editandoProduto()"
                    [(ngModel)]="produtoEditando.reembolso">
+          </mat-form-field>
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Operadora</mat-label>
+            <mat-select [compareWith]="operadoraComparator" [(value)]="produtoEditando.operadora" [disabled]="!adicionandoProduto() && !editandoProduto()">
+              <mat-option></mat-option>
+              <mat-option *ngFor="let operadora of todasOperadoras;" [value]="operadora">{{operadora.nome}}</mat-option>
+            </mat-select>
           </mat-form-field>
           <section>
             <mat-checkbox style="margin: 0 10px" labelPosition="before"

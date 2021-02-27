@@ -7,6 +7,8 @@ import {SnackbarService} from '../../services/snackbar/snackbar.service';
 import {ProdutoService} from '../../services/produto/produto.service';
 import {DialogComponent} from '../dialog/dialog.component';
 import {Produto} from '../../services/produto/produto';
+import {Operadora} from '../../services/operadora/operadora';
+import {OperadoraService} from '../../services/operadora/operadora.service';
 
 @Component({
   selector: 'app-produto',
@@ -24,15 +26,22 @@ export class ProdutoComponent implements OnInit {
   estado: string;
   produtoEditando: Produto;
   produtoSelecionado: Produto;
+  todasOperadoras: Operadora[];
 
   constructor(
     private dialog: MatDialog,
     private snackBar: SnackbarService,
     private produtoService: ProdutoService,
+    private operadoraService: OperadoraService,
   ) {}
 
   ngOnInit(): void {
+    this.operadoraService.getAllOperadoras().subscribe(response => this.todasOperadoras = response);
     this.carregaTabelaProduto();
+  }
+
+  operadoraComparator(operadora1: Operadora, operadora2: Operadora): boolean {
+    return operadora1.id === operadora2.id;
   }
 
   private carregaTabelaProduto(): void {
