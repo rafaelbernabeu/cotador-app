@@ -1,1 +1,111 @@
-<p>produto works!</p>
+<div class="flex-container" xmlns="http://www.w3.org/1999/html">
+  <div>
+    <mat-card>
+      <mat-card-title>
+        <span>
+          Lista de Produtos
+        </span>
+        <span style="float: right">
+          <a (click)="adicionar()">
+            <mat-icon class="mouse-pointer">add</mat-icon>
+          </a>
+        </span>
+      </mat-card-title>
+      <br/>
+
+      <mat-card-content>
+        <mat-table [dataSource]="dataSourceProduto" matSort class="mat-elevation-z8">
+          <ng-container matColumnDef="id">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+            <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.id}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="nome">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+            <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.nome}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="abrangencia">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
+            <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.abrangencia}} </mat-cell>
+          </ng-container>
+
+
+          <ng-container matColumnDef="operadora">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Operadora </mat-header-cell>
+            <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.operadora}} </mat-cell>
+          </ng-container>
+
+
+          <ng-container matColumnDef="reembolso">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Reembolso </mat-header-cell>
+            <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.reembolso}} </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div *ngIf="produtoSelecionado" style="width: 20px"></div>
+
+  <div *ngIf="produtoSelecionado" style="flex-direction: column">
+    <div>
+      <mat-card>
+        <mat-card-title>
+          <span *ngIf="adicionandoProduto()">Adicionando Produto</span>
+          <span *ngIf="editandoProduto()">Editando Produto</span>
+          <span *ngIf="!adicionandoProduto() && !editandoProduto()">Visualizando Produto</span>
+
+          <span style="float: right; padding-left: 20px">
+          <a *ngIf="!editandoProduto() && !adicionandoProduto()" (click)="editarProduto()">
+            <mat-icon class="mouse-pointer">create</mat-icon>
+          </a>
+          <a *ngIf="!editandoProduto() && !adicionandoProduto()" (click)="removerProduto()">
+            <mat-icon class="mouse-pointer">delete</mat-icon>
+          </a>
+          <a *ngIf="adicionandoProduto()" (click)="salvarNovoProduto()">
+            <mat-icon class="mouse-pointer">save</mat-icon>
+          </a>
+          <a *ngIf="editandoProduto()" (click)="atualizarProduto()">
+            <mat-icon class="mouse-pointer">save</mat-icon>
+          </a>
+          <a *ngIf="adicionandoProduto()" (click)="cancelarAdicao()">
+            <mat-icon class="mouse-pointer">close</mat-icon>
+          </a>
+          <a *ngIf="editandoProduto()" (click)="cancelarEdicao()">
+            <mat-icon class="mouse-pointer">close</mat-icon>
+          </a>
+        </span>
+        </mat-card-title>
+        <br/>
+
+        <mat-card-content>
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Nome</mat-label>
+            <input matInput placeholder="Nome" [disabled]="!adicionandoProduto() && !editandoProduto()"
+                   [(ngModel)]="produtoEditando.nome">
+          </mat-form-field>
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Abrangencia</mat-label>
+            <input matInput placeholder="Abrangencia" [disabled]="!adicionandoProduto() && !editandoProduto()"
+                   [(ngModel)]="produtoEditando.abrangencia">
+          </mat-form-field>
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Reembolso</mat-label>
+            <input matInput placeholder="Reembolso" [disabled]="!adicionandoProduto() && !editandoProduto()"
+                   [(ngModel)]="produtoEditando.reembolso">
+          </mat-form-field>
+          <section>
+            <mat-checkbox style="margin: 0 10px" labelPosition="before"
+                          [disabled]="!editandoProduto()"
+                          [(ngModel)]="produtoEditando.ativo">Ativo</mat-checkbox>
+          </section>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>

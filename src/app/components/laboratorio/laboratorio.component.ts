@@ -109,7 +109,7 @@ export class LaboratorioComponent implements OnInit {
     this.dialog.open(DialogComponent, {
       data: {
         titulo: 'Tem certeza?',
-        descricao: 'Deseja remover o hopital ' + this.laboratorioSelecionado.nome + '?',
+        descricao: 'Deseja remover o laboratorio ' + this.laboratorioSelecionado.nome + '?',
         confirma: 'Sim',
         cancela: 'Nao',
       }
