@@ -9,6 +9,9 @@ import {DialogComponent} from '../dialog/dialog.component';
 import {Produto} from '../../services/produto/produto';
 import {Operadora} from '../../services/operadora/operadora';
 import {OperadoraService} from '../../services/operadora/operadora.service';
+import {FormControl} from '@angular/forms';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 @Component({
   selector: 'app-produto',
@@ -27,6 +30,8 @@ export class ProdutoComponent implements OnInit {
   produtoEditando: Produto;
   produtoSelecionado: Produto;
   todasOperadoras: Operadora[];
+  autoCompleteControl = new FormControl();
+  filteredOptions: Observable<Operadora[]>;
 
   constructor(
     private dialog: MatDialog,
@@ -36,6 +41,13 @@ export class ProdutoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.autoCompleteControl.disable();
+    this.filteredOptions = this.autoCompleteControl.valueChanges.pipe(
+      startWith(''),
+      map(value => typeof value === 'string' ? value : value.name),
+      map(value => this.filterAutoComplete(value))
+    );
+
     this.operadoraService.getAllOperadoras().subscribe(response => this.todasOperadoras = response);
     this.carregaTabelaProduto();
   }
@@ -57,36 +69,45 @@ export class ProdutoComponent implements OnInit {
     this.estado = null;
     this.produtoSelecionado = produto;
     this.produtoEditando = {...produto};
+    this.autoCompleteControl.disable();
+    this.autoCompleteControl.setValue(this.produtoEditando.operadora);
   }
 
   editarProduto(): void {
     this.estado = 'editandoProduto';
+    this.autoCompleteControl.enable();
   }
 
   cancelarEdicao(): void {
     this.estado = null;
     this.produtoEditando = {...this.produtoSelecionado};
+    this.autoCompleteControl.disable();
   }
 
   cancelarAdicao(): void {
     this.estado = null;
     this.produtoSelecionado = null;
+    this.autoCompleteControl.disable();
   }
 
   adicionar(): void {
     this.estado = 'adicionando';
     this.produtoSelecionado = new Produto();
+    this.autoCompleteControl.setValue(null);
     this.produtoEditando = this.produtoSelecionado;
+    this.autoCompleteControl.enable();
   }
 
   visualizar(): void {
     this.estado = null;
+    this.autoCompleteControl.disable();
   }
 
   limpar(): void {
     this.estado = null;
     this.produtoEditando = null;
     this.produtoSelecionado = null;
+    this.autoCompleteControl.disable();
   }
 
   editandoProduto(): boolean {
@@ -98,6 +119,7 @@ export class ProdutoComponent implements OnInit {
   }
 
   salvarNovoProduto(): void {
+    this.produtoEditando.operadora = this.autoCompleteControl.value;
     this.produtoService.adicionarProduto(this.produtoEditando).subscribe(response => {
       this.snackBar.openSnackBar('Produto adicionado com sucesso!');
       this.limpar();
@@ -106,6 +128,7 @@ export class ProdutoComponent implements OnInit {
   }
 
   atualizarProduto(): void {
+    this.produtoEditando.operadora = this.autoCompleteControl.value;
     this.produtoService.editarProduto(this.produtoEditando).subscribe(response => {
       this.snackBar.openSnackBar('Produto atualizado com sucesso!');
       this.visualizar();
@@ -133,4 +156,12 @@ export class ProdutoComponent implements OnInit {
     });
   }
 
+  private filterAutoComplete(value: string): Operadora[] {
+    const filterValue = value.toLowerCase();
+    return this.todasOperadoras.filter(operadora => operadora.nome.toLowerCase().includes(filterValue));
+  }
+
+  displayFn(operadora: Operadora): string {
+    return operadora && operadora.nome ? operadora.nome : '';
+  }
 }

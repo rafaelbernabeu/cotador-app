@@ -90,22 +90,34 @@
                    [(ngModel)]="produtoEditando.nome">
           </mat-form-field>
           <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Abrangencia</mat-label>
-            <input matInput placeholder="Abrangencia" [disabled]="!adicionandoProduto() && !editandoProduto()"
-                   [(ngModel)]="produtoEditando.abrangencia">
-          </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Reembolso</mat-label>
-            <input matInput placeholder="Reembolso" [disabled]="!adicionandoProduto() && !editandoProduto()"
-                   [(ngModel)]="produtoEditando.reembolso">
-          </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Operadora</mat-label>
-            <mat-select [compareWith]="operadoraComparator" [(value)]="produtoEditando.operadora" [disabled]="!adicionandoProduto() && !editandoProduto()">
-              <mat-option></mat-option>
-              <mat-option *ngFor="let operadora of todasOperadoras;" [value]="operadora">{{operadora.nome}}</mat-option>
-            </mat-select>
+            <input matInput [formControl]="autoCompleteControl" [matAutocomplete]="auto" type="text">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let operadora of filteredOptions | async" [value]="operadora">
+                {{operadora.nome}}
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
+<!--          <mat-form-field appearance="outline" style="width: 100%">-->
+<!--            <mat-label>Operadora</mat-label>-->
+<!--            <mat-select [compareWith]="operadoraComparator" [(value)]="produtoEditando.operadora" [disabled]="!adicionandoProduto() && !editandoProduto()">-->
+<!--              <mat-option></mat-option>-->
+<!--              <mat-option *ngFor="let operadora of todasOperadoras;" [value]="operadora">{{operadora.nome}}</mat-option>-->
+<!--            </mat-select>-->
+<!--          </mat-form-field>-->
+          <div>
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Abrangencia</mat-label>
+              <input matInput placeholder="Abrangencia" [disabled]="!adicionandoProduto() && !editandoProduto()"
+                     [(ngModel)]="produtoEditando.abrangencia">
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Reembolso</mat-label>
+              <input matInput placeholder="Reembolso" [disabled]="!adicionandoProduto() && !editandoProduto()"
+                     [(ngModel)]="produtoEditando.reembolso">
+            </mat-form-field>
+          </div>
+
           <section>
             <mat-checkbox style="margin: 0 10px" labelPosition="before"
                           [disabled]="!editandoProduto()"

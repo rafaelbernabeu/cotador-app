@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
@@ -37,6 +37,7 @@ import { OperadoraComponent } from './components/operadora/operadora.component';
 import { AuditoriaComponent } from './components/auditoria/auditoria.component';
 import { LaboratorioComponent } from './components/laboratorio/laboratorio.component';
 import { AdministradoraComponent } from './components/administradora/administradora.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
 @NgModule({
   declarations: [
@@ -78,6 +79,8 @@ import { AdministradoraComponent } from './components/administradora/administrad
     MatCheckboxModule,
     MatSnackBarModule,
     MatPaginatorModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
     BrowserAnimationsModule,
   ],
   providers: [AuthService],

@@ -11,7 +11,7 @@ export class Produto {
   abrangencia: string;
   operadora: Operadora;
   reembolso: number;
-  coparticipacoes: Coparticipacao[];
+  coparticipacao: Coparticipacao;
   laboratorios: Laboratorio[];
   hospitais: Hospital[];
 
