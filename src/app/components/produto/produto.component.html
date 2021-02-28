@@ -118,11 +118,14 @@
             </mat-form-field>
           </div>
 
-          <section>
+          <div>
+            <mat-slide-toggle [(ngModel)]="produtoEditando.ativo" [disabled]="!editandoProduto()"
+                              labelPosition="before" color="primary">Ativo</mat-slide-toggle>
+            <br/>
             <mat-checkbox style="margin: 0 10px" labelPosition="before"
                           [disabled]="!editandoProduto()"
                           [(ngModel)]="produtoEditando.ativo">Ativo</mat-checkbox>
-          </section>
+          </div>
         </mat-card-content>
       </mat-card>
     </div>

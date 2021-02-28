@@ -38,6 +38,7 @@ import { AuditoriaComponent } from './components/auditoria/auditoria.component';
 import { LaboratorioComponent } from './components/laboratorio/laboratorio.component';
 import { AdministradoraComponent } from './components/administradora/administradora.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [
@@ -80,6 +81,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
     MatSnackBarModule,
     MatPaginatorModule,
     ReactiveFormsModule,
+    MatSlideToggleModule,
     MatAutocompleteModule,
     BrowserAnimationsModule,
   ],

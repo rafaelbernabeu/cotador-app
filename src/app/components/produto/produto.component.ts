@@ -93,9 +93,9 @@ export class ProdutoComponent implements OnInit {
   adicionar(): void {
     this.estado = 'adicionando';
     this.produtoSelecionado = new Produto();
-    this.autoCompleteControl.setValue(null);
-    this.produtoEditando = this.produtoSelecionado;
     this.autoCompleteControl.enable();
+    this.autoCompleteControl.setValue(new Operadora());
+    this.produtoEditando = this.produtoSelecionado;
   }
 
   visualizar(): void {
@@ -157,7 +157,7 @@ export class ProdutoComponent implements OnInit {
   }
 
   private filterAutoComplete(value: string): Operadora[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value?.toLowerCase();
     return this.todasOperadoras.filter(operadora => operadora.nome.toLowerCase().includes(filterValue));
   }
 
