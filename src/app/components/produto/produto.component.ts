@@ -13,6 +13,8 @@ import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {MatAccordion} from '@angular/material/expansion';
+import {Laboratorio} from '../../services/laboratorio/laboratorio';
+import {LaboratorioService} from '../../services/laboratorio/laboratorio.service';
 
 @Component({
   selector: 'app-produto',
@@ -21,17 +23,23 @@ import {MatAccordion} from '@angular/material/expansion';
 })
 export class ProdutoComponent implements OnInit {
 
-  @ViewChild(MatSort) sortProduto: MatSort;
+  @ViewChild('sortProduto') sortProduto: MatSort;
+  @ViewChild('paginatorProduto') paginatorProduto: MatPaginator;
+
+  @ViewChild('sortLaboratorio') sortLaboratorio: MatSort;
+  @ViewChild('paginatorLaboratorio') paginatorLaboratorio: MatPaginator;
+
   @ViewChild(MatAccordion) accordion: MatAccordion;
-  @ViewChild(MatPaginator) paginatorProduto: MatPaginator;
 
   displayedColumns: string[] = ['id', 'nome', 'abrangencia', 'operadora', 'reembolso'];
   dataSourceProduto = new MatTableDataSource<Produto>();
+  dataSourceLaboratorio = new MatTableDataSource<Laboratorio>();
 
   estado: string;
   produtoEditando: Produto;
   produtoSelecionado: Produto;
   todasOperadoras: Operadora[];
+  todosLaboratorios: Laboratorio[];
   autoCompleteControl = new FormControl();
   filteredOptions: Observable<Operadora[]>;
 
@@ -40,6 +48,7 @@ export class ProdutoComponent implements OnInit {
     private snackBar: SnackbarService,
     private produtoService: ProdutoService,
     private operadoraService: OperadoraService,
+    private laboratorioService: LaboratorioService,
   ) {}
 
   ngOnInit(): void {
@@ -51,6 +60,7 @@ export class ProdutoComponent implements OnInit {
     );
 
     this.operadoraService.getAllOperadoras().subscribe(response => this.todasOperadoras = response);
+    this.laboratorioService.getAllLaboratorios().subscribe(response => this.todosLaboratorios = response);
     this.carregaTabelaProduto();
   }
 
@@ -67,17 +77,37 @@ export class ProdutoComponent implements OnInit {
     );
   }
 
+  private carregaTabelaLaboratorio(laboratorios: Laboratorio[]): void {
+    this.dataSourceLaboratorio = new MatTableDataSource<Laboratorio>(laboratorios);
+    this.dataSourceLaboratorio.sort = this.sortLaboratorio;
+    this.dataSourceLaboratorio.paginator = this.paginatorLaboratorio;
+  }
+
   selecionaProduto(produto: Produto): void {
     this.estado = null;
     this.produtoSelecionado = produto;
     this.produtoEditando = {...produto};
     this.autoCompleteControl.disable();
     this.autoCompleteControl.setValue(this.produtoEditando.operadora);
+    this.carregaTabelaLaboratorio(this.produtoEditando.laboratorios);
+    this.preparaTodosLaboratoriosParaNovaVerificacao();
   }
 
   editarProduto(): void {
     this.estado = 'editandoProduto';
     this.autoCompleteControl.enable();
+    this.configuraLaboratoriosParaEdicao();
+  }
+
+  configuraLaboratoriosParaEdicao(): void {
+    this.todosLaboratorios.forEach(todos => {
+      this.produtoSelecionado.laboratorios.forEach(laboratorio => {
+        if (todos.id === laboratorio.id) {
+          todos.selected = true;
+        }
+      });
+    });
+    this.carregaTabelaLaboratorio(this.todosLaboratorios);
   }
 
   cancelarEdicao(): void {
@@ -110,6 +140,7 @@ export class ProdutoComponent implements OnInit {
     this.produtoEditando = null;
     this.produtoSelecionado = null;
     this.autoCompleteControl.disable();
+    this.preparaTodosLaboratoriosParaNovaVerificacao();
   }
 
   editandoProduto(): boolean {
@@ -129,8 +160,13 @@ export class ProdutoComponent implements OnInit {
     });
   }
 
+  private preparaTodosLaboratoriosParaNovaVerificacao(): void {
+    this.todosLaboratorios.forEach(p => p.selected = false);
+  }
+
   atualizarProduto(): void {
     this.produtoEditando.operadora = this.autoCompleteControl.value;
+    this.produtoEditando.laboratorios = this.todosLaboratorios.filter(l => l.selected);
     this.produtoService.editarProduto(this.produtoEditando).subscribe(response => {
       this.snackBar.openSnackBar('Produto atualizado com sucesso!');
       this.visualizar();
