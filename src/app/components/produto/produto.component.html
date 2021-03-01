@@ -149,17 +149,99 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
 
-          <mat-form-field>
-            <mat-label>First name</mat-label>
-            <input matInput>
-          </mat-form-field>
+          <div class="flex-container" style="flex-direction: row">
 
-          <mat-form-field>
-            <mat-label>Age</mat-label>
-            <input matInput type="number" min="1">
-          </mat-form-field>
+            <mat-card>
+              <mat-card-title>Pronto Socorro</mat-card-title>
+              <mat-card-content>
+                <mat-form-field appearance="outline" style="width: 100%">
+                  <mat-label>Percentual</mat-label>
+                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto()"
+                         [(ngModel)]="produtoEditando.coparticipacao.percentualProntoSocorro">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" style="width: 100%">
+                  <mat-label>Limite R$</mat-label>
+                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto()"
+                         [(ngModel)]="produtoEditando.coparticipacao.valorProntoSocorro">
+                </mat-form-field>
+              </mat-card-content>
+            </mat-card>
+
+            <mat-card style="margin-left: 20px">
+              <mat-card-title>Consulta</mat-card-title>
+              <mat-card-content>
+                <mat-form-field appearance="outline" style="width: 100%">
+                  <mat-label>Percentual</mat-label>
+                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto()"
+                         [(ngModel)]="produtoEditando.coparticipacao.percentualConsulta">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" style="width: 100%">
+                  <mat-label>Limite R$</mat-label>
+                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto()"
+                         [(ngModel)]="produtoEditando.coparticipacao.valorConsulta">
+                </mat-form-field>
+              </mat-card-content>
+            </mat-card>
+
+            <mat-card style="margin-left: 20px">
+              <mat-card-title>Exame Simples</mat-card-title>
+              <mat-card-content>
+                <mat-form-field appearance="outline" style="width: 100%">
+                  <mat-label>Percentual</mat-label>
+                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto()"
+                         [(ngModel)]="produtoEditando.coparticipacao.percentualExameSimples">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" style="width: 100%">
+                  <mat-label>Limite R$</mat-label>
+                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto()"
+                         [(ngModel)]="produtoEditando.coparticipacao.valorExameSimples">
+                </mat-form-field>
+              </mat-card-content>
+            </mat-card>
+
+
+            <mat-card style="margin-left: 20px">
+              <mat-card-title>Exame Especial</mat-card-title>
+              <mat-card-content>
+                <mat-form-field appearance="outline" style="width: 100%">
+                  <mat-label>Percentual</mat-label>
+                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto()"
+                         [(ngModel)]="produtoEditando.coparticipacao.percentualExameEspecial">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" style="width: 100%">
+                  <mat-label>Limite R$</mat-label>
+                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto()"
+                         [(ngModel)]="produtoEditando.coparticipacao.valorExameEspecial">
+                </mat-form-field>
+              </mat-card-content>
+            </mat-card>
+
+
+            <mat-card style="margin-left: 20px">
+              <mat-card-title>Internacao</mat-card-title>
+              <mat-card-content>
+                <mat-form-field appearance="outline" style="width: 100%">
+                  <mat-label>Percentual</mat-label>
+                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto()"
+                         [(ngModel)]="produtoEditando.coparticipacao.percentualInternacao">
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" style="width: 100%">
+                  <mat-label>Limite R$</mat-label>
+                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto()"
+                         [(ngModel)]="produtoEditando.coparticipacao.valorInternacao">
+                </mat-form-field>
+              </mat-card-content>
+            </mat-card>
+
+          </div>
 
         </mat-expansion-panel>
+
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
