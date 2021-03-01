@@ -99,7 +99,7 @@ export class ProdutoComponent implements OnInit {
 
   private carregaTabelaLaboratorio(laboratorios: Laboratorio[]): void {
     this.dataSourceLaboratorio = new MatTableDataSource<Laboratorio>(laboratorios);
-    if (this.editandoProduto()) {
+    if (this.editandoProduto() || this.adicionandoProduto()) {
       this.dataSourceLaboratorio.sort = this.sortLaboratorioEditando;
       this.dataSourceLaboratorio.paginator = this.paginatorLaboratorioEditando;
     } else {
@@ -110,7 +110,7 @@ export class ProdutoComponent implements OnInit {
 
   private carregaTabelaHospital(hospitais: Hospital[]): void {
     this.dataSourceHospital = new MatTableDataSource<Hospital>(hospitais);
-    if (this.editandoProduto()) {
+    if (this.editandoProduto() || this.adicionandoProduto()) {
       this.dataSourceHospital.sort = this.sortHospitalEditando;
       this.dataSourceHospital.paginator = this.paginatorHospitalEditando;
     } else {
