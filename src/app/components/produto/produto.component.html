@@ -153,13 +153,13 @@
               <mat-card-content>
                 <mat-form-field appearance="outline" style="width: 100%">
                   <mat-label>Percentual</mat-label>
-                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto()"
+                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto() && !adicionandoProduto()"
                          [(ngModel)]="produtoEditando.coparticipacao.percentualProntoSocorro">
                 </mat-form-field>
 
                 <mat-form-field appearance="outline" style="width: 100%">
                   <mat-label>Limite R$</mat-label>
-                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto()"
+                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto() && !adicionandoProduto()"
                          [(ngModel)]="produtoEditando.coparticipacao.valorProntoSocorro">
                 </mat-form-field>
               </mat-card-content>
@@ -170,13 +170,13 @@
               <mat-card-content>
                 <mat-form-field appearance="outline" style="width: 100%">
                   <mat-label>Percentual</mat-label>
-                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto()"
+                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto() && !adicionandoProduto()"
                          [(ngModel)]="produtoEditando.coparticipacao.percentualConsulta">
                 </mat-form-field>
 
                 <mat-form-field appearance="outline" style="width: 100%">
                   <mat-label>Limite R$</mat-label>
-                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto()"
+                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto() && !adicionandoProduto()"
                          [(ngModel)]="produtoEditando.coparticipacao.valorConsulta">
                 </mat-form-field>
               </mat-card-content>
@@ -187,13 +187,13 @@
               <mat-card-content>
                 <mat-form-field appearance="outline" style="width: 100%">
                   <mat-label>Percentual</mat-label>
-                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto()"
+                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto() && !adicionandoProduto()"
                          [(ngModel)]="produtoEditando.coparticipacao.percentualExameSimples">
                 </mat-form-field>
 
                 <mat-form-field appearance="outline" style="width: 100%">
                   <mat-label>Limite R$</mat-label>
-                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto()"
+                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto() && !adicionandoProduto()"
                          [(ngModel)]="produtoEditando.coparticipacao.valorExameSimples">
                 </mat-form-field>
               </mat-card-content>
@@ -204,13 +204,13 @@
               <mat-card-content>
                 <mat-form-field appearance="outline" style="width: 100%">
                   <mat-label>Percentual</mat-label>
-                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto()"
+                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto() && !adicionandoProduto()"
                          [(ngModel)]="produtoEditando.coparticipacao.percentualExameEspecial">
                 </mat-form-field>
 
                 <mat-form-field appearance="outline" style="width: 100%">
                   <mat-label>Limite R$</mat-label>
-                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto()"
+                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto() && !adicionandoProduto()"
                          [(ngModel)]="produtoEditando.coparticipacao.valorExameEspecial">
                 </mat-form-field>
               </mat-card-content>
@@ -221,13 +221,13 @@
               <mat-card-content>
                 <mat-form-field appearance="outline" style="width: 100%">
                   <mat-label>Percentual</mat-label>
-                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto()"
+                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto() && !adicionandoProduto()"
                          [(ngModel)]="produtoEditando.coparticipacao.percentualInternacao">
                 </mat-form-field>
 
                 <mat-form-field appearance="outline" style="width: 100%">
                   <mat-label>Limite R$</mat-label>
-                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto()"
+                  <input matInput placeholder="Abrangencia" [disabled]="!editandoProduto() && !adicionandoProduto()"
                          [(ngModel)]="produtoEditando.coparticipacao.valorInternacao">
                 </mat-form-field>
               </mat-card-content>
@@ -235,9 +235,9 @@
           </div>
         </mat-expansion-panel>
 
-        <div class="flex-container" style="flex-direction: row; width: 100%; margin-top: 10px">
+        <div class="flex-container" style="flex-direction: row; width: 100%; margin-top: 5px">
           <div style="width: 50%">
-            <mat-expansion-panel (opened)="carregaTabelaLaboratorio(produtoSelecionado.laboratorios)">
+            <mat-expansion-panel (opened)="carregaTabelaLaboratorio(dataSourceLaboratorio.data)">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 <mat-icon>science</mat-icon>
@@ -253,12 +253,12 @@
                     <mat-table #sortLaboratorio="matSort" [dataSource]="dataSourceLaboratorio" matSort class="mat-elevation-z8">
                       <ng-container matColumnDef="id">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-                        <mat-cell *matCellDef="let laboratorio" (click)="laboratorio.selected = !laboratorio.selected" class="mouse-pointer"> {{laboratorio.id}} </mat-cell>
+                        <mat-cell *matCellDef="let laboratorio"> {{laboratorio.id}} </mat-cell>
                       </ng-container>
 
                       <ng-container matColumnDef="nome">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-                        <mat-cell *matCellDef="let laboratorio" (click)="laboratorio.selected = !laboratorio.selected" class="mouse-pointer"> {{laboratorio.nome}} </mat-cell>
+                        <mat-cell *matCellDef="let laboratorio"> {{laboratorio.nome}} </mat-cell>
                       </ng-container>
 
                       <mat-header-row *matHeaderRowDef="['id', 'nome']"></mat-header-row>
@@ -300,7 +300,7 @@
           </mat-expansion-panel>
           </div>
           <div style="width: 50%; padding-left: 10px">
-            <mat-expansion-panel (opened)="carregaTabelaHospital(produtoSelecionado.hospitais)">
+            <mat-expansion-panel (opened)="carregaTabelaHospital(dataSourceHospital.data)">
             <mat-expansion-panel-header>
               <mat-panel-title>
                 <mat-icon>local_hospital</mat-icon>
@@ -316,12 +316,12 @@
                     <mat-table #sortHospital="matSort" [dataSource]="dataSourceHospital" matSort class="mat-elevation-z8">
                       <ng-container matColumnDef="id">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-                        <mat-cell *matCellDef="let laboratorio" (click)="laboratorio.selected = !laboratorio.selected" class="mouse-pointer"> {{laboratorio.id}} </mat-cell>
+                        <mat-cell *matCellDef="let laboratorio"> {{laboratorio.id}} </mat-cell>
                       </ng-container>
 
                       <ng-container matColumnDef="nome">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-                        <mat-cell *matCellDef="let laboratorio" (click)="laboratorio.selected = !laboratorio.selected" class="mouse-pointer"> {{laboratorio.nome}} </mat-cell>
+                        <mat-cell *matCellDef="let laboratorio"> {{laboratorio.nome}} </mat-cell>
                       </ng-container>
 
                       <mat-header-row *matHeaderRowDef="['id', 'nome']"></mat-header-row>

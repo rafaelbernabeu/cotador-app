@@ -204,6 +204,8 @@ export class ProdutoComponent implements OnInit {
 
   salvarNovoProduto(): void {
     this.produtoEditando.operadora = this.autoCompleteControl.value;
+    this.produtoEditando.hospitais = this.todosHospitais.filter(l => l.selected);
+    this.produtoEditando.laboratorios = this.todosLaboratorios.filter(l => l.selected);
     this.produtoService.adicionarProduto(this.produtoEditando).subscribe(response => {
       this.snackBar.openSnackBar('Produto adicionado com sucesso!');
       this.limpar();
