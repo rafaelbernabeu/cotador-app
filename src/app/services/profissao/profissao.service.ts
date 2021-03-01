@@ -20,16 +20,16 @@ export class ProfissaoService {
     return this.http.get<Profissao[]>(this.getApiUrl(), this.authServie.getTokenHeader());
   }
 
-  public adicionarProfissao(laboratorio: Profissao): Observable<Profissao> {
-    return this.http.post<Profissao>(this.getApiUrl(), laboratorio, this.authServie.getTokenHeader());
+  public adicionarProfissao(profissao: Profissao): Observable<Profissao> {
+    return this.http.post<Profissao>(this.getApiUrl(), profissao, this.authServie.getTokenHeader());
   }
 
-  public editarProfissao(laboratorio: Profissao): Observable<Profissao> {
-    return this.http.put<Profissao>(this.getApiUrl() + '/' + laboratorio.id, laboratorio, this.authServie.getTokenHeader());
+  public editarProfissao(profissao: Profissao): Observable<Profissao> {
+    return this.http.put<Profissao>(this.getApiUrl() + '/' + profissao.id, profissao, this.authServie.getTokenHeader());
   }
 
-  public excluirProfissao(laboratorio: Profissao): Observable<Profissao> {
-    return this.http.delete<Profissao>(this.getApiUrl() + '/' + laboratorio.id, this.authServie.getTokenHeader());
+  public excluirProfissao(profissao: Profissao): Observable<Profissao> {
+    return this.http.delete<Profissao>(this.getApiUrl() + '/' + profissao.id, this.authServie.getTokenHeader());
   }
 
   private getApiUrl(): string {

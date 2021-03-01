@@ -1,4 +1,4 @@
-<div class="flex-container" style="width: 100%">
+<div class="flex-container" style="width: 100%" xmlns="http://www.w3.org/1999/html">
   <div style="width: 100%">
     <mat-card>
       <mat-card-title>
@@ -37,7 +37,7 @@
 
           <ng-container matColumnDef="reembolso">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Reembolso </mat-header-cell>
-            <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.reembolso}} </mat-cell>
+            <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.reembolso | currency:'BRL':'symbol':'0.2'}} </mat-cell>
           </ng-container>
 
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -100,21 +100,15 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
-<!--          <mat-form-field appearance="outline" style="width: 100%">-->
-<!--            <mat-label>Operadora</mat-label>-->
-<!--            <mat-select [compareWith]="operadoraComparator" [(value)]="produtoEditando.operadora" [disabled]="!adicionandoProduto() && !editandoProduto()">-->
-<!--              <mat-option></mat-option>-->
-<!--              <mat-option *ngFor="let operadora of todasOperadoras;" [value]="operadora">{{operadora.nome}}</mat-option>-->
-<!--            </mat-select>-->
-<!--          </mat-form-field>-->
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Abrangencia</mat-label>
-            <input matInput placeholder="Abrangencia" [disabled]="!adicionandoProduto() && !editandoProduto()"
-                   [(ngModel)]="produtoEditando.abrangencia">
+            <mat-select [(value)]="produtoEditando.abrangencia" [disabled]="!adicionandoProduto() && !editandoProduto()">
+              <mat-option *ngFor="let abrangencia of todasAbrangencias;" [value]="abrangencia">{{abrangencia}}</mat-option>
+            </mat-select>
           </mat-form-field>
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Reembolso</mat-label>
-            <input matInput placeholder="Reembolso" [disabled]="!adicionandoProduto() && !editandoProduto()"
+            <input matInput type="number" placeholder="Reembolso" [disabled]="!adicionandoProduto() && !editandoProduto()"
                    [(ngModel)]="produtoEditando.reembolso">
           </mat-form-field>
         </mat-card-content>

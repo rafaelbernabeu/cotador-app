@@ -17,6 +17,8 @@ import {Laboratorio} from '../../services/laboratorio/laboratorio';
 import {LaboratorioService} from '../../services/laboratorio/laboratorio.service';
 import {Hospital} from '../../services/hospital/hospital';
 import {HospitalService} from '../../services/hospital/hospital.service';
+import {AbrangenciaService} from '../../services/abrangencia/abrangencia.service';
+import {Abrangencia} from '../../services/abrangencia/abrangencia';
 
 @Component({
   selector: 'app-produto',
@@ -51,6 +53,7 @@ export class ProdutoComponent implements OnInit {
   todosHospitais: Hospital[];
   todasOperadoras: Operadora[];
   todosLaboratorios: Laboratorio[];
+  todasAbrangencias: Abrangencia[];
   autoCompleteControl = new FormControl();
   filteredOptions: Observable<Operadora[]>;
 
@@ -61,6 +64,7 @@ export class ProdutoComponent implements OnInit {
     private hospitalService: HospitalService,
     private operadoraService: OperadoraService,
     private laboratorioService: LaboratorioService,
+    private abrangenciaService: AbrangenciaService,
   ) {}
 
   ngOnInit(): void {
@@ -74,11 +78,8 @@ export class ProdutoComponent implements OnInit {
     this.hospitalService.getAllHospitais().subscribe(response => this.todosHospitais = response);
     this.operadoraService.getAllOperadoras().subscribe(response => this.todasOperadoras = response);
     this.laboratorioService.getAllLaboratorios().subscribe(response => this.todosLaboratorios = response);
+    this.abrangenciaService.getAllAbrangencias().subscribe(response => this.todasAbrangencias = response);
     this.carregaTabelaProduto();
-  }
-
-  operadoraComparator(operadora1: Operadora, operadora2: Operadora): boolean {
-    return operadora1.id === operadora2.id;
   }
 
   private carregaTabelaProduto(): void {

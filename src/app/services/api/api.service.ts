@@ -20,4 +20,8 @@ export class ApiService {
   LABORATORIO_API_URL = '/laboratorios';
   ADMINISTRADORA_API_URL = '/administradoras';
 
+  ESTADO_API_URL = '/enums/estados';
+  CATEGORIA_API_URL = '/enums/categorias';
+  ABRANGENCIA_API_URL = '/enums/abrangencias';
+
 }
