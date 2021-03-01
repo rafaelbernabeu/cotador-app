@@ -235,59 +235,85 @@
           </div>
         </mat-expansion-panel>
 
-        <mat-expansion-panel (opened)="carregaTabelaLaboratorio(produtoSelecionado.laboratorios)">
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <mat-icon>science</mat-icon>
-            </mat-panel-title>
-            <mat-panel-description>
-              Laboratorios
-            </mat-panel-description>
-          </mat-expansion-panel-header>
+        <div class="flex-container" style="flex-direction: row; width: 100%; margin-top: 10px">
+          <div style="width: 50%">
+            <mat-expansion-panel (opened)="carregaTabelaLaboratorio(produtoSelecionado.laboratorios)">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>science</mat-icon>
+              </mat-panel-title>
+              <mat-panel-description>
+                Laboratorios
+              </mat-panel-description>
+            </mat-expansion-panel-header>
 
-          <div class="flex-container" style="flex-direction: row">
-            <mat-card>
-              <mat-card-content>
-                <mat-table #sortLaboratorio="matSort" [dataSource]="dataSourceLaboratorio" matSort class="mat-elevation-z8">
-                  <ng-container matColumnDef="id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-                    <mat-cell *matCellDef="let laboratorio" (click)="laboratorio.selected = !laboratorio.selected" class="mouse-pointer"> {{laboratorio.id}} </mat-cell>
-                  </ng-container>
+            <div class="flex-container" style="flex-direction: row">
+              <mat-card>
+                <mat-card-content>
+                  <div [hidden]="editandoProduto()">
+                    <mat-table #sortLaboratorio="matSort" [dataSource]="dataSourceLaboratorio" matSort class="mat-elevation-z8">
+                      <ng-container matColumnDef="id">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+                        <mat-cell *matCellDef="let laboratorio" (click)="laboratorio.selected = !laboratorio.selected" class="mouse-pointer"> {{laboratorio.id}} </mat-cell>
+                      </ng-container>
 
-                  <ng-container matColumnDef="nome">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-                    <mat-cell *matCellDef="let laboratorio" (click)="laboratorio.selected = !laboratorio.selected" class="mouse-pointer"> {{laboratorio.nome}} </mat-cell>
-                  </ng-container>
+                      <ng-container matColumnDef="nome">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+                        <mat-cell *matCellDef="let laboratorio" (click)="laboratorio.selected = !laboratorio.selected" class="mouse-pointer"> {{laboratorio.nome}} </mat-cell>
+                      </ng-container>
 
-                  <ng-container matColumnDef="selected">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center"> Selecione </mat-header-cell>
-                    <mat-cell *matCellDef="let laboratorio">
-                      <section style="width: 100%; text-align: center">
-                        <mat-checkbox [(ngModel)]="laboratorio.selected"></mat-checkbox>
-                      </section>
-                    </mat-cell>
-                  </ng-container>
+                      <mat-header-row *matHeaderRowDef="['id', 'nome']"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: ['id', 'nome'];"></mat-row>
 
-                  <mat-header-row *matHeaderRowDef="['id', 'nome', 'selected']"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: ['id', 'nome', 'selected'];"></mat-row>
+                    </mat-table>
+                    <mat-paginator #paginatorLaboratorio [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceLaboratorio.data.length" showFirstLastButtons></mat-paginator>
+                  </div>
+                  <div [hidden]="!editandoProduto()">
+                    <mat-table #sortLaboratorioEditando="matSort" [dataSource]="dataSourceLaboratorio" matSort class="mat-elevation-z8">
+                      <ng-container matColumnDef="id">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+                        <mat-cell *matCellDef="let laboratorio" (click)="laboratorio.selected = !laboratorio.selected" class="mouse-pointer"> {{laboratorio.id}} </mat-cell>
+                      </ng-container>
 
-                </mat-table>
-                <mat-paginator #paginatorLaboratorio [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceLaboratorio.data.length" showFirstLastButtons></mat-paginator>
-              </mat-card-content>
-            </mat-card>
+                      <ng-container matColumnDef="nome">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+                        <mat-cell *matCellDef="let laboratorio" (click)="laboratorio.selected = !laboratorio.selected" class="mouse-pointer"> {{laboratorio.nome}} </mat-cell>
+                      </ng-container>
+
+                      <ng-container matColumnDef="selected">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center"> Selecione </mat-header-cell>
+                        <mat-cell *matCellDef="let laboratorio">
+                          <section style="width: 100%; text-align: center">
+                            <mat-checkbox [(ngModel)]="laboratorio.selected"></mat-checkbox>
+                          </section>
+                        </mat-cell>
+                      </ng-container>
+
+                      <mat-header-row *matHeaderRowDef="['id', 'nome', 'selected']"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: ['id', 'nome', 'selected'];"></mat-row>
+
+                    </mat-table>
+                    <mat-paginator #paginatorLaboratorioEditando [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceLaboratorio.data.length" showFirstLastButtons></mat-paginator>
+                  </div>
+                  </mat-card-content>
+              </mat-card>
+            </div>
+          </mat-expansion-panel>
           </div>
-        </mat-expansion-panel>
+          <div style="width: 50%; padding-left: 10px">
+            <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>local_hospital</mat-icon>
+              </mat-panel-title>
+              <mat-panel-description>
+                Hospitais
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+          </mat-expansion-panel>
+          </div>
+        </div>
 
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <mat-icon>local_hospital</mat-icon>
-            </mat-panel-title>
-            <mat-panel-description>
-              Hospitais
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-        </mat-expansion-panel>
       </mat-accordion>
     </mat-card-content>
   </mat-card>

@@ -29,6 +29,9 @@ export class ProdutoComponent implements OnInit {
   @ViewChild('sortLaboratorio') sortLaboratorio: MatSort;
   @ViewChild('paginatorLaboratorio') paginatorLaboratorio: MatPaginator;
 
+  @ViewChild('sortLaboratorioEditando') sortLaboratorioEditando: MatSort;
+  @ViewChild('paginatorLaboratorioEditando') paginatorLaboratorioEditando: MatPaginator;
+
   @ViewChild(MatAccordion) accordion: MatAccordion;
 
   displayedColumns: string[] = ['id', 'nome', 'abrangencia', 'operadora', 'reembolso'];
@@ -79,8 +82,13 @@ export class ProdutoComponent implements OnInit {
 
   private carregaTabelaLaboratorio(laboratorios: Laboratorio[]): void {
     this.dataSourceLaboratorio = new MatTableDataSource<Laboratorio>(laboratorios);
-    this.dataSourceLaboratorio.sort = this.sortLaboratorio;
-    this.dataSourceLaboratorio.paginator = this.paginatorLaboratorio;
+    if (this.editandoProduto()) {
+      this.dataSourceLaboratorio.sort = this.sortLaboratorioEditando;
+      this.dataSourceLaboratorio.paginator = this.paginatorLaboratorioEditando;
+    } else {
+      this.dataSourceLaboratorio.sort = this.sortLaboratorio;
+      this.dataSourceLaboratorio.paginator = this.paginatorLaboratorio;
+    }
   }
 
   selecionaProduto(produto: Produto): void {
@@ -172,6 +180,7 @@ export class ProdutoComponent implements OnInit {
       this.visualizar();
       this.carregaTabelaProduto();
       this.produtoSelecionado = response;
+      this.carregaTabelaLaboratorio(this.produtoSelecionado.laboratorios);
     });
   }
 
