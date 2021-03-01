@@ -85,7 +85,7 @@
 
         <mat-card-content>
           <div style="float: right; padding-bottom: 10px">
-            <mat-slide-toggle [(ngModel)]="produtoEditando.ativo" [disabled]="!editandoProduto()" labelPosition="before"></mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="produtoEditando.ativo" [disabled]="!adicionandoProduto() && !editandoProduto()" labelPosition="before"></mat-slide-toggle>
           </div>
 
           <mat-form-field appearance="outline" style="width: 100%">
