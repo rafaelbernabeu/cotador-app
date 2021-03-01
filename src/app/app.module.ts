@@ -39,6 +39,8 @@ import { LaboratorioComponent } from './components/laboratorio/laboratorio.compo
 import { AdministradoraComponent } from './components/administradora/administradora.component';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatRippleModule} from '@angular/material/core';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -72,6 +74,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatButtonModule,
     MatSelectModule,
     MatDialogModule,
+    MatRippleModule,
     HttpClientModule,
     MatDividerModule,
     AppRoutingModule,
@@ -79,6 +82,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatToolbarModule,
     MatCheckboxModule,
     MatSnackBarModule,
+    MatExpansionModule,
     MatPaginatorModule,
     ReactiveFormsModule,
     MatSlideToggleModule,

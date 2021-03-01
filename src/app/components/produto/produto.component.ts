@@ -12,6 +12,7 @@ import {OperadoraService} from '../../services/operadora/operadora.service';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
+import {MatAccordion} from '@angular/material/expansion';
 
 @Component({
   selector: 'app-produto',
@@ -21,6 +22,7 @@ import {map, startWith} from 'rxjs/operators';
 export class ProdutoComponent implements OnInit {
 
   @ViewChild(MatSort) sortProduto: MatSort;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
   @ViewChild(MatPaginator) paginatorProduto: MatPaginator;
 
   displayedColumns: string[] = ['id', 'nome', 'abrangencia', 'operadora', 'reembolso'];
