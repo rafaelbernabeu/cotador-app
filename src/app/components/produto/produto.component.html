@@ -249,7 +249,7 @@
             <div class="flex-container" style="flex-direction: row">
               <mat-card>
                 <mat-card-content>
-                  <div [hidden]="editandoProduto()">
+                  <div [hidden]="editandoProduto() || adicionandoProduto()">
                     <mat-table #sortLaboratorio="matSort" [dataSource]="dataSourceLaboratorio" matSort class="mat-elevation-z8">
                       <ng-container matColumnDef="id">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
@@ -267,7 +267,7 @@
                     </mat-table>
                     <mat-paginator #paginatorLaboratorio [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceLaboratorio.data.length" showFirstLastButtons></mat-paginator>
                   </div>
-                  <div [hidden]="!editandoProduto()">
+                  <div [hidden]="!editandoProduto() && !adicionandoProduto()">
                     <mat-table #sortLaboratorioEditando="matSort" [dataSource]="dataSourceLaboratorio" matSort class="mat-elevation-z8">
                       <ng-container matColumnDef="id">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
@@ -312,7 +312,7 @@
             <div class="flex-container" style="flex-direction: row">
               <mat-card>
                 <mat-card-content>
-                  <div [hidden]="editandoProduto()">
+                  <div [hidden]="editandoProduto() || adicionandoProduto()">
                     <mat-table #sortHospital="matSort" [dataSource]="dataSourceHospital" matSort class="mat-elevation-z8">
                       <ng-container matColumnDef="id">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
@@ -330,7 +330,7 @@
                     </mat-table>
                     <mat-paginator #paginatorHospital [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceHospital.data.length" showFirstLastButtons></mat-paginator>
                   </div>
-                  <div [hidden]="!editandoProduto()">
+                  <div [hidden]="!editandoProduto() && !adicionandoProduto()">
                     <mat-table #sortHospitalEditando="matSort" [dataSource]="dataSourceHospital" matSort class="mat-elevation-z8">
                       <ng-container matColumnDef="id">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>

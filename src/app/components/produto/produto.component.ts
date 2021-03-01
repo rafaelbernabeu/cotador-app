@@ -83,11 +83,18 @@ export class ProdutoComponent implements OnInit {
 
   private carregaTabelaProduto(): void {
     this.produtoService.getAllProdutos().subscribe(response => {
-        this.dataSourceProduto = new MatTableDataSource<Produto>(response);
-        this.dataSourceProduto.sort = this.sortProduto;
-        this.dataSourceProduto.paginator = this.paginatorProduto;
-      }
-    );
+      this.dataSourceProduto = new MatTableDataSource<Produto>(response);
+      this.dataSourceProduto.sort = this.sortProduto;
+      this.dataSourceProduto.paginator = this.paginatorProduto;
+      this.dataSourceProduto.sortingDataAccessor = (produto, property) => {
+        switch (property) {
+          case 'operadora':
+            return produto.operadora.nome;
+          default:
+            return produto[property];
+        }
+      };
+    });
   }
 
   private carregaTabelaLaboratorio(laboratorios: Laboratorio[]): void {
@@ -169,6 +176,9 @@ export class ProdutoComponent implements OnInit {
     this.autoCompleteControl.enable();
     this.autoCompleteControl.setValue(new Operadora());
     this.produtoEditando = this.produtoSelecionado;
+    this.preparaTodosParaNovaVerificacao();
+    this.configuraLaboratoriosParaEdicao();
+    this.configuraHospitaisParaEdicao();
   }
 
   visualizar(): void {

@@ -8,11 +8,11 @@ export class Produto {
   id: number;
   nome: string;
   ativo: boolean;
-  abrangencia: string;
-  operadora: Operadora;
   reembolso: number;
-  coparticipacao: Coparticipacao;
-  laboratorios: Laboratorio[];
-  hospitais: Hospital[];
+  abrangencia: string;
+  hospitais: Hospital[] = [];
+  laboratorios: Laboratorio[] = [];
+  operadora: Operadora = new Operadora();
+  coparticipacao: Coparticipacao = new Coparticipacao();
 
 }
