@@ -1,46 +1,56 @@
-<div class="flex-container" xmlns="http://www.w3.org/1999/html">
-  <div>
+<div class="flex-container" style="width: 100%">
+  <div style="width: 100%">
     <mat-card>
       <mat-card-title>
-        <span>
-          Lista de Opcoes
-        </span>
+      <span>
+        Lista de Opcoes
+      </span>
         <span style="float: right">
-          <a (click)="adicionar()">
-            <mat-icon class="mouse-pointer">add</mat-icon>
-          </a>
-        </span>
+        <a (click)="adicionar()">
+          <mat-icon class="mouse-pointer">add</mat-icon>
+        </a>
+      </span>
       </mat-card-title>
       <br/>
 
       <mat-card-content>
-        <mat-table [dataSource]="dataSourceOpcao" matSort class="mat-elevation-z8">
+        <mat-table #sortOpcao="matSort" [dataSource]="dataSourceOpcao" matSort class="mat-elevation-z8">
           <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-            <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.id}} </mat-cell>
+            <mat-cell *matCellDef="let tabela" (click)="selecionaOpcao(tabela)" class="mouse-pointer"> {{tabela.id}} </mat-cell>
           </ng-container>
 
-          <ng-container matColumnDef="tipo">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </mat-header-cell>
-            <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.tipo}} </mat-cell>
+          <ng-container matColumnDef="nome">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+            <mat-cell *matCellDef="let tabela" (click)="selecionaOpcao(tabela)" class="mouse-pointer"> {{tabela.nome}} </mat-cell>
           </ng-container>
 
-          <ng-container matColumnDef="descricao">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Descricao </mat-header-cell>
-            <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.descricao}} </mat-cell>
+          <ng-container matColumnDef="estado">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
+            <mat-cell *matCellDef="let tabela" (click)="selecionaOpcao(tabela)" class="mouse-pointer"> {{tabela.estado.sigla}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="operadora">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Operadora </mat-header-cell>
+            <mat-cell *matCellDef="let tabela" (click)="selecionaOpcao(tabela)" class="mouse-pointer"> {{tabela.operadora.nome}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="administradora">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Administradora </mat-header-cell>
+            <mat-cell *matCellDef="let tabela" (click)="selecionaOpcao(tabela)" class="mouse-pointer"> {{tabela.administradora.nome}} </mat-cell>
           </ng-container>
 
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-        <mat-paginator [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceOpcao.data.length" showFirstLastButtons></mat-paginator>
+        <mat-paginator #paginatorOpcao [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceOpcao.data.length" showFirstLastButtons></mat-paginator>
       </mat-card-content>
     </mat-card>
   </div>
 
-  <div *ngIf="opcaoSelecionado" style="width: 20px"></div>
+  <div *ngIf="opcaoSelecionada" style="width: 20px"></div>
 
-  <div *ngIf="opcaoSelecionado" style="flex-direction: column">
+  <div *ngIf="opcaoSelecionada" style="flex-direction: column">
     <div>
       <mat-card>
         <mat-card-title>
@@ -55,7 +65,7 @@
           <a *ngIf="!editandoOpcao() && !adicionandoOpcao()" (click)="removerOpcao()">
             <mat-icon class="mouse-pointer">delete</mat-icon>
           </a>
-          <a *ngIf="adicionandoOpcao()" (click)="salvarNovoOpcao()">
+          <a *ngIf="adicionandoOpcao()" (click)="salvarNovaOpcao()">
             <mat-icon class="mouse-pointer">save</mat-icon>
           </a>
           <a *ngIf="editandoOpcao()" (click)="atualizarOpcao()">
@@ -72,18 +82,226 @@
         <br/>
 
         <mat-card-content>
+          <div style="margin-bottom: 20px">
+            <mat-radio-group (ngModelChange)="carregaEstadoPorCategoria($event)" [(ngModel)]="opcaoEditando.categoria">
+              <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
+                {{categoria}}
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+
           <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Tipo</mat-label>
-            <input matInput placeholder="Tipo" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
-                   [(ngModel)]="opcaoEditando.tipo">
+            <mat-label>Estado</mat-label>
+            <input matInput [formControl]="estadoAutoCompleteControl" [matAutocomplete]="auto1" type="text">
+            <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" [displayWith]="estadoDisplayFn">
+              <mat-option *ngFor="let estado of estadoFilteredOptions | async" [value]="estado">
+                {{estado.nome}}
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
+
           <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Descricao</mat-label>
-            <input matInput placeholder="Descricao" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
-                   [(ngModel)]="opcaoEditando.descricao">
+            <mat-label>Administradora</mat-label>
+            <input matInput [formControl]="administradoraAutoCompleteControl" [matAutocomplete]="auto2" type="text">
+            <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="administradoraDisplayFn">
+              <mat-option *ngFor="let administradora of administradoraFilteredOptions | async" [value]="administradora">
+                {{administradora.nome}}
+              </mat-option>
+            </mat-autocomplete>
           </mat-form-field>
+
+          <mat-slide-toggle [(ngModel)]="opcaoEditando.MEI" [disabled]="!adicionandoOpcao() && !editandoOpcao()" labelPosition="before">Contempla MEI</mat-slide-toggle>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Operadora</mat-label>
+            <input matInput [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto3" type="text">
+            <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete" [displayWith]="operadoraDisplayFn">
+              <mat-option *ngFor="let operadora of operadoraFilteredOptions | async" [value]="operadora">
+                {{operadora.nome}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Tabela</mat-label>
+            <input matInput [formControl]="tabelaAutoCompleteControl" [matAutocomplete]="auto4" type="text">
+            <mat-autocomplete autoActiveFirstOption #auto4="matAutocomplete" [displayWith]="tabelaDisplayFn">
+              <mat-option *ngFor="let tabela of tabelaFilteredOptions | async" [value]="tabela">
+                {{tabela}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <div>
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Valor 0 a 18</mat-label>
+              <input type="number" matInput placeholder="Valor 0 a 18 anos" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                     [(ngModel)]="opcaoEditando.valor0a18anos">
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Valor 19 a 23</mat-label>
+              <input type="number" matInput placeholder="Valor 19 a 23 anos" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                     [(ngModel)]="opcaoEditando.valor19a23anos">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Valor 24 a 28</mat-label>
+              <input type="number" matInput placeholder="Valor 24 a 28 anos" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                     [(ngModel)]="opcaoEditando.valor24a28anos">
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Valor 29 a 33</mat-label>
+              <input type="number" matInput placeholder="Valor 29 a 33 anos" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                     [(ngModel)]="opcaoEditando.valor29a33anos">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Valor 34 a 38</mat-label>
+              <input type="number" matInput placeholder="Valor 34 a 38 anos" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                     [(ngModel)]="opcaoEditando.valor34a38anos">
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Valor 39 a 43</mat-label>
+              <input type="number" matInput placeholder="Valor 39 a 43 anos" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                     [(ngModel)]="opcaoEditando.valor39a43anos">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Valor 44 a 48</mat-label>
+              <input type="number" matInput placeholder="Valor 44 a 48 anos" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                     [(ngModel)]="opcaoEditando.valor44a48anos">
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Valor 49 a 53</mat-label>
+              <input type="number" matInput placeholder="Valor 49 a 53 anos" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                     [(ngModel)]="opcaoEditando.valor49a53anos">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Valor 54 a 58</mat-label>
+              <input type="number" matInput placeholder="Valor 54 a 58 anos" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                     [(ngModel)]="opcaoEditando.valor54a58anos">
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Valor 59 ou Mais</mat-label>
+              <input type="number" matInput placeholder="Valor 59 ou mais anos" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                     [(ngModel)]="opcaoEditando.valor59ouMaisAnos">
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Acomodacao</mat-label>
+              <mat-select [(value)]="opcaoSelecionada.acomodacao" [disabled]="!adicionandoOpcao() && !editandoOpcao()">
+                <mat-option *ngFor="let acomodacao of todasAcomodacoes;" [value]="acomodacao">{{acomodacao}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <div style="text-align: right">
+              <span>
+                <mat-slide-toggle [(ngModel)]="opcaoEditando.coparticipacao" [disabled]="!adicionandoOpcao() && !editandoOpcao()" labelPosition="before">Coparticipacao</mat-slide-toggle>
+              </span>
+            </div>
+          </div>
+
+
+
         </mat-card-content>
       </mat-card>
     </div>
   </div>
+</div>
+
+<div [hidden]="!opcaoEditando" style="padding-top: 10px">
+  <mat-card>
+    <mat-card-title>
+      Relacionamentos - {{opcaoSelecionada?.id}}
+      <div style="text-align: right; padding-bottom: 10px;">
+        <button mat-button (click)="accordion.openAll()">Expand All</button>
+        <button mat-button (click)="accordion.closeAll()">Collapse All</button>
+      </div>
+    </mat-card-title>
+    <mat-card-content>
+
+      <mat-accordion multi>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon>book</mat-icon>
+            </mat-panel-title>
+            <mat-panel-description>
+              Produtos
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <div [hidden]="editandoOpcao() || adicionandoOpcao()">
+            <mat-table #sortProduto="matSort" [dataSource]="dataSourceProduto" matSort class="mat-elevation-z8">
+              <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.id}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="nome">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.nome}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="abrangencia">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
+                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.abrangencia}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="reembolso">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Reembolso </mat-header-cell>
+                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.reembolso | currency:'BRL':'symbol':'0.2'}} </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="['id', 'nome', 'abrangencia', 'reembolso']"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: ['id', 'nome', 'abrangencia', 'reembolso'];"></mat-row>
+            </mat-table>
+            <mat-paginator #paginatorProduto [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
+          </div>
+          <div [hidden]="!editandoOpcao() && !adicionandoOpcao()">
+            <mat-table #sortProdutoEditando="matSort" [dataSource]="dataSourceProduto" matSort class="mat-elevation-z8">
+              <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.id}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="nome">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.nome}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="abrangencia">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
+                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.abrangencia}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="reembolso">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Reembolso </mat-header-cell>
+                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.reembolso | currency:'BRL':'symbol':'0.2'}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="selected">
+                <mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center"> Selecione </mat-header-cell>
+                <mat-cell *matCellDef="let produto">
+                  <section style="width: 100%; text-align: center">
+                    <mat-checkbox [(ngModel)]="produto.selected"></mat-checkbox>
+                  </section>
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="['id', 'nome', 'abrangencia', 'reembolso', 'selected']"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: ['id', 'nome', 'abrangencia', 'reembolso', 'selected'];"></mat-row>
+            </mat-table>
+            <mat-paginator #paginatorProdutoEditando [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </mat-card-content>
+  </mat-card>
 </div>
