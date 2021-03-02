@@ -172,7 +172,7 @@
   </div>
 </div>
 
-<div style="padding-top: 10px">
+<div [hidden]="!tabelaEditando" style="padding-top: 10px">
   <mat-card>
     <mat-card-title>
       Relacionamentos - {{tabelaSelecionada?.nome}}

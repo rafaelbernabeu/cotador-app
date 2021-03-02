@@ -175,7 +175,7 @@ export class TabelaComponent implements OnInit {
     this.operadoraService.getProdutosByOperadora(this.tabelaEditando.operadora).subscribe(response => {
       this.todosProdutos = response;
       this.todosProdutos.forEach(todos => {
-        this.tabelaSelecionada.produtos.forEach(produto => {
+        this.tabelaSelecionada.produtos?.forEach(produto => {
           if (todos.id === produto.id) {
             todos.selected = true;
           }
