@@ -119,6 +119,12 @@ export class TabelaComponent implements OnInit {
       this.dataSourceTabela.paginator = this.paginatorTabela;
       this.dataSourceTabela.sortingDataAccessor = (tabela, property) => {
         switch (property) {
+          case 'administradora':
+            return tabela.administradora.nome;
+          case 'estado':
+            return tabela.estado.nome;
+          case 'operadora':
+            return tabela.operadora.nome;
           default:
             return tabela[property];
         }
