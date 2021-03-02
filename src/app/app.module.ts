@@ -41,6 +41,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatRippleModule} from '@angular/material/core';
 import {MatExpansionModule} from '@angular/material/expansion';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -71,6 +72,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatListModule,
     MatInputModule,
     MatTableModule,
+    MatRadioModule,
     MatButtonModule,
     MatSelectModule,
     MatDialogModule,

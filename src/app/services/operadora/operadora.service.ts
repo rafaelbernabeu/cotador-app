@@ -4,6 +4,7 @@ import {HttpClient} from '@angular/common/http';
 import {ApiService} from '../api/api.service';
 import {Observable} from 'rxjs';
 import {Operadora} from './operadora';
+import {Produto} from '../produto/produto';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,10 @@ export class OperadoraService {
 
   public getAllOperadoras(): Observable<Operadora[]> {
     return this.http.get<Operadora[]>(this.getApiUrl(), this.authServie.getTokenHeader());
+  }
+
+  public getProdutosByOperadora(operadora: Operadora): Observable<Produto[]> {
+    return this.http.get<Produto[]>(this.getApiUrl() + '/' + operadora.id + this.api.PRODUTO_API_URL, this.authServie.getTokenHeader());
   }
 
   public adicionarOperadora(operadora: Operadora): Observable<Operadora> {

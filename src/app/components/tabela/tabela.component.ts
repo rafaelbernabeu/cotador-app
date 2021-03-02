@@ -23,6 +23,9 @@ import {CategoriaService} from '../../services/categoria/categoria.service';
 import {Categoria} from '../../services/categoria/categoria';
 import {AdministradoraService} from '../../services/administradora/administradora.service';
 import {Administradora} from '../../services/administradora/administradora';
+import {Produto} from '../../services/produto/produto';
+import {Reajuste} from '../../services/reajuste/reajuste';
+import {ReajusteService} from '../../services/reajuste/reajuste.service';
 
 @Component({
   selector: 'app-tabela',
@@ -34,34 +37,32 @@ export class TabelaComponent implements OnInit {
   @ViewChild('sortTabela') sortTabela: MatSort;
   @ViewChild('paginatorTabela') paginatorTabela: MatPaginator;
 
-  @ViewChild('sortLaboratorio') sortLaboratorio: MatSort;
-  @ViewChild('paginatorLaboratorio') paginatorLaboratorio: MatPaginator;
-  @ViewChild('sortLaboratorioEditando') sortLaboratorioEditando: MatSort;
-  @ViewChild('paginatorLaboratorioEditando') paginatorLaboratorioEditando: MatPaginator;
-
-  @ViewChild('sortHospital') sortHospital: MatSort;
-  @ViewChild('paginatorHospital') paginatorHospital: MatPaginator;
-  @ViewChild('sortHospitalEditando') sortHospitalEditando: MatSort;
-  @ViewChild('paginatorHospitalEditando') paginatorHospitalEditando: MatPaginator;
+  @ViewChild('sortProduto') sortProduto: MatSort;
+  @ViewChild('paginatorProduto') paginatorProduto: MatPaginator;
+  @ViewChild('sortProdutoEditando') sortProdutoEditando: MatSort;
+  @ViewChild('paginatorProdutoEditando') paginatorProdutoEditando: MatPaginator;
 
   @ViewChild(MatAccordion) accordion: MatAccordion;
 
   displayedColumns: string[] = ['id', 'nome', 'estado', 'operadora', 'administradora'];
   dataSourceTabela = new MatTableDataSource<Tabela>();
-  dataSourceHospital = new MatTableDataSource<Hospital>();
-  dataSourceLaboratorio = new MatTableDataSource<Laboratorio>();
+  dataSourceProduto = new MatTableDataSource<Produto>();
 
   estado: string;
   tabelaEditando: Tabela;
   tabelaSelecionada: Tabela;
+  todosReajustes: Reajuste[];
   todosEstados: Estado[];
+  todosProdutos: Produto[];
   todasCategorias: Categoria[];
   todasOperadoras: Operadora[];
   todasAdministradoras: Administradora[];
 
+  reajusteAutoCompleteControl = new FormControl();
   estadoAutoCompleteControl = new FormControl();
   operadoraAutoCompleteControl = new FormControl();
   administradoraAutoCompleteControl = new FormControl();
+  reajusteFilteredOptions: Observable<Reajuste[]>;
   estadoFilteredOptions: Observable<Estado[]>;
   operadoraFilteredOptions: Observable<Operadora[]>;
   administradoraFilteredOptions: Observable<Administradora[]>;
@@ -71,6 +72,7 @@ export class TabelaComponent implements OnInit {
     private snackBar: SnackbarService,
     private tabelaService: TabelaService,
     private estadoService: EstadoService,
+    private reajusteService: ReajusteService,
     private operadoraService: OperadoraService,
     private categoriaService: CategoriaService,
     private administradoraService: AdministradoraService,
@@ -79,6 +81,7 @@ export class TabelaComponent implements OnInit {
   ngOnInit(): void {
     this.iniciaAutoCompletes();
     this.estadoService.getAllEstados().subscribe(response => this.todosEstados = response);
+    this.reajusteService.getAllReajustes().subscribe(response => this.todosReajustes = response);
     this.categoriaService.getAllCategorias().subscribe(response => this.todasCategorias = response);
     this.operadoraService.getAllOperadoras().subscribe(response => this.todasOperadoras = response);
     this.administradoraService.getAllAdministradoras().subscribe(response => this.todasAdministradoras = response);
@@ -102,6 +105,11 @@ export class TabelaComponent implements OnInit {
       map(value => typeof value === 'string' ? value : value.name),
       map(value => this.operadoraFilterAutoComplete(value))
     );
+    this.reajusteFilteredOptions = this.reajusteAutoCompleteControl.valueChanges.pipe(
+      startWith(''),
+      map(value => typeof value === 'string' ? value : value.name),
+      map(value => this.reajusteFilterAutoComplete(value))
+    );
   }
 
   private carregaTabelaTabela(): void {
@@ -118,25 +126,23 @@ export class TabelaComponent implements OnInit {
     });
   }
 
-  private carregaTabelaLaboratorio(laboratorios: Laboratorio[]): void {
-    this.dataSourceLaboratorio = new MatTableDataSource<Laboratorio>(laboratorios);
-    if (this.editandoTabela() || this.adicionandoTabela()) {
-      this.dataSourceLaboratorio.sort = this.sortLaboratorioEditando;
-      this.dataSourceLaboratorio.paginator = this.paginatorLaboratorioEditando;
-    } else {
-      this.dataSourceLaboratorio.sort = this.sortLaboratorio;
-      this.dataSourceLaboratorio.paginator = this.paginatorLaboratorio;
+  private carregaTabelaProdutoPorOperadora(): void {
+    const operadora = this.operadoraAutoCompleteControl.value;
+    if (operadora?.id) {
+      this.tabelaEditando.operadora = operadora;
+      this.preparaProdutosParaNovaVerificacao();
+      this.configuraProdutosParaEdicao();
     }
   }
 
-  private carregaTabelaHospital(hospitais: Hospital[]): void {
-    this.dataSourceHospital = new MatTableDataSource<Hospital>(hospitais);
+  private carregaTabelaProduto(produtos: Produto[]): void {
+    this.dataSourceProduto = new MatTableDataSource<Produto>(produtos);
     if (this.editandoTabela() || this.adicionandoTabela()) {
-      this.dataSourceHospital.sort = this.sortHospitalEditando;
-      this.dataSourceHospital.paginator = this.paginatorHospitalEditando;
+      this.dataSourceProduto.sort = this.sortProdutoEditando;
+      this.dataSourceProduto.paginator = this.paginatorProdutoEditando;
     } else {
-      this.dataSourceHospital.sort = this.sortHospital;
-      this.dataSourceHospital.paginator = this.paginatorHospital;
+      this.dataSourceProduto.sort = this.sortProduto;
+      this.dataSourceProduto.paginator = this.paginatorProduto;
     }
   }
 
@@ -144,35 +150,72 @@ export class TabelaComponent implements OnInit {
     this.estado = null;
     this.tabelaSelecionada = tabela;
     this.tabelaEditando = {...tabela};
+    this.reajusteAutoCompleteControl.disable();
     this.estadoAutoCompleteControl.disable();
-    this.estadoAutoCompleteControl.setValue(this.tabelaEditando.operadora);
+    this.operadoraAutoCompleteControl.disable();
+    this.administradoraAutoCompleteControl.disable();
+    this.reajusteAutoCompleteControl.setValue(this.tabelaEditando.reajuste);
+    this.estadoAutoCompleteControl.setValue(this.tabelaEditando.estado);
+    this.operadoraAutoCompleteControl.setValue(this.tabelaEditando.operadora);
+    this.administradoraAutoCompleteControl.setValue(this.tabelaEditando.administradora);
+    this.carregaTabelaProduto(this.tabelaEditando.produtos);
   }
 
   editarTabela(): void {
     this.estado = 'editandoTabela';
+    this.reajusteAutoCompleteControl.enable();
     this.estadoAutoCompleteControl.enable();
-    // this.preparaTodosParaNovaVerificacao();
+    this.operadoraAutoCompleteControl.enable();
+    this.administradoraAutoCompleteControl.enable();
+    this.preparaProdutosParaNovaVerificacao();
+    this.configuraProdutosParaEdicao();
+  }
+
+  configuraProdutosParaEdicao(): void {
+    this.operadoraService.getProdutosByOperadora(this.tabelaEditando.operadora).subscribe(response => {
+      this.todosProdutos = response;
+      this.todosProdutos.forEach(todos => {
+        this.tabelaSelecionada.produtos.forEach(produto => {
+          if (todos.id === produto.id) {
+            todos.selected = true;
+          }
+        });
+      });
+      this.carregaTabelaProduto(this.todosProdutos);
+    });
   }
 
   cancelarEdicao(): void {
     this.estado = null;
     this.tabelaEditando = {...this.tabelaSelecionada};
+    this.reajusteAutoCompleteControl.disable();
     this.estadoAutoCompleteControl.disable();
+    this.operadoraAutoCompleteControl.disable();
+    this.administradoraAutoCompleteControl.disable();
   }
 
   cancelarAdicao(): void {
     this.estado = null;
     this.tabelaSelecionada = null;
+    this.reajusteAutoCompleteControl.disable();
     this.estadoAutoCompleteControl.disable();
+    this.operadoraAutoCompleteControl.disable();
+    this.administradoraAutoCompleteControl.disable();
   }
 
   adicionar(): void {
     this.estado = 'adicionando';
     this.tabelaSelecionada = new Tabela();
+    this.reajusteAutoCompleteControl.enable();
     this.estadoAutoCompleteControl.enable();
-    this.estadoAutoCompleteControl.setValue(new Operadora());
+    this.operadoraAutoCompleteControl.enable();
+    this.administradoraAutoCompleteControl.enable();
+    this.reajusteAutoCompleteControl.setValue(new Reajuste());
+    this.estadoAutoCompleteControl.setValue(new Estado());
+    this.operadoraAutoCompleteControl.setValue(new Operadora());
+    this.administradoraAutoCompleteControl.setValue(new Administradora());
     this.tabelaEditando = this.tabelaSelecionada;
-    // this.preparaTodosParaNovaVerificacao();
+    this.preparaProdutosParaNovaVerificacao();
   }
 
   visualizar(): void {
@@ -185,7 +228,7 @@ export class TabelaComponent implements OnInit {
     this.tabelaEditando = null;
     this.tabelaSelecionada = null;
     this.estadoAutoCompleteControl.disable();
-    // this.preparaTodosParaNovaVerificacao();
+    this.preparaProdutosParaNovaVerificacao();
   }
 
   editandoTabela(): boolean {
@@ -198,8 +241,10 @@ export class TabelaComponent implements OnInit {
 
   salvarNovaTabela(): void {
     this.tabelaEditando.estado = this.estadoAutoCompleteControl.value;
+    this.tabelaEditando.reajuste = this.reajusteAutoCompleteControl.value;
     this.tabelaEditando.operadora = this.operadoraAutoCompleteControl.value;
     this.tabelaEditando.administradora = this.administradoraAutoCompleteControl.value;
+    this.tabelaEditando.produtos = this.todosProdutos.filter(p => p.selected);
     this.tabelaService.adicionarTabela(this.tabelaEditando).subscribe(response => {
       this.snackBar.openSnackBar('Tabela adicionado com sucesso!');
       this.limpar();
@@ -207,18 +252,22 @@ export class TabelaComponent implements OnInit {
     });
   }
 
-  // private preparaTodosParaNovaVerificacao(): void {
-  //   this.todosHospitais.forEach(p => p.selected = false);
-  //   this.todosLaboratorios.forEach(p => p.selected = false);
-  // }
+  private preparaProdutosParaNovaVerificacao(): void {
+    this.todosProdutos?.forEach(p => p.selected = false);
+  }
 
   atualizarTabela(): void {
-    this.tabelaEditando.operadora = this.estadoAutoCompleteControl.value;
+    this.tabelaEditando.estado = this.estadoAutoCompleteControl.value;
+    this.tabelaEditando.reajuste = this.reajusteAutoCompleteControl.value;
+    this.tabelaEditando.operadora = this.operadoraAutoCompleteControl.value;
+    this.tabelaEditando.administradora = this.administradoraAutoCompleteControl.value;
+    this.tabelaEditando.produtos = this.todosProdutos.filter(p => p.selected);
     this.tabelaService.editarTabela(this.tabelaEditando).subscribe(response => {
       this.snackBar.openSnackBar('Tabela atualizado com sucesso!');
       this.visualizar();
       this.carregaTabelaTabela();
       this.tabelaSelecionada = response;
+      this.carregaTabelaProduto(this.tabelaSelecionada.produtos);
     });
   }
 
@@ -241,6 +290,11 @@ export class TabelaComponent implements OnInit {
     });
   }
 
+  private reajusteFilterAutoComplete(value: string): Reajuste[] {
+    const filterValue = value?.toLowerCase();
+    return this.todosReajustes.filter(reajuste => reajuste.toLowerCase().includes(filterValue));
+  }
+
   private estadoFilterAutoComplete(value: string): Estado[] {
     const filterValue = value?.toLowerCase();
     return this.todosEstados.filter(estado => estado.nome.toLowerCase().includes(filterValue) || estado.sigla.toLowerCase().includes(filterValue));
@@ -254,6 +308,10 @@ export class TabelaComponent implements OnInit {
   private operadoraFilterAutoComplete(value: string): Operadora[] {
     const filterValue = value?.toLowerCase();
     return this.todasOperadoras.filter(operadora => operadora.nome.toLowerCase().includes(filterValue));
+  }
+
+  reajusteDisplayFn(reajuste: Reajuste): string {
+    return reajuste ? reajuste.toString() : '';
   }
 
   estadoDisplayFn(estado: Estado): string {

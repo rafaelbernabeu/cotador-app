@@ -1,5 +1,2 @@
 
-export class Categoria extends String {
-
-
-}
+export class Categoria extends String {}

@@ -82,6 +82,14 @@
         <br/>
 
         <mat-card-content>
+          <div style="margin-bottom: 20px">
+            <mat-radio-group [(ngModel)]="tabelaEditando.categoria">
+              <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
+                {{categoria}}
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Estado</mat-label>
             <input matInput [formControl]="estadoAutoCompleteControl" [matAutocomplete]="auto1" type="text">
@@ -108,10 +116,19 @@
           </mat-form-field>
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Operadora</mat-label>
-            <input matInput [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto3" type="text">
+            <input (ngModelChange)="carregaTabelaProdutoPorOperadora()" matInput [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto3" type="text">
             <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete" [displayWith]="operadoraDisplayFn">
               <mat-option *ngFor="let operadora of operadoraFilteredOptions | async" [value]="operadora">
                 {{operadora.nome}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Reajuste</mat-label>
+            <input matInput [formControl]="reajusteAutoCompleteControl" [matAutocomplete]="auto4" type="text">
+            <mat-autocomplete autoActiveFirstOption #auto4="matAutocomplete" [displayWith]="reajusteDisplayFn">
+              <mat-option *ngFor="let reajuste of reajusteFilteredOptions | async" [value]="reajuste">
+                {{reajuste}}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -155,10 +172,10 @@
   </div>
 </div>
 
-<div *ngIf="tabelaSelecionada" style="padding-top: 10px">
+<div style="padding-top: 10px">
   <mat-card>
     <mat-card-title>
-      Relacionamentos - {{tabelaSelecionada.nome}}
+      Relacionamentos - {{tabelaSelecionada?.nome}}
       <div style="text-align: right; padding-bottom: 10px;">
         <button mat-button (click)="accordion.openAll()">Expand All</button>
         <button mat-button (click)="accordion.closeAll()">Collapse All</button>
@@ -177,8 +194,68 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
 
-          <div class="flex-container" style="flex-direction: row">
-            Oi =)
+          <div [hidden]="editandoTabela() || adicionandoTabela()">
+            <mat-table #sortProduto="matSort" [dataSource]="dataSourceProduto" matSort class="mat-elevation-z8">
+              <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.id}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="nome">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.nome}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="abrangencia">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
+                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.abrangencia}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="reembolso">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Reembolso </mat-header-cell>
+                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.reembolso | currency:'BRL':'symbol':'0.2'}} </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="['id', 'nome', 'abrangencia', 'reembolso']"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: ['id', 'nome', 'abrangencia', 'reembolso'];"></mat-row>
+            </mat-table>
+            <mat-paginator #paginatorProduto [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
+          </div>
+          <div [hidden]="!editandoTabela() && !adicionandoTabela()">
+            <mat-table #sortProdutoEditando="matSort" [dataSource]="dataSourceProduto" matSort class="mat-elevation-z8">
+              <ng-container matColumnDef="id">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.id}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="nome">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.nome}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="abrangencia">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
+                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.abrangencia}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="reembolso">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Reembolso </mat-header-cell>
+                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.reembolso | currency:'BRL':'symbol':'0.2'}} </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="selected">
+                <mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center"> Selecione </mat-header-cell>
+                <mat-cell *matCellDef="let produto">
+                  <section style="width: 100%; text-align: center">
+                    <mat-checkbox [(ngModel)]="produto.selected"></mat-checkbox>
+                  </section>
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="['id', 'nome', 'abrangencia', 'reembolso', 'selected']"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: ['id', 'nome', 'abrangencia', 'reembolso', 'selected'];"></mat-row>
+            </mat-table>
+            <mat-paginator #paginatorProdutoEditando [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
           </div>
         </mat-expansion-panel>
       </mat-accordion>

@@ -1,4 +1,2 @@
 
-export class Abrangencia extends String {
-
-}
+export class Abrangencia extends String {}
