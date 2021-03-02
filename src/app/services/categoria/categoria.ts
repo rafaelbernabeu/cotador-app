@@ -1,6 +1,5 @@
 
-export class Categoria {
+export class Categoria extends String {
 
-  id: number;
 
 }

@@ -19,8 +19,10 @@ import {TabelaService} from '../../services/tabela/tabela.service';
 import {Tabela} from '../../services/tabela/tabela';
 import {Estado} from '../../services/estado/estado';
 import {EstadoService} from '../../services/estado/estado.service';
-import {Abrangencia} from '../../services/abrangencia/abrangencia';
-import {AbrangenciaService} from '../../services/abrangencia/abrangencia.service';
+import {CategoriaService} from '../../services/categoria/categoria.service';
+import {Categoria} from '../../services/categoria/categoria';
+import {AdministradoraService} from '../../services/administradora/administradora.service';
+import {Administradora} from '../../services/administradora/administradora';
 
 @Component({
   selector: 'app-tabela',
@@ -44,7 +46,7 @@ export class TabelaComponent implements OnInit {
 
   @ViewChild(MatAccordion) accordion: MatAccordion;
 
-  displayedColumns: string[] = ['id', 'nome', 'abrangencia', 'operadora', 'reembolso'];
+  displayedColumns: string[] = ['id', 'nome', 'estado', 'operadora', 'administradora'];
   dataSourceTabela = new MatTableDataSource<Tabela>();
   dataSourceHospital = new MatTableDataSource<Hospital>();
   dataSourceLaboratorio = new MatTableDataSource<Laboratorio>();
@@ -52,40 +54,54 @@ export class TabelaComponent implements OnInit {
   estado: string;
   tabelaEditando: Tabela;
   tabelaSelecionada: Tabela;
-  todosHospitais: Hospital[];
   todosEstados: Estado[];
-  todosLaboratorios: Laboratorio[];
-  todasAbrangencias: Abrangencia[];
+  todasCategorias: Categoria[];
+  todasOperadoras: Operadora[];
+  todasAdministradoras: Administradora[];
+
   estadoAutoCompleteControl = new FormControl();
+  operadoraAutoCompleteControl = new FormControl();
+  administradoraAutoCompleteControl = new FormControl();
   estadoFilteredOptions: Observable<Estado[]>;
+  operadoraFilteredOptions: Observable<Operadora[]>;
+  administradoraFilteredOptions: Observable<Administradora[]>;
 
   constructor(
     private dialog: MatDialog,
     private snackBar: SnackbarService,
     private tabelaService: TabelaService,
     private estadoService: EstadoService,
-    private hospitalService: HospitalService,
-    private abrangenciaService: AbrangenciaService,
-    private laboratorioService: LaboratorioService,
+    private operadoraService: OperadoraService,
+    private categoriaService: CategoriaService,
+    private administradoraService: AdministradoraService,
   ) {}
 
   ngOnInit(): void {
+    this.iniciaAutoCompletes();
+    this.estadoService.getAllEstados().subscribe(response => this.todosEstados = response);
+    this.categoriaService.getAllCategorias().subscribe(response => this.todasCategorias = response);
+    this.operadoraService.getAllOperadoras().subscribe(response => this.todasOperadoras = response);
+    this.administradoraService.getAllAdministradoras().subscribe(response => this.todasAdministradoras = response);
+    this.carregaTabelaTabela();
+  }
+
+  private iniciaAutoCompletes(): void {
     this.estadoAutoCompleteControl.disable();
     this.estadoFilteredOptions = this.estadoAutoCompleteControl.valueChanges.pipe(
       startWith(''),
       map(value => typeof value === 'string' ? value : value.name),
       map(value => this.estadoFilterAutoComplete(value))
     );
-
-    this.hospitalService.getAllHospitais().subscribe(response => this.todosHospitais = response);
-    this.estadoService.getAllEstados().subscribe(response => this.todosEstados = response);
-    this.laboratorioService.getAllLaboratorios().subscribe(response => this.todosLaboratorios = response);
-    this.abrangenciaService.getAllAbrangencias().subscribe(response => console.log(response));
-    this.carregaTabelaTabela();
-  }
-
-  operadoraComparator(operadora1: Operadora, operadora2: Operadora): boolean {
-    return operadora1.id === operadora2.id;
+    this.administradoraFilteredOptions = this.administradoraAutoCompleteControl.valueChanges.pipe(
+      startWith(''),
+      map(value => typeof value === 'string' ? value : value.name),
+      map(value => this.administradoraFilterAutoComplete(value))
+    );
+    this.operadoraFilteredOptions = this.operadoraAutoCompleteControl.valueChanges.pipe(
+      startWith(''),
+      map(value => typeof value === 'string' ? value : value.name),
+      map(value => this.operadoraFilterAutoComplete(value))
+    );
   }
 
   private carregaTabelaTabela(): void {
@@ -135,7 +151,7 @@ export class TabelaComponent implements OnInit {
   editarTabela(): void {
     this.estado = 'editandoTabela';
     this.estadoAutoCompleteControl.enable();
-    this.preparaTodosParaNovaVerificacao();
+    // this.preparaTodosParaNovaVerificacao();
   }
 
   cancelarEdicao(): void {
@@ -156,7 +172,7 @@ export class TabelaComponent implements OnInit {
     this.estadoAutoCompleteControl.enable();
     this.estadoAutoCompleteControl.setValue(new Operadora());
     this.tabelaEditando = this.tabelaSelecionada;
-    this.preparaTodosParaNovaVerificacao();
+    // this.preparaTodosParaNovaVerificacao();
   }
 
   visualizar(): void {
@@ -169,7 +185,7 @@ export class TabelaComponent implements OnInit {
     this.tabelaEditando = null;
     this.tabelaSelecionada = null;
     this.estadoAutoCompleteControl.disable();
-    this.preparaTodosParaNovaVerificacao();
+    // this.preparaTodosParaNovaVerificacao();
   }
 
   editandoTabela(): boolean {
@@ -180,8 +196,10 @@ export class TabelaComponent implements OnInit {
     return this.estado === 'adicionando';
   }
 
-  salvarNovoTabela(): void {
-    this.tabelaEditando.operadora = this.estadoAutoCompleteControl.value;
+  salvarNovaTabela(): void {
+    this.tabelaEditando.estado = this.estadoAutoCompleteControl.value;
+    this.tabelaEditando.operadora = this.operadoraAutoCompleteControl.value;
+    this.tabelaEditando.administradora = this.administradoraAutoCompleteControl.value;
     this.tabelaService.adicionarTabela(this.tabelaEditando).subscribe(response => {
       this.snackBar.openSnackBar('Tabela adicionado com sucesso!');
       this.limpar();
@@ -189,10 +207,10 @@ export class TabelaComponent implements OnInit {
     });
   }
 
-  private preparaTodosParaNovaVerificacao(): void {
-    this.todosHospitais.forEach(p => p.selected = false);
-    this.todosLaboratorios.forEach(p => p.selected = false);
-  }
+  // private preparaTodosParaNovaVerificacao(): void {
+  //   this.todosHospitais.forEach(p => p.selected = false);
+  //   this.todosLaboratorios.forEach(p => p.selected = false);
+  // }
 
   atualizarTabela(): void {
     this.tabelaEditando.operadora = this.estadoAutoCompleteControl.value;
@@ -225,11 +243,29 @@ export class TabelaComponent implements OnInit {
 
   private estadoFilterAutoComplete(value: string): Estado[] {
     const filterValue = value?.toLowerCase();
-    return this.todosEstados.filter(estado => estado.nome.toLowerCase().includes(filterValue));
+    return this.todosEstados.filter(estado => estado.nome.toLowerCase().includes(filterValue) || estado.sigla.toLowerCase().includes(filterValue));
+  }
+
+  private administradoraFilterAutoComplete(value: string): Administradora[] {
+    const filterValue = value?.toLowerCase();
+    return this.todasAdministradoras.filter(adminstradora => adminstradora.nome.toLowerCase().includes(filterValue));
+  }
+
+  private operadoraFilterAutoComplete(value: string): Operadora[] {
+    const filterValue = value?.toLowerCase();
+    return this.todasOperadoras.filter(operadora => operadora.nome.toLowerCase().includes(filterValue));
   }
 
   estadoDisplayFn(estado: Estado): string {
     return estado && estado.nome ? estado.nome : '';
+  }
+
+  administradoraDisplayFn(administradora: Administradora): string {
+    return administradora && administradora.nome ? administradora.nome : '';
+  }
+
+  operadoraDisplayFn(operadora: Operadora): string {
+    return operadora && operadora.nome ? operadora.nome : '';
   }
 
 }
