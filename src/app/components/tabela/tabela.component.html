@@ -159,6 +159,12 @@
 
           <div style="text-align: right">
             <span>
+              <mat-slide-toggle [(ngModel)]="tabelaEditando.preferencial" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">Preferencial</mat-slide-toggle>
+            </span>
+            <span style="padding-left: 25px">
+              <mat-slide-toggle [(ngModel)]="tabelaEditando.pme" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">PME</mat-slide-toggle>
+            </span>
+            <span style="padding-left: 25px">
               <mat-slide-toggle [(ngModel)]="tabelaEditando.contemplaMEI" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">MEI</mat-slide-toggle>
             </span>
             <span style="padding-left: 25px">

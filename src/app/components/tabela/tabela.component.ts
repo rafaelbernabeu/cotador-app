@@ -127,11 +127,13 @@ export class TabelaComponent implements OnInit {
   }
 
   private carregaTabelaProdutoPorOperadora(): void {
-    const operadora = this.operadoraAutoCompleteControl.value;
-    if (operadora?.id) {
-      this.tabelaEditando.operadora = operadora;
-      this.preparaProdutosParaNovaVerificacao();
-      this.configuraProdutosParaEdicao();
+    if (this.adicionandoTabela() || this.editandoTabela()) {
+      const operadora = this.operadoraAutoCompleteControl.value;
+      if (operadora?.id) {
+        this.tabelaEditando.operadora = operadora;
+        this.preparaProdutosParaNovaVerificacao();
+        this.configuraProdutosParaEdicao();
+      }
     }
   }
 
