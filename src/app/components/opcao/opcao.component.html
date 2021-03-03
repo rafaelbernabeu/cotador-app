@@ -82,12 +82,18 @@
         <br/>
 
         <mat-card-content>
-          <div style="margin-bottom: 20px">
-            <mat-radio-group (ngModelChange)="carregaEstadoPorCategoria($event)" [(ngModel)]="opcaoEditando.categoria">
-              <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
-                {{categoria}}
-              </mat-radio-button>
-            </mat-radio-group>
+          <div style="display: flex; margin-bottom: 20px">
+            <div style="width: 50%">
+              <mat-radio-group (ngModelChange)="carregaEstadoPorCategoria($event)" [(ngModel)]="opcaoEditando.categoria">
+                <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
+                  {{categoria}}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div style="width: 50%; text-align: right">
+              <mat-slide-toggle (ngModelChange)="carregaOperadoraPorEstadoAndCategoriaAndAdministradoraAndMEI($event)" [(ngModel)]="opcaoEditando.mei" [disabled]="!adicionandoOpcao() && !editandoOpcao()" labelPosition="before">Contempla MEI</mat-slide-toggle>
+            </div>
           </div>
 
           <mat-form-field appearance="outline" style="width: 100%">
@@ -110,9 +116,7 @@
             </mat-autocomplete>
           </mat-form-field>
 
-          <div style="padding-bottom: 15px">
-            <mat-slide-toggle (ngModelChange)="carregaOperadoraPorEstadoAndCategoriaAndAdministradoraAndMEI($event)" [(ngModel)]="opcaoEditando.mei" [disabled]="!adicionandoOpcao() && !editandoOpcao()" labelPosition="before">Contempla MEI</mat-slide-toggle>
-          </div>
+
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Operadora</mat-label>
@@ -134,78 +138,85 @@
             </mat-autocomplete>
           </mat-form-field>
           <div>
-            <mat-form-field appearance="outline" style="width: 50%">
-              <mat-label>Valor 0 a 18</mat-label>
-              <input type="number" matInput placeholder="Valor 0 a 18 anos" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+            <mat-form-field appearance="outline" style="width: 33%">
+              <mat-label>R$ 0 a 18</mat-label>
+              <input type="number" matInput placeholder="0 a 18" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                      [(ngModel)]="opcaoEditando.valor0a18anos">
             </mat-form-field>
-            <mat-form-field appearance="outline" style="width: 50%">
-              <mat-label>Valor 19 a 23</mat-label>
-              <input type="number" matInput placeholder="Valor 19 a 23 anos" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+            <mat-form-field appearance="outline" style="width: 33%">
+              <mat-label>R$ 19 a 23</mat-label>
+              <input type="number" matInput placeholder="19 a 23" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                      [(ngModel)]="opcaoEditando.valor19a23anos">
             </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field appearance="outline" style="width: 50%">
-              <mat-label>Valor 24 a 28</mat-label>
-              <input type="number" matInput placeholder="Valor 24 a 28 anos" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+            <mat-form-field appearance="outline" style="width: 33%">
+              <mat-label>R$ 24 a 28</mat-label>
+              <input type="number" matInput placeholder="24 a 28" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                      [(ngModel)]="opcaoEditando.valor24a28anos">
             </mat-form-field>
-            <mat-form-field appearance="outline" style="width: 50%">
-              <mat-label>Valor 29 a 33</mat-label>
-              <input type="number" matInput placeholder="Valor 29 a 33 anos" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
-                     [(ngModel)]="opcaoEditando.valor29a33anos">
-            </mat-form-field>
           </div>
           <div>
-            <mat-form-field appearance="outline" style="width: 50%">
-              <mat-label>Valor 34 a 38</mat-label>
-              <input type="number" matInput placeholder="Valor 34 a 38 anos" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+            <mat-form-field appearance="outline" style="width: 33%">
+              <mat-label>R$ 29 a 33</mat-label>
+              <input type="number" matInput placeholder="29 a 33" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                     [(ngModel)]="opcaoEditando.valor29a33anos">
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 33%">
+              <mat-label>R$ 34 a 38</mat-label>
+              <input type="number" matInput placeholder="34 a 38" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                      [(ngModel)]="opcaoEditando.valor34a38anos">
             </mat-form-field>
-            <mat-form-field appearance="outline" style="width: 50%">
-              <mat-label>Valor 39 a 43</mat-label>
-              <input type="number" matInput placeholder="Valor 39 a 43 anos" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+            <mat-form-field appearance="outline" style="width: 33%">
+              <mat-label>R$ 39 a 43</mat-label>
+              <input type="number" matInput placeholder="39 a 43" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                      [(ngModel)]="opcaoEditando.valor39a43anos">
             </mat-form-field>
           </div>
           <div>
-            <mat-form-field appearance="outline" style="width: 50%">
-              <mat-label>Valor 44 a 48</mat-label>
-              <input type="number" matInput placeholder="Valor 44 a 48 anos" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+            <mat-form-field appearance="outline" style="width: 33%">
+              <mat-label>R$ 44 a 48</mat-label>
+              <input type="number" matInput placeholder="44 a 48" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                      [(ngModel)]="opcaoEditando.valor44a48anos">
             </mat-form-field>
-            <mat-form-field appearance="outline" style="width: 50%">
-              <mat-label>Valor 49 a 53</mat-label>
-              <input type="number" matInput placeholder="Valor 49 a 53 anos" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+            <mat-form-field appearance="outline" style="width: 33%">
+              <mat-label>R$ 49 a 53</mat-label>
+              <input type="number" matInput placeholder="49 a 53" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                      [(ngModel)]="opcaoEditando.valor49a53anos">
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 33%">
+              <mat-label>R$ 54 a 58</mat-label>
+              <input type="number" matInput placeholder="54 a 58" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                     [(ngModel)]="opcaoEditando.valor54a58anos">
             </mat-form-field>
           </div>
           <div>
-            <mat-form-field appearance="outline" style="width: 50%">
-              <mat-label>Valor 54 a 58</mat-label>
-              <input type="number" matInput placeholder="Valor 54 a 58 anos" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
-                     [(ngModel)]="opcaoEditando.valor54a58anos">
-            </mat-form-field>
-            <mat-form-field appearance="outline" style="width: 50%">
-              <mat-label>Valor 59 ou Mais</mat-label>
-              <input type="number" matInput placeholder="Valor 59 ou mais anos" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+            <mat-form-field appearance="outline" style="width: 33%">
+              <mat-label>R$ 59 ou Mais</mat-label>
+              <input type="number" matInput placeholder="59 ou mais" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                      [(ngModel)]="opcaoEditando.valor59ouMaisAnos">
             </mat-form-field>
           </div>
 
-          <div>
-            <mat-form-field appearance="outline" style="width: 50%">
-              <mat-label>Acomodacao</mat-label>
-              <mat-select [(ngModel)]="opcaoSelecionada.acomodacao" [disabled]="!adicionandoOpcao() && !editandoOpcao()">
-                <mat-option *ngFor="let acomodacao of todasAcomodacoes;" [value]="acomodacao">{{acomodacao}}</mat-option>
-              </mat-select>
-            </mat-form-field>
+          <div style="display: flex">
+            <div style="width: 70%">
+              <mat-form-field appearance="outline">
+                <mat-label>Acomodacao</mat-label>
+                <mat-select [(ngModel)]="opcaoSelecionada.acomodacao" [disabled]="!adicionandoOpcao() && !editandoOpcao()">
+                  <mat-option *ngFor="let acomodacao of todasAcomodacoes;" [value]="acomodacao">{{acomodacao}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
 
-            <div style="text-align: right">
-              <span>
-                <mat-slide-toggle [(ngModel)]="opcaoEditando.coparticipacao" [disabled]="!adicionandoOpcao() && !editandoOpcao()" labelPosition="before">Coparticipacao</mat-slide-toggle>
-              </span>
+<!--            <div style="width: 50%; text-align: right">-->
+<!--              <mat-form-field appearance="outline">-->
+<!--                <mat-label>Coparticipacao</mat-label>-->
+<!--                <mat-select [(ngModel)]="opcaoSelecionada.coparticipacao" [disabled]="!adicionandoOpcao() && !editandoOpcao()">-->
+<!--                  <mat-option [value]="true">Com</mat-option>-->
+<!--                  <mat-option [value]="false">Sem</mat-option>-->
+<!--                </mat-select>-->
+<!--              </mat-form-field>-->
+<!--            </div>-->
+            <div style="width: 30%; text-align: right; padding-top: 20px">
+              <mat-slide-toggle [(ngModel)]="opcaoEditando.coparticipacao" [disabled]="!adicionandoOpcao() && !editandoOpcao()" labelPosition="before">Coparticipacao</mat-slide-toggle>
             </div>
           </div>
         </mat-card-content>

@@ -5,11 +5,11 @@ import {Categoria} from '../categoria/categoria';
 export class Opcao {
 
   id: number;
+  mei = false;
   tabela: Tabela;
   acomodacao: Acomodacao;
   categoria: Categoria;
-  mei = false;
-  coparticipacao = false;
+  coparticipacao;
   valor0a18anos: number;
   valor19a23anos: number;
   valor24a28anos: number;

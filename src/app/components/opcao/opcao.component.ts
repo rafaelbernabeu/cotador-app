@@ -40,7 +40,6 @@ export class OpcaoComponent implements OnInit {
 
   displayedColumns: string[] = ['id', 'nome', 'estado', 'operadora', 'administradora'];
   dataSourceOpcao = new MatTableDataSource<Opcao>();
-  dataSourceProduto = new MatTableDataSource<Produto>();
 
   estado: string;
   opcaoEditando: Opcao;
