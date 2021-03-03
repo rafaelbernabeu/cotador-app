@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
@@ -33,13 +33,8 @@ import {AcomodacaoService} from '../../services/acomodacao/acomodacao.service';
 })
 export class OpcaoComponent implements OnInit {
 
-  @ViewChild('sortOpcao') sortOpcao: MatSort;
-  @ViewChild('paginatorOpcao') paginatorOpcao: MatPaginator;
-
-  @ViewChild('sortProduto') sortProduto: MatSort;
-  @ViewChild('paginatorProduto') paginatorProduto: MatPaginator;
-  @ViewChild('sortProdutoEditando') sortProdutoEditando: MatSort;
-  @ViewChild('paginatorProdutoEditando') paginatorProdutoEditando: MatPaginator;
+  @ViewChild(MatSort) sortOpcao: MatSort;
+  @ViewChild(MatPaginator) paginatorOpcao: MatPaginator;
 
   @ViewChild(MatAccordion) accordion: MatAccordion;
 
@@ -182,17 +177,6 @@ export class OpcaoComponent implements OnInit {
     }
   }
 
-  private carregaOpcaoProduto(produtos: Produto[]): void {
-    this.dataSourceProduto = new MatTableDataSource<Produto>(produtos);
-    if (this.editandoOpcao() || this.adicionandoOpcao()) {
-      this.dataSourceProduto.sort = this.sortProdutoEditando;
-      this.dataSourceProduto.paginator = this.paginatorProdutoEditando;
-    } else {
-      this.dataSourceProduto.sort = this.sortProduto;
-      this.dataSourceProduto.paginator = this.paginatorProduto;
-    }
-  }
-
   selecionaOpcao(opcao: Opcao): void {
     this.estado = null;
     this.opcaoSelecionada = opcao;
@@ -214,22 +198,6 @@ export class OpcaoComponent implements OnInit {
     this.estadoAutoCompleteControl.enable();
     this.operadoraAutoCompleteControl.enable();
     this.administradoraAutoCompleteControl.enable();
-    this.preparaProdutosParaNovaVerificacao();
-    this.configuraProdutosParaEdicao();
-  }
-
-  configuraProdutosParaEdicao(): void {
-    // this.operadoraService.getProdutosByOperadora(this.opcaoEditando.operadora).subscribe(response => {
-    //   this.todosProdutos = response;
-    //   this.todosProdutos.forEach(todos => {
-    //     this.opcaoSelecionada.produtos?.forEach(produto => {
-    //       if (todos.id === produto.id) {
-    //         todos.selected = true;
-    //       }
-    //     });
-    //   });
-    //   this.carregaOpcaoProduto(this.todosProdutos);
-    // });
   }
 
   cancelarEdicao(): void {
@@ -262,7 +230,6 @@ export class OpcaoComponent implements OnInit {
     this.operadoraAutoCompleteControl.setValue(new Operadora());
     this.administradoraAutoCompleteControl.setValue(new Administradora());
     this.opcaoEditando = this.opcaoSelecionada;
-    this.preparaProdutosParaNovaVerificacao();
   }
 
   visualizar(): void {
@@ -275,7 +242,6 @@ export class OpcaoComponent implements OnInit {
     this.opcaoEditando = null;
     this.opcaoSelecionada = null;
     this.estadoAutoCompleteControl.disable();
-    this.preparaProdutosParaNovaVerificacao();
   }
 
   editandoOpcao(): boolean {
@@ -295,10 +261,6 @@ export class OpcaoComponent implements OnInit {
     });
   }
 
-  private preparaProdutosParaNovaVerificacao(): void {
-    this.todosProdutos?.forEach(p => p.selected = false);
-  }
-
   atualizarOpcao(): void {
     this.opcaoEditando.tabela = this.tabelaAutoCompleteControl.value;
     this.opcaoService.editarOpcao(this.opcaoEditando).subscribe(response => {
@@ -306,7 +268,6 @@ export class OpcaoComponent implements OnInit {
       this.visualizar();
       this.carregaTabelaOpcao();
       this.opcaoSelecionada = response;
-      // this.carregaOpcaoProduto(this.opcaoSelecionada.produtos);
     });
   }
 

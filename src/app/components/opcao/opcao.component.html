@@ -14,7 +14,7 @@
       <br/>
 
       <mat-card-content>
-        <mat-table #sortOpcao="matSort" [dataSource]="dataSourceOpcao" matSort class="mat-elevation-z8">
+        <mat-table [dataSource]="dataSourceOpcao" matSort class="mat-elevation-z8">
           <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
             <mat-cell *matCellDef="let tabela" (click)="selecionaOpcao(tabela)" class="mouse-pointer"> {{tabela.id}} </mat-cell>
@@ -43,7 +43,7 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-        <mat-paginator #paginatorOpcao [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceOpcao.data.length" showFirstLastButtons></mat-paginator>
+        <mat-paginator [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceOpcao.data.length" showFirstLastButtons></mat-paginator>
       </mat-card-content>
     </mat-card>
   </div>
@@ -208,102 +208,8 @@
               </span>
             </div>
           </div>
-
-
-
         </mat-card-content>
       </mat-card>
     </div>
   </div>
-</div>
-
-<div [hidden]="!opcaoEditando" style="padding-top: 10px">
-  <mat-card>
-    <mat-card-title>
-      Relacionamentos - {{opcaoSelecionada?.id}}
-      <div style="text-align: right; padding-bottom: 10px;">
-        <button mat-button (click)="accordion.openAll()">Expand All</button>
-        <button mat-button (click)="accordion.closeAll()">Collapse All</button>
-      </div>
-    </mat-card-title>
-    <mat-card-content>
-
-      <mat-accordion multi>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <mat-icon>book</mat-icon>
-            </mat-panel-title>
-            <mat-panel-description>
-              Produtos
-            </mat-panel-description>
-          </mat-expansion-panel-header>
-
-          <div [hidden]="editandoOpcao() || adicionandoOpcao()">
-            <mat-table #sortProduto="matSort" [dataSource]="dataSourceProduto" matSort class="mat-elevation-z8">
-              <ng-container matColumnDef="id">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.id}} </mat-cell>
-              </ng-container>
-
-              <ng-container matColumnDef="nome">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.nome}} </mat-cell>
-              </ng-container>
-
-              <ng-container matColumnDef="abrangencia">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
-                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.abrangencia}} </mat-cell>
-              </ng-container>
-
-              <ng-container matColumnDef="reembolso">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Reembolso </mat-header-cell>
-                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.reembolso | currency:'BRL':'symbol':'0.2'}} </mat-cell>
-              </ng-container>
-
-              <mat-header-row *matHeaderRowDef="['id', 'nome', 'abrangencia', 'reembolso']"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: ['id', 'nome', 'abrangencia', 'reembolso'];"></mat-row>
-            </mat-table>
-            <mat-paginator #paginatorProduto [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
-          </div>
-          <div [hidden]="!editandoOpcao() && !adicionandoOpcao()">
-            <mat-table #sortProdutoEditando="matSort" [dataSource]="dataSourceProduto" matSort class="mat-elevation-z8">
-              <ng-container matColumnDef="id">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.id}} </mat-cell>
-              </ng-container>
-
-              <ng-container matColumnDef="nome">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.nome}} </mat-cell>
-              </ng-container>
-
-              <ng-container matColumnDef="abrangencia">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
-                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.abrangencia}} </mat-cell>
-              </ng-container>
-
-              <ng-container matColumnDef="reembolso">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Reembolso </mat-header-cell>
-                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.reembolso | currency:'BRL':'symbol':'0.2'}} </mat-cell>
-              </ng-container>
-
-              <ng-container matColumnDef="selected">
-                <mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center"> Selecione </mat-header-cell>
-                <mat-cell *matCellDef="let produto">
-                  <section style="width: 100%; text-align: center">
-                    <mat-checkbox [(ngModel)]="produto.selected"></mat-checkbox>
-                  </section>
-                </mat-cell>
-              </ng-container>
-
-              <mat-header-row *matHeaderRowDef="['id', 'nome', 'abrangencia', 'reembolso', 'selected']"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: ['id', 'nome', 'abrangencia', 'reembolso', 'selected'];"></mat-row>
-            </mat-table>
-            <mat-paginator #paginatorProdutoEditando [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
-          </div>
-        </mat-expansion-panel>
-      </mat-accordion>
-    </mat-card-content>
-  </mat-card>
 </div>
