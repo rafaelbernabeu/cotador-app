@@ -10,8 +10,8 @@ export class ApiService {
 
   ROLE_API_URL = '/roles';
   OPCAO_API_URL = '/opcoes';
-  TABELA_API_URL = '/tabela';
   ESTADO_API_URL = '/estados';
+  TABELA_API_URL = '/tabelas';
   USUARIO_API_URL = '/usuarios';
   PRODUTO_API_URL = '/produtos';
   ENTIDADE_API_URL = '/entidades';

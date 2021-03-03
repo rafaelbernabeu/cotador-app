@@ -102,7 +102,7 @@
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Administradora</mat-label>
-            <input matInput (ngModelChange)="carregaOperadoraPorEstadoAndCategoriaAndAdministradora()" [formControl]="administradoraAutoCompleteControl" [matAutocomplete]="auto2" type="text">
+            <input matInput (ngModelChange)="carregaOperadoraPorAdministradoraAndEstadoAndCategoria()" [formControl]="administradoraAutoCompleteControl" [matAutocomplete]="auto2" type="text">
             <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="administradoraDisplayFn">
               <mat-option *ngFor="let administradora of administradoraFilteredOptions | async" [value]="administradora">
                 {{administradora.nome}}
@@ -116,7 +116,7 @@
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Operadora</mat-label>
-            <input matInput [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto3" type="text">
+            <input matInput (ngModelChange)="carregaTabelaPorOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI()" [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto3" type="text">
             <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete" [displayWith]="operadoraDisplayFn">
               <mat-option *ngFor="let operadora of operadoraFilteredOptions | async" [value]="operadora">
                 {{operadora.nome}}
@@ -129,7 +129,7 @@
             <input matInput [formControl]="tabelaAutoCompleteControl" [matAutocomplete]="auto4" type="text">
             <mat-autocomplete autoActiveFirstOption #auto4="matAutocomplete" [displayWith]="tabelaDisplayFn">
               <mat-option *ngFor="let tabela of tabelaFilteredOptions | async" [value]="tabela">
-                {{tabela}}
+                {{tabela.nome}}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
@@ -197,7 +197,7 @@
           <div>
             <mat-form-field appearance="outline" style="width: 50%">
               <mat-label>Acomodacao</mat-label>
-              <mat-select [(value)]="opcaoSelecionada.acomodacao" [disabled]="!adicionandoOpcao() && !editandoOpcao()">
+              <mat-select [(ngModel)]="opcaoSelecionada.acomodacao" [disabled]="!adicionandoOpcao() && !editandoOpcao()">
                 <mat-option *ngFor="let acomodacao of todasAcomodacoes;" [value]="acomodacao">{{acomodacao}}</mat-option>
               </mat-select>
             </mat-form-field>

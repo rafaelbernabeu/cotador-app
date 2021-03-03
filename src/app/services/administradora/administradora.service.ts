@@ -23,7 +23,7 @@ export class AdministradoraService {
     return this.http.get<Administradora[]>(this.getApiUrl(), this.authServie.getTokenHeader());
   }
 
-  public getOperadorasByAdministradoraAndEstadoAndCategoria(administradora: Administradora, estado: Estado, categoria: Categoria, contemplaMEI: boolean): Observable<Operadora[]> {
+  public getOperadorasByAdministradoraAndEstadoAndCategoriaAndMEI(administradora: Administradora, estado: Estado, categoria: Categoria, contemplaMEI: boolean): Observable<Operadora[]> {
     return this.http.get<Operadora[]>(this.getApiUrl() + '/' + administradora.id + this.api.OPERADORA_API_URL, {
         headers: this.authServie.getTokenHeader().headers,
         params: new HttpParams()

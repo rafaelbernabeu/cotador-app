@@ -150,18 +150,33 @@ export class OpcaoComponent implements OnInit {
 
   private carregaOperadoraPorEstadoAndCategoriaAndAdministradoraAndMEI(contemplaMEI: boolean): void {
     this.opcaoEditando.mei = contemplaMEI;
-    this.carregaOperadoraPorEstadoAndCategoriaAndAdministradora();
+    this.carregaOperadoraPorAdministradoraAndEstadoAndCategoria();
   }
 
-  private carregaOperadoraPorEstadoAndCategoriaAndAdministradora(): void {
+  private carregaOperadoraPorAdministradoraAndEstadoAndCategoria(): void {
     if (this.adicionandoOpcao() || this.editandoOpcao()) {
       const estado = this.estadoAutoCompleteControl.value;
       const administradora = this.administradoraAutoCompleteControl.value;
       if (estado.sigla && administradora.id && this.opcaoEditando.categoria) {
         this.operadoraAutoCompleteControl.setValue('');
-        this.administradoraService.getOperadorasByAdministradoraAndEstadoAndCategoria(administradora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
+        this.administradoraService.getOperadorasByAdministradoraAndEstadoAndCategoriaAndMEI(administradora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
           this.todasOperadoras = response;
           setTimeout(() => this.operadoraAutoCompleteControl.setValue(''));
+        });
+      }
+    }
+  }
+
+  private carregaTabelaPorOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(): void {
+    if (this.adicionandoOpcao() || this.editandoOpcao()) {
+      const estado = this.estadoAutoCompleteControl.value;
+      const administradora = this.administradoraAutoCompleteControl.value;
+      const operadora = this.operadoraAutoCompleteControl.value;
+      if (operadora.id && estado.sigla && administradora.id && this.opcaoEditando.categoria) {
+        this.tabelaAutoCompleteControl.setValue('');
+        this.operadoraService.getTabelasByOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(operadora, administradora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
+          this.todasTabelas = response;
+          setTimeout(() => this.tabelaAutoCompleteControl.setValue(''));
         });
       }
     }
@@ -272,11 +287,7 @@ export class OpcaoComponent implements OnInit {
   }
 
   salvarNovaOpcao(): void {
-    // this.opcaoEditando.estado = this.estadoAutoCompleteControl.value;
-    // this.opcaoEditando.reajuste = this.reajusteAutoCompleteControl.value;
-    // this.opcaoEditando.operadora = this.operadoraAutoCompleteControl.value;
-    // this.opcaoEditando.administradora = this.administradoraAutoCompleteControl.value;
-    // this.opcaoEditando.produtos = this.todosProdutos.filter(p => p.selected);
+    this.opcaoEditando.tabela = this.tabelaAutoCompleteControl.value;
     this.opcaoService.adicionarOpcao(this.opcaoEditando).subscribe(response => {
       this.snackBar.openSnackBar('Opcao adicionado com sucesso!');
       this.limpar();
@@ -289,11 +300,7 @@ export class OpcaoComponent implements OnInit {
   }
 
   atualizarOpcao(): void {
-    // this.opcaoEditando.estado = this.estadoAutoCompleteControl.value;
-    // this.opcaoEditando.reajuste = this.reajusteAutoCompleteControl.value;
-    // this.opcaoEditando.operadora = this.operadoraAutoCompleteControl.value;
-    // this.opcaoEditando.administradora = this.administradoraAutoCompleteControl.value;
-    // this.opcaoEditando.produtos = this.todosProdutos.filter(p => p.selected);
+    this.opcaoEditando.tabela = this.tabelaAutoCompleteControl.value;
     this.opcaoService.editarOpcao(this.opcaoEditando).subscribe(response => {
       this.snackBar.openSnackBar('Opcao atualizado com sucesso!');
       this.visualizar();
@@ -342,8 +349,8 @@ export class OpcaoComponent implements OnInit {
     return this.todasOperadoras?.filter(operadora => operadora.nome.toLowerCase().includes(filterValue));
   }
 
-  tabelaDisplayFn(reajuste: Reajuste): string {
-    return reajuste ? reajuste.toString() : '';
+  tabelaDisplayFn(tabela: Tabela): string {
+    return tabela && tabela.nome ? tabela.nome : '';
   }
 
   estadoDisplayFn(estado: Estado): string {

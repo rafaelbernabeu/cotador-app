@@ -102,7 +102,7 @@
           </mat-form-field>
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Abrangencia</mat-label>
-            <mat-select [(value)]="produtoEditando.abrangencia" [disabled]="!adicionandoProduto() && !editandoProduto()">
+            <mat-select [(ngModel)]="produtoEditando.abrangencia" [disabled]="!adicionandoProduto() && !editandoProduto()">
               <mat-option *ngFor="let abrangencia of todasAbrangencias;" [value]="abrangencia">{{abrangencia}}</mat-option>
             </mat-select>
           </mat-form-field>
