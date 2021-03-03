@@ -92,7 +92,7 @@
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Estado</mat-label>
-            <input matInput [formControl]="estadoAutoCompleteControl" [matAutocomplete]="auto1" type="text">
+            <input matInput (ngModelChange)="carregaAdministradoraPorEstadoAndCategoria()" [formControl]="estadoAutoCompleteControl" [matAutocomplete]="auto1" type="text">
             <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" [displayWith]="estadoDisplayFn">
               <mat-option *ngFor="let estado of estadoFilteredOptions | async" [value]="estado">
                 {{estado.nome}}
@@ -102,7 +102,7 @@
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Administradora</mat-label>
-            <input matInput [formControl]="administradoraAutoCompleteControl" [matAutocomplete]="auto2" type="text">
+            <input matInput (ngModelChange)="carregaOperadoraPorEstadoAndCategoriaAndAdministradora()" [formControl]="administradoraAutoCompleteControl" [matAutocomplete]="auto2" type="text">
             <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="administradoraDisplayFn">
               <mat-option *ngFor="let administradora of administradoraFilteredOptions | async" [value]="administradora">
                 {{administradora.nome}}
@@ -110,7 +110,9 @@
             </mat-autocomplete>
           </mat-form-field>
 
-          <mat-slide-toggle [(ngModel)]="opcaoEditando.MEI" [disabled]="!adicionandoOpcao() && !editandoOpcao()" labelPosition="before">Contempla MEI</mat-slide-toggle>
+          <div style="padding-bottom: 15px">
+            <mat-slide-toggle (ngModelChange)="carregaOperadoraPorEstadoAndCategoriaAndAdministradoraAndMEI($event)" [(ngModel)]="opcaoEditando.mei" [disabled]="!adicionandoOpcao() && !editandoOpcao()" labelPosition="before">Contempla MEI</mat-slide-toggle>
+          </div>
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Operadora</mat-label>

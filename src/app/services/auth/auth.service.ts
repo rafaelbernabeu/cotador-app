@@ -62,7 +62,7 @@ export class AuthService {
     };
   }
 
-  public getTokenHeader(): object {
+  public getTokenHeader(): {headers} {
     if (this.isUsuarioAutenticado()) {
       return {
         headers: new HttpHeaders({ Authorization: 'Bearer ' + this.tokenService.getTokenUsuario() })

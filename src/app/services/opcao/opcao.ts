@@ -7,7 +7,9 @@ export class Opcao {
   id: number;
   tabela: Tabela;
   acomodacao: Acomodacao;
-  coparticipacao: boolean;
+  categoria: Categoria;
+  mei = false;
+  coparticipacao = false;
   valor0a18anos: number;
   valor19a23anos: number;
   valor24a28anos: number;
@@ -18,8 +20,5 @@ export class Opcao {
   valor49a53anos: number;
   valor54a58anos: number;
   valor59ouMaisAnos: number;
-
-  categoria: Categoria;
-  MEI: boolean;
 
 }

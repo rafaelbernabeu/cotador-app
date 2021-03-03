@@ -127,10 +127,43 @@ export class OpcaoComponent implements OnInit {
   private carregaEstadoPorCategoria(categoria: Categoria): void {
     if (this.adicionandoOpcao() || this.editandoOpcao()) {
       this.estadoAutoCompleteControl.setValue('');
+      this.administradoraAutoCompleteControl.setValue('');
       this.categoriaService.getEstadosByCategoria(categoria).subscribe(response => {
         this.todosEstados = response;
         setTimeout(() => this.estadoAutoCompleteControl.setValue(''));
       });
+    }
+  }
+
+  private carregaAdministradoraPorEstadoAndCategoria(): void {
+    if (this.adicionandoOpcao() || this.editandoOpcao()) {
+      const estado = this.estadoAutoCompleteControl.value;
+      if (estado.sigla && this.opcaoEditando.categoria) {
+        this.administradoraAutoCompleteControl.setValue('');
+        this.estadoService.getAdministradorasByEstadoAndCategoria(estado, this.opcaoEditando.categoria).subscribe(response => {
+          this.todasAdministradoras = response;
+          setTimeout(() => this.administradoraAutoCompleteControl.setValue(''));
+        });
+      }
+    }
+  }
+
+  private carregaOperadoraPorEstadoAndCategoriaAndAdministradoraAndMEI(contemplaMEI: boolean): void {
+    this.opcaoEditando.mei = contemplaMEI;
+    this.carregaOperadoraPorEstadoAndCategoriaAndAdministradora();
+  }
+
+  private carregaOperadoraPorEstadoAndCategoriaAndAdministradora(): void {
+    if (this.adicionandoOpcao() || this.editandoOpcao()) {
+      const estado = this.estadoAutoCompleteControl.value;
+      const administradora = this.administradoraAutoCompleteControl.value;
+      if (estado.sigla && administradora.id && this.opcaoEditando.categoria) {
+        this.operadoraAutoCompleteControl.setValue('');
+        this.administradoraService.getOperadorasByAdministradoraAndEstadoAndCategoria(administradora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
+          this.todasOperadoras = response;
+          setTimeout(() => this.operadoraAutoCompleteControl.setValue(''));
+        });
+      }
     }
   }
 

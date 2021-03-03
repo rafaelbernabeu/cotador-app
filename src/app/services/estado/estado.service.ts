@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import {AuthService} from '../auth/auth.service';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {ApiService} from '../api/api.service';
 import {Observable} from 'rxjs';
 import {Estado} from './estado';
+import {Administradora} from '../administradora/administradora';
+import {Categoria} from '../categoria/categoria';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +20,14 @@ export class EstadoService {
 
   public getAllEstados(): Observable<Estado[]> {
     return this.http.get<Estado[]>(this.getApiUrl(), this.authServie.getTokenHeader());
+  }
+
+  public getAdministradorasByEstadoAndCategoria(estado: Estado, categoria: Categoria): Observable<Administradora[]> {
+    return this.http.get<Administradora[]>(this.getApiUrl() + '/' + estado.sigla + this.api.ADMINISTRADORA_API_URL, {
+        headers: this.authServie.getTokenHeader().headers,
+        params: new HttpParams().append('categoria', categoria.toString())
+      }
+    );
   }
 
   private getApiUrl(): string {
