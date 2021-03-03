@@ -194,30 +194,17 @@
               <input type="number" matInput placeholder="59 ou mais" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                      [(ngModel)]="opcaoEditando.valor59ouMaisAnos">
             </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 66%">
+              <mat-label>Acomodacao</mat-label>
+              <mat-select [(ngModel)]="opcaoSelecionada.acomodacao" [disabled]="!adicionandoOpcao() && !editandoOpcao()">
+                <mat-option *ngFor="let acomodacao of todasAcomodacoes;" [value]="acomodacao">{{acomodacao}}</mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
 
-          <div style="display: flex">
-            <div style="width: 70%">
-              <mat-form-field appearance="outline">
-                <mat-label>Acomodacao</mat-label>
-                <mat-select [(ngModel)]="opcaoSelecionada.acomodacao" [disabled]="!adicionandoOpcao() && !editandoOpcao()">
-                  <mat-option *ngFor="let acomodacao of todasAcomodacoes;" [value]="acomodacao">{{acomodacao}}</mat-option>
-                </mat-select>
-              </mat-form-field>
-            </div>
-
-<!--            <div style="width: 50%; text-align: right">-->
-<!--              <mat-form-field appearance="outline">-->
-<!--                <mat-label>Coparticipacao</mat-label>-->
-<!--                <mat-select [(ngModel)]="opcaoSelecionada.coparticipacao" [disabled]="!adicionandoOpcao() && !editandoOpcao()">-->
-<!--                  <mat-option [value]="true">Com</mat-option>-->
-<!--                  <mat-option [value]="false">Sem</mat-option>-->
-<!--                </mat-select>-->
-<!--              </mat-form-field>-->
-<!--            </div>-->
-            <div style="width: 30%; text-align: right; padding-top: 20px">
-              <mat-slide-toggle [(ngModel)]="opcaoEditando.coparticipacao" [disabled]="!adicionandoOpcao() && !editandoOpcao()" labelPosition="before">Coparticipacao</mat-slide-toggle>
-            </div>
+          <div style="width: 100%; text-align: right;">
+            <mat-slide-toggle [(ngModel)]="opcaoEditando.coparticipacao" [disabled]="!adicionandoOpcao() && !editandoOpcao()" labelPosition="before">Coparticipacao</mat-slide-toggle>
           </div>
         </mat-card-content>
       </mat-card>
