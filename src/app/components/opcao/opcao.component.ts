@@ -25,6 +25,7 @@ import {map, startWith} from 'rxjs/operators';
 import {Tabela} from '../../services/tabela/tabela';
 import {Acomodacao} from '../../services/acomodacao/Acomodacao';
 import {AcomodacaoService} from '../../services/acomodacao/acomodacao.service';
+import {TabelaService} from '../../services/tabela/tabela.service';
 
 @Component({
   selector: 'app-opcao',
@@ -54,10 +55,12 @@ export class OpcaoComponent implements OnInit {
 
   tabelaAutoCompleteControl = new FormControl();
   estadoAutoCompleteControl = new FormControl();
+  produtoAutoCompleteControl = new FormControl();
   operadoraAutoCompleteControl = new FormControl();
   administradoraAutoCompleteControl = new FormControl();
   tabelaFilteredOptions: Observable<Tabela[]>;
   estadoFilteredOptions: Observable<Estado[]>;
+  produtoFilteredOptions: Observable<Produto[]>;
   operadoraFilteredOptions: Observable<Operadora[]>;
   administradoraFilteredOptions: Observable<Administradora[]>;
 
@@ -66,7 +69,7 @@ export class OpcaoComponent implements OnInit {
     private snackBar: SnackbarService,
     private opcaoService: OpcaoService,
     private estadoService: EstadoService,
-    private reajusteService: ReajusteService,
+    private tabelaService: TabelaService,
     private operadoraService: OperadoraService,
     private categoriaService: CategoriaService,
     private acomodacaoService: AcomodacaoService,
@@ -101,6 +104,11 @@ export class OpcaoComponent implements OnInit {
       startWith(''),
       map(value => typeof value === 'string' ? value : value.name),
       map(value => this.tabelaFilterAutoComplete(value))
+    );
+    this.produtoFilteredOptions = this.produtoAutoCompleteControl.valueChanges.pipe(
+      startWith(''),
+      map(value => typeof value === 'string' ? value : value.name),
+      map(value => this.produtoFilterAutoComplete(value))
     );
   }
 
@@ -171,6 +179,22 @@ export class OpcaoComponent implements OnInit {
         this.operadoraService.getTabelasByOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(operadora, administradora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
           this.todasTabelas = response;
           setTimeout(() => this.tabelaAutoCompleteControl.setValue(''));
+        });
+      }
+    }
+  }
+
+  private carregaProdutosPorTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(): void {
+    if (this.adicionandoOpcao() || this.editandoOpcao()) {
+      const estado = this.estadoAutoCompleteControl.value;
+      const administradora = this.administradoraAutoCompleteControl.value;
+      const operadora = this.operadoraAutoCompleteControl.value;
+      const tabela = this.tabelaAutoCompleteControl.value;
+      if (tabela.id && operadora.id && estado.sigla && administradora.id && this.opcaoEditando.categoria) {
+        this.produtoAutoCompleteControl.setValue('');
+        this.tabelaService.getProdutosByTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(tabela, operadora, administradora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
+          this.todosProdutos = response;
+          setTimeout(() => this.produtoAutoCompleteControl.setValue(''));
         });
       }
     }
@@ -289,6 +313,11 @@ export class OpcaoComponent implements OnInit {
     });
   }
 
+  private produtoFilterAutoComplete(value: string): Produto[] {
+    const filterValue = value?.toLowerCase();
+    return this.todosProdutos?.filter(produto => produto.nome.toLowerCase().includes(filterValue));
+  }
+
   private tabelaFilterAutoComplete(value: string): Tabela[] {
     const filterValue = value?.toLowerCase();
     return this.todasTabelas?.filter(tabela => tabela.nome.toLowerCase().includes(filterValue));
@@ -307,6 +336,10 @@ export class OpcaoComponent implements OnInit {
   private operadoraFilterAutoComplete(value: string): Operadora[] {
     const filterValue = value?.toLowerCase();
     return this.todasOperadoras?.filter(operadora => operadora.nome.toLowerCase().includes(filterValue));
+  }
+
+  produtoDisplayFn(produto: Produto): string {
+    return produto && produto.nome ? produto.nome : '';
   }
 
   tabelaDisplayFn(tabela: Tabela): string {
