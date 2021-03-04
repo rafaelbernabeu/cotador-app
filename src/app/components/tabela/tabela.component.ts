@@ -260,6 +260,9 @@ export class TabelaComponent implements OnInit {
   visualizar(): void {
     this.estado = null;
     this.estadoAutoCompleteControl.disable();
+    this.reajusteAutoCompleteControl.disable();
+    this.operadoraAutoCompleteControl.disable();
+    this.administradoraAutoCompleteControl.disable();
   }
 
   limpar(): void {
@@ -267,6 +270,9 @@ export class TabelaComponent implements OnInit {
     this.tabelaEditando = null;
     this.tabelaSelecionada = null;
     this.estadoAutoCompleteControl.disable();
+    this.reajusteAutoCompleteControl.disable();
+    this.operadoraAutoCompleteControl.disable();
+    this.administradoraAutoCompleteControl.disable();
     this.preparaTodosParaNovaVerificacao();
   }
 

@@ -83,7 +83,7 @@
 
         <mat-card-content>
           <div style="margin-bottom: 20px">
-            <mat-radio-group [(ngModel)]="tabelaEditando.categoria">
+            <mat-radio-group [(ngModel)]="tabelaEditando.categoria" [disabled]="!adicionandoTabela() && !editandoTabela()">
               <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
                 {{categoria}}
               </mat-radio-button>
@@ -178,7 +178,7 @@
   </div>
 </div>
 
-<div [hidden]="!tabelaEditando" style="padding-top: 10px">
+<div [hidden]="!tabelaSelecionada" style="padding-top: 10px">
   <mat-card>
     <mat-card-title>
       Relacionamentos - {{tabelaSelecionada?.nome}}
@@ -219,13 +219,8 @@
                     <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.abrangencia}} </mat-cell>
                   </ng-container>
 
-                  <ng-container matColumnDef="reembolso">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Reembolso </mat-header-cell>
-                    <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.reembolso | currency:'BRL':'symbol':'0.2'}} </mat-cell>
-                  </ng-container>
-
-                  <mat-header-row *matHeaderRowDef="['id', 'nome', 'abrangencia', 'reembolso']"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: ['id', 'nome', 'abrangencia', 'reembolso'];"></mat-row>
+                  <mat-header-row *matHeaderRowDef="['id', 'nome', 'abrangencia']"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: ['id', 'nome', 'abrangencia'];"></mat-row>
                 </mat-table>
                 <mat-paginator #paginatorProduto [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
               </div>
@@ -246,11 +241,6 @@
                     <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.abrangencia}} </mat-cell>
                   </ng-container>
 
-                  <ng-container matColumnDef="reembolso">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Reembolso </mat-header-cell>
-                    <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.reembolso | currency:'BRL':'symbol':'0.2'}} </mat-cell>
-                  </ng-container>
-
                   <ng-container matColumnDef="selected">
                     <mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center"> Selecione </mat-header-cell>
                     <mat-cell *matCellDef="let produto">
@@ -260,8 +250,8 @@
                     </mat-cell>
                   </ng-container>
 
-                  <mat-header-row *matHeaderRowDef="['id', 'nome', 'abrangencia', 'reembolso', 'selected']"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: ['id', 'nome', 'abrangencia', 'reembolso', 'selected'];"></mat-row>
+                  <mat-header-row *matHeaderRowDef="['id', 'nome', 'abrangencia', 'selected']"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: ['id', 'nome', 'abrangencia', 'selected'];"></mat-row>
                 </mat-table>
                 <mat-paginator #paginatorProdutoEditando [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
               </div>
