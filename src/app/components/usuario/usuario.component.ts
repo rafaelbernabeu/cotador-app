@@ -30,7 +30,6 @@ export class UsuarioComponent implements OnInit {
   dataSourceUsuario = new MatTableDataSource<Usuario>();
 
   estado: string;
-  roles: Role[];
   todasRoles: Role[];
   usuarioEditando: Usuario;
   usuarioSelecionado: Usuario;
@@ -63,54 +62,26 @@ export class UsuarioComponent implements OnInit {
     this.estado = null;
     this.usuarioSelecionado = usuario;
     this.usuarioEditando = {...usuario};
-    this.preparaParaNovaVerificacao();
-
-    this.usuarioService.getRolesByUsuario(usuario).subscribe(response => {
-      this.roles = response;
-
-      this.todasRoles.forEach(todas => {
-        this.roles.forEach(role => {
-          if (todas.role === role.role) {
-            todas.selected = true;
-          }
-        });
-      });
-      this.configuraDataSource();
-    });
-  }
-
-  editarRelacionamento(): void {
-    this.estado = 'editandoRelacionamento';
-    this.usuarioEditando = {...this.usuarioSelecionado};
-    this.configuraDataSource();
+    this.carregaTabelaRoles(this.usuarioSelecionado.roles);
   }
 
   editarUsuario(): void {
-    const estadoAnterior = this.estado;
     this.estado = 'editandoUsuario';
-    if (estadoAnterior === 'editandoRelacionamento') {
-      this.configuraDataSource();
-    }
-  }
-
-  salvarRoles(): void {
-    const rolesSelecionadas = this.todasRoles.filter(p => p.selected);
-    this.usuarioService.atualizarRolesDoUsuario(this.usuarioSelecionado, rolesSelecionadas).subscribe(response => {
-      this.snackBar.openSnackBar('Dados salvos com sucesso!');
-      this.roles = response;
-      this.visualizar();
-      this.configuraDataSource();
+    this.preparaRolesParaNovaVerificacao();
+    this.todasRoles.forEach(todas => {
+      this.usuarioSelecionado.roles.forEach(role => {
+        if (todas.role === role.role) {
+          todas.selected = true;
+        }
+      });
     });
-  }
-
-  cancelarEdicaoRelacionamento(): void {
-    this.cancelarEdicao();
-    this.configuraDataSource();
+    this.carregaTabelaRoles(this.todasRoles);
   }
 
   cancelarEdicao(): void {
     this.estado = null;
     this.usuarioEditando = {...this.usuarioSelecionado};
+    this.carregaTabelaRoles(this.usuarioSelecionado.roles);
   }
 
   cancelarAdicao(): void {
@@ -120,9 +91,10 @@ export class UsuarioComponent implements OnInit {
 
   adicionar(): void {
     this.estado = 'adicionando';
-    this.roles = null;
     this.usuarioSelecionado = new Usuario();
     this.usuarioEditando = this.usuarioSelecionado;
+    this.preparaRolesParaNovaVerificacao();
+    this.carregaTabelaRoles(this.todasRoles);
   }
 
   visualizar(): void {
@@ -131,30 +103,23 @@ export class UsuarioComponent implements OnInit {
 
   limpar(): void {
     this.estado = null;
-    this.roles = null;
     this.usuarioEditando = null;
     this.usuarioSelecionado = null;
   }
 
-  private configuraDataSource(): void {
-    if (this.estado === 'editandoRelacionamento') {
-      this.dataSourceRoles = new MatTableDataSource<Role>(this.todasRoles);
+  private carregaTabelaRoles(roles: Role[]): void {
+    this.dataSourceRoles = new MatTableDataSource<Role>(roles);
+    if (this.editandoUsuario() || this.adicionandoUsuario()) {
       this.dataSourceRoles.sort = this.sortProfissaoEditando;
       this.dataSourceRoles.paginator = this.paginatorEditandoProfissao;
     } else {
-      this.dataSourceRoles = new MatTableDataSource<Role>(this.roles);
       this.dataSourceRoles.sort = this.sortProfissao;
       this.dataSourceRoles.paginator = this.paginatorProfissao;
     }
   }
 
-  private preparaParaNovaVerificacao(): void {
+  private preparaRolesParaNovaVerificacao(): void {
     this.todasRoles.forEach(p => p.selected = false);
-  }
-
-  editandoRelacionamento(): boolean {
-    return this.estado === 'editandoRelacionamento';
-    this.configuraDataSource();
   }
 
   editandoUsuario(): boolean {
@@ -166,6 +131,7 @@ export class UsuarioComponent implements OnInit {
   }
 
   salvarNovoUsuario(): void {
+    this.usuarioEditando.roles = this.todasRoles.filter(r => r.selected);
     this.usuarioEditando.password = bcrypt.hashSync(this.usuarioEditando.password, 10);
     this.usuarioService.adicionarUsuario(this.usuarioEditando).subscribe(response => {
       this.snackBar.openSnackBar('Usuario adicionado com sucesso!');
@@ -175,11 +141,13 @@ export class UsuarioComponent implements OnInit {
   }
 
   atualizarUsuario(): void {
+    this.usuarioEditando.roles = this.todasRoles.filter(r => r.selected);
     this.usuarioService.editarUsuario(this.usuarioEditando).subscribe(response => {
       this.snackBar.openSnackBar('Usuario atualizado com sucesso!');
       this.visualizar();
       this.carregaTabelaUsuarios();
       this.usuarioSelecionado = response;
+      this.carregaTabelaRoles(this.usuarioSelecionado.roles);
     });
   }
 

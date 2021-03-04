@@ -89,29 +89,16 @@
         </mat-card-content>
       </mat-card>
     </div>
-    <div *ngIf="roles" style="height: 20px"></div>
-    <div [hidden]="!roles">
+    <div *ngIf="usuarioSelecionado" style="height: 20px"></div>
+    <div [hidden]="!usuarioSelecionado">
       <mat-card>
         <mat-card-title>
-        <span>
           Roles do Usuario - {{usuarioSelecionado.nome}}
-        </span>
-          <span style="float: right; padding-left: 20px">
-          <a *ngIf="editandoRelacionamento()" (click)="salvarRoles()">
-            <mat-icon class="mouse-pointer">save</mat-icon>
-          </a>
-          <a *ngIf="!editandoRelacionamento()" (click)="editarRelacionamento()">
-            <mat-icon class="mouse-pointer">edit</mat-icon>
-          </a>
-          <a *ngIf="editandoRelacionamento()" (click)="cancelarEdicaoRelacionamento()">
-            <mat-icon class="mouse-pointer">close</mat-icon>
-          </a>
-        </span>
         </mat-card-title>
         <br/>
 
         <mat-card-content>
-          <div [hidden]="!editandoRelacionamento()">
+          <div [hidden]="!editandoUsuario() && !adicionandoUsuario()">
             <mat-table #rolesSortEditando="matSort" [dataSource]="dataSourceRoles" matSort class="mat-elevation-z8">
               <ng-container matColumnDef="id">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
@@ -138,7 +125,7 @@
             <mat-paginator #paginatorEditandoRoles [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceRoles.data.length" showFirstLastButtons></mat-paginator>
           </div>
 
-          <div [hidden]="editandoRelacionamento()">
+          <div [hidden]="editandoUsuario() || adicionandoUsuario()">
             <mat-table #rolesSort="matSort" [dataSource]="dataSourceRoles" matSort class="mat-elevation-z8">
               <ng-container matColumnDef="id">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
