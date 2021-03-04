@@ -1,12 +1,14 @@
 import {Tabela} from '../tabela/tabela';
 import {Acomodacao} from '../acomodacao/Acomodacao';
 import {Categoria} from '../categoria/categoria';
+import {Produto} from '../produto/produto';
 
 export class Opcao {
 
   id: number;
   mei = false;
   tabela: Tabela;
+  produto: Produto;
   acomodacao: Acomodacao;
   categoria: Categoria;
   coparticipacao;

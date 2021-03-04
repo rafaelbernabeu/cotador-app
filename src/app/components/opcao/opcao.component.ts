@@ -17,7 +17,6 @@ import {Administradora} from '../../services/administradora/administradora';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {EstadoService} from '../../services/estado/estado.service';
-import {ReajusteService} from '../../services/reajuste/reajuste.service';
 import {OperadoraService} from '../../services/operadora/operadora.service';
 import {CategoriaService} from '../../services/categoria/categoria.service';
 import {AdministradoraService} from '../../services/administradora/administradora.service';
@@ -39,7 +38,7 @@ export class OpcaoComponent implements OnInit {
 
   @ViewChild(MatAccordion) accordion: MatAccordion;
 
-  displayedColumns: string[] = ['id', 'nome', 'estado', 'operadora', 'administradora'];
+  displayedColumns: string[] = ['id', 'estado', 'nomeTabela', 'nomeProduto', 'acomodacao', 'coparticipacao', 'valor0a18anos', 'valor19a23anos', 'valor24a28anos', 'valor29a33anos', 'valor34a38anos', 'valor39a43anos', 'valor44a48anos', 'valor49a53anos', 'valor54a58anos', 'valor59ouMaisAnos'];
   dataSourceOpcao = new MatTableDataSource<Opcao>();
 
   estado: string;
@@ -277,6 +276,7 @@ export class OpcaoComponent implements OnInit {
 
   salvarNovaOpcao(): void {
     this.opcaoEditando.tabela = this.tabelaAutoCompleteControl.value;
+    this.opcaoEditando.produto = this.produtoAutoCompleteControl.value;
     this.opcaoService.adicionarOpcao(this.opcaoEditando).subscribe(response => {
       this.snackBar.openSnackBar('Opcao adicionado com sucesso!');
       this.limpar();
@@ -286,6 +286,7 @@ export class OpcaoComponent implements OnInit {
 
   atualizarOpcao(): void {
     this.opcaoEditando.tabela = this.tabelaAutoCompleteControl.value;
+    this.opcaoEditando.produto = this.produtoAutoCompleteControl.value;
     this.opcaoService.editarOpcao(this.opcaoEditando).subscribe(response => {
       this.snackBar.openSnackBar('Opcao atualizado com sucesso!');
       this.visualizar();
