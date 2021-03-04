@@ -3,16 +3,12 @@ import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatAccordion} from '@angular/material/expansion';
 import {MatTableDataSource} from '@angular/material/table';
-import {Hospital} from '../../services/hospital/hospital';
-import {Laboratorio} from '../../services/laboratorio/laboratorio';
 import {Operadora} from '../../services/operadora/operadora';
 import {FormControl} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {SnackbarService} from '../../services/snackbar/snackbar.service';
-import {HospitalService} from '../../services/hospital/hospital.service';
 import {OperadoraService} from '../../services/operadora/operadora.service';
-import {LaboratorioService} from '../../services/laboratorio/laboratorio.service';
 import {map, startWith} from 'rxjs/operators';
 import {DialogComponent} from '../dialog/dialog.component';
 import {TabelaService} from '../../services/tabela/tabela.service';
@@ -26,6 +22,8 @@ import {Administradora} from '../../services/administradora/administradora';
 import {Produto} from '../../services/produto/produto';
 import {Reajuste} from '../../services/reajuste/reajuste';
 import {ReajusteService} from '../../services/reajuste/reajuste.service';
+import {Entidade} from '../../services/entidade/entidade';
+import {EntidadeService} from '../../services/entidade/entidade.service';
 
 @Component({
   selector: 'app-tabela',
@@ -42,18 +40,25 @@ export class TabelaComponent implements OnInit {
   @ViewChild('sortProdutoEditando') sortProdutoEditando: MatSort;
   @ViewChild('paginatorProdutoEditando') paginatorProdutoEditando: MatPaginator;
 
+  @ViewChild('sortEntidade') sortEntidade: MatSort;
+  @ViewChild('paginatorEntidade') paginatorEntidade: MatPaginator;
+  @ViewChild('sortEntidadeEditando') sortEntidadeEditando: MatSort;
+  @ViewChild('paginatorEntidadeEditando') paginatorEntidadeEditando: MatPaginator;
+
   @ViewChild(MatAccordion) accordion: MatAccordion;
 
   displayedColumns: string[] = ['id', 'nome', 'estado', 'operadora', 'administradora'];
   dataSourceTabela = new MatTableDataSource<Tabela>();
   dataSourceProduto = new MatTableDataSource<Produto>();
+  dataSourceEntidade = new MatTableDataSource<Entidade>();
 
   estado: string;
   tabelaEditando: Tabela;
   tabelaSelecionada: Tabela;
-  todosReajustes: Reajuste[];
   todosEstados: Estado[];
+  todasEntidades: Entidade[];
   todosProdutos: Produto[];
+  todosReajustes: Reajuste[];
   todasCategorias: Categoria[];
   todasOperadoras: Operadora[];
   todasAdministradoras: Administradora[];
@@ -72,6 +77,7 @@ export class TabelaComponent implements OnInit {
     private snackBar: SnackbarService,
     private tabelaService: TabelaService,
     private estadoService: EstadoService,
+    private entidadeService: EntidadeService,
     private reajusteService: ReajusteService,
     private operadoraService: OperadoraService,
     private categoriaService: CategoriaService,
@@ -82,6 +88,7 @@ export class TabelaComponent implements OnInit {
     this.iniciaAutoCompletes();
     this.estadoService.getAllEstados().subscribe(response => this.todosEstados = response);
     this.reajusteService.getAllReajustes().subscribe(response => this.todosReajustes = response);
+    this.entidadeService.getAllEntidades().subscribe(response => this.todasEntidades = response);
     this.categoriaService.getAllCategorias().subscribe(response => this.todasCategorias = response);
     this.operadoraService.getAllOperadoras().subscribe(response => this.todasOperadoras = response);
     this.administradoraService.getAllAdministradoras().subscribe(response => this.todasAdministradoras = response);
@@ -137,7 +144,7 @@ export class TabelaComponent implements OnInit {
       const operadora = this.operadoraAutoCompleteControl.value;
       if (operadora?.id) {
         this.tabelaEditando.operadora = operadora;
-        this.preparaProdutosParaNovaVerificacao();
+        this.preparaTodosParaNovaVerificacao();
         this.configuraProdutosParaEdicao();
       }
     }
@@ -154,6 +161,17 @@ export class TabelaComponent implements OnInit {
     }
   }
 
+  private carregaTabelaEntidade(entidades: Entidade[]): void {
+    this.dataSourceEntidade = new MatTableDataSource<Entidade>(entidades);
+    if (this.editandoTabela() || this.adicionandoTabela()) {
+      this.dataSourceEntidade.sort = this.sortEntidadeEditando;
+      this.dataSourceEntidade.paginator = this.paginatorEntidadeEditando;
+    } else {
+      this.dataSourceEntidade.sort = this.sortEntidade;
+      this.dataSourceEntidade.paginator = this.paginatorEntidade;
+    }
+  }
+
   selecionaTabela(tabela: Tabela): void {
     this.estado = null;
     this.tabelaSelecionada = tabela;
@@ -167,6 +185,7 @@ export class TabelaComponent implements OnInit {
     this.operadoraAutoCompleteControl.setValue(this.tabelaEditando.operadora);
     this.administradoraAutoCompleteControl.setValue(this.tabelaEditando.administradora);
     this.carregaTabelaProduto(this.tabelaEditando.produtos);
+    this.carregaTabelaEntidade(this.tabelaEditando.entidades);
   }
 
   editarTabela(): void {
@@ -175,8 +194,9 @@ export class TabelaComponent implements OnInit {
     this.estadoAutoCompleteControl.enable();
     this.operadoraAutoCompleteControl.enable();
     this.administradoraAutoCompleteControl.enable();
-    this.preparaProdutosParaNovaVerificacao();
+    this.preparaTodosParaNovaVerificacao();
     this.configuraProdutosParaEdicao();
+    this.configuraEntidadesParaEdicao();
   }
 
   configuraProdutosParaEdicao(): void {
@@ -191,6 +211,17 @@ export class TabelaComponent implements OnInit {
       });
       this.carregaTabelaProduto(this.todosProdutos);
     });
+  }
+
+  configuraEntidadesParaEdicao(): void {
+    this.todasEntidades.forEach(todas => {
+      this.tabelaSelecionada.entidades?.forEach(entidade => {
+        if (todas.id === entidade.id) {
+          todas.selected = true;
+        }
+      });
+    });
+    this.carregaTabelaEntidade(this.todasEntidades);
   }
 
   cancelarEdicao(): void {
@@ -223,7 +254,7 @@ export class TabelaComponent implements OnInit {
     this.operadoraAutoCompleteControl.setValue(new Operadora());
     this.administradoraAutoCompleteControl.setValue(new Administradora());
     this.tabelaEditando = this.tabelaSelecionada;
-    this.preparaProdutosParaNovaVerificacao();
+    this.preparaTodosParaNovaVerificacao();
   }
 
   visualizar(): void {
@@ -236,7 +267,7 @@ export class TabelaComponent implements OnInit {
     this.tabelaEditando = null;
     this.tabelaSelecionada = null;
     this.estadoAutoCompleteControl.disable();
-    this.preparaProdutosParaNovaVerificacao();
+    this.preparaTodosParaNovaVerificacao();
   }
 
   editandoTabela(): boolean {
@@ -253,6 +284,7 @@ export class TabelaComponent implements OnInit {
     this.tabelaEditando.operadora = this.operadoraAutoCompleteControl.value;
     this.tabelaEditando.administradora = this.administradoraAutoCompleteControl.value;
     this.tabelaEditando.produtos = this.todosProdutos.filter(p => p.selected);
+    this.tabelaEditando.entidades = this.todasEntidades.filter(e => e.selected);
     this.tabelaService.adicionarTabela(this.tabelaEditando).subscribe(response => {
       this.snackBar.openSnackBar('Tabela adicionado com sucesso!');
       this.limpar();
@@ -260,8 +292,9 @@ export class TabelaComponent implements OnInit {
     });
   }
 
-  private preparaProdutosParaNovaVerificacao(): void {
+  private preparaTodosParaNovaVerificacao(): void {
     this.todosProdutos?.forEach(p => p.selected = false);
+    this.todasEntidades?.forEach(e => e.selected = false);
   }
 
   atualizarTabela(): void {
@@ -270,12 +303,14 @@ export class TabelaComponent implements OnInit {
     this.tabelaEditando.operadora = this.operadoraAutoCompleteControl.value;
     this.tabelaEditando.administradora = this.administradoraAutoCompleteControl.value;
     this.tabelaEditando.produtos = this.todosProdutos.filter(p => p.selected);
+    this.tabelaEditando.entidades = this.todasEntidades.filter(e => e.selected);
     this.tabelaService.editarTabela(this.tabelaEditando).subscribe(response => {
       this.snackBar.openSnackBar('Tabela atualizado com sucesso!');
       this.visualizar();
       this.carregaTabelaTabela();
       this.tabelaSelecionada = response;
       this.carregaTabelaProduto(this.tabelaSelecionada.produtos);
+      this.carregaTabelaEntidade(this.tabelaSelecionada.entidades);
     });
   }
 

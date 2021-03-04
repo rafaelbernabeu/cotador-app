@@ -190,80 +190,140 @@
     <mat-card-content>
 
       <mat-accordion multi>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              <mat-icon>book</mat-icon>
-            </mat-panel-title>
-            <mat-panel-description>
-              Produtos
-            </mat-panel-description>
-          </mat-expansion-panel-header>
+        <div class="flex-container" style="flex-direction: row; width: 100%; margin-top: 5px">
+          <div style="width: 50%">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <mat-icon>book</mat-icon>
+                </mat-panel-title>
+                <mat-panel-description>
+                  Produtos
+                </mat-panel-description>
+              </mat-expansion-panel-header>
 
-          <div [hidden]="editandoTabela() || adicionandoTabela()">
-            <mat-table #sortProduto="matSort" [dataSource]="dataSourceProduto" matSort class="mat-elevation-z8">
-              <ng-container matColumnDef="id">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.id}} </mat-cell>
-              </ng-container>
+              <div [hidden]="editandoTabela() || adicionandoTabela()">
+                <mat-table #sortProduto="matSort" [dataSource]="dataSourceProduto" matSort class="mat-elevation-z8">
+                  <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+                    <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.id}} </mat-cell>
+                  </ng-container>
 
-              <ng-container matColumnDef="nome">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.nome}} </mat-cell>
-              </ng-container>
+                  <ng-container matColumnDef="nome">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+                    <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.nome}} </mat-cell>
+                  </ng-container>
 
-              <ng-container matColumnDef="abrangencia">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
-                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.abrangencia}} </mat-cell>
-              </ng-container>
+                  <ng-container matColumnDef="abrangencia">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
+                    <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.abrangencia}} </mat-cell>
+                  </ng-container>
 
-              <ng-container matColumnDef="reembolso">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Reembolso </mat-header-cell>
-                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.reembolso | currency:'BRL':'symbol':'0.2'}} </mat-cell>
-              </ng-container>
+                  <ng-container matColumnDef="reembolso">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Reembolso </mat-header-cell>
+                    <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.reembolso | currency:'BRL':'symbol':'0.2'}} </mat-cell>
+                  </ng-container>
 
-              <mat-header-row *matHeaderRowDef="['id', 'nome', 'abrangencia', 'reembolso']"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: ['id', 'nome', 'abrangencia', 'reembolso'];"></mat-row>
-            </mat-table>
-            <mat-paginator #paginatorProduto [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
+                  <mat-header-row *matHeaderRowDef="['id', 'nome', 'abrangencia', 'reembolso']"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: ['id', 'nome', 'abrangencia', 'reembolso'];"></mat-row>
+                </mat-table>
+                <mat-paginator #paginatorProduto [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
+              </div>
+              <div [hidden]="!editandoTabela() && !adicionandoTabela()">
+                <mat-table #sortProdutoEditando="matSort" [dataSource]="dataSourceProduto" matSort class="mat-elevation-z8">
+                  <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+                    <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.id}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="nome">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+                    <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.nome}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="abrangencia">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
+                    <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.abrangencia}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="reembolso">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Reembolso </mat-header-cell>
+                    <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.reembolso | currency:'BRL':'symbol':'0.2'}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="selected">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center"> Selecione </mat-header-cell>
+                    <mat-cell *matCellDef="let produto">
+                      <section style="width: 100%; text-align: center">
+                        <mat-checkbox [(ngModel)]="produto.selected"></mat-checkbox>
+                      </section>
+                    </mat-cell>
+                  </ng-container>
+
+                  <mat-header-row *matHeaderRowDef="['id', 'nome', 'abrangencia', 'reembolso', 'selected']"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: ['id', 'nome', 'abrangencia', 'reembolso', 'selected'];"></mat-row>
+                </mat-table>
+                <mat-paginator #paginatorProdutoEditando [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
+              </div>
+            </mat-expansion-panel>
           </div>
-          <div [hidden]="!editandoTabela() && !adicionandoTabela()">
-            <mat-table #sortProdutoEditando="matSort" [dataSource]="dataSourceProduto" matSort class="mat-elevation-z8">
-              <ng-container matColumnDef="id">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.id}} </mat-cell>
-              </ng-container>
+          <div style="width: 50%; padding-left: 10px">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <mat-icon>groups</mat-icon>
+                </mat-panel-title>
+                <mat-panel-description>
+                  Entidades
+                </mat-panel-description>
+              </mat-expansion-panel-header>
 
-              <ng-container matColumnDef="nome">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.nome}} </mat-cell>
-              </ng-container>
+              <div [hidden]="editandoTabela() || adicionandoTabela()">
+                <mat-table #sortEntidade="matSort" [dataSource]="dataSourceEntidade" matSort class="mat-elevation-z8">
+                  <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+                    <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.id}} </mat-cell>
+                  </ng-container>
 
-              <ng-container matColumnDef="abrangencia">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
-                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.abrangencia}} </mat-cell>
-              </ng-container>
+                  <ng-container matColumnDef="nome">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+                    <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.nome}} </mat-cell>
+                  </ng-container>
 
-              <ng-container matColumnDef="reembolso">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Reembolso </mat-header-cell>
-                <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.reembolso | currency:'BRL':'symbol':'0.2'}} </mat-cell>
-              </ng-container>
+                  <mat-header-row *matHeaderRowDef="['id', 'nome',]"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: ['id', 'nome',];"></mat-row>
+                </mat-table>
+                <mat-paginator #paginatorEntidade [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceEntidade.data.length" showFirstLastButtons></mat-paginator>
+              </div>
+              <div [hidden]="!editandoTabela() && !adicionandoTabela()">
+                <mat-table #sortEntidadeEditando="matSort" [dataSource]="dataSourceEntidade" matSort class="mat-elevation-z8">
+                  <ng-container matColumnDef="id">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+                    <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.id}} </mat-cell>
+                  </ng-container>
 
-              <ng-container matColumnDef="selected">
-                <mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center"> Selecione </mat-header-cell>
-                <mat-cell *matCellDef="let produto">
-                  <section style="width: 100%; text-align: center">
-                    <mat-checkbox [(ngModel)]="produto.selected"></mat-checkbox>
-                  </section>
-                </mat-cell>
-              </ng-container>
+                  <ng-container matColumnDef="nome">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+                    <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.nome}} </mat-cell>
+                  </ng-container>
 
-              <mat-header-row *matHeaderRowDef="['id', 'nome', 'abrangencia', 'reembolso', 'selected']"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: ['id', 'nome', 'abrangencia', 'reembolso', 'selected'];"></mat-row>
-            </mat-table>
-            <mat-paginator #paginatorProdutoEditando [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
+                  <ng-container matColumnDef="selected">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center"> Selecione </mat-header-cell>
+                    <mat-cell *matCellDef="let produto">
+                      <section style="width: 100%; text-align: center">
+                        <mat-checkbox [(ngModel)]="produto.selected"></mat-checkbox>
+                      </section>
+                    </mat-cell>
+                  </ng-container>
+
+                  <mat-header-row *matHeaderRowDef="['id', 'nome', 'selected']"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: ['id', 'nome', 'selected'];"></mat-row>
+                </mat-table>
+                <mat-paginator #paginatorEntidadeEditando [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceEntidade.data.length" showFirstLastButtons></mat-paginator>
+              </div>
+            </mat-expansion-panel>
           </div>
-        </mat-expansion-panel>
+        </div>
       </mat-accordion>
     </mat-card-content>
   </mat-card>
