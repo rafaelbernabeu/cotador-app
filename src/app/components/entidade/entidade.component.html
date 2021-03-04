@@ -75,29 +75,16 @@
         </mat-card-content>
       </mat-card>
     </div>
-    <div *ngIf="profissoes" style="height: 20px"></div>
-    <div [hidden]="!profissoes">
+    <div *ngIf="entidadeSelecionada" style="height: 20px"></div>
+    <div [hidden]="!entidadeSelecionada">
       <mat-card>
         <mat-card-title>
-        <span>
           Lista de Profissoes Vinculadas - {{entidadeSelecionada.nome}}
-        </span>
-          <span style="float: right; padding-left: 20px">
-          <a *ngIf="editandoRelacionamento()" (click)="salvarProfissoes()">
-            <mat-icon class="mouse-pointer">save</mat-icon>
-          </a>
-          <a *ngIf="!editandoRelacionamento()" (click)="editarRelacionamento()">
-            <mat-icon class="mouse-pointer">edit</mat-icon>
-          </a>
-          <a *ngIf="editandoRelacionamento()" (click)="cancelarEdicaoRelacionamento()">
-            <mat-icon class="mouse-pointer">close</mat-icon>
-          </a>
-        </span>
         </mat-card-title>
         <br/>
 
         <mat-card-content>
-          <div [hidden]="!editandoRelacionamento()">
+          <div [hidden]="!editandoEntidade() && !adicionandoEntidade()">
             <mat-table #profissoesSortEditando="matSort" [dataSource]="dataSourceProfissao" matSort class="mat-elevation-z8">
               <ng-container matColumnDef="id">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
@@ -124,7 +111,7 @@
             <mat-paginator #paginatorEditandoProfissoes [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceProfissao.data.length" showFirstLastButtons></mat-paginator>
           </div>
 
-          <div [hidden]="editandoRelacionamento()">
+          <div [hidden]="editandoEntidade() || adicionandoEntidade()">
             <mat-table #profissoesSort="matSort" [dataSource]="dataSourceProfissao" matSort class="mat-elevation-z8">
               <ng-container matColumnDef="id">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>

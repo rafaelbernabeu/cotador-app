@@ -1,7 +1,6 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
 import {HttpClient} from '@angular/common/http';
-import {Usuario} from '../usuario/usuario';
 import {Observable} from 'rxjs';
 import {Entidade} from './entidade';
 import {ApiService} from '../api/api.service';
@@ -27,8 +26,7 @@ export class EntidadeService {
   }
 
   public atualizarProfissoesDaEntidade(entidade: Entidade, profissoes: Profissao[]): Observable<Profissao[]> {
-    return this.http.post<Profissao[]>(this.getApiUrl() + '/' + entidade.id + this.api.PROFISSAO_API_URL,
-      profissoes, this.authServie.getTokenHeader());
+    return this.http.post<Profissao[]>(this.getApiUrl() + '/' + entidade.id + this.api.PROFISSAO_API_URL, profissoes, this.authServie.getTokenHeader());
   }
 
   public adicionarEntidade(entidade: Entidade): Observable<Entidade> {
