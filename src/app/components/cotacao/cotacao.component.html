@@ -6,7 +6,7 @@
 
       <div style="margin-top: 40px; margin-bottom: 20px">
         <span>
-          <mat-radio-group [(ngModel)]="cotacao.categoria">
+          <mat-radio-group (ngModelChange)="consultaCotacaoCategoria($event)" [(ngModel)]="cotacao.categoria">
             <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
               {{categoria}}
             </mat-radio-button>

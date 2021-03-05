@@ -42,10 +42,16 @@ export class CotacaoComponent implements OnInit {
 
   ngOnInit(): void {
     this.iniciaAutoCompletes();
+    this.cotacaoService.getCotacao(this.cotacao).subscribe(response => console.log(response));
     this.estadoService.getAllEstados().subscribe(response => this.todosEstados = response);
     this.categoriaService.getAllCategorias().subscribe(response => this.todasCategorias = response);
     this.profissaoService.getAllProfissoes().subscribe(response => this.todasProfissoes = response);
     this.acomodacaoService.getAllAcomodacoes().subscribe(response => this.todasAcomodacoes = response);
+  }
+
+  consultaCotacaoCategoria(categoria: Categoria): void {
+    this.cotacao.categoria = categoria;
+    this.cotacaoService.getCotacao(this.cotacao).subscribe(response => console.log(response));
   }
 
   private iniciaAutoCompletes(): void {

@@ -12,6 +12,7 @@ export class ApiService {
   OPCAO_API_URL = '/opcoes';
   ESTADO_API_URL = '/estados';
   TABELA_API_URL = '/tabelas';
+  COTACAO_API_URL= '/cotacoes';
   USUARIO_API_URL = '/usuarios';
   PRODUTO_API_URL = '/produtos';
   ENTIDADE_API_URL = '/entidades';
