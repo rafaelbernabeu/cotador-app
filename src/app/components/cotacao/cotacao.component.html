@@ -1,1 +1,114 @@
-<p>cotacao works!</p>
+<div class="flex-container">
+
+  <mat-card>
+    <mat-card-title>Cotacao</mat-card-title>
+    <mat-card-content>
+
+      <div style="margin-top: 40px; margin-bottom: 20px">
+        <span>
+          <mat-radio-group [(ngModel)]="cotacao.categoria">
+            <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
+              {{categoria}}
+            </mat-radio-button>
+          </mat-radio-group>
+        </span>
+
+        <span style="float: right;">
+          <mat-slide-toggle [(ngModel)]="cotacao.coparticipacao" labelPosition="before">Coparticipacao</mat-slide-toggle>
+        </span>
+      </div>
+
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Estado</mat-label>
+        <input matInput [formControl]="estadoAutoCompleteControl" [matAutocomplete]="auto1" type="text">
+        <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" [displayWith]="estadoDisplayFn">
+          <mat-option *ngFor="let estado of estadoFilteredOptions | async" [value]="estado">
+            {{estado.nome}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" style="width: 100%">
+        <mat-label>Profissao</mat-label>
+        <input matInput [formControl]="profissaoAutoCompleteControl" [matAutocomplete]="auto2" type="text">
+        <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="profissaoDisplayFn">
+          <mat-option *ngFor="let profissao of profissaoFilteredOptions | async" [value]="profissao">
+            {{profissao.nome}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <div>
+        <mat-form-field appearance="outline" style="width: 33%">
+          <mat-label>Qtd. Vidas 0 a 18</mat-label>
+          <input type="number" matInput placeholder="0 a 18"
+                 [(ngModel)]="cotacao.qtdVidas0a18anos">
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width: 33%">
+          <mat-label>Qtd. Vidas 19 a 23</mat-label>
+          <input type="number" matInput placeholder="19 a 23"
+                 [(ngModel)]="cotacao.qtdVidas19a23anos">
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width: 33%">
+          <mat-label>Qtd. Vidas 24 a 28</mat-label>
+          <input type="number" matInput placeholder="24 a 28"
+                 [(ngModel)]="cotacao.qtdVidas24a28anos">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline" style="width: 33%">
+          <mat-label>Qtd. Vidas 29 a 33</mat-label>
+          <input type="number" matInput placeholder="29 a 33"
+                 [(ngModel)]="cotacao.qtdVidas29a33anos">
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width: 33%">
+          <mat-label>Qtd. Vidas 34 a 38</mat-label>
+          <input type="number" matInput placeholder="34 a 38"
+                 [(ngModel)]="cotacao.qtdVidas34a38anos">
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width: 33%">
+          <mat-label>Qtd. Vidas 39 a 43</mat-label>
+          <input type="number" matInput placeholder="39 a 43"
+                 [(ngModel)]="cotacao.qtdVidas39a43anos">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline" style="width: 33%">
+          <mat-label>Qtd. Vidas 44 a 48</mat-label>
+          <input type="number" matInput placeholder="44 a 48"
+                 [(ngModel)]="cotacao.qtdVidas44a48anos">
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width: 33%">
+          <mat-label>Qtd. Vidas 49 a 53</mat-label>
+          <input type="number" matInput placeholder="49 a 53"
+                 [(ngModel)]="cotacao.qtdVidas49a53anos">
+        </mat-form-field>
+        <mat-form-field appearance="outline" style="width: 33%">
+          <mat-label>Qtd. Vidas 54 a 58</mat-label>
+          <input type="number" matInput placeholder="54 a 58"
+                 [(ngModel)]="cotacao.qtdVidas54a58anos">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline" style="width: 33%">
+          <mat-label>Qtd. Vidas 59 ou Mais</mat-label>
+          <input type="number" matInput placeholder="59 ou mais"
+                 [(ngModel)]="cotacao.qtdVidas59ouMaisAnos">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" style="width: 66%">
+          <mat-label>Acomodacao</mat-label>
+          <mat-select [(ngModel)]="cotacao.acomodacao">
+            <mat-option [value]=""></mat-option>
+            <mat-option *ngFor="let acomodacao of todasAcomodacoes;" [value]="acomodacao">{{acomodacao}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+
+
+
+    </mat-card-content>
+  </mat-card>
+
+</div>
