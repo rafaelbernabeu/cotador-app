@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
-import {MatAccordion} from '@angular/material/expansion';
+import {MatAccordion, MatExpansionPanel} from '@angular/material/expansion';
 import {MatTableDataSource} from '@angular/material/table';
 import {Operadora} from '../../services/operadora/operadora';
 import {FormControl} from '@angular/forms';
@@ -46,6 +46,8 @@ export class TabelaComponent implements OnInit {
   @ViewChild('paginatorEntidadeEditando') paginatorEntidadeEditando: MatPaginator;
 
   @ViewChild(MatAccordion) accordion: MatAccordion;
+  @ViewChild('relacionamentoProduto') accordionProduto: MatExpansionPanel;
+  @ViewChild('relacionamentoEntidade') accordionEntidade: MatExpansionPanel;
 
   displayedColumns: string[] = ['id', 'nome', 'estado', 'operadora', 'administradora'];
   dataSourceTabela = new MatTableDataSource<Tabela>();
@@ -184,8 +186,7 @@ export class TabelaComponent implements OnInit {
     this.estadoAutoCompleteControl.setValue(this.tabelaEditando.estado);
     this.operadoraAutoCompleteControl.setValue(this.tabelaEditando.operadora);
     this.administradoraAutoCompleteControl.setValue(this.tabelaEditando.administradora);
-    this.carregaTabelaProduto(this.tabelaEditando.produtos);
-    this.carregaTabelaEntidade(this.tabelaEditando.entidades);
+    this.carregaTabelasAdicionais(this.tabelaEditando);
   }
 
   editarTabela(): void {
@@ -200,17 +201,20 @@ export class TabelaComponent implements OnInit {
   }
 
   configuraProdutosParaEdicao(): void {
-    this.operadoraService.getProdutosByOperadora(this.tabelaEditando.operadora).subscribe(response => {
-      this.todosProdutos = response;
-      this.todosProdutos.forEach(todos => {
-        this.tabelaSelecionada.produtos?.forEach(produto => {
-          if (todos.id === produto.id) {
-            todos.selected = true;
-          }
+    if (this.tabelaEditando.operadora?.id) {
+      this.operadoraService.getProdutosByOperadora(this.tabelaEditando.operadora).subscribe(response => {
+        this.todosProdutos = response;
+        this.todosProdutos.forEach(todos => {
+          this.tabelaSelecionada.produtos?.forEach(produto => {
+            if (todos.id === produto.id) {
+              todos.selected = true;
+            }
+          });
         });
+        this.carregaTabelaProduto(this.todosProdutos);
+        this.accordionProduto.open();
       });
-      this.carregaTabelaProduto(this.todosProdutos);
-    });
+    }
   }
 
   configuraEntidadesParaEdicao(): void {
@@ -245,6 +249,7 @@ export class TabelaComponent implements OnInit {
   adicionar(): void {
     this.estado = 'adicionando';
     this.tabelaSelecionada = new Tabela();
+    this.tabelaEditando = this.tabelaSelecionada;
     this.reajusteAutoCompleteControl.enable();
     this.estadoAutoCompleteControl.enable();
     this.operadoraAutoCompleteControl.enable();
@@ -253,8 +258,10 @@ export class TabelaComponent implements OnInit {
     this.estadoAutoCompleteControl.setValue(new Estado());
     this.operadoraAutoCompleteControl.setValue(new Operadora());
     this.administradoraAutoCompleteControl.setValue(new Administradora());
-    this.tabelaEditando = this.tabelaSelecionada;
     this.preparaTodosParaNovaVerificacao();
+    this.accordionProduto.close();
+    this.accordionEntidade.open();
+    this.configuraEntidadesParaEdicao();
   }
 
   visualizar(): void {
@@ -315,9 +322,13 @@ export class TabelaComponent implements OnInit {
       this.visualizar();
       this.carregaTabelaTabela();
       this.tabelaSelecionada = response;
-      this.carregaTabelaProduto(this.tabelaSelecionada.produtos);
-      this.carregaTabelaEntidade(this.tabelaSelecionada.entidades);
+      this.carregaTabelasAdicionais(this.tabelaSelecionada);
     });
+  }
+
+  private carregaTabelasAdicionais(tabela: Tabela): void {
+    this.carregaTabelaProduto(tabela.produtos);
+    this.carregaTabelaEntidade(tabela.entidades);
   }
 
   removerTabela(): void {
