@@ -42,7 +42,7 @@ export class ProdutoComponent implements OnInit {
 
   @ViewChild(MatAccordion) accordion: MatAccordion;
 
-  displayedColumns: string[] = ['id', 'nome', 'abrangencia', 'operadora', 'reembolso'];
+  displayedColumns: string[] = ['id', 'nome', 'abrangencia', 'operadora', 'reembolso', 'valorProntoSocorro', 'valorConsulta', 'valorExameSimples', 'valorExameEspecial', 'valorInternacao'];
   dataSourceProduto = new MatTableDataSource<Produto>();
   dataSourceHospital = new MatTableDataSource<Hospital>();
   dataSourceLaboratorio = new MatTableDataSource<Laboratorio>();

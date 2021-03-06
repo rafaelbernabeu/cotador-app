@@ -40,6 +40,41 @@
             <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.reembolso | currency:'BRL':'symbol':'0.2'}} </mat-cell>
           </ng-container>
 
+          <ng-container matColumnDef="valorProntoSocorro">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Pronto Socorro </mat-header-cell>
+            <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer">
+              {{produto.coparticipacao.percentualProntoSocorro}}% ... {{produto.coparticipacao.valorProntoSocorro | currency:'BRL'}}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="valorConsulta">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Consulta </mat-header-cell>
+            <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer">
+              {{produto.coparticipacao.percentualConsulta}}% ... {{produto.coparticipacao.valorConsulta | currency:'BRL'}}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="valorExameSimples">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Excame Simples </mat-header-cell>
+            <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer">
+              {{produto.coparticipacao.percentualExameSimples}}% ... {{produto.coparticipacao.valorExameSimples | currency:'BRL'}}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="valorExameEspecial">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Exame Especial </mat-header-cell>
+            <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer">
+              {{produto.coparticipacao.percentualExameEspecial}}% ... {{produto.coparticipacao.valorExameEspecial | currency:'BRL'}}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="valorInternacao">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Internacao </mat-header-cell>
+            <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer">
+              {{produto.coparticipacao.percentualInternacao}}% ... {{produto.coparticipacao.valorInternacao | currency:'BRL'}}
+            </mat-cell>
+          </ng-container>
+
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
