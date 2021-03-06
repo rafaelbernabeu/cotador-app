@@ -386,4 +386,7 @@ export class TabelaComponent implements OnInit {
     return operadora && operadora.nome ? operadora.nome : '';
   }
 
+  categoriaEmpresarial(): boolean {
+    return this.tabelaEditando.categoria === 'Empresarial';
+  }
 }

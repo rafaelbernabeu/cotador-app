@@ -10,7 +10,6 @@ export class Tabela {
 
   id: number;
   nome: string = '';
-  pme: boolean;
   contemplaMEI: boolean;
   compulsoria: boolean;
   idadeMinima: number;
