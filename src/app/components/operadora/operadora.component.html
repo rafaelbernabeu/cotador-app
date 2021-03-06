@@ -17,12 +17,17 @@
         <mat-table [dataSource]="dataSourceOperadora" matSort class="mat-elevation-z8">
           <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-            <mat-cell *matCellDef="let administradora" (click)="selecionaOperadora(administradora)" class="mouse-pointer"> {{administradora.id}} </mat-cell>
+            <mat-cell *matCellDef="let operadora" (click)="selecionaOperadora(operadora)" class="mouse-pointer"> {{operadora.id}} </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="nome">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-            <mat-cell *matCellDef="let administradora" (click)="selecionaOperadora(administradora)" class="mouse-pointer"> {{administradora.nome}} </mat-cell>
+            <mat-cell *matCellDef="let operadora" (click)="selecionaOperadora(operadora)" class="mouse-pointer"> {{operadora.nome}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="cor">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Cor </mat-header-cell>
+            <mat-cell *matCellDef="let operadora" (click)="selecionaOperadora(operadora)" class="mouse-pointer" [style.color]="'#'+ operadora.cor"> {{operadora.cor}} </mat-cell>
           </ng-container>
 
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -71,6 +76,11 @@
             <mat-label>Nome</mat-label>
             <input matInput placeholder="Nome" [disabled]="!adicionandoOperadora() && !editandoOperadora()"
                    [(ngModel)]="operadoraEditando.nome">
+          </mat-form-field>
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Cor</mat-label>
+            <input matInput placeholder="Cor" [disabled]="!adicionandoOperadora() && !editandoOperadora()"
+                   [(ngModel)]="operadoraEditando.cor">
           </mat-form-field>
         </mat-card-content>
       </mat-card>

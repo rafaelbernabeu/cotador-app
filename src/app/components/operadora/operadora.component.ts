@@ -18,7 +18,7 @@ export class OperadoraComponent implements OnInit {
   @ViewChild(MatSort) sortOperadora: MatSort;
   @ViewChild(MatPaginator) paginatorOperadora: MatPaginator;
 
-  displayedColumns: string[] = ['id', 'nome'];
+  displayedColumns: string[] = ['id', 'nome', 'cor'];
   dataSourceOperadora = new MatTableDataSource<Operadora>();
 
   estado: string;
