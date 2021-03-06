@@ -129,6 +129,14 @@ export class ProdutoComponent implements OnInit {
     this.carregaTabelasAdicionais(this.produtoEditando);
   }
 
+  copiarProduto(): void {
+    this.editarProduto();
+    this.produtoEditando.id = null;
+    this.produtoEditando.coparticipacao.id = null;
+    this.produtoEditando.nome = '';
+    this.estado = 'adicionando';
+  }
+
   editarProduto(): void {
     this.estado = 'editandoProduto';
     this.autoCompleteControl.enable();

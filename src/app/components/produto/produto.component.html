@@ -62,6 +62,9 @@
           <a *ngIf="!editandoProduto() && !adicionandoProduto()" (click)="editarProduto()">
             <mat-icon class="mouse-pointer">create</mat-icon>
           </a>
+          <a *ngIf="!editandoProduto() && !adicionandoProduto()" (click)="copiarProduto()">
+            <mat-icon class="mouse-pointer">content_copy</mat-icon>
+          </a>
           <a *ngIf="!editandoProduto() && !adicionandoProduto()" (click)="removerProduto()">
             <mat-icon class="mouse-pointer">delete</mat-icon>
           </a>
