@@ -9,7 +9,6 @@ import {DialogComponent} from '../dialog/dialog.component';
 import {Opcao} from '../../services/opcao/opcao';
 import {MatAccordion} from '@angular/material/expansion';
 import {Produto} from '../../services/produto/produto';
-import {Reajuste} from '../../services/reajuste/reajuste';
 import {Estado} from '../../services/estado/estado';
 import {Categoria} from '../../services/categoria/categoria';
 import {Operadora} from '../../services/operadora/operadora';
@@ -136,36 +135,39 @@ export class OpcaoComponent implements OnInit {
   private modelChangeCategoria(categoria: Categoria): void {
     if (this.adicionandoOpcao() || this.editandoOpcao()) {
       this.carregaEstadoPorCategoria(categoria);
-      this.estadoAutoCompleteControl.setValue('');
-      this.administradoraAutoCompleteControl.setValue('');
     }
   }
 
   private carregaEstadoPorCategoria(categoria: Categoria): void {
-    if (this.adicionandoOpcao() || this.editandoOpcao()) {
-      this.categoriaService.getEstadosByCategoria(categoria).subscribe(response => {
-        this.todosEstados = response;
-        setTimeout(() => this.estadoAutoCompleteControl.setValue(this.opcaoEditando.tabela.estado));
-      });
-    }
+    this.categoriaService.getEstadosByCategoria(categoria).subscribe(response => {
+      this.todosEstados = response;
+      let novoEstadoSelecionado: any = this.estadoAutoCompleteControl.value;
+      if (this.todosEstados.filter(e => e.nome === novoEstadoSelecionado?.nome).length === 0) {
+        novoEstadoSelecionado = '';
+        this.administradoraAutoCompleteControl.setValue('');
+      }
+      setTimeout(() => this.estadoAutoCompleteControl.setValue(novoEstadoSelecionado));
+    });
   }
 
   private modelChangeEstado(): void {
     if (this.adicionandoOpcao() || this.editandoOpcao()) {
-      this.administradoraAutoCompleteControl.setValue('');
       this.carregaAdministradoraPorEstadoAndCategoria();
     }
   }
 
   private carregaAdministradoraPorEstadoAndCategoria(): void {
-    if (this.adicionandoOpcao() || this.editandoOpcao()) {
-      const estado = this.estadoAutoCompleteControl.value;
-      if (estado.sigla && this.opcaoEditando.categoria) {
-        this.estadoService.getAdministradorasByEstadoAndCategoria(estado, this.opcaoEditando.categoria).subscribe(response => {
-          this.todasAdministradoras = response;
-          setTimeout(() => this.administradoraAutoCompleteControl.setValue(this.opcaoEditando.tabela.administradora));
-        });
-      }
+    const estado = this.estadoAutoCompleteControl.value;
+    if (estado.sigla && this.opcaoEditando.categoria) {
+      this.estadoService.getAdministradorasByEstadoAndCategoria(estado, this.opcaoEditando.categoria).subscribe(response => {
+        this.todasAdministradoras = response;
+        let novaAdministradoraSelecionada: any = this.administradoraAutoCompleteControl.value;
+        if (this.todasAdministradoras.filter(a => a.nome === novaAdministradoraSelecionada?.nome).length === 0) {
+          novaAdministradoraSelecionada = '';
+          this.operadoraAutoCompleteControl.setValue('');
+        }
+        setTimeout(() => this.administradoraAutoCompleteControl.setValue(novaAdministradoraSelecionada));
+      });
     }
   }
 
@@ -183,63 +185,68 @@ export class OpcaoComponent implements OnInit {
   private modelChangeAdministradora(): void {
     if (this.adicionandoOpcao() || this.editandoOpcao()) {
       this.carregaOperadoraPorAdministradoraAndEstadoAndCategoria();
-      this.operadoraAutoCompleteControl.setValue('');
     }
   }
 
   private carregaOperadoraPorAdministradoraAndEstadoAndCategoria(): void {
-    if (this.adicionandoOpcao() || this.editandoOpcao()) {
-      const estado = this.estadoAutoCompleteControl.value;
-      const administradora = this.administradoraAutoCompleteControl.value;
-      if (estado.sigla && administradora.id && this.opcaoEditando.categoria) {
-        this.administradoraService.getOperadorasByAdministradoraAndEstadoAndCategoriaAndMEI(administradora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
-          this.todasOperadoras = response;
-          setTimeout(() => this.operadoraAutoCompleteControl.setValue(this.opcaoEditando.tabela.operadora));
-        });
-      }
+    const estado = this.estadoAutoCompleteControl.value;
+    const administradora = this.administradoraAutoCompleteControl.value;
+    if (estado.sigla && administradora.id && this.opcaoEditando.categoria) {
+      this.administradoraService.getOperadorasByAdministradoraAndEstadoAndCategoriaAndMEI(administradora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
+        this.todasOperadoras = response;
+        let novaOperadoraSelecionada: any = this.operadoraAutoCompleteControl.value;
+        if (this.todasOperadoras.filter(o => o.nome === novaOperadoraSelecionada?.nome).length === 0) {
+          novaOperadoraSelecionada = '';
+          this.tabelaAutoCompleteControl.setValue('');
+        }
+        setTimeout(() => this.operadoraAutoCompleteControl.setValue(novaOperadoraSelecionada));
+      });
     }
   }
 
   private modelChangeOperadora(): void {
     if (this.adicionandoOpcao() || this.editandoOpcao()) {
       this.carregaTabelaPorOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI();
-      this.tabelaAutoCompleteControl.setValue('');
     }
   }
 
   private carregaTabelaPorOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(): void {
-    if (this.adicionandoOpcao() || this.editandoOpcao()) {
-      const estado = this.estadoAutoCompleteControl.value;
-      const administradora = this.administradoraAutoCompleteControl.value;
-      const operadora = this.operadoraAutoCompleteControl.value;
-      if (operadora.id && estado.sigla && administradora.id && this.opcaoEditando.categoria) {
-        this.operadoraService.getTabelasByOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(operadora, administradora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
-          this.todasTabelas = response;
-          setTimeout(() => this.tabelaAutoCompleteControl.setValue(this.opcaoEditando.tabela));
-        });
-      }
+    const estado = this.estadoAutoCompleteControl.value;
+    const administradora = this.administradoraAutoCompleteControl.value;
+    const operadora = this.operadoraAutoCompleteControl.value;
+    if (operadora.id && estado.sigla && administradora.id && this.opcaoEditando.categoria) {
+      this.operadoraService.getTabelasByOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(operadora, administradora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
+        this.todasTabelas = response;
+        let novaTabelaSelecionada: any = this.tabelaAutoCompleteControl.value;
+        if (this.todasTabelas.filter(t => t.nome === novaTabelaSelecionada?.nome).length === 0) {
+          novaTabelaSelecionada = '';
+          this.produtoAutoCompleteControl.setValue('');
+        }
+        setTimeout(() => this.tabelaAutoCompleteControl.setValue(novaTabelaSelecionada));
+      });
     }
   }
 
   private modelChangeTabela(): void {
     if (this.adicionandoOpcao() || this.editandoOpcao()) {
       this.carregaProdutosPorTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI();
-      this.produtoAutoCompleteControl.setValue('');
     }
   }
 
   private carregaProdutosPorTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(): void {
-    if (this.adicionandoOpcao() || this.editandoOpcao()) {
-      const estado = this.estadoAutoCompleteControl.value;
-      const administradora = this.administradoraAutoCompleteControl.value;
-      const operadora = this.operadoraAutoCompleteControl.value;
-      const tabela = this.tabelaAutoCompleteControl.value;
-      if (tabela.id && operadora.id && estado.sigla && administradora.id && this.opcaoEditando.categoria) {
-        this.tabelaService.getProdutosByTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(tabela, operadora, administradora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
-          this.todosProdutos = response;
-          setTimeout(() => this.produtoAutoCompleteControl.setValue(this.opcaoEditando.produto));
-        });
-      }
+    const estado = this.estadoAutoCompleteControl.value;
+    const administradora = this.administradoraAutoCompleteControl.value;
+    const operadora = this.operadoraAutoCompleteControl.value;
+    const tabela = this.tabelaAutoCompleteControl.value;
+    if (tabela.id && operadora.id && estado.sigla && administradora.id && this.opcaoEditando.categoria) {
+      this.tabelaService.getProdutosByTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(tabela, operadora, administradora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
+        this.todosProdutos = response;
+        let novoProdutoSelecionado: any = this.produtoAutoCompleteControl.value;
+        if (this.todosProdutos.filter(o => o.nome === novoProdutoSelecionado?.nome).length === 0) {
+          novoProdutoSelecionado = '';
+        }
+        setTimeout(() => this.produtoAutoCompleteControl.setValue(novoProdutoSelecionado));
+      });
     }
   }
 
@@ -259,6 +266,7 @@ export class OpcaoComponent implements OnInit {
     this.estadoAutoCompleteControl.setValue(this.opcaoEditando.tabela.estado);
     this.operadoraAutoCompleteControl.setValue(this.opcaoEditando.tabela.operadora);
     this.administradoraAutoCompleteControl.setValue(this.opcaoEditando.tabela.administradora);
+    this.preparaAutoCompletesParaEdicao(this.opcaoEditando);
   }
 
   editarOpcao(): void {
@@ -268,7 +276,6 @@ export class OpcaoComponent implements OnInit {
     this.produtoAutoCompleteControl.enable();
     this.operadoraAutoCompleteControl.enable();
     this.administradoraAutoCompleteControl.enable();
-    this.preparaAutoCompletesParaEdicao(this.opcaoEditando);
   }
 
   cancelarEdicao(): void {
@@ -301,6 +308,7 @@ export class OpcaoComponent implements OnInit {
   adicionar(): void {
     this.estado = 'adicionando';
     this.opcaoSelecionada = new Opcao();
+    this.opcaoEditando = this.opcaoSelecionada;
     this.tabelaAutoCompleteControl.enable();
     this.estadoAutoCompleteControl.enable();
     this.produtoAutoCompleteControl.enable();
@@ -311,7 +319,6 @@ export class OpcaoComponent implements OnInit {
     this.produtoAutoCompleteControl.setValue('');
     this.operadoraAutoCompleteControl.setValue('');
     this.administradoraAutoCompleteControl.setValue('');
-    this.opcaoEditando = this.opcaoSelecionada;
   }
 
   visualizar(): void {
