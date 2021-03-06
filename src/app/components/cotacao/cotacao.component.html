@@ -156,6 +156,11 @@
           <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{ calculaValorCotacao(cotacao) | currency: 'BRL' }} </mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="entidades">
+          <mat-header-cell *matHeaderCellDef mat-sort-header> Entidades </mat-header-cell>
+          <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{ displayEntidades(cotacao) }} </mat-cell>
+        </ng-container>
+
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
       </mat-table>

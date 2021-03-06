@@ -27,7 +27,7 @@ export class CotacaoComponent implements OnInit {
   @ViewChild(MatSort) sortCotacao: MatSort;
   @ViewChild(MatPaginator) paginatorCotacao: MatPaginator;
 
-  displayedColumns: string[] = ['id', 'estado', 'nomeTabela', 'nomeProduto', 'acomodacao', 'coparticipacao', 'valor'];
+  displayedColumns: string[] = ['id', 'estado', 'nomeTabela', 'nomeProduto', 'acomodacao', 'coparticipacao', 'valor', 'entidades'];
   dataSourceCotacao = new MatTableDataSource<Opcao>();
 
   filtroCotacao: Cotacao = new Cotacao();
@@ -138,19 +138,27 @@ export class CotacaoComponent implements OnInit {
   consultaCotacaoEstado(estado: Estado): void {
     if (estado?.sigla && estado?.nome) {
       this.filtroCotacao.estado = estado;
+      this.consultaCotacao();
     } else {
       this.filtroCotacao.estado = null;
     }
-    this.consultaCotacao();
   }
 
   consultaCotacaoProfissao(profissao: Profissao): void {
-    this.filtroCotacao.profissao = profissao;
-    this.consultaCotacao();
+    if (profissao?.id) {
+      this.filtroCotacao.profissao = profissao;
+      this.consultaCotacao();
+    } else {
+      this.filtroCotacao.profissao = null;
+    }
   }
 
   consultaCotacaoAcomodacao(acomodacao: Acomodacao): void {
     this.filtroCotacao.acomodacao = acomodacao;
     this.consultaCotacao();
+  }
+
+  displayEntidades(cotacao: Opcao): string {
+    return cotacao.tabela.entidades.map(e => e.nome).join(',')
   }
 }
