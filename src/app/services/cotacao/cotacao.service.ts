@@ -3,8 +3,8 @@ import {AuthService} from "../auth/auth.service";
 import {HttpClient} from "@angular/common/http";
 import {ApiService} from "../api/api.service";
 import {Observable} from "rxjs";
-import {Categoria} from "../categoria/categoria";
 import {Cotacao} from "./cotacao";
+import {Opcao} from "../opcao/opcao";
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +17,8 @@ export class CotacaoService {
     private api: ApiService,
   ) { }
 
-  public getCotacao(cotacao: Cotacao): Observable<Categoria[]> {
-    return this.http.post<Categoria[]>(this.getApiUrl(), cotacao, this.authServie.getTokenHeader());
+  public getCotacao(cotacao: Cotacao): Observable<Opcao[]> {
+    return this.http.post<Opcao[]>(this.getApiUrl(), cotacao, this.authServie.getTokenHeader());
   }
 
   private getApiUrl(): string {
