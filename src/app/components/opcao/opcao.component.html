@@ -129,7 +129,7 @@
         <mat-card-content>
           <div style="display: flex; margin-bottom: 20px">
             <div style="width: 50%">
-              <mat-radio-group (ngModelChange)="carregaEstadoPorCategoria($event)" [(ngModel)]="opcaoEditando.categoria">
+              <mat-radio-group (ngModelChange)="carregaEstadoPorCategoria($event)" [(ngModel)]="opcaoEditando.categoria" [disabled]="!adicionandoOpcao() && !editandoOpcao()">
                 <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
                   {{categoria}}
                 </mat-radio-button>

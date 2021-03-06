@@ -203,21 +203,24 @@ export class OpcaoComponent implements OnInit {
     this.estado = null;
     this.opcaoSelecionada = opcao;
     this.opcaoEditando = {...opcao};
+    this.opcaoEditando.categoria = opcao.tabela.categoria;
     this.tabelaAutoCompleteControl.disable();
     this.estadoAutoCompleteControl.disable();
+    this.produtoAutoCompleteControl.disable();
     this.operadoraAutoCompleteControl.disable();
     this.administradoraAutoCompleteControl.disable();
-    // this.reajusteAutoCompleteControl.setValue(this.opcaoEditando.reajuste);
-    // this.estadoAutoCompleteControl.setValue(this.opcaoEditando.estado);
-    // this.operadoraAutoCompleteControl.setValue(this.opcaoEditando.operadora);
-    // this.administradoraAutoCompleteControl.setValue(this.opcaoEditando.administradora);
-    // this.carregaOpcaoProduto(this.opcaoEditando.produtos);
+    this.tabelaAutoCompleteControl.setValue(this.opcaoEditando.tabela);
+    this.produtoAutoCompleteControl.setValue(this.opcaoEditando.produto)
+    this.estadoAutoCompleteControl.setValue(this.opcaoEditando.tabela.estado);
+    this.operadoraAutoCompleteControl.setValue(this.opcaoEditando.tabela.operadora);
+    this.administradoraAutoCompleteControl.setValue(this.opcaoEditando.tabela.administradora);
   }
 
   editarOpcao(): void {
     this.estado = 'editandoOpcao';
     this.tabelaAutoCompleteControl.enable();
     this.estadoAutoCompleteControl.enable();
+    this.produtoAutoCompleteControl.enable();
     this.operadoraAutoCompleteControl.enable();
     this.administradoraAutoCompleteControl.enable();
   }
@@ -225,8 +228,10 @@ export class OpcaoComponent implements OnInit {
   cancelarEdicao(): void {
     this.estado = null;
     this.opcaoEditando = {...this.opcaoSelecionada};
+    this.opcaoEditando.categoria = this.opcaoEditando.tabela.categoria;
     this.tabelaAutoCompleteControl.disable();
     this.estadoAutoCompleteControl.disable();
+    this.produtoAutoCompleteControl.disable();
     this.operadoraAutoCompleteControl.disable();
     this.administradoraAutoCompleteControl.disable();
   }
@@ -236,6 +241,7 @@ export class OpcaoComponent implements OnInit {
     this.opcaoSelecionada = null;
     this.tabelaAutoCompleteControl.disable();
     this.estadoAutoCompleteControl.disable();
+    this.produtoAutoCompleteControl.disable();
     this.operadoraAutoCompleteControl.disable();
     this.administradoraAutoCompleteControl.disable();
   }
@@ -245,10 +251,12 @@ export class OpcaoComponent implements OnInit {
     this.opcaoSelecionada = new Opcao();
     this.tabelaAutoCompleteControl.enable();
     this.estadoAutoCompleteControl.enable();
+    this.produtoAutoCompleteControl.enable();
     this.operadoraAutoCompleteControl.enable();
     this.administradoraAutoCompleteControl.enable();
     this.tabelaAutoCompleteControl.setValue(new Reajuste());
     this.estadoAutoCompleteControl.setValue(new Estado());
+    this.produtoAutoCompleteControl.setValue(new Produto());
     this.operadoraAutoCompleteControl.setValue(new Operadora());
     this.administradoraAutoCompleteControl.setValue(new Administradora());
     this.opcaoEditando = this.opcaoSelecionada;
@@ -256,14 +264,22 @@ export class OpcaoComponent implements OnInit {
 
   visualizar(): void {
     this.estado = null;
+    this.tabelaAutoCompleteControl.disable();
     this.estadoAutoCompleteControl.disable();
+    this.produtoAutoCompleteControl.disable();
+    this.operadoraAutoCompleteControl.disable();
+    this.administradoraAutoCompleteControl.disable();
   }
 
   limpar(): void {
     this.estado = null;
     this.opcaoEditando = null;
     this.opcaoSelecionada = null;
+    this.tabelaAutoCompleteControl.disable();
     this.estadoAutoCompleteControl.disable();
+    this.produtoAutoCompleteControl.disable();
+    this.operadoraAutoCompleteControl.disable();
+    this.administradoraAutoCompleteControl.disable();
   }
 
   editandoOpcao(): boolean {
