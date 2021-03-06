@@ -129,7 +129,7 @@
         <mat-card-content>
           <div style="display: flex; margin-bottom: 20px">
             <div style="width: 50%">
-              <mat-radio-group (ngModelChange)="carregaEstadoPorCategoria($event)" [(ngModel)]="opcaoEditando.categoria" [disabled]="!adicionandoOpcao() && !editandoOpcao()">
+              <mat-radio-group (ngModelChange)="modelChangeCategoria($event);" [(ngModel)]="opcaoEditando.categoria" [disabled]="!adicionandoOpcao() && !editandoOpcao()">
                 <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
                   {{categoria}}
                 </mat-radio-button>
@@ -137,13 +137,13 @@
             </div>
 
             <div style="width: 50%; text-align: right">
-              <mat-slide-toggle (ngModelChange)="carregaOperadoraPorEstadoAndCategoriaAndAdministradoraAndMEI($event)" [(ngModel)]="opcaoEditando.mei" [disabled]="!adicionandoOpcao() && !editandoOpcao()" labelPosition="before">Contempla MEI</mat-slide-toggle>
+              <mat-slide-toggle (ngModelChange)="modelChangeMEI($event)" [(ngModel)]="opcaoEditando.mei" [disabled]="!adicionandoOpcao() && !editandoOpcao()" labelPosition="before">Contempla MEI</mat-slide-toggle>
             </div>
           </div>
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Estado</mat-label>
-            <input matInput (ngModelChange)="carregaAdministradoraPorEstadoAndCategoria()" [formControl]="estadoAutoCompleteControl" [matAutocomplete]="auto1" type="text">
+            <input matInput (ngModelChange)="modelChangeEstado()" [formControl]="estadoAutoCompleteControl" [matAutocomplete]="auto1" type="text">
             <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" [displayWith]="estadoDisplayFn">
               <mat-option *ngFor="let estado of estadoFilteredOptions | async" [value]="estado">
                 {{estado.nome}}
@@ -153,7 +153,7 @@
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Administradora</mat-label>
-            <input matInput (ngModelChange)="carregaOperadoraPorAdministradoraAndEstadoAndCategoria()" [formControl]="administradoraAutoCompleteControl" [matAutocomplete]="auto2" type="text">
+            <input matInput (ngModelChange)="modelChangeAdministradora()" [formControl]="administradoraAutoCompleteControl" [matAutocomplete]="auto2" type="text">
             <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="administradoraDisplayFn">
               <mat-option *ngFor="let administradora of administradoraFilteredOptions | async" [value]="administradora">
                 {{administradora.nome}}
@@ -163,7 +163,7 @@
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Operadora</mat-label>
-            <input matInput (ngModelChange)="carregaTabelaPorOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI()" [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto3" type="text">
+            <input matInput (ngModelChange)="modelChangeOperadora()" [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto3" type="text">
             <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete" [displayWith]="operadoraDisplayFn">
               <mat-option *ngFor="let operadora of operadoraFilteredOptions | async" [value]="operadora">
                 {{operadora.nome}}
@@ -173,7 +173,7 @@
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Tabela</mat-label>
-            <input matInput (ngModelChange)="carregaProdutosPorTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI()" [formControl]="tabelaAutoCompleteControl" [matAutocomplete]="auto4" type="text">
+            <input matInput (ngModelChange)="modelChangeTabela()" [formControl]="tabelaAutoCompleteControl" [matAutocomplete]="auto4" type="text">
             <mat-autocomplete autoActiveFirstOption #auto4="matAutocomplete" [displayWith]="tabelaDisplayFn">
               <mat-option *ngFor="let tabela of tabelaFilteredOptions | async" [value]="tabela">
                 {{tabela.nome}}
@@ -251,7 +251,7 @@
 
             <mat-form-field appearance="outline" style="width: 66%">
               <mat-label>Acomodacao</mat-label>
-              <mat-select [(ngModel)]="opcaoSelecionada.acomodacao" [disabled]="!adicionandoOpcao() && !editandoOpcao()">
+              <mat-select [(ngModel)]="opcaoEditando.acomodacao" [disabled]="!adicionandoOpcao() && !editandoOpcao()">
                 <mat-option *ngFor="let acomodacao of todasAcomodacoes;" [value]="acomodacao">{{acomodacao}}</mat-option>
               </mat-select>
             </mat-form-field>

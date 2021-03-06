@@ -6,7 +6,7 @@ import {Hospital} from '../hospital/hospital';
 export class Produto {
 
   id: number;
-  nome: string;
+  nome: string = '';
   ativo: boolean;
   reembolso: number;
   abrangencia: string;

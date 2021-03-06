@@ -1,7 +1,7 @@
 
 export class Estado {
 
-  nome: string;
-  sigla: string;
+  nome: string = '';
+  sigla: string = '';
 
 }

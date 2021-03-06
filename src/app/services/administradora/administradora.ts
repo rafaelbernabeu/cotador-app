@@ -2,6 +2,6 @@
 export class Administradora {
 
   id: number;
-  nome: string;
+  nome: string = '';
 
 }

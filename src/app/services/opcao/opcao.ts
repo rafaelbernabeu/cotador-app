@@ -7,11 +7,11 @@ export class Opcao {
 
   id: number;
   mei = false;
-  tabela: Tabela;
-  produto: Produto;
-  acomodacao: Acomodacao;
-  categoria: Categoria;
-  coparticipacao;
+  coparticipacao = false;
+  tabela: Tabela = new Tabela();
+  produto: Produto = new Produto();
+  acomodacao: Acomodacao = new Acomodacao();
+  categoria: Categoria = new Categoria();
   valor0a18anos: number;
   valor19a23anos: number;
   valor24a28anos: number;

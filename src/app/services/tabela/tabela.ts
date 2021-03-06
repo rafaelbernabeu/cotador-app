@@ -9,7 +9,7 @@ import {Operadora} from '../operadora/operadora';
 export class Tabela {
 
   id: number;
-  nome: string;
+  nome: string = '';
   pme: boolean;
   contemplaMEI: boolean;
   compulsoria: boolean;
@@ -20,10 +20,10 @@ export class Tabela {
   preferencial: boolean;
   reajuste: string;
 
-  estado: Estado;
-  categoria: Categoria;
-  operadora: Operadora;
-  administradora: Administradora;
+  estado: Estado = new Estado();
+  categoria: Categoria = new Categoria();
+  operadora: Operadora = new Operadora();
+  administradora: Administradora = new Administradora();
 
   opcao: Opcao[];
   produtos: Produto[];
