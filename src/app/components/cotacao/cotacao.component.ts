@@ -126,6 +126,9 @@ export class CotacaoComponent implements OnInit {
   }
 
   consultaCotacaoCategoria(categoria: Categoria): void {
+    if (categoria === 'Empresarial') {
+      this.profissaoAutoCompleteControl.setValue('');
+    }
     this.filtroCotacao.categoria = categoria;
     this.consultaCotacao();
   }

@@ -30,7 +30,7 @@
           </mat-autocomplete>
         </mat-form-field>
 
-        <mat-form-field appearance="outline" style="width: 100%">
+        <mat-form-field *ngIf="filtroCotacao.categoria === 'Adesao'" appearance="outline" style="width: 100%">
           <mat-label>Profissao</mat-label>
           <input matInput (ngModelChange)="consultaCotacaoProfissao($event)" [formControl]="profissaoAutoCompleteControl" [matAutocomplete]="auto2" type="text">
           <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="profissaoDisplayFn">
