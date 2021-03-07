@@ -75,15 +75,15 @@ export class ProdutoComponent implements OnInit {
       map(value => this.filterAutoComplete(value))
     );
 
-    this.hospitalService.getAllHospitais().subscribe(response => this.todosHospitais = response);
     this.operadoraService.getAllOperadoras().subscribe(response => this.todasOperadoras = response);
+    this.abrangenciaService.getAllAbrangencias().subscribe(response => this.todasAbrangencias = response);
+    this.hospitalService.getAllHospitais().subscribe(response => {
+      this.todosHospitais = response;
+      this.displayedColumns.push(...this.todosHospitais.map(l => l.nome));
+    });
     this.laboratorioService.getAllLaboratorios().subscribe(response => {
       this.todosLaboratorios = response;
       this.displayedColumns.push(...this.todosLaboratorios.map(l => l.nome));
-    });
-    this.abrangenciaService.getAllAbrangencias().subscribe(response => {
-      this.todasAbrangencias = response;
-      this.displayedColumns.push(...this.todosHospitais.map(l => l.nome));
     });
     this.carregaTabelaProduto();
   }
@@ -277,5 +277,13 @@ export class ProdutoComponent implements OnInit {
 
   displayFn(operadora: Operadora): string {
     return operadora && operadora.nome ? operadora.nome : '';
+  }
+
+  verificaSeLaboratorioSelecionado(produto: Produto, laboratorio: Laboratorio): boolean {
+    return produto.laboratorios.filter(lab => lab.id === laboratorio.id).length !== 0
+  }
+
+  verificaSeHospitalSelecionado(produto: Produto, hospital: Hospital) {
+    return produto.hospitais.filter(hosp => hosp.id === hospital.id).length !== 0
   }
 }

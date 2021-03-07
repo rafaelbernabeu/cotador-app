@@ -77,15 +77,15 @@
 
           <ng-container [matColumnDef]="laboratorio.nome" *ngFor="let laboratorio of todosLaboratorios" >
             <mat-header-cell *matHeaderCellDef mat-sort-header> {{laboratorio.nome}} </mat-header-cell>
-            <mat-cell *matCellDef="let lab" (click)="selecionaProduto(lab)" class="mouse-pointer">
-              {{laboratorio.nome}}
+            <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer">
+              <mat-checkbox [disabled]="true" [ngModel]="verificaSeLaboratorioSelecionado(produto, laboratorio)"></mat-checkbox>
             </mat-cell>
           </ng-container>
 
           <ng-container [matColumnDef]="hospital.nome" *ngFor="let hospital of todosHospitais" >
             <mat-header-cell *matHeaderCellDef mat-sort-header> {{hospital.nome}} </mat-header-cell>
-            <mat-cell *matCellDef="let hosp" (click)="selecionaProduto(hosp)" class="mouse-pointer">
-              {{hospital.nome}}
+            <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer">
+              <mat-checkbox [disabled]="true" [ngModel]="verificaSeHospitalSelecionado(produto, hospital)"></mat-checkbox>
             </mat-cell>
           </ng-container>
 
