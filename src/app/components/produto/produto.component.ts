@@ -77,13 +77,13 @@ export class ProdutoComponent implements OnInit {
 
     this.operadoraService.getAllOperadoras().subscribe(response => this.todasOperadoras = response);
     this.abrangenciaService.getAllAbrangencias().subscribe(response => this.todasAbrangencias = response);
-    this.hospitalService.getAllHospitais().subscribe(response => {
-      this.todosHospitais = response;
-      this.displayedColumns.push(...this.todosHospitais.map(l => l.nome));
-    });
     this.laboratorioService.getAllLaboratorios().subscribe(response => {
       this.todosLaboratorios = response;
       this.displayedColumns.push(...this.todosLaboratorios.map(l => l.nome));
+      this.hospitalService.getAllHospitais().subscribe(response => {
+        this.todosHospitais = response;
+        this.displayedColumns.push(...this.todosHospitais.map(l => l.nome));
+      });
     });
     this.carregaTabelaProduto();
   }

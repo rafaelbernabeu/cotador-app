@@ -14,6 +14,7 @@ export class Produto {
   laboratorios: Laboratorio[] = [];
   operadora: Operadora = new Operadora();
   coparticipacao: Coparticipacao = new Coparticipacao();
+  observacao: string;
   selected: boolean;
 
 }
