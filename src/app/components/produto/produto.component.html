@@ -1,7 +1,6 @@
-<div class="flex-container" style="width: 100%" xmlns="http://www.w3.org/1999/html">
-  <div style="width: 100%">
-    <mat-card>
-      <mat-card-title>
+<div class="flex-container">
+  <mat-card>
+    <mat-card-title>
       <span>
         Lista de Produtos
       </span>
@@ -11,16 +10,17 @@
         </a>
       </span>
       </mat-card-title>
-      <br/>
+    <br/>
 
-      <mat-card-content>
-        <mat-table #sortProduto="matSort" [dataSource]="dataSourceProduto" matSort class="mat-elevation-z8">
+    <mat-card-content>
+      <div style="width: 1000px; overflow: auto;" class="mat-elevation-z8">
+        <mat-table style="width: 3000px" #sortProduto="matSort" [dataSource]="dataSourceProduto" matSort>
           <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
             <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.id}} </mat-cell>
           </ng-container>
 
-          <ng-container matColumnDef="nome">
+          <ng-container matColumnDef="nome" sticky>
             <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
             <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.nome}} </mat-cell>
           </ng-container>
@@ -75,13 +75,27 @@
             </mat-cell>
           </ng-container>
 
+          <ng-container [matColumnDef]="laboratorio.nome" *ngFor="let laboratorio of todosLaboratorios" >
+            <mat-header-cell *matHeaderCellDef mat-sort-header> {{laboratorio.nome}} </mat-header-cell>
+            <mat-cell *matCellDef="let lab" (click)="selecionaProduto(lab)" class="mouse-pointer">
+              {{laboratorio.nome}}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container [matColumnDef]="hospital.nome" *ngFor="let hospital of todosHospitais" >
+            <mat-header-cell *matHeaderCellDef mat-sort-header> {{hospital.nome}} </mat-header-cell>
+            <mat-cell *matCellDef="let hosp" (click)="selecionaProduto(hosp)" class="mouse-pointer">
+              {{hospital.nome}}
+            </mat-cell>
+          </ng-container>
+
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-        <mat-paginator #paginatorProduto [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
-      </mat-card-content>
-    </mat-card>
-  </div>
+      </div>
+      <mat-paginator #paginatorProduto [pageSizeOptions]="[5, 10, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
+    </mat-card-content>
+  </mat-card>
 
   <div *ngIf="produtoSelecionado" style="width: 20px"></div>
 
