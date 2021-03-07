@@ -162,6 +162,9 @@
               <mat-slide-toggle [(ngModel)]="tabelaEditando.contemplaMEI" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">MEI</mat-slide-toggle>
             </span>
             <span style="padding-left: 25px" *ngIf="categoriaEmpresarial()">
+              <mat-slide-toggle [(ngModel)]="tabelaEditando.livreAdesao" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">Livre Adesao</mat-slide-toggle>
+            </span>
+            <span style="padding-left: 25px" *ngIf="categoriaEmpresarial()">
               <mat-slide-toggle [(ngModel)]="tabelaEditando.compulsoria" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">Compulsoria</mat-slide-toggle>
             </span>
             <span style="padding-left: 25px">

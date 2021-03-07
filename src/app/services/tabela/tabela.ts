@@ -12,6 +12,7 @@ export class Tabela {
   nome: string = '';
   contemplaMEI: boolean;
   compulsoria: boolean;
+  livreAdesao: boolean;
   idadeMinima: number;
   idadeMaxima: number;
   qtdMinVidas: number;
