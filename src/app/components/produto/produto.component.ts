@@ -94,6 +94,14 @@ export class ProdutoComponent implements OnInit {
       this.dataSourceProduto.sort = this.sortProduto;
       this.dataSourceProduto.paginator = this.paginatorProduto;
       this.dataSourceProduto.sortingDataAccessor = (produto, property) => {
+        const hospitais = this.todosHospitais.filter(h => h.nome === property);
+        const laboratorios = this.todosLaboratorios.filter(l => l.nome === property);
+        if (laboratorios.length !== 0) {
+          return this.verificaSeLaboratorioSelecionado(produto, laboratorios.pop());
+        }
+        if (hospitais.length !== 0) {
+          return this.verificaSeHospitalSelecionado(produto, hospitais.pop());
+        }
         switch (property) {
           case 'operadora':
             return produto.operadora.nome;
