@@ -26,7 +26,7 @@ export class AuthService {
       this.http.get<Token>(this.getLoginUrl(), this.getBasicAuthHeader(usuario)).subscribe(
         data => {
           if (data.token) {
-            this.tokenService.setTokenUsuario(data.token);
+            this.tokenService.setToken(data.token);
             this.usuarioAutenticado = true;
             observer.next(this.usuarioAutenticado);
           }
@@ -39,11 +39,10 @@ export class AuthService {
     });
   }
 
-  private tentaCarregarTokenLocalStorage(): boolean {
-    if (this.tokenService.tentaCarregarTokenLocalStorage()) {
-      this.usuarioAutenticado = true;
-    }
-    return this.usuarioAutenticado;
+  public logout(): void {
+    this.usuarioAutenticado = false;
+    this.tokenService.limpar();
+    this.router.navigate(['/login']);
   }
 
   public isUsuarioAutenticado(): boolean {
@@ -56,29 +55,38 @@ export class AuthService {
     return true;
   }
 
+  public getTokenHeader(): {headers} {
+    if (this.isUsuarioAutenticado()) {
+      return {
+        headers: new HttpHeaders({ Authorization: 'Bearer ' + this.tokenService.getToken() })
+      };
+    }
+    throw new Error('Usuario nao autenticado ou token expirado.');
+  }
+
+  public getRolesUsuarioAutenticado(): string[] {
+    return this.tokenService.getTokenObject().groups
+  }
+
+  public getNomeUsuarioAutenticado(): string {
+    return this.tokenService.getTokenObject().sub;
+  }
+
+  private tentaCarregarTokenLocalStorage(): boolean {
+    if (this.tokenService.tentaCarregarTokenLocalStorage()) {
+      this.usuarioAutenticado = true;
+    }
+    return this.usuarioAutenticado;
+  }
+
   private getBasicAuthHeader(usuario: Usuario): object {
     return {
       headers: new HttpHeaders({ Authorization: 'Basic ' + btoa(usuario.email + ':' + usuario.password) })
     };
   }
 
-  public getTokenHeader(): {headers} {
-    if (this.isUsuarioAutenticado()) {
-      return {
-        headers: new HttpHeaders({ Authorization: 'Bearer ' + this.tokenService.getTokenUsuario() })
-      };
-    }
-    throw new Error('Usuario nao autenticado ou token expirado.');
-  }
-
   private getLoginUrl(): string {
     return this.api.BASE_API_URL + this.api.LOGIN_API_URL;
-  }
-
-  public logout(): void {
-    this.usuarioAutenticado = false;
-    this.tokenService.limpar();
-    this.router.navigate(['/login']);
   }
 
 }

@@ -11,11 +11,15 @@ export class TokenService {
 
   constructor() { }
 
-  public getTokenUsuario(): string {
+  public getToken(): string {
     return this.rawToken;
   }
 
-  public setTokenUsuario(token: string): void {
+  public getTokenObject(): TokenJwt {
+    return {...this.token};
+  }
+
+  public setToken(token: string): void {
     this.rawToken = token;
     localStorage.setItem('token', token);
     this.parseToken(token);

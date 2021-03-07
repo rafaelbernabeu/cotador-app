@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {AuthService} from "../../services/auth/auth.service";
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  nomeUsuario: string;
+  rolesUsuario: string[]
+
+  constructor(
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
+    this.nomeUsuario = this.authService.getNomeUsuarioAutenticado();
+    this.rolesUsuario = this.authService.getRolesUsuarioAutenticado();
   }
 
 }
