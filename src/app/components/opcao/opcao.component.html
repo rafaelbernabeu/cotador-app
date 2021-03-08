@@ -31,9 +31,24 @@
               <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.tabela.nome}} </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="nomeProduto">
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
-              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.produto.nome}} </mat-cell>
+            <ng-container matColumnDef="idadeMin">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Idade Min. </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.tabela.idadeMinima}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="idadeMax">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Idade Max. </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.tabela.idadeMaxima}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="qtdMinVidas">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Qtd. Min. Vidas </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.tabela.qtdMinVidas}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="qtdMinTitulares">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Qtd. Min. Titulares </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.tabela.qtdMinTitulares}} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="acomodacao">
@@ -45,6 +60,27 @@
               <mat-header-cell *matHeaderCellDef mat-sort-header> Coparticipacao </mat-header-cell>
               <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.coparticipacao ? 'Com' : 'Sem'}} </mat-cell>
             </ng-container>
+
+            <ng-container matColumnDef="administradora">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Administradora </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.tabela.administradora.nome}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="operadora">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Operadora </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.tabela.operadora.nome}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="nomeProduto">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.produto.nome}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="abrangencia">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangecia </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.produto.abrangencia}} </mat-cell>
+            </ng-container>
+
             <ng-container matColumnDef="valor0a18anos">
               <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 0 a 18 </mat-header-cell>
               <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor0a18anos | currency: 'BRL'}} </mat-cell>
@@ -84,6 +120,11 @@
             <ng-container matColumnDef="valor59ouMaisAnos">
               <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 59 ou Mais </mat-header-cell>
               <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor59ouMaisAnos | currency: 'BRL'}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="reajuste">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Reajuste </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.tabela.reajuste}} </mat-cell>
             </ng-container>
 
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

@@ -37,7 +37,7 @@ export class OpcaoComponent implements OnInit {
 
   @ViewChild(MatAccordion) accordion: MatAccordion;
 
-  displayedColumns: string[] = ['id', 'estado', 'nomeTabela', 'nomeProduto', 'acomodacao', 'coparticipacao', 'valor0a18anos', 'valor19a23anos', 'valor24a28anos', 'valor29a33anos', 'valor34a38anos', 'valor39a43anos', 'valor44a48anos', 'valor49a53anos', 'valor54a58anos', 'valor59ouMaisAnos'];
+  displayedColumns: string[] = ['id', 'estado', 'nomeTabela', 'idadeMin', 'idadeMax', 'qtdMinVidas', 'qtdMinTitulares', 'acomodacao', 'coparticipacao', 'administradora', 'operadora', 'nomeProduto', 'abrangencia', 'valor0a18anos', 'valor19a23anos', 'valor24a28anos', 'valor29a33anos', 'valor34a38anos', 'valor39a43anos', 'valor44a48anos', 'valor49a53anos', 'valor54a58anos', 'valor59ouMaisAnos', 'reajuste'];
   dataSourceOpcao = new MatTableDataSource<Opcao>();
 
   estado: string;
@@ -119,6 +119,28 @@ export class OpcaoComponent implements OnInit {
       this.dataSourceOpcao.paginator = this.paginatorOpcao;
       this.dataSourceOpcao.sortingDataAccessor = (opcao, property) => {
         switch (property) {
+          case 'estado':
+            return opcao.tabela.estado.sigla;
+          case 'nomeTabela':
+            return opcao.tabela.nome;
+          case 'idadeMin':
+            return opcao.tabela.idadeMinima;
+          case 'idadeMax':
+            return opcao.tabela.idadeMinima;
+          case 'qtdMinVidas':
+            return opcao.tabela.qtdMinVidas;
+          case 'qtdMinTitulares':
+            return opcao.tabela.qtdMinTitulares;
+          case 'administradora':
+            return opcao.tabela.administradora.nome;
+          case 'operadora':
+            return opcao.tabela.operadora.nome;
+          case 'nomeProduto':
+            return opcao.produto.nome;
+          case 'abrangencia':
+            return opcao.produto.abrangencia;
+          case 'reajuste':
+            return opcao.tabela.reajuste;
           default:
             return opcao[property];
         }
