@@ -80,9 +80,11 @@ export class ProdutoComponent implements OnInit {
     this.laboratorioService.getAllLaboratorios().subscribe(response => {
       this.todosLaboratorios = response;
       this.displayedColumns.push(...this.todosLaboratorios.map(l => l.nome));
+      this.displayedColumns.push('totalLaboratorios')
       this.hospitalService.getAllHospitais().subscribe(response => {
         this.todosHospitais = response;
         this.displayedColumns.push(...this.todosHospitais.map(l => l.nome));
+        this.displayedColumns.push('totalHospitais')
       });
     });
     this.carregaTabelaProduto();
@@ -105,6 +107,10 @@ export class ProdutoComponent implements OnInit {
         switch (property) {
           case 'operadora':
             return produto.operadora.nome;
+          case 'totalLaboratorios':
+            return produto.laboratorios.length;
+          case 'totalHospitais':
+            return produto.hospitais.length;
           default:
             return produto[property];
         }

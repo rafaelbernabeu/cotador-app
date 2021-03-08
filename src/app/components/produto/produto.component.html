@@ -82,10 +82,24 @@
             </mat-cell>
           </ng-container>
 
+          <ng-container matColumnDef="totalLaboratorios">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Qtd. Laboratorios </mat-header-cell>
+            <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer">
+              {{produto.laboratorios.length}}
+            </mat-cell>
+
           <ng-container [matColumnDef]="hospital.nome" *ngFor="let hospital of todosHospitais" >
             <mat-header-cell *matHeaderCellDef mat-sort-header> {{hospital.nome}} </mat-header-cell>
             <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer">
               <mat-checkbox [disabled]="true" [ngModel]="verificaSeHospitalSelecionado(produto, hospital)"></mat-checkbox>
+            </mat-cell>
+          </ng-container>
+          </ng-container>
+
+          <ng-container matColumnDef="totalHospitais">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Qtd. Hospitais </mat-header-cell>
+            <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer">
+              {{produto.hospitais.length}}
             </mat-cell>
           </ng-container>
 
