@@ -15,7 +15,7 @@
 
       <mat-card-content>
         <div [style.width]="this.opcaoSelecionada ? (window.innerWidth * 0.70) + 'px' : (window.innerWidth * 0.95) + 'px'" style="overflow: auto;">
-          <mat-table style="width: 3000px" [dataSource]="dataSourceOpcao" matSort class="mat-elevation-z8">
+          <mat-table style="width: 7000px" [dataSource]="dataSourceOpcao" matSort class="mat-elevation-z8">
             <ng-container matColumnDef="id">
               <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
               <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.id}} </mat-cell>
@@ -125,6 +125,11 @@
             <ng-container matColumnDef="reajuste">
               <mat-header-cell *matHeaderCellDef mat-sort-header> Reajuste </mat-header-cell>
               <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.tabela.reajuste}} </mat-cell>
+            </ng-container>
+
+            <ng-container [matColumnDef]="profissao.nome" *ngFor="let profissao of todasProfissoes">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> {{profissao.nome }} </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{ getNomesEntidadesPorProfissao(opcao, profissao.nome) }} </mat-cell>
             </ng-container>
 
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

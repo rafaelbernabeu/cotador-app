@@ -24,6 +24,10 @@ import {Tabela} from '../../services/tabela/tabela';
 import {Acomodacao} from '../../services/acomodacao/Acomodacao';
 import {AcomodacaoService} from '../../services/acomodacao/acomodacao.service';
 import {TabelaService} from '../../services/tabela/tabela.service';
+import {EntidadeService} from "../../services/entidade/entidade.service";
+import {Entidade} from "../../services/entidade/entidade";
+import {Profissao} from "../../services/profissao/profissao";
+import {ProfissaoService} from "../../services/profissao/profissao.service";
 
 @Component({
   selector: 'app-opcao',
@@ -46,6 +50,8 @@ export class OpcaoComponent implements OnInit {
   todasAcomodacoes: Acomodacao[];
   todasTabelas: Tabela[];
   todosEstados: Estado[];
+  todasEntidades: Entidade[];
+  todasProfissoes: Profissao[];
   todosProdutos: Produto[];
   todasCategorias: Categoria[];
   todasOperadoras: Operadora[];
@@ -70,7 +76,9 @@ export class OpcaoComponent implements OnInit {
     private opcaoService: OpcaoService,
     private estadoService: EstadoService,
     private tabelaService: TabelaService,
+    private entidadeService: EntidadeService,
     private operadoraService: OperadoraService,
+    private profissaoService: ProfissaoService,
     private categoriaService: CategoriaService,
     private acomodacaoService: AcomodacaoService,
     private administradoraService: AdministradoraService,
@@ -78,8 +86,13 @@ export class OpcaoComponent implements OnInit {
 
   ngOnInit(): void {
     this.iniciaAutoCompletes();
+    this.entidadeService.getAllEntidades().subscribe(response => this.todasEntidades = response)
     this.categoriaService.getAllCategorias().subscribe(response => this.todasCategorias = response);
     this.acomodacaoService.getAllAcomodacoes().subscribe(response => this.todasAcomodacoes = response);
+    this.profissaoService.getAllProfissoes().subscribe(response => {
+      this.todasProfissoes = response
+      this.displayedColumns.push(...this.todasProfissoes.map(p => p.nome));
+    })
     this.carregaTabelaOpcao();
   }
 
@@ -118,6 +131,9 @@ export class OpcaoComponent implements OnInit {
       this.dataSourceOpcao.sort = this.sortOpcao;
       this.dataSourceOpcao.paginator = this.paginatorOpcao;
       this.dataSourceOpcao.sortingDataAccessor = (opcao, property) => {
+        if (this.todasProfissoes.filter(p => p.nome === property)) {
+          return this.getNomesEntidadesPorProfissao(opcao, property);
+        }
         switch (property) {
           case 'estado':
             return opcao.tabela.estado.sigla;
@@ -473,4 +489,7 @@ export class OpcaoComponent implements OnInit {
     return operadora && operadora.nome ? operadora.nome : '';
   }
 
+  getNomesEntidadesPorProfissao(opcao: Opcao, profissao: string): string {
+    return opcao.tabela.entidades.filter(e => e.profissoes.filter(p => p.nome === profissao).length > 0).map(e => e.nome).join(' / ');
+  }
 }
