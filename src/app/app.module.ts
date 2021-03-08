@@ -93,7 +93,10 @@ import {ColorPickerModule} from "ngx-color-picker";
     BrowserAnimationsModule,
     ColorPickerModule,
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    { provide: 'Window',  useValue: window }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

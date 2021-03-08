@@ -13,7 +13,7 @@
     <br/>
 
     <mat-card-content>
-      <div style="width: 1000px; overflow: auto;" class="mat-elevation-z8">
+      <div [style.width]="this.produtoSelecionado ? (window.innerWidth * 0.70) + 'px' : (window.innerWidth * 0.95) + 'px'" style="overflow: auto;" class="mat-elevation-z8">
         <mat-table style="width: 3000px" #sortProduto="matSort" [dataSource]="dataSourceProduto" matSort>
           <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
@@ -121,9 +121,9 @@
     </mat-card-content>
   </mat-card>
 
-  <div *ngIf="produtoSelecionado" style="width: 20px"></div>
+  <div *ngIf="produtoSelecionado" style="width: 10px"></div>
 
-  <div *ngIf="produtoSelecionado" style="flex-direction: column">
+  <div *ngIf="produtoSelecionado" [style.width]="window.innerWidth * 0.25 + 'px'" style="flex-direction: column">
     <div>
       <mat-card>
         <mat-card-title>
@@ -198,7 +198,7 @@
   </div>
 </div>
 
-<div *ngIf="produtoSelecionado" style="padding-top: 10px">
+<div *ngIf="produtoSelecionado" [style.width]="window.innerWidth + 'px'" style="padding-top: 10px">
   <mat-card>
     <mat-card-title>
       Relacionamentos - {{produtoSelecionado.nome}}

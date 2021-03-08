@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
@@ -58,6 +58,8 @@ export class ProdutoComponent implements OnInit {
   filteredOptions: Observable<Operadora[]>;
 
   constructor(
+    @Inject('Window') public window: Window,
+
     private dialog: MatDialog,
     private snackBar: SnackbarService,
     private produtoService: ProdutoService,
