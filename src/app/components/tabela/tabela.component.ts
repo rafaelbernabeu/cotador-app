@@ -254,10 +254,10 @@ export class TabelaComponent implements OnInit {
     this.estadoAutoCompleteControl.enable();
     this.operadoraAutoCompleteControl.enable();
     this.administradoraAutoCompleteControl.enable();
-    this.reajusteAutoCompleteControl.setValue(new Reajuste());
-    this.estadoAutoCompleteControl.setValue(new Estado());
-    this.operadoraAutoCompleteControl.setValue(new Operadora());
-    this.administradoraAutoCompleteControl.setValue(new Administradora());
+    this.reajusteAutoCompleteControl.setValue('');
+    this.estadoAutoCompleteControl.setValue('');
+    this.operadoraAutoCompleteControl.setValue('');
+    this.administradoraAutoCompleteControl.setValue('');
     this.preparaTodosParaNovaVerificacao();
     this.accordionProduto.close();
     this.accordionEntidade.open();
