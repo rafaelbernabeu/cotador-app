@@ -1,4 +1,4 @@
-<div class="flex-container" style="width: 100%">
+<div class="flex-container">
   <div>
     <mat-card>
       <mat-card-title>
@@ -14,88 +14,90 @@
       <br/>
 
       <mat-card-content>
-        <mat-table [dataSource]="dataSourceOpcao" matSort class="mat-elevation-z8">
-          <ng-container matColumnDef="id">
-            <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
-            <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.id}} </mat-cell>
-          </ng-container>
+        <div [style.width]="this.opcaoSelecionada ? (window.innerWidth * 0.70) + 'px' : (window.innerWidth * 0.95) + 'px'" style="overflow: auto;">
+          <mat-table style="width: 3000px" [dataSource]="dataSourceOpcao" matSort class="mat-elevation-z8">
+            <ng-container matColumnDef="id">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.id}} </mat-cell>
+            </ng-container>
 
-          <ng-container matColumnDef="estado">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
-            <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.tabela.estado.sigla}} </mat-cell>
-          </ng-container>
+            <ng-container matColumnDef="estado">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.tabela.estado.sigla}} </mat-cell>
+            </ng-container>
 
-          <ng-container matColumnDef="nomeTabela">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Tabela </mat-header-cell>
-            <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.tabela.nome}} </mat-cell>
-          </ng-container>
+            <ng-container matColumnDef="nomeTabela">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Tabela </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.tabela.nome}} </mat-cell>
+            </ng-container>
 
-          <ng-container matColumnDef="nomeProduto">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
-            <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.produto.nome}} </mat-cell>
-          </ng-container>
+            <ng-container matColumnDef="nomeProduto">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.produto.nome}} </mat-cell>
+            </ng-container>
 
-          <ng-container matColumnDef="acomodacao">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Acomodacao </mat-header-cell>
-            <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.acomodacao}} </mat-cell>
-          </ng-container>
+            <ng-container matColumnDef="acomodacao">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Acomodacao </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.acomodacao}} </mat-cell>
+            </ng-container>
 
-          <ng-container matColumnDef="coparticipacao">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Coparticipacao </mat-header-cell>
-            <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.coparticipacao ? 'Com' : 'Sem'}} </mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="valor0a18anos">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 0 a 18 </mat-header-cell>
-            <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor0a18anos | currency: 'BRL'}} </mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="valor19a23anos">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 19 a 23 </mat-header-cell>
-            <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor19a23anos | currency: 'BRL'}} </mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="valor24a28anos">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 24 a 28 </mat-header-cell>
-            <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor24a28anos | currency: 'BRL'}} </mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="valor29a33anos">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 29 a 33 </mat-header-cell>
-            <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor29a33anos | currency: 'BRL'}} </mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="valor34a38anos">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 34 a 38 </mat-header-cell>
-            <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor34a38anos | currency: 'BRL'}} </mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="valor39a43anos">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 39 a 43 </mat-header-cell>
-            <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor39a43anos | currency: 'BRL'}} </mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="valor44a48anos">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 44 a 48 </mat-header-cell>
-            <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor44a48anos | currency: 'BRL'}} </mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="valor49a53anos">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 49 a 53 </mat-header-cell>
-            <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor49a53anos | currency: 'BRL'}} </mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="valor54a58anos">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 54 a 58 </mat-header-cell>
-            <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor54a58anos | currency: 'BRL'}} </mat-cell>
-          </ng-container>
-          <ng-container matColumnDef="valor59ouMaisAnos">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 59 ou Mais </mat-header-cell>
-            <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor59ouMaisAnos | currency: 'BRL'}} </mat-cell>
-          </ng-container>
+            <ng-container matColumnDef="coparticipacao">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Coparticipacao </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.coparticipacao ? 'Com' : 'Sem'}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="valor0a18anos">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 0 a 18 </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor0a18anos | currency: 'BRL'}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="valor19a23anos">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 19 a 23 </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor19a23anos | currency: 'BRL'}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="valor24a28anos">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 24 a 28 </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor24a28anos | currency: 'BRL'}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="valor29a33anos">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 29 a 33 </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor29a33anos | currency: 'BRL'}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="valor34a38anos">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 34 a 38 </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor34a38anos | currency: 'BRL'}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="valor39a43anos">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 39 a 43 </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor39a43anos | currency: 'BRL'}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="valor44a48anos">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 44 a 48 </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor44a48anos | currency: 'BRL'}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="valor49a53anos">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 49 a 53 </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor49a53anos | currency: 'BRL'}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="valor54a58anos">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 54 a 58 </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor54a58anos | currency: 'BRL'}} </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="valor59ouMaisAnos">
+              <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 59 ou Mais </mat-header-cell>
+              <mat-cell *matCellDef="let opcao" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.valor59ouMaisAnos | currency: 'BRL'}} </mat-cell>
+            </ng-container>
 
-          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-        <mat-paginator [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceOpcao.data.length" showFirstLastButtons></mat-paginator>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+        </div>
+        <mat-paginator [pageSizeOptions]="[25, 50, 100]" [length]="dataSourceOpcao.data.length" showFirstLastButtons></mat-paginator>
       </mat-card-content>
     </mat-card>
   </div>
 
-  <div *ngIf="opcaoSelecionada" style="width: 20px"></div>
+  <div *ngIf="opcaoSelecionada" style="width: 10px"></div>
 
-  <div *ngIf="opcaoSelecionada" style="flex-direction: column; width: 70%">
+  <div *ngIf="opcaoSelecionada" style="flex-direction: column;">
     <div>
       <mat-card>
         <mat-card-title>
@@ -128,7 +130,7 @@
 
         <mat-card-content>
           <div style="display: flex; margin-bottom: 20px">
-            <div style="width: 50%">
+            <div style="width: 60%">
               <mat-radio-group (ngModelChange)="modelChangeCategoria($event);" [(ngModel)]="opcaoEditando.categoria" [disabled]="!adicionandoOpcao() && !editandoOpcao()">
                 <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
                   {{categoria}}
@@ -136,7 +138,7 @@
               </mat-radio-group>
             </div>
 
-            <div style="width: 50%; text-align: right">
+            <div style="width: 40%; text-align: right">
               <mat-slide-toggle (ngModelChange)="modelChangeMEI($event)" [(ngModel)]="opcaoEditando.mei" [disabled]="!adicionandoOpcao() && !editandoOpcao()" labelPosition="before">Contempla MEI</mat-slide-toggle>
             </div>
           </div>
