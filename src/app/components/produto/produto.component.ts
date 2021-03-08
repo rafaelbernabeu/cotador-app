@@ -197,7 +197,7 @@ export class ProdutoComponent implements OnInit {
     this.estado = 'adicionando';
     this.produtoSelecionado = new Produto();
     this.autoCompleteControl.enable();
-    this.autoCompleteControl.setValue(new Operadora());
+    this.autoCompleteControl.setValue('');
     this.produtoEditando = this.produtoSelecionado;
     this.preparaTodosParaNovaVerificacao();
     this.configuraLaboratoriosParaEdicao();
