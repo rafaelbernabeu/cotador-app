@@ -141,6 +141,9 @@ export class OpcaoComponent implements OnInit {
   private carregaEstadoPorCategoria(categoria: Categoria): void {
     this.categoriaService.getEstadosByCategoria(categoria).subscribe(response => {
       this.todosEstados = response;
+      if (this.editandoOpcao() || this.adicionandoOpcao()) {
+        this.estadoAutoCompleteControl.enable();
+      }
       let novoEstadoSelecionado: any = this.estadoAutoCompleteControl.value;
       if (this.todosEstados.filter(e => e.nome === novoEstadoSelecionado?.nome).length === 0) {
         novoEstadoSelecionado = '';
@@ -161,6 +164,9 @@ export class OpcaoComponent implements OnInit {
     if (estado.sigla && this.opcaoEditando.categoria) {
       this.estadoService.getAdministradorasByEstadoAndCategoria(estado, this.opcaoEditando.categoria).subscribe(response => {
         this.todasAdministradoras = response;
+        if (this.editandoOpcao() || this.adicionandoOpcao()) {
+          this.administradoraAutoCompleteControl.enable();
+        }
         let novaAdministradoraSelecionada: any = this.administradoraAutoCompleteControl.value;
         if (this.todasAdministradoras.filter(a => a.nome === novaAdministradoraSelecionada?.nome).length === 0) {
           novaAdministradoraSelecionada = '';
@@ -194,6 +200,9 @@ export class OpcaoComponent implements OnInit {
     if (estado.sigla && administradora.id && this.opcaoEditando.categoria) {
       this.administradoraService.getOperadorasByAdministradoraAndEstadoAndCategoriaAndMEI(administradora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
         this.todasOperadoras = response;
+        if (this.editandoOpcao() || this.adicionandoOpcao()) {
+          this.operadoraAutoCompleteControl.enable();
+        }
         let novaOperadoraSelecionada: any = this.operadoraAutoCompleteControl.value;
         if (this.todasOperadoras.filter(o => o.nome === novaOperadoraSelecionada?.nome).length === 0) {
           novaOperadoraSelecionada = '';
@@ -217,6 +226,9 @@ export class OpcaoComponent implements OnInit {
     if (operadora.id && estado.sigla && administradora.id && this.opcaoEditando.categoria) {
       this.operadoraService.getTabelasByOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(operadora, administradora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
         this.todasTabelas = response;
+        if (this.editandoOpcao() || this.adicionandoOpcao()) {
+          this.tabelaAutoCompleteControl.enable();
+        }
         let novaTabelaSelecionada: any = this.tabelaAutoCompleteControl.value;
         if (this.todasTabelas.filter(t => t.nome === novaTabelaSelecionada?.nome).length === 0) {
           novaTabelaSelecionada = '';
@@ -241,6 +253,9 @@ export class OpcaoComponent implements OnInit {
     if (tabela.id && operadora.id && estado.sigla && administradora.id && this.opcaoEditando.categoria) {
       this.tabelaService.getProdutosByTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(tabela, operadora, administradora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
         this.todosProdutos = response;
+        if (this.editandoOpcao() || this.adicionandoOpcao()) {
+          this.produtoAutoCompleteControl.enable();
+        }
         let novoProdutoSelecionado: any = this.produtoAutoCompleteControl.value;
         if (this.todosProdutos.filter(o => o.nome === novoProdutoSelecionado?.nome).length === 0) {
           novoProdutoSelecionado = '';
@@ -309,11 +324,11 @@ export class OpcaoComponent implements OnInit {
     this.estado = 'adicionando';
     this.opcaoSelecionada = new Opcao();
     this.opcaoEditando = this.opcaoSelecionada;
-    this.tabelaAutoCompleteControl.enable();
-    this.estadoAutoCompleteControl.enable();
-    this.produtoAutoCompleteControl.enable();
-    this.operadoraAutoCompleteControl.enable();
-    this.administradoraAutoCompleteControl.enable();
+    this.tabelaAutoCompleteControl.disable();
+    this.estadoAutoCompleteControl.disable();
+    this.produtoAutoCompleteControl.disable();
+    this.operadoraAutoCompleteControl.disable();
+    this.administradoraAutoCompleteControl.disable();
     this.tabelaAutoCompleteControl.setValue('');
     this.estadoAutoCompleteControl.setValue('');
     this.produtoAutoCompleteControl.setValue('');
