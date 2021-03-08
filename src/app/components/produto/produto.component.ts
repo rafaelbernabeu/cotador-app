@@ -129,6 +129,14 @@ export class ProdutoComponent implements OnInit {
       this.dataSourceLaboratorio.sort = this.sortLaboratorio;
       this.dataSourceLaboratorio.paginator = this.paginatorLaboratorio;
     }
+    this.dataSourceLaboratorio.sortingDataAccessor = (laboratorio, property) => {
+      switch (property) {
+        case 'estado':
+          return laboratorio.estado.sigla;
+        default:
+          return laboratorio[property];
+      }
+    };
   }
 
   private carregaTabelaHospital(hospitais: Hospital[]): void {

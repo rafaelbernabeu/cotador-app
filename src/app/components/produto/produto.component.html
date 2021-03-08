@@ -78,7 +78,7 @@
           <ng-container [matColumnDef]="laboratorio.nome" *ngFor="let laboratorio of todosLaboratorios" >
             <mat-header-cell *matHeaderCellDef mat-sort-header>
               <div style="flex-direction: column">
-                <div>{{laboratorio.local}}</div>
+                <div>{{laboratorio.estado.sigla}}</div>
                 <div>{{laboratorio.nome}}</div>
               </div>
             </mat-header-cell>
@@ -354,9 +354,13 @@
                         <mat-cell *matCellDef="let laboratorio"> {{laboratorio.nome}} </mat-cell>
                       </ng-container>
 
-                      <mat-header-row *matHeaderRowDef="['id', 'nome']"></mat-header-row>
-                      <mat-row *matRowDef="let row; columns: ['id', 'nome'];"></mat-row>
+                      <ng-container matColumnDef="estado">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
+                        <mat-cell *matCellDef="let laboratorio"> {{laboratorio.estado.sigla}} </mat-cell>
+                      </ng-container>
 
+                      <mat-header-row *matHeaderRowDef="['id', 'nome', 'estado']"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: ['id', 'nome', 'estado'];"></mat-row>
                     </mat-table>
                     <mat-paginator #paginatorLaboratorio [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceLaboratorio.data.length" showFirstLastButtons></mat-paginator>
                   </div>
@@ -372,17 +376,22 @@
                         <mat-cell *matCellDef="let laboratorio" (click)="laboratorio.selected = !laboratorio.selected" class="mouse-pointer"> {{laboratorio.nome}} </mat-cell>
                       </ng-container>
 
+                      <ng-container matColumnDef="estado">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
+                        <mat-cell *matCellDef="let laboratorio"> {{laboratorio.estado.sigla}} </mat-cell>
+                      </ng-container>
+
                       <ng-container matColumnDef="selected">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center"> Selecione </mat-header-cell>
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Selecione </mat-header-cell>
                         <mat-cell *matCellDef="let laboratorio">
-                          <section style="width: 100%; text-align: center">
+                          <section>
                             <mat-checkbox [(ngModel)]="laboratorio.selected"></mat-checkbox>
                           </section>
                         </mat-cell>
                       </ng-container>
 
-                      <mat-header-row *matHeaderRowDef="['id', 'nome', 'selected']"></mat-header-row>
-                      <mat-row *matRowDef="let row; columns: ['id', 'nome', 'selected'];"></mat-row>
+                      <mat-header-row *matHeaderRowDef="['id', 'nome', 'estado', 'selected']"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: ['id', 'nome', 'estado', 'selected'];"></mat-row>
 
                     </mat-table>
                     <mat-paginator #paginatorLaboratorioEditando [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceLaboratorio.data.length" showFirstLastButtons></mat-paginator>
@@ -436,9 +445,9 @@
                       </ng-container>
 
                       <ng-container matColumnDef="selected">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center"> Selecione </mat-header-cell>
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> Selecione </mat-header-cell>
                         <mat-cell *matCellDef="let laboratorio">
-                          <section style="width: 100%; text-align: center">
+                          <section>
                             <mat-checkbox [(ngModel)]="laboratorio.selected"></mat-checkbox>
                           </section>
                         </mat-cell>
