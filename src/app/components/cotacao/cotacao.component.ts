@@ -16,6 +16,7 @@ import {Opcao} from "../../services/opcao/opcao";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
+import {MatAccordion} from "@angular/material/expansion";
 
 @Component({
   selector: 'app-cotacao',
@@ -25,17 +26,22 @@ import {MatPaginator} from "@angular/material/paginator";
 export class CotacaoComponent implements OnInit {
 
   @ViewChild(MatSort) sortCotacao: MatSort;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
   @ViewChild(MatPaginator) paginatorCotacao: MatPaginator;
 
   displayedColumns: string[] = ['id', 'estado', 'nomeTabela', 'nomeProduto', 'acomodacao', 'coparticipacao', 'valor', 'entidades'];
-  dataSourceCotacao = new MatTableDataSource<Opcao>();
 
-  filtroCotacao: Cotacao = new Cotacao();
-  todosEstados: Estado[];
+  dataSourceCotacaoAptComCopart = new MatTableDataSource<Opcao>();
+  dataSourceCotacaoAptSemCopart = new MatTableDataSource<Opcao>();
+  dataSourceCotacaoEnfComCopart = new MatTableDataSource<Opcao>();
+  dataSourceCotacaoEnfSemCopart = new MatTableDataSource<Opcao>();
+
   todasOpcoes: Opcao[];
+  todosEstados: Estado[];
   todasCategorias: Categoria[];
   todasProfissoes: Profissao[];
   todasAcomodacoes: Acomodacao[];
+  filtroCotacao: Cotacao = new Cotacao();
 
   estadoAutoCompleteControl = new FormControl();
   estadoFilteredOptions: Observable<Estado[]>;
@@ -63,17 +69,24 @@ export class CotacaoComponent implements OnInit {
 
   consultaCotacao(): void {
     this.cotacaoService.getCotacao(this.filtroCotacao).subscribe(response => {
-      this.todasOpcoes = response
-      this.dataSourceCotacao = new MatTableDataSource<Opcao>(response);
-      this.dataSourceCotacao.sort = this.sortCotacao;
-      this.dataSourceCotacao.paginator = this.paginatorCotacao;
-      this.dataSourceCotacao.sortingDataAccessor = (opcao, property) => {
-        switch (property) {
-          default:
-            return opcao[property];
-        }
-      };
+      this.todasOpcoes = response;
+      this.dataSourceCotacaoEnfComCopart = new MatTableDataSource<Opcao>(response.filter(op => op.acomodacao === 'Enfermaria' && op.coparticipacao));
+      this.dataSourceCotacaoEnfSemCopart = new MatTableDataSource<Opcao>(response.filter(op => op.acomodacao === 'Enfermaria' && !op.coparticipacao));
+      this.dataSourceCotacaoAptComCopart = new MatTableDataSource<Opcao>(response.filter(op => op.acomodacao === 'Apartamento' && op.coparticipacao));
+      this.dataSourceCotacaoAptSemCopart = new MatTableDataSource<Opcao>(response.filter(op => op.acomodacao === 'Apartamento' && !op.coparticipacao));
+      // this.dataSourceCotacao.sort = this.sortCotacao;
+      // this.dataSourceCotacao.paginator = this.paginatorCotacao;
+      // this.dataSourceCotacao.sortingDataAccessor = this.getSortingDataAccessor();
     });
+  }
+
+  private getSortingDataAccessor() {
+    return (opcao, property) => {
+      switch (property) {
+        default:
+          return opcao[property];
+      }
+    };
   }
 
   private iniciaAutoCompletes(): void {

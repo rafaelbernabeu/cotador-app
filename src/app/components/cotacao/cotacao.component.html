@@ -113,127 +113,263 @@
 <div *ngIf="todasOpcoes" style="height: 20px"></div>
 
 <div [hidden]="!todasOpcoes">
-  <div>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <mat-icon>science</mat-icon>
-        </mat-panel-title>
-        <mat-panel-description>
-          Apartamento - Sem Coparticipacao
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-
-      <div>
-        lalala
-      </div>
-
-    </mat-expansion-panel>
-  </div>
-  <div>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <mat-icon>science</mat-icon>
-        </mat-panel-title>
-        <mat-panel-description>
-          Apartamento - Com Coparticipacao
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-
-      <div>
-        lalala
-      </div>
-
-    </mat-expansion-panel>
-  </div>
-  <div>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <mat-icon>science</mat-icon>
-        </mat-panel-title>
-        <mat-panel-description>
-          Enfermaria - Sem Coparticipacao
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-
-      <div>
-        lalala
-      </div>
-
-    </mat-expansion-panel>
-  </div>
-  <div>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          <mat-icon>science</mat-icon>
-        </mat-panel-title>
-        <mat-panel-description>
-          Enfermaria - Com Coparticipacao
-        </mat-panel-description>
-      </mat-expansion-panel-header>
-
-      <div>
-        lalala
-      </div>
-
-    </mat-expansion-panel>
-  </div>
-
-
-
 
   <mat-card>
-    <mat-card-title>Resultado Consulta</mat-card-title>
-    <br/>
+    <mat-card-title>Resultados Consulta</mat-card-title>
+    <div style="text-align: right; padding-bottom: 10px;">
+      <button mat-button (click)="accordion.openAll()">Expand All</button>
+      <button mat-button (click)="accordion.closeAll()">Collapse All</button>
+    </div>
     <mat-card-content>
-      <mat-table [dataSource]="dataSourceCotacao" matSort class="mat-elevation-z8">
-        <ng-container matColumnDef="id">
-          <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
-          <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.id}} </mat-cell>
-        </ng-container>
 
-        <ng-container matColumnDef="estado">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
-          <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.tabela.estado.sigla}} </mat-cell>
-        </ng-container>
+      <mat-accordion multi>
 
-        <ng-container matColumnDef="nomeTabela">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Tabela </mat-header-cell>
-          <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.tabela.nome}} </mat-cell>
-        </ng-container>
+        <div>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>science</mat-icon>
+              </mat-panel-title>
+              <mat-panel-description>
+                Apartamento - Sem Coparticipacao
+              </mat-panel-description>
+            </mat-expansion-panel-header>
 
-        <ng-container matColumnDef="nomeProduto">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
-          <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.produto.nome}} </mat-cell>
-        </ng-container>
+            <div>
+              <mat-table [dataSource]="dataSourceCotacaoAptSemCopart" matSort class="mat-elevation-z8">
+                <ng-container matColumnDef="id">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.id}} </mat-cell>
+                </ng-container>
 
-        <ng-container matColumnDef="acomodacao">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Acomodacao </mat-header-cell>
-          <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.acomodacao}} </mat-cell>
-        </ng-container>
+                <ng-container matColumnDef="estado">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.tabela.estado.sigla}} </mat-cell>
+                </ng-container>
 
-        <ng-container matColumnDef="coparticipacao">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Coparticipacao </mat-header-cell>
-          <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.coparticipacao ? 'Com' : 'Sem'}} </mat-cell>
-        </ng-container>
+                <ng-container matColumnDef="nomeTabela">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Tabela </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.tabela.nome}} </mat-cell>
+                </ng-container>
 
-        <ng-container matColumnDef="valor">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> R$ </mat-header-cell>
-          <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{ calculaValorCotacao(cotacao) | currency: 'BRL' }} </mat-cell>
-        </ng-container>
+                <ng-container matColumnDef="nomeProduto">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.produto.nome}} </mat-cell>
+                </ng-container>
 
-        <ng-container matColumnDef="entidades">
-          <mat-header-cell *matHeaderCellDef mat-sort-header> Entidades </mat-header-cell>
-          <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{ displayEntidades(cotacao) }} </mat-cell>
-        </ng-container>
+                <ng-container matColumnDef="acomodacao">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Acomodacao </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.acomodacao}} </mat-cell>
+                </ng-container>
 
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-      </mat-table>
-      <mat-paginator [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceCotacao.data.length" showFirstLastButtons></mat-paginator>
+                <ng-container matColumnDef="coparticipacao">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Coparticipacao </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.coparticipacao ? 'Com' : 'Sem'}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{ calculaValorCotacao(cotacao) | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="entidades">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Entidades </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{ displayEntidades(cotacao) }} </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              </mat-table>
+              <mat-paginator [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceCotacaoAptSemCopart.data.length" showFirstLastButtons></mat-paginator>
+            </div>
+
+          </mat-expansion-panel>
+        </div>
+        <div>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>science</mat-icon>
+              </mat-panel-title>
+              <mat-panel-description>
+                Apartamento - Com Coparticipacao
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div>
+              <mat-table [dataSource]="dataSourceCotacaoAptComCopart" matSort class="mat-elevation-z8">
+                <ng-container matColumnDef="id">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.id}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="estado">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.tabela.estado.sigla}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="nomeTabela">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Tabela </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.tabela.nome}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="nomeProduto">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.produto.nome}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="acomodacao">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Acomodacao </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.acomodacao}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="coparticipacao">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Coparticipacao </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.coparticipacao ? 'Com' : 'Sem'}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{ calculaValorCotacao(cotacao) | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="entidades">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Entidades </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{ displayEntidades(cotacao) }} </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              </mat-table>
+              <mat-paginator [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceCotacaoAptComCopart.data.length" showFirstLastButtons></mat-paginator>
+            </div>
+
+          </mat-expansion-panel>
+        </div>
+        <div>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>science</mat-icon>
+              </mat-panel-title>
+              <mat-panel-description>
+                Enfermaria - Sem Coparticipacao
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div>
+              <mat-table [dataSource]="dataSourceCotacaoEnfSemCopart" matSort class="mat-elevation-z8">
+                <ng-container matColumnDef="id">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.id}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="estado">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.tabela.estado.sigla}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="nomeTabela">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Tabela </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.tabela.nome}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="nomeProduto">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.produto.nome}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="acomodacao">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Acomodacao </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.acomodacao}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="coparticipacao">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Coparticipacao </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.coparticipacao ? 'Com' : 'Sem'}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{ calculaValorCotacao(cotacao) | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="entidades">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Entidades </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{ displayEntidades(cotacao) }} </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              </mat-table>
+              <mat-paginator [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceCotacaoEnfSemCopart.data.length" showFirstLastButtons></mat-paginator>
+            </div>
+
+          </mat-expansion-panel>
+        </div>
+        <div>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>science</mat-icon>
+              </mat-panel-title>
+              <mat-panel-description>
+                Enfermaria - Com Coparticipacao
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div>
+              <mat-table [dataSource]="dataSourceCotacaoEnfComCopart" matSort class="mat-elevation-z8">
+                <ng-container matColumnDef="id">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.id}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="estado">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.tabela.estado.sigla}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="nomeTabela">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Tabela </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.tabela.nome}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="nomeProduto">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.produto.nome}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="acomodacao">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Acomodacao </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.acomodacao}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="coparticipacao">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Coparticipacao </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.coparticipacao ? 'Com' : 'Sem'}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{ calculaValorCotacao(cotacao) | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="entidades">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Entidades </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{ displayEntidades(cotacao) }} </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+              </mat-table>
+              <mat-paginator [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceCotacaoEnfComCopart.data.length" showFirstLastButtons></mat-paginator>
+            </div>
+
+          </mat-expansion-panel>
+        </div>
+
+      </mat-accordion>
     </mat-card-content>
   </mat-card>
 </div>
