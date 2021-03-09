@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { MatCardModule } from '@angular/material/card';
@@ -43,6 +43,10 @@ import {MatRippleModule} from '@angular/material/core';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatRadioModule} from '@angular/material/radio';
 import {ColorPickerModule} from "ngx-color-picker";
+import {registerLocaleData} from "@angular/common";
+import localePt from '@angular/common/locales/pt';
+
+registerLocaleData(localePt, 'pt');
 
 @NgModule({
   declarations: [
@@ -95,7 +99,8 @@ import {ColorPickerModule} from "ngx-color-picker";
   ],
   providers: [
     AuthService,
-    { provide: 'Window',  useValue: window }
+    { provide: 'Window',  useValue: window },
+    { provide: LOCALE_ID, useValue: "pt" },
   ],
   bootstrap: [AppComponent]
 })
