@@ -136,7 +136,7 @@
             </mat-expansion-panel-header>
 
             <div>
-              <mat-table [dataSource]="dataSourceCotacaoAptSemCopart" matSort class="mat-elevation-z8">
+              <mat-table #sortCotacaoAptSemCopart='matSort' [dataSource]="dataSourceCotacaoAptSemCopart" matSort class="mat-elevation-z8">
                 <ng-container matColumnDef="id">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
                   <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.id}} </mat-cell>
@@ -180,7 +180,7 @@
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
               </mat-table>
-              <mat-paginator [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceCotacaoAptSemCopart.data.length" showFirstLastButtons></mat-paginator>
+              <mat-paginator #paginatorCotacaoAptSemCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoAptSemCopart.data.length" showFirstLastButtons></mat-paginator>
             </div>
 
           </mat-expansion-panel>
@@ -197,7 +197,7 @@
             </mat-expansion-panel-header>
 
             <div>
-              <mat-table [dataSource]="dataSourceCotacaoAptComCopart" matSort class="mat-elevation-z8">
+              <mat-table #sortCotacaoAptComCopart='matSort' [dataSource]="dataSourceCotacaoAptComCopart" matSort class="mat-elevation-z8">
                 <ng-container matColumnDef="id">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
                   <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.id}} </mat-cell>
@@ -241,7 +241,7 @@
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
               </mat-table>
-              <mat-paginator [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceCotacaoAptComCopart.data.length" showFirstLastButtons></mat-paginator>
+              <mat-paginator #paginatorCotacaoAptComCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoAptComCopart.data.length" showFirstLastButtons></mat-paginator>
             </div>
 
           </mat-expansion-panel>
@@ -258,7 +258,7 @@
             </mat-expansion-panel-header>
 
             <div>
-              <mat-table [dataSource]="dataSourceCotacaoEnfSemCopart" matSort class="mat-elevation-z8">
+              <mat-table #sortCotacaoEnfSemCopart='matSort' [dataSource]="dataSourceCotacaoEnfSemCopart" matSort class="mat-elevation-z8">
                 <ng-container matColumnDef="id">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
                   <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.id}} </mat-cell>
@@ -302,7 +302,7 @@
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
               </mat-table>
-              <mat-paginator [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceCotacaoEnfSemCopart.data.length" showFirstLastButtons></mat-paginator>
+              <mat-paginator #paginatorCotacaoEnfSemCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoEnfSemCopart.data.length" showFirstLastButtons></mat-paginator>
             </div>
 
           </mat-expansion-panel>
@@ -319,7 +319,7 @@
             </mat-expansion-panel-header>
 
             <div>
-              <mat-table [dataSource]="dataSourceCotacaoEnfComCopart" matSort class="mat-elevation-z8">
+              <mat-table #sortCotacaoEnfComCopart='matSort' [dataSource]="dataSourceCotacaoEnfComCopart" matSort class="mat-elevation-z8">
                 <ng-container matColumnDef="id">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
                   <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.id}} </mat-cell>
@@ -363,7 +363,7 @@
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
               </mat-table>
-              <mat-paginator [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceCotacaoEnfComCopart.data.length" showFirstLastButtons></mat-paginator>
+              <mat-paginator #paginatorCotacaoEnfComCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoEnfComCopart.data.length" showFirstLastButtons></mat-paginator>
             </div>
 
           </mat-expansion-panel>

@@ -25,9 +25,16 @@ import {MatAccordion} from "@angular/material/expansion";
 })
 export class CotacaoComponent implements OnInit {
 
-  @ViewChild(MatSort) sortCotacao: MatSort;
+  @ViewChild('sortCotacaoAptComCopart') sortCotacaoAptComCopart: MatSort;
+  @ViewChild('sortCotacaoAptSemCopart') sortCotacaoAptSemCopart: MatSort;
+  @ViewChild('sortCotacaoEnfComCopart') sortCotacaoEnfComCopart: MatSort;
+  @ViewChild('sortCotacaoEnfSemCopart') sortCotacaoEnfSemCopart: MatSort;
+  @ViewChild('paginatorCotacaoAptComCopart') paginatorCotacaoAptComCopart: MatPaginator;
+  @ViewChild('paginatorCotacaoAptSemCopart') paginatorCotacaoAptSemCopart: MatPaginator;
+  @ViewChild('paginatorCotacaoEnfComCopart') paginatorCotacaoEnfComCopart: MatPaginator;
+  @ViewChild('paginatorCotacaoEnfSemCopart') paginatorCotacaoEnfSemCopart: MatPaginator;
+
   @ViewChild(MatAccordion) accordion: MatAccordion;
-  @ViewChild(MatPaginator) paginatorCotacao: MatPaginator;
 
   displayedColumns: string[] = ['id', 'estado', 'nomeTabela', 'nomeProduto', 'acomodacao', 'coparticipacao', 'valor', 'entidades'];
 
@@ -74,9 +81,18 @@ export class CotacaoComponent implements OnInit {
       this.dataSourceCotacaoEnfSemCopart = new MatTableDataSource<Opcao>(response.filter(op => op.acomodacao === 'Enfermaria' && !op.coparticipacao));
       this.dataSourceCotacaoAptComCopart = new MatTableDataSource<Opcao>(response.filter(op => op.acomodacao === 'Apartamento' && op.coparticipacao));
       this.dataSourceCotacaoAptSemCopart = new MatTableDataSource<Opcao>(response.filter(op => op.acomodacao === 'Apartamento' && !op.coparticipacao));
-      // this.dataSourceCotacao.sort = this.sortCotacao;
-      // this.dataSourceCotacao.paginator = this.paginatorCotacao;
-      // this.dataSourceCotacao.sortingDataAccessor = this.getSortingDataAccessor();
+      this.dataSourceCotacaoEnfComCopart.sort = this.sortCotacaoEnfComCopart;
+      this.dataSourceCotacaoEnfSemCopart.sort = this.sortCotacaoEnfSemCopart;
+      this.dataSourceCotacaoAptComCopart.sort = this.sortCotacaoAptComCopart;
+      this.dataSourceCotacaoAptSemCopart.sort = this.sortCotacaoAptSemCopart;
+      this.dataSourceCotacaoEnfComCopart.paginator = this.paginatorCotacaoEnfComCopart;
+      this.dataSourceCotacaoEnfSemCopart.paginator = this.paginatorCotacaoEnfSemCopart;
+      this.dataSourceCotacaoAptComCopart.paginator = this.paginatorCotacaoAptComCopart;
+      this.dataSourceCotacaoAptSemCopart.paginator = this.paginatorCotacaoAptSemCopart;
+      this.dataSourceCotacaoEnfComCopart.sortingDataAccessor = this.getSortingDataAccessor();
+      this.dataSourceCotacaoEnfSemCopart.sortingDataAccessor = this.getSortingDataAccessor();
+      this.dataSourceCotacaoAptComCopart.sortingDataAccessor = this.getSortingDataAccessor();
+      this.dataSourceCotacaoAptSemCopart.sortingDataAccessor = this.getSortingDataAccessor();
     });
   }
 
