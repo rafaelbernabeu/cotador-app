@@ -9,8 +9,8 @@ export class Cotacao {
   id: number;
   estado: Estado;
   categoria: Categoria;
-  profissao: Profissao;
   entidades: Entidade[];
+  profissoes: Profissao[];
   acomodacao: Acomodacao;
   coparticipacao: boolean = false;
   qtdVidas0a18anos: number = 0;

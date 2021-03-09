@@ -31,13 +31,10 @@
         </mat-form-field>
 
         <mat-form-field *ngIf="filtroCotacao.categoria === 'Adesao'" appearance="outline" style="width: 100%">
-          <mat-label>Profissao</mat-label>
-          <input matInput (ngModelChange)="consultaCotacaoProfissao($event)" [formControl]="profissaoAutoCompleteControl" [matAutocomplete]="auto2" type="text">
-          <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="profissaoDisplayFn">
-            <mat-option *ngFor="let profissao of profissaoFilteredOptions | async" [value]="profissao">
-              {{profissao.nome}}
-            </mat-option>
-          </mat-autocomplete>
+          <mat-label>Profissoes</mat-label>
+          <mat-select (ngModelChange)="consultaCotacaoProfissao($event)" [(ngModel)]="filtroCotacao.profissoes" multiple>
+            <mat-option *ngFor="let profissao of todasProfissoes" [value]="profissao">{{profissao.nome}}</mat-option>
+          </mat-select>
         </mat-form-field>
 
         <div>
@@ -116,6 +113,78 @@
 <div *ngIf="todasOpcoes" style="height: 20px"></div>
 
 <div [hidden]="!todasOpcoes">
+  <div>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>science</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          Apartamento - Sem Coparticipacao
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div>
+        lalala
+      </div>
+
+    </mat-expansion-panel>
+  </div>
+  <div>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>science</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          Apartamento - Com Coparticipacao
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div>
+        lalala
+      </div>
+
+    </mat-expansion-panel>
+  </div>
+  <div>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>science</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          Enfermaria - Sem Coparticipacao
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div>
+        lalala
+      </div>
+
+    </mat-expansion-panel>
+  </div>
+  <div>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <mat-icon>science</mat-icon>
+        </mat-panel-title>
+        <mat-panel-description>
+          Enfermaria - Com Coparticipacao
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+      <div>
+        lalala
+      </div>
+
+    </mat-expansion-panel>
+  </div>
+
+
+
+
   <mat-card>
     <mat-card-title>Resultado Consulta</mat-card-title>
     <br/>

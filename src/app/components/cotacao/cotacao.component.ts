@@ -38,10 +38,7 @@ export class CotacaoComponent implements OnInit {
   todasAcomodacoes: Acomodacao[];
 
   estadoAutoCompleteControl = new FormControl();
-  profissaoAutoCompleteControl = new FormControl();
-
   estadoFilteredOptions: Observable<Estado[]>;
-  profissaoFilteredOptions: Observable<Profissao[]>;
 
   constructor(
     private estadoService: EstadoService,
@@ -52,12 +49,16 @@ export class CotacaoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.iniciaAutoCompletes();
     this.cotacaoService.getCotacao(this.filtroCotacao).subscribe(response => console.log(response));
-    this.estadoService.getAllEstados().subscribe(response => this.todosEstados = response);
     this.categoriaService.getAllCategorias().subscribe(response => this.todasCategorias = response);
     this.profissaoService.getAllProfissoes().subscribe(response => this.todasProfissoes = response);
     this.acomodacaoService.getAllAcomodacoes().subscribe(response => this.todasAcomodacoes = response);
+    this.estadoService.getAllEstados().subscribe(response => {
+      this.todosEstados = response;
+      setTimeout(() => this.estadoAutoCompleteControl.setValue(''));
+    });
+
+    this.iniciaAutoCompletes();
   }
 
   consultaCotacao(): void {
@@ -81,11 +82,6 @@ export class CotacaoComponent implements OnInit {
       map(value => typeof value === 'string' ? value : value.name),
       map(value => this.estadoFilterAutoComplete(value))
     );
-    this.profissaoFilteredOptions = this.profissaoAutoCompleteControl.valueChanges.pipe(
-      startWith(''),
-      map(value => typeof value === 'string' ? value : value.name),
-      map(value => this.profissaoFilterAutoComplete(value))
-    );
   }
 
   private estadoFilterAutoComplete(value: string): Estado[] {
@@ -93,17 +89,8 @@ export class CotacaoComponent implements OnInit {
     return this.todosEstados?.filter(estado => estado.nome.toLowerCase().includes(filterValue) || estado.sigla.toLowerCase().includes(filterValue));
   }
 
-  private profissaoFilterAutoComplete(value: string): Profissao[] {
-    const filterValue = value?.toLowerCase();
-    return this.todasProfissoes?.filter(profissao => profissao.nome.toLowerCase().includes(filterValue));
-  }
-
   estadoDisplayFn(estado: Estado): string {
     return estado && estado.nome ? estado.nome : '';
-  }
-
-  profissaoDisplayFn(profissao: Profissao): string {
-    return profissao && profissao.nome ? profissao.nome : '';
   }
 
   selecionaCotacao(cotacao: Opcao) {
@@ -127,7 +114,7 @@ export class CotacaoComponent implements OnInit {
 
   consultaCotacaoCategoria(categoria: Categoria): void {
     if (categoria === 'Empresarial') {
-      this.profissaoAutoCompleteControl.setValue('');
+      this.filtroCotacao.profissoes = [];
     }
     this.filtroCotacao.categoria = categoria;
     this.consultaCotacao();
@@ -148,12 +135,7 @@ export class CotacaoComponent implements OnInit {
   }
 
   consultaCotacaoProfissao(profissao: Profissao): void {
-    if (profissao?.id) {
-      this.filtroCotacao.profissao = profissao;
-      this.consultaCotacao();
-    } else {
-      this.filtroCotacao.profissao = null;
-    }
+    setTimeout(() => this.consultaCotacao());
   }
 
   consultaCotacaoAcomodacao(acomodacao: Acomodacao): void {
@@ -164,4 +146,5 @@ export class CotacaoComponent implements OnInit {
   displayEntidades(cotacao: Opcao): string {
     return cotacao.tabela.entidades.map(e => e.nome).join(',')
   }
+
 }
