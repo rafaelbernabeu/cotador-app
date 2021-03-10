@@ -155,6 +155,9 @@
           <a *ngIf="!editandoOpcao() && !adicionandoOpcao()" (click)="editarOpcao()">
             <mat-icon class="mouse-pointer">create</mat-icon>
           </a>
+          <a *ngIf="!editandoOpcao() && !adicionandoOpcao()" (click)="copiarOpcao()">
+            <mat-icon class="mouse-pointer">content_copy</mat-icon>
+          </a>
           <a *ngIf="!editandoOpcao() && !adicionandoOpcao()" (click)="removerOpcao()">
             <mat-icon class="mouse-pointer">delete</mat-icon>
           </a>

@@ -62,6 +62,9 @@
           <a *ngIf="!editandoTabela() && !adicionandoTabela()" (click)="editarTabela()">
             <mat-icon class="mouse-pointer">create</mat-icon>
           </a>
+          <a *ngIf="!editandoTabela() && !adicionandoTabela()" (click)="copiarTabela()">
+            <mat-icon class="mouse-pointer">content_copy</mat-icon>
+          </a>
           <a *ngIf="!editandoTabela() && !adicionandoTabela()" (click)="removerTabela()">
             <mat-icon class="mouse-pointer">delete</mat-icon>
           </a>

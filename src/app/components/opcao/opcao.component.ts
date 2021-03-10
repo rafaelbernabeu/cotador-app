@@ -324,6 +324,12 @@ export class OpcaoComponent implements OnInit {
     this.preparaAutoCompletesParaEdicao(this.opcaoEditando);
   }
 
+  copiarOpcao(): void {
+    this.editarOpcao();
+    this.opcaoEditando.id = null;
+    this.estado = 'adicionando';
+  }
+
   editarOpcao(): void {
     this.estado = 'editandoOpcao';
     this.tabelaAutoCompleteControl.enable();

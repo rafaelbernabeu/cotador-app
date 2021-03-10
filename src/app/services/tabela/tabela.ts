@@ -25,7 +25,7 @@ export class Tabela {
   operadora: Operadora = new Operadora();
   administradora: Administradora = new Administradora();
 
-  opcao: Opcao[];
+  opcoes: Opcao[];
   produtos: Produto[];
   entidades: Entidade[];
 

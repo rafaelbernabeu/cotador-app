@@ -189,6 +189,14 @@ export class TabelaComponent implements OnInit {
     this.carregaTabelasAdicionais(this.tabelaEditando);
   }
 
+  copiarTabela(): void {
+    this.editarTabela();
+    this.tabelaEditando.id = null;
+    this.tabelaEditando.nome = '';
+    this.tabelaEditando.opcoes = [];
+    this.estado = 'adicionando';
+  }
+
   editarTabela(): void {
     this.estado = 'editandoTabela';
     this.reajusteAutoCompleteControl.enable();
