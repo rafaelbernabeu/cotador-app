@@ -14,7 +14,7 @@
 
     <mat-card-content>
       <div [style.width]="this.produtoSelecionado ? (window.innerWidth * 0.70) + 'px' : (window.innerWidth * 0.95) + 'px'" style="overflow: auto;">
-        <mat-table style="width: 3000px" #sortProduto="matSort" [dataSource]="dataSourceProduto" matSort>
+        <mat-table style="width: 5000px" #sortProduto="matSort" [dataSource]="dataSourceProduto" matSort>
           <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
             <mat-cell *matCellDef="let produto" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.id}} </mat-cell>
@@ -378,7 +378,7 @@
 
                       <ng-container matColumnDef="estado">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
-                        <mat-cell *matCellDef="let laboratorio"> {{laboratorio.estado.sigla}} </mat-cell>
+                        <mat-cell *matCellDef="let laboratorio" (click)="laboratorio.selected = !laboratorio.selected" class="mouse-pointer"> {{laboratorio.estado.sigla}} </mat-cell>
                       </ng-container>
 
                       <ng-container matColumnDef="selected">

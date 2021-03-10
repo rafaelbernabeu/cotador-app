@@ -13,8 +13,8 @@
       </mat-card-title>
       <br/>
 
-      <mat-card-content>
-        <mat-table [dataSource]="dataSourceHospital" matSort class="mat-elevation-z8">
+      <mat-card-content style="width: 850px">
+        <mat-table style="width: 100%" [dataSource]="dataSourceHospital" matSort class="mat-elevation-z8">
           <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
             <mat-cell *matCellDef="let hospital" (click)="selecionaHospital(hospital)" class="mouse-pointer"> {{hospital.id}} </mat-cell>
@@ -40,7 +40,7 @@
 
   <div *ngIf="hospitalSelecionado" style="width: 20px"></div>
 
-  <div *ngIf="hospitalSelecionado" style="flex-direction: column">
+  <div *ngIf="hospitalSelecionado" style="flex-direction: column; width: 100%">
     <div>
       <mat-card>
         <mat-card-title>
