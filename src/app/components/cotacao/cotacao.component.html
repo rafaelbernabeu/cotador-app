@@ -7,28 +7,41 @@
       <mat-card-content>
 
         <div style="margin-top: 40px; margin-bottom: 20px">
-        <span>
           <mat-radio-group (ngModelChange)="consultaCotacaoCategoria($event)" [(ngModel)]="filtroCotacao.categoria">
             <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
               {{categoria}}
             </mat-radio-button>
           </mat-radio-group>
-        </span>
-
-          <span style="float: right;">
-          <mat-slide-toggle (ngModelChange)="consultaCotacaoCoparticipacao($event)" [(ngModel)]="filtroCotacao.coparticipacao" labelPosition="before">Coparticipacao</mat-slide-toggle>
-        </span>
         </div>
 
-        <mat-form-field appearance="outline" style="width: 100%">
-          <mat-label>Estado</mat-label>
-          <input (ngModelChange)="consultaCotacaoEstado($event)" matInput [formControl]="estadoAutoCompleteControl" [matAutocomplete]="auto1" type="text">
-          <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" [displayWith]="estadoDisplayFn">
-            <mat-option *ngFor="let estado of estadoFilteredOptions | async" [value]="estado">
-              {{estado.nome}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+        <div>
+          <mat-form-field appearance="outline" style="width: 33%">
+            <mat-label>Estado</mat-label>
+            <input (ngModelChange)="consultaCotacaoEstado($event)" matInput [formControl]="estadoAutoCompleteControl" [matAutocomplete]="auto1" type="text">
+            <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" [displayWith]="estadoDisplayFn">
+              <mat-option *ngFor="let estado of estadoFilteredOptions | async" [value]="estado">
+                {{estado.nome}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 33%">
+            <mat-label>Coparticipacao</mat-label>
+            <mat-select (ngModelChange)="consultaCotacaoCoparticipacao($event)" [(ngModel)]="filtroCotacao.coparticipacao">
+              <mat-option [value]="null"></mat-option>
+              <mat-option [value]="true">Com</mat-option>
+              <mat-option [value]="false">Sem</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 33%">
+            <mat-label>Acomodacao</mat-label>
+            <mat-select (ngModelChange)="consultaCotacaoAcomodacao($event)" [(ngModel)]="filtroCotacao.acomodacao">
+              <mat-option [value]=""></mat-option>
+              <mat-option *ngFor="let acomodacao of todasAcomodacoes;" [value]="acomodacao">{{acomodacao}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
 
         <mat-form-field *ngIf="filtroCotacao.categoria === 'Adesao'" appearance="outline" style="width: 100%">
           <mat-label>Profissoes</mat-label>
@@ -38,70 +51,64 @@
         </mat-form-field>
 
         <div>
-          <mat-form-field appearance="outline" style="width: 33%">
+          <mat-form-field appearance="outline" style="width: 20%">
             <mat-label>Qtd. Vidas 0 a 18</mat-label>
             <input type="number" matInput placeholder="0 a 18"
                    [(ngModel)]="filtroCotacao.qtdVidas0a18anos">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 33%">
+          <mat-form-field appearance="outline" style="width: 20%">
             <mat-label>Qtd. Vidas 19 a 23</mat-label>
             <input type="number" matInput placeholder="19 a 23"
                    [(ngModel)]="filtroCotacao.qtdVidas19a23anos">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 33%">
+          <mat-form-field appearance="outline" style="width: 20%">
             <mat-label>Qtd. Vidas 24 a 28</mat-label>
             <input type="number" matInput placeholder="24 a 28"
                    [(ngModel)]="filtroCotacao.qtdVidas24a28anos">
           </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field appearance="outline" style="width: 33%">
+          <mat-form-field appearance="outline" style="width: 20%">
             <mat-label>Qtd. Vidas 29 a 33</mat-label>
             <input type="number" matInput placeholder="29 a 33"
                    [(ngModel)]="filtroCotacao.qtdVidas29a33anos">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 33%">
+          <mat-form-field appearance="outline" style="width: 20%">
             <mat-label>Qtd. Vidas 34 a 38</mat-label>
             <input type="number" matInput placeholder="34 a 38"
                    [(ngModel)]="filtroCotacao.qtdVidas34a38anos">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 33%">
+        </div>
+        <div>
+          <mat-form-field appearance="outline" style="width: 20%">
             <mat-label>Qtd. Vidas 39 a 43</mat-label>
             <input type="number" matInput placeholder="39 a 43"
                    [(ngModel)]="filtroCotacao.qtdVidas39a43anos">
           </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field appearance="outline" style="width: 33%">
+          <mat-form-field appearance="outline" style="width: 20%">
             <mat-label>Qtd. Vidas 44 a 48</mat-label>
             <input type="number" matInput placeholder="44 a 48"
                    [(ngModel)]="filtroCotacao.qtdVidas44a48anos">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 33%">
+          <mat-form-field appearance="outline" style="width: 20%">
             <mat-label>Qtd. Vidas 49 a 53</mat-label>
             <input type="number" matInput placeholder="49 a 53"
                    [(ngModel)]="filtroCotacao.qtdVidas49a53anos">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 33%">
+          <mat-form-field appearance="outline" style="width: 20%">
             <mat-label>Qtd. Vidas 54 a 58</mat-label>
             <input type="number" matInput placeholder="54 a 58"
                    [(ngModel)]="filtroCotacao.qtdVidas54a58anos">
           </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field appearance="outline" style="width: 33%">
+          <mat-form-field appearance="outline" style="width: 20%">
             <mat-label>Qtd. Vidas 59 ou Mais</mat-label>
             <input type="number" matInput placeholder="59 ou mais"
                    [(ngModel)]="filtroCotacao.qtdVidas59ouMaisAnos">
           </mat-form-field>
+        </div>
+        <div>
 
-          <mat-form-field appearance="outline" style="width: 66%">
-            <mat-label>Acomodacao</mat-label>
-            <mat-select (ngModelChange)="consultaCotacaoAcomodacao($event)" [(ngModel)]="filtroCotacao.acomodacao">
-              <mat-option [value]=""></mat-option>
-              <mat-option *ngFor="let acomodacao of todasAcomodacoes;" [value]="acomodacao">{{acomodacao}}</mat-option>
-            </mat-select>
-          </mat-form-field>
+        </div>
+        <div>
+
         </div>
 
       </mat-card-content>
@@ -124,14 +131,14 @@
 
       <mat-accordion multi>
 
-        <div [hidden]="filtroCotacao.coparticipacao || filtroCotacao.acomodacao === 'Enfermaria'">
+        <div [hidden]="filtroCotacao.coparticipacao === true || filtroCotacao.acomodacao === 'Enfermaria'">
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                <mat-icon>science</mat-icon>
+                <mat-icon>attach_money</mat-icon>
               </mat-panel-title>
               <mat-panel-description>
-                Apartamento - Sem Coparticipacao
+                <b>Apartamento - Sem Coparticipacao</b>
               </mat-panel-description>
             </mat-expansion-panel-header>
 
@@ -185,14 +192,14 @@
 
           </mat-expansion-panel>
         </div>
-        <div [hidden]="!filtroCotacao.coparticipacao || filtroCotacao.acomodacao === 'Enfermaria'">
+        <div style="padding-top: 20px" [hidden]="filtroCotacao.coparticipacao === false || filtroCotacao.acomodacao === 'Enfermaria'">
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                <mat-icon>science</mat-icon>
+                <mat-icon>attach_money</mat-icon>
               </mat-panel-title>
               <mat-panel-description>
-                Apartamento - Com Coparticipacao
+                <b>Apartamento - Com Coparticipacao</b>
               </mat-panel-description>
             </mat-expansion-panel-header>
 
@@ -246,14 +253,14 @@
 
           </mat-expansion-panel>
         </div>
-        <div [hidden]="filtroCotacao.coparticipacao || filtroCotacao.acomodacao === 'Apartamento'">
+        <div style="padding-top: 20px" [hidden]="filtroCotacao.coparticipacao === true || filtroCotacao.acomodacao === 'Apartamento'">
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                <mat-icon>science</mat-icon>
+                <mat-icon>attach_money</mat-icon>
               </mat-panel-title>
               <mat-panel-description>
-                Enfermaria - Sem Coparticipacao
+                <b>Enfermaria - Sem Coparticipacao</b>
               </mat-panel-description>
             </mat-expansion-panel-header>
 
@@ -307,14 +314,14 @@
 
           </mat-expansion-panel>
         </div>
-        <div [hidden]="!filtroCotacao.coparticipacao || filtroCotacao.acomodacao === 'Apartamento'">
+        <div style="padding-top: 20px" [hidden]="filtroCotacao.coparticipacao === false || filtroCotacao.acomodacao === 'Apartamento'">
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
-                <mat-icon>science</mat-icon>
+                <mat-icon>attach_money</mat-icon>
               </mat-panel-title>
               <mat-panel-description>
-                Enfermaria - Com Coparticipacao
+                <b>Enfermaria - Com Coparticipacao</b>
               </mat-panel-description>
             </mat-expansion-panel-header>
 
@@ -364,6 +371,78 @@
                 <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
               </mat-table>
               <mat-paginator #paginatorCotacaoEnfComCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoEnfComCopart.data.length" showFirstLastButtons></mat-paginator>
+            </div>
+
+          </mat-expansion-panel>
+        </div>
+
+        <div style="padding-top: 20px">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>local_hospital</mat-icon>
+              </mat-panel-title>
+              <mat-panel-description>
+                <b>Hospitais</b>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div>
+              hospitais...
+            </div>
+
+          </mat-expansion-panel>
+        </div>
+
+        <div style="padding-top: 20px">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>science</mat-icon>
+              </mat-panel-title>
+              <mat-panel-description>
+                <b>Laboratorios</b>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div>
+              laboratiorios...
+            </div>
+
+          </mat-expansion-panel>
+        </div>
+
+        <div [hidden]="filtroCotacao.coparticipacao === false" style="padding-top: 20px">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>payments</mat-icon>
+              </mat-panel-title>
+              <mat-panel-description>
+                <b>Coparticipacao</b>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div>
+              coparticipacao...
+            </div>
+
+          </mat-expansion-panel>
+        </div>
+
+        <div style="padding-top: 20px">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>account_balance_wallet</mat-icon>
+              </mat-panel-title>
+              <mat-panel-description>
+                <b>Reembolso</b>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+
+            <div>
+              reembolso...
             </div>
 
           </mat-expansion-panel>

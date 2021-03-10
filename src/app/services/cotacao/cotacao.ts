@@ -12,7 +12,7 @@ export class Cotacao {
   entidades: Entidade[];
   profissoes: Profissao[];
   acomodacao: Acomodacao;
-  coparticipacao: boolean = false;
+  coparticipacao: boolean;
   qtdVidas0a18anos: number = 0;
   qtdVidas19a23anos: number = 0;
   qtdVidas24a28anos: number = 0;
