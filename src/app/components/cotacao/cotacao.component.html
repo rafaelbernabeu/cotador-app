@@ -124,7 +124,7 @@
 
       <mat-accordion multi>
 
-        <div>
+        <div [hidden]="filtroCotacao.coparticipacao || filtroCotacao.acomodacao === 'Enfermaria'">
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
@@ -185,7 +185,7 @@
 
           </mat-expansion-panel>
         </div>
-        <div>
+        <div [hidden]="!filtroCotacao.coparticipacao || filtroCotacao.acomodacao === 'Enfermaria'">
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
@@ -246,7 +246,7 @@
 
           </mat-expansion-panel>
         </div>
-        <div>
+        <div [hidden]="filtroCotacao.coparticipacao || filtroCotacao.acomodacao === 'Apartamento'">
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
@@ -307,7 +307,7 @@
 
           </mat-expansion-panel>
         </div>
-        <div>
+        <div [hidden]="!filtroCotacao.coparticipacao || filtroCotacao.acomodacao === 'Apartamento'">
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>
