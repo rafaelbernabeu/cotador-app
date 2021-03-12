@@ -17,6 +17,10 @@ import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatAccordion} from "@angular/material/expansion";
+import {Hospital} from "../../services/hospital/hospital";
+import {Laboratorio} from "../../services/laboratorio/laboratorio";
+import {Produto} from "../../services/produto/produto";
+import {HospitalService} from "../../services/hospital/hospital.service";
 
 @Component({
   selector: 'app-cotacao',
@@ -25,6 +29,7 @@ import {MatAccordion} from "@angular/material/expansion";
 })
 export class CotacaoComponent implements OnInit {
 
+  @ViewChild(MatAccordion) accordion: MatAccordion;
   @ViewChild('sortCotacaoAptComCopart') sortCotacaoAptComCopart: MatSort;
   @ViewChild('sortCotacaoAptSemCopart') sortCotacaoAptSemCopart: MatSort;
   @ViewChild('sortCotacaoEnfComCopart') sortCotacaoEnfComCopart: MatSort;
@@ -34,20 +39,29 @@ export class CotacaoComponent implements OnInit {
   @ViewChild('paginatorCotacaoEnfComCopart') paginatorCotacaoEnfComCopart: MatPaginator;
   @ViewChild('paginatorCotacaoEnfSemCopart') paginatorCotacaoEnfSemCopart: MatPaginator;
 
-  @ViewChild(MatAccordion) accordion: MatAccordion;
+  @ViewChild('sortHospital') sortHospital: MatSort;
+  @ViewChild('sortLaboratorio') sortLaboratorio: MatSort;
+  @ViewChild('paginatorHospital') paginatorHospital: MatPaginator;
+  @ViewChild('paginatorLaboratorio') paginatorLaboratorio: MatPaginator;
 
+  displayedColumnsHospitais: string[];
   displayedColumns: string[] = ['id', 'estado', 'nomeTabela', 'nomeProduto', 'acomodacao', 'coparticipacao', 'valor', 'entidades'];
 
   dataSourceCotacaoAptComCopart = new MatTableDataSource<Opcao>();
   dataSourceCotacaoAptSemCopart = new MatTableDataSource<Opcao>();
   dataSourceCotacaoEnfComCopart = new MatTableDataSource<Opcao>();
   dataSourceCotacaoEnfSemCopart = new MatTableDataSource<Opcao>();
+  dataSourceHospitais = new MatTableDataSource<Hospital>();
+  dataSourceLaboratorios = new MatTableDataSource<Laboratorio>();
 
   todasOpcoes: Opcao[];
   todosEstados: Estado[];
+  todosHospitais: Hospital[];
   todasCategorias: Categoria[];
   todasProfissoes: Profissao[];
   todasAcomodacoes: Acomodacao[];
+
+  todosProdutosCotacao: Produto[];
   filtroCotacao: Cotacao = new Cotacao();
 
   estadoAutoCompleteControl = new FormControl();
@@ -56,15 +70,16 @@ export class CotacaoComponent implements OnInit {
   constructor(
     private estadoService: EstadoService,
     private cotacaoService: CotacaoService,
+    private hospitalService: HospitalService,
     private categoriaService: CategoriaService,
     private profissaoService: ProfissaoService,
     private acomodacaoService: AcomodacaoService,
   ) { }
 
   ngOnInit(): void {
-    this.cotacaoService.getCotacao(this.filtroCotacao).subscribe(response => console.log(response));
-    this.categoriaService.getAllCategorias().subscribe(response => this.todasCategorias = response);
+    this.hospitalService.getAllHospitais().subscribe(response => this.todosHospitais = response);
     this.profissaoService.getAllProfissoes().subscribe(response => this.todasProfissoes = response);
+    this.categoriaService.getAllCategorias().subscribe(response => this.todasCategorias = response);
     this.acomodacaoService.getAllAcomodacoes().subscribe(response => this.todasAcomodacoes = response);
     this.estadoService.getAllEstados().subscribe(response => {
       this.todosEstados = response;
@@ -77,23 +92,36 @@ export class CotacaoComponent implements OnInit {
   consultaCotacao(): void {
     this.cotacaoService.getCotacao(this.filtroCotacao).subscribe(response => {
       this.todasOpcoes = response;
-      this.dataSourceCotacaoEnfComCopart = new MatTableDataSource<Opcao>(response.filter(op => op.acomodacao === 'Enfermaria' && op.coparticipacao));
-      this.dataSourceCotacaoEnfSemCopart = new MatTableDataSource<Opcao>(response.filter(op => op.acomodacao === 'Enfermaria' && !op.coparticipacao));
-      this.dataSourceCotacaoAptComCopart = new MatTableDataSource<Opcao>(response.filter(op => op.acomodacao === 'Apartamento' && op.coparticipacao));
-      this.dataSourceCotacaoAptSemCopart = new MatTableDataSource<Opcao>(response.filter(op => op.acomodacao === 'Apartamento' && !op.coparticipacao));
-      this.dataSourceCotacaoEnfComCopart.sort = this.sortCotacaoEnfComCopart;
-      this.dataSourceCotacaoEnfSemCopart.sort = this.sortCotacaoEnfSemCopart;
-      this.dataSourceCotacaoAptComCopart.sort = this.sortCotacaoAptComCopart;
-      this.dataSourceCotacaoAptSemCopart.sort = this.sortCotacaoAptSemCopart;
-      this.dataSourceCotacaoEnfComCopart.paginator = this.paginatorCotacaoEnfComCopart;
-      this.dataSourceCotacaoEnfSemCopart.paginator = this.paginatorCotacaoEnfSemCopart;
-      this.dataSourceCotacaoAptComCopart.paginator = this.paginatorCotacaoAptComCopart;
-      this.dataSourceCotacaoAptSemCopart.paginator = this.paginatorCotacaoAptSemCopart;
-      this.dataSourceCotacaoEnfComCopart.sortingDataAccessor = this.getSortingDataAccessor();
-      this.dataSourceCotacaoEnfSemCopart.sortingDataAccessor = this.getSortingDataAccessor();
-      this.dataSourceCotacaoAptComCopart.sortingDataAccessor = this.getSortingDataAccessor();
-      this.dataSourceCotacaoAptSemCopart.sortingDataAccessor = this.getSortingDataAccessor();
+      this.configuraTabelasCotacao(this.todasOpcoes);
+      this.configuraTabelaHospital(this.todasOpcoes);
     });
+  }
+
+  private configuraTabelaHospital(opcao: Opcao[]) {
+    this.todosProdutosCotacao = opcao.map(op => op.produto).filter(this.filtraDuplicadas);
+    this.displayedColumnsHospitais = ['nomeHospital'].concat(this.todosProdutosCotacao.map(p => p.nome));
+    this.dataSourceHospitais = new MatTableDataSource<Hospital>(this.todosProdutosCotacao.map(p => p.hospitais).reduce((acc, value) => acc.concat(value)).filter(this.filtraDuplicadas));
+    this.dataSourceHospitais.sort = this.sortHospital;
+    this.dataSourceHospitais.paginator = this.paginatorHospital;
+  }
+
+  private configuraTabelasCotacao(opcoes: Opcao[]): void {
+    this.dataSourceCotacaoEnfComCopart = new MatTableDataSource<Opcao>(opcoes.filter(op => op.acomodacao === 'Enfermaria' && op.coparticipacao));
+    this.dataSourceCotacaoEnfSemCopart = new MatTableDataSource<Opcao>(opcoes.filter(op => op.acomodacao === 'Enfermaria' && !op.coparticipacao));
+    this.dataSourceCotacaoAptComCopart = new MatTableDataSource<Opcao>(opcoes.filter(op => op.acomodacao === 'Apartamento' && op.coparticipacao));
+    this.dataSourceCotacaoAptSemCopart = new MatTableDataSource<Opcao>(opcoes.filter(op => op.acomodacao === 'Apartamento' && !op.coparticipacao));
+    this.dataSourceCotacaoEnfComCopart.sort = this.sortCotacaoEnfComCopart;
+    this.dataSourceCotacaoEnfSemCopart.sort = this.sortCotacaoEnfSemCopart;
+    this.dataSourceCotacaoAptComCopart.sort = this.sortCotacaoAptComCopart;
+    this.dataSourceCotacaoAptSemCopart.sort = this.sortCotacaoAptSemCopart;
+    this.dataSourceCotacaoEnfComCopart.paginator = this.paginatorCotacaoEnfComCopart;
+    this.dataSourceCotacaoEnfSemCopart.paginator = this.paginatorCotacaoEnfSemCopart;
+    this.dataSourceCotacaoAptComCopart.paginator = this.paginatorCotacaoAptComCopart;
+    this.dataSourceCotacaoAptSemCopart.paginator = this.paginatorCotacaoAptSemCopart;
+    this.dataSourceCotacaoEnfComCopart.sortingDataAccessor = this.getSortingDataAccessor();
+    this.dataSourceCotacaoEnfSemCopart.sortingDataAccessor = this.getSortingDataAccessor();
+    this.dataSourceCotacaoAptComCopart.sortingDataAccessor = this.getSortingDataAccessor();
+    this.dataSourceCotacaoAptSemCopart.sortingDataAccessor = this.getSortingDataAccessor();
   }
 
   private getSortingDataAccessor() {
@@ -176,4 +204,12 @@ export class CotacaoComponent implements OnInit {
     return cotacao.tabela.entidades.map(e => e.nome).join(',')
   }
 
+  verificaSeHospitalSelecionado(produto: Produto, hospital: Hospital): boolean {
+    return produto.hospitais.filter(h => h.id === hospital.id).length > 0;
+  }
+
+  private filtraDuplicadas(value: { id }, index, self: { id }[]): boolean {
+    const searchElement: {id} = self.filter(item => item.id === value.id)[0];
+    return self.indexOf(searchElement) === index;
+  }
 }
