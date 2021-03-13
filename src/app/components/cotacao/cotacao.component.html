@@ -608,13 +608,13 @@
                 </ng-container>
 
                 <ng-container [matColumnDef]="produto.nome" *ngFor="let produto of todosProdutosCotacao" >
-                  <mat-header-cell *matHeaderCellDef [style.color]="'white'" [style.background-color]="produto.operadora.cor" mat-sort-header>
+                  <mat-header-cell *matHeaderCellDef style="justify-content: center" [style.color]="'white'" [style.background-color]="produto.operadora.cor" mat-sort-header>
                     <div style="flex-direction: column">
                       <div>{{produto.operadora.nome}}</div>
                       <div>{{produto.nome}}</div>
                     </div>
                   </mat-header-cell>
-                  <mat-cell *matCellDef="let hospital">
+                  <mat-cell *matCellDef="let hospital" style="justify-content: center">
                     <mat-checkbox [disabled]="true" [ngModel]="verificaSeHospitalSelecionado(produto, hospital)"></mat-checkbox>
                   </mat-cell>
                 </ng-container>
@@ -641,44 +641,23 @@
 
             <div>
               <mat-table #sortLaboratorio='matSort' [dataSource]="dataSourceLaboratorios" matSort class="mat-elevation-z8">
-                <ng-container matColumnDef="id">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.id}} </mat-cell>
+                <ng-container matColumnDef="nomeLaboratorio">
+                  <mat-header-cell *matHeaderCellDef [style.color]="'white'" [style.background-color]="'black'" mat-sort-header>
+                    Laboratorio
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let laboratorio"> {{laboratorio.nome}} </mat-cell>
                 </ng-container>
 
-                <ng-container matColumnDef="estado">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.tabela.estado.sigla}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="nomeTabela">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Tabela </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.tabela.nome}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="nomeProduto">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.produto.nome}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="acomodacao">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Acomodacao </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.acomodacao}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="coparticipacao">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Coparticipacao </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{cotacao.coparticipacao ? 'Com' : 'Sem'}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valorTotal">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{ calculaValorCotacao(cotacao) | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="entidades">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Entidades </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" class="mouse-pointer"> {{ displayEntidades(cotacao) }} </mat-cell>
+                <ng-container [matColumnDef]="produto.nome" *ngFor="let produto of todosProdutosCotacao" >
+                  <mat-header-cell *matHeaderCellDef style="justify-content: center" [style.color]="'white'" [style.background-color]="produto.operadora.cor" mat-sort-header>
+                    <div style="flex-direction: column">
+                      <div>{{produto.operadora.nome}}</div>
+                      <div>{{produto.nome}}</div>
+                    </div>
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let laboratorio" style="justify-content: center">
+                    <mat-checkbox [disabled]="true" [ngModel]="verificaSeLaboratorioSelecionado(produto, laboratorio)"></mat-checkbox>
+                  </mat-cell>
                 </ng-container>
 
                 <mat-header-row *matHeaderRowDef="displayedColumnsLaboratorios"></mat-header-row>

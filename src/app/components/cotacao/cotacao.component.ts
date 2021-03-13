@@ -96,17 +96,25 @@ export class CotacaoComponent implements OnInit {
   consultaCotacao(): void {
     this.cotacaoService.getCotacao(this.filtroCotacao).subscribe(response => {
       this.todasOpcoes = response;
+      this.todosProdutosCotacao = this.todasOpcoes.map(op => op.produto).filter(this.filtraDuplicadas);
       this.configuraTabelasCotacao(this.todasOpcoes);
-      this.configuraTabelaHospital(this.todasOpcoes);
+      this.configuraTabelaHospital();
+      this.configuraTabelaLaboratorio();
     });
   }
 
-  private configuraTabelaHospital(opcao: Opcao[]) {
-    this.todosProdutosCotacao = opcao.map(op => op.produto).filter(this.filtraDuplicadas);
+  private configuraTabelaHospital() {
     this.displayedColumnsHospitais = ['nomeHospital'].concat(this.todosProdutosCotacao.sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).map(p => p.nome));
     this.dataSourceHospitais = new MatTableDataSource<Hospital>(this.todosProdutosCotacao.map(p => p.hospitais).reduce((acc, value) => acc.concat(value)).filter(this.filtraDuplicadas));
     this.dataSourceHospitais.sort = this.sortHospital;
     this.dataSourceHospitais.paginator = this.paginatorHospital;
+  }
+
+  private configuraTabelaLaboratorio() {
+    this.displayedColumnsLaboratorios = ['nomeLaboratorio'].concat(this.todosProdutosCotacao.sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).map(p => p.nome));
+    this.dataSourceLaboratorios = new MatTableDataSource<Laboratorio>(this.todosProdutosCotacao.map(p => p.laboratorios).reduce((acc, value) => acc.concat(value)).filter(this.filtraDuplicadas));
+    this.dataSourceLaboratorios.sort = this.sortLaboratorio;
+    this.dataSourceLaboratorios.paginator = this.paginatorLaboratorio;
   }
 
   private configuraTabelasCotacao(opcoes: Opcao[]): void {
@@ -210,6 +218,10 @@ export class CotacaoComponent implements OnInit {
 
   verificaSeHospitalSelecionado(produto: Produto, hospital: Hospital): boolean {
     return produto.hospitais.filter(h => h.id === hospital.id).length > 0;
+  }
+
+  verificaSeLaboratorioSelecionado(produto: Produto, laboratorio: Laboratorio): boolean {
+    return produto.laboratorios.filter(l => l.id === laboratorio.id).length > 0;
   }
 
   private filtraDuplicadas(value: { id }, index, self: { id }[]): boolean {
