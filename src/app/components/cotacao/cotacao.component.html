@@ -169,9 +169,19 @@
                   <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.nome}} </mat-cell>
                 </ng-container>
 
+                <ng-container matColumnDef="nomeOperadora">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Operadora </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.operadora.nome}} </mat-cell>
+                </ng-container>
+
                 <ng-container matColumnDef="nomeProduto">
                   <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
                   <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.produto.nome}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="abrangencia">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.produto.abrangencia}} </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="acomodacao">
@@ -280,9 +290,19 @@
                   <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.nome}} </mat-cell>
                 </ng-container>
 
+                <ng-container matColumnDef="nomeOperadora">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Operadora </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.operadora.nome}} </mat-cell>
+                </ng-container>
+
                 <ng-container matColumnDef="nomeProduto">
                   <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
                   <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.produto.nome}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="abrangencia">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.produto.abrangencia}} </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="acomodacao">
@@ -391,9 +411,19 @@
                   <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.nome}} </mat-cell>
                 </ng-container>
 
+                <ng-container matColumnDef="nomeOperadora">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Operadora </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.operadora.nome}} </mat-cell>
+                </ng-container>
+
                 <ng-container matColumnDef="nomeProduto">
                   <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
                   <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.produto.nome}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="abrangencia">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.produto.abrangencia}} </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="acomodacao">
@@ -502,9 +532,19 @@
                   <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.nome}} </mat-cell>
                 </ng-container>
 
+                <ng-container matColumnDef="nomeOperadora">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Operadora </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.operadora.nome}} </mat-cell>
+                </ng-container>
+
                 <ng-container matColumnDef="nomeProduto">
                   <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
                   <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.produto.nome}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="abrangencia">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" (click)="selecionaCotacao(cotacao)" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.produto.abrangencia}} </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="acomodacao">

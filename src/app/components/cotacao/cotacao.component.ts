@@ -47,7 +47,7 @@ export class CotacaoComponent implements OnInit {
   displayedColumnsLaboratorios: string[];
   displayedColumnsHospitais: string[];
   displayedColumnsCotacao: string[];
-  displayedColumnsInicio: string[] = ['id', 'estado', 'nomeTabela', 'nomeProduto', 'acomodacao', 'coparticipacao']
+  displayedColumnsInicio: string[] = ['id', 'estado', 'nomeTabela', 'nomeOperadora', 'nomeProduto', 'abrangencia', 'acomodacao', 'coparticipacao']
   displayedColumnsFim: string[] = ['valorTotal', 'entidades'];
 
   dataSourceCotacaoAptComCopart = new MatTableDataSource<Opcao>();
