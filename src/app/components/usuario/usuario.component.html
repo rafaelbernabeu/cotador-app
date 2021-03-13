@@ -111,8 +111,8 @@
               </ng-container>
 
               <ng-container matColumnDef="selected">
-                <mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center"> Selecione </mat-header-cell>
-                <mat-cell *matCellDef="let role">
+                <mat-header-cell *matHeaderCellDef style="justify-content: center" mat-sort-header> Selecione </mat-header-cell>
+                <mat-cell *matCellDef="let role" style="justify-content: center">
                   <section style="width: 100%; text-align: center">
                     <mat-checkbox [(ngModel)]="role.selected"></mat-checkbox>
                   </section>
