@@ -44,8 +44,11 @@ export class CotacaoComponent implements OnInit {
   @ViewChild('paginatorHospital') paginatorHospital: MatPaginator;
   @ViewChild('paginatorLaboratorio') paginatorLaboratorio: MatPaginator;
 
+  displayedColumnsLaboratorios: string[];
   displayedColumnsHospitais: string[];
-  displayedColumns: string[] = ['id', 'estado', 'nomeTabela', 'nomeProduto', 'acomodacao', 'coparticipacao', 'valor', 'entidades'];
+  displayedColumnsCotacao: string[];
+  displayedColumnsInicio: string[] = ['id', 'estado', 'nomeTabela', 'nomeProduto', 'acomodacao', 'coparticipacao']
+  displayedColumnsFim: string[] = ['valorTotal', 'entidades'];
 
   dataSourceCotacaoAptComCopart = new MatTableDataSource<Opcao>();
   dataSourceCotacaoAptSemCopart = new MatTableDataSource<Opcao>();
@@ -86,6 +89,7 @@ export class CotacaoComponent implements OnInit {
       setTimeout(() => this.estadoAutoCompleteControl.setValue(''));
     });
 
+    this.configDisplayedColumns();
     this.iniciaAutoCompletes();
   }
 
@@ -99,7 +103,7 @@ export class CotacaoComponent implements OnInit {
 
   private configuraTabelaHospital(opcao: Opcao[]) {
     this.todosProdutosCotacao = opcao.map(op => op.produto).filter(this.filtraDuplicadas);
-    this.displayedColumnsHospitais = ['nomeHospital'].concat(this.todosProdutosCotacao.map(p => p.nome));
+    this.displayedColumnsHospitais = ['nomeHospital'].concat(this.todosProdutosCotacao.sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).map(p => p.nome));
     this.dataSourceHospitais = new MatTableDataSource<Hospital>(this.todosProdutosCotacao.map(p => p.hospitais).reduce((acc, value) => acc.concat(value)).filter(this.filtraDuplicadas));
     this.dataSourceHospitais.sort = this.sortHospital;
     this.dataSourceHospitais.paginator = this.paginatorHospital;
@@ -211,5 +215,46 @@ export class CotacaoComponent implements OnInit {
   private filtraDuplicadas(value: { id }, index, self: { id }[]): boolean {
     const searchElement: {id} = self.filter(item => item.id === value.id)[0];
     return self.indexOf(searchElement) === index;
+  }
+
+  updateDisplayedColumns() {
+    setTimeout(() => this.configDisplayedColumns());
+  }
+
+  configDisplayedColumns(): void {
+    let columns: string[] = [...this.displayedColumnsInicio];
+
+    if (this.filtroCotacao.qtdVidas0a18anos > 0) {
+      columns.push('valor0a18anos')
+    }
+    if (this.filtroCotacao.qtdVidas19a23anos > 0) {
+      columns.push('valor19a23anos')
+    }
+    if (this.filtroCotacao.qtdVidas24a28anos > 0) {
+      columns.push('valor24a28anos')
+    }
+    if (this.filtroCotacao.qtdVidas29a33anos > 0) {
+      columns.push('valor29a33anos')
+    }
+    if (this.filtroCotacao.qtdVidas34a38anos > 0) {
+      columns.push('valor34a38anos')
+    }
+    if (this.filtroCotacao.qtdVidas39a43anos > 0) {
+      columns.push('valor39a43anos')
+    }
+    if (this.filtroCotacao.qtdVidas44a48anos > 0) {
+      columns.push('valor44a48anos')
+    }
+    if (this.filtroCotacao.qtdVidas49a53anos > 0) {
+      columns.push('valor49a53anos')
+    }
+    if (this.filtroCotacao.qtdVidas54a58anos > 0) {
+      columns.push('valor54a58anos')
+    }
+    if (this.filtroCotacao.qtdVidas59ouMaisAnos > 0) {
+      columns.push('valor59ouMaisAnos')
+    }
+
+    this.displayedColumnsCotacao = columns.concat(this.displayedColumnsFim)
   }
 }
