@@ -40,9 +40,11 @@ export class CotacaoComponent implements OnInit {
   @ViewChild('paginatorCotacaoEnfSemCopart') paginatorCotacaoEnfSemCopart: MatPaginator;
 
   @ViewChild('sortHospital') sortHospital: MatSort;
+  @ViewChild('sortReembolso') sortReembolso: MatSort;
   @ViewChild('sortLaboratorio') sortLaboratorio: MatSort;
   @ViewChild('sortCoparticipacao') sortCoparticipacao: MatSort;
   @ViewChild('paginatorHospital') paginatorHospital: MatPaginator;
+  @ViewChild('paginatorReembolso') paginatorReembolso: MatPaginator;
   @ViewChild('paginatorLaboratorio') paginatorLaboratorio: MatPaginator;
   @ViewChild('paginatorCoparticipacao') paginatorCoparticipacao: MatPaginator;
 
@@ -60,6 +62,7 @@ export class CotacaoComponent implements OnInit {
   dataSourceHospitais = new MatTableDataSource<Hospital>();
   dataSourceLaboratorios = new MatTableDataSource<Laboratorio>();
   dataSourceCoparticipacao = new MatTableDataSource<Produto>();
+  dataSourceReembolso = new MatTableDataSource<Produto>();
 
   todasOpcoes: Opcao[];
   todosEstados: Estado[];
@@ -100,30 +103,37 @@ export class CotacaoComponent implements OnInit {
   consultaCotacao(): void {
     this.cotacaoService.getCotacao(this.filtroCotacao).subscribe(response => {
       this.todasOpcoes = response;
-      this.todosProdutosCotacao = this.todasOpcoes.map(op => op.produto).filter(this.filtraDuplicadas);
+      this.todosProdutosCotacao = this.todasOpcoes.map(op => op.produto).sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).filter(this.filtraDuplicadas);
       this.configuraTabelasCotacao(this.todasOpcoes);
       this.configuraTabelaHospital();
       this.configuraTabelaLaboratorio();
       this.configuraTabelaCoparticipacao();
+      this.configuraTabelaReembolso();
     });
   }
 
+  private configuraTabelaReembolso(): void {
+    this.dataSourceReembolso = new MatTableDataSource<Produto>(this.todosProdutosCotacao);
+    this.dataSourceReembolso.sort = this.sortReembolso;
+    this.dataSourceReembolso.paginator = this.paginatorReembolso;
+  }
+
   private configuraTabelaCoparticipacao(): void {
-    this.displayedColumnsCoparticipacao = ['tipoCoparticipacao'].concat(this.todosProdutosCotacao.sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).map(p => p.nome));
-    this.dataSourceCoparticipacao = new MatTableDataSource<Produto>(this.todosProdutosCotacao.sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)));
+    this.displayedColumnsCoparticipacao = ['tipoCoparticipacao'].concat(this.todosProdutosCotacao.map(p => p.nome));
+    this.dataSourceCoparticipacao = new MatTableDataSource<Produto>(this.todosProdutosCotacao);
     this.dataSourceCoparticipacao.sort = this.sortCoparticipacao;
     this.dataSourceCoparticipacao.paginator = this.paginatorCoparticipacao;
   }
 
   private configuraTabelaHospital(): void {
-    this.displayedColumnsHospitais = ['nomeHospital'].concat(this.todosProdutosCotacao.sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).map(p => p.nome));
+    this.displayedColumnsHospitais = ['nomeHospital'].concat(this.todosProdutosCotacao.map(p => p.nome));
     this.dataSourceHospitais = new MatTableDataSource<Hospital>(this.todosProdutosCotacao.map(p => p.hospitais).reduce((acc, value) => acc.concat(value)).filter(this.filtraDuplicadas));
     this.dataSourceHospitais.sort = this.sortHospital;
     this.dataSourceHospitais.paginator = this.paginatorHospital;
   }
 
   private configuraTabelaLaboratorio(): void {
-    this.displayedColumnsLaboratorios = ['nomeLaboratorio'].concat(this.todosProdutosCotacao.sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).map(p => p.nome));
+    this.displayedColumnsLaboratorios = ['nomeLaboratorio'].concat(this.todosProdutosCotacao.map(p => p.nome));
     this.dataSourceLaboratorios = new MatTableDataSource<Laboratorio>(this.todosProdutosCotacao.map(p => p.laboratorios).reduce((acc, value) => acc.concat(value)).filter(this.filtraDuplicadas));
     this.dataSourceLaboratorios.sort = this.sortLaboratorio;
     this.dataSourceLaboratorios.paginator = this.paginatorLaboratorio;

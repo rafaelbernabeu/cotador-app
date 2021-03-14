@@ -768,7 +768,7 @@
                 <mat-header-row *matHeaderRowDef="displayedColumnsCoparticipacao"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumnsCoparticipacao;"></mat-row>
               </mat-table>
-              <mat-paginator #paginatorCoparticipacao [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceLaboratorios.data.length" showFirstLastButtons></mat-paginator>
+              <mat-paginator #paginatorCoparticipacao [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCoparticipacao.data.length" showFirstLastButtons></mat-paginator>
             </div>
 
           </mat-expansion-panel>
@@ -786,7 +786,26 @@
             </mat-expansion-panel-header>
 
             <div>
-              reembolso...
+              <mat-table #sortReembolso='matSort' [dataSource]="dataSourceReembolso" matSort class="mat-elevation-z8">
+                <ng-container matColumnDef="operadora">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Operadora</mat-header-cell>
+                  <mat-cell *matCellDef="let produto" [style.background-color]="produto.operadora.cor"> {{produto.operadora.nome}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="produto">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Produto</mat-header-cell>
+                  <mat-cell *matCellDef="let produto" [style.background-color]="produto.operadora.cor"> {{produto.nome}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="reembolso">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Reembolso</mat-header-cell>
+                  <mat-cell *matCellDef="let produto" [style.background-color]="produto.operadora.cor"> {{produto.reembolso | currency: 'BRL'}} </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="['operadora', 'produto', 'reembolso']"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: ['operadora', 'produto', 'reembolso'];"></mat-row>
+              </mat-table>
+              <mat-paginator #paginatorReembolso [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceLaboratorios.data.length" showFirstLastButtons></mat-paginator>
             </div>
 
           </mat-expansion-panel>
