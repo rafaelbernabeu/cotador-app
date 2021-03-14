@@ -41,9 +41,12 @@ export class CotacaoComponent implements OnInit {
 
   @ViewChild('sortHospital') sortHospital: MatSort;
   @ViewChild('sortLaboratorio') sortLaboratorio: MatSort;
+  @ViewChild('sortCoparticipacao') sortCoparticipacao: MatSort;
   @ViewChild('paginatorHospital') paginatorHospital: MatPaginator;
   @ViewChild('paginatorLaboratorio') paginatorLaboratorio: MatPaginator;
+  @ViewChild('paginatorCoparticipacao') paginatorCoparticipacao: MatPaginator;
 
+  displayedColumnsCoparticipacao: string[];
   displayedColumnsLaboratorios: string[];
   displayedColumnsHospitais: string[];
   displayedColumnsCotacao: string[];
@@ -56,6 +59,7 @@ export class CotacaoComponent implements OnInit {
   dataSourceCotacaoEnfSemCopart = new MatTableDataSource<Opcao>();
   dataSourceHospitais = new MatTableDataSource<Hospital>();
   dataSourceLaboratorios = new MatTableDataSource<Laboratorio>();
+  dataSourceCoparticipacao = new MatTableDataSource<Produto>();
 
   todasOpcoes: Opcao[];
   todosEstados: Estado[];
@@ -100,17 +104,25 @@ export class CotacaoComponent implements OnInit {
       this.configuraTabelasCotacao(this.todasOpcoes);
       this.configuraTabelaHospital();
       this.configuraTabelaLaboratorio();
+      this.configuraTabelaCoparticipacao();
     });
   }
 
-  private configuraTabelaHospital() {
+  private configuraTabelaCoparticipacao(): void {
+    this.displayedColumnsCoparticipacao = ['tipoCoparticipacao'].concat(this.todosProdutosCotacao.sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).map(p => p.nome));
+    this.dataSourceCoparticipacao = new MatTableDataSource<Produto>(this.todosProdutosCotacao.sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)));
+    this.dataSourceCoparticipacao.sort = this.sortCoparticipacao;
+    this.dataSourceCoparticipacao.paginator = this.paginatorCoparticipacao;
+  }
+
+  private configuraTabelaHospital(): void {
     this.displayedColumnsHospitais = ['nomeHospital'].concat(this.todosProdutosCotacao.sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).map(p => p.nome));
     this.dataSourceHospitais = new MatTableDataSource<Hospital>(this.todosProdutosCotacao.map(p => p.hospitais).reduce((acc, value) => acc.concat(value)).filter(this.filtraDuplicadas));
     this.dataSourceHospitais.sort = this.sortHospital;
     this.dataSourceHospitais.paginator = this.paginatorHospital;
   }
 
-  private configuraTabelaLaboratorio() {
+  private configuraTabelaLaboratorio(): void {
     this.displayedColumnsLaboratorios = ['nomeLaboratorio'].concat(this.todosProdutosCotacao.sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).map(p => p.nome));
     this.dataSourceLaboratorios = new MatTableDataSource<Laboratorio>(this.todosProdutosCotacao.map(p => p.laboratorios).reduce((acc, value) => acc.concat(value)).filter(this.filtraDuplicadas));
     this.dataSourceLaboratorios.sort = this.sortLaboratorio;

@@ -721,7 +721,54 @@
             </mat-expansion-panel-header>
 
             <div>
-              coparticipacao...
+
+              <mat-table #sortCoparticipacao='matSort' [dataSource]="dataSourceCoparticipacao" matSort class="mat-elevation-z8">
+                <ng-container matColumnDef="tipoCoparticipacao">
+                  <mat-header-cell *matHeaderCellDef [style.color]="'white'" [style.background-color]="'black'" mat-sort-header>Coparticipacao</mat-header-cell>
+                  <mat-cell *matCellDef="let index = index">
+                    <div *ngIf="index === 0">Pronto Socorro</div>
+                    <div *ngIf="index === 1">Consultas</div>
+                    <div *ngIf="index === 2">Exame Simples</div>
+                    <div *ngIf="index === 3">Exame Especial</div>
+                    <div *ngIf="index === 4">Internacao</div>
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container [matColumnDef]="produto.nome" *ngFor="let produto of todosProdutosCotacao" >
+                  <mat-header-cell *matHeaderCellDef style="justify-content: center" [style.color]="'white'" [style.background-color]="produto.operadora.cor" mat-sort-header>
+                    <div style="flex-direction: column">
+                      <div>{{produto.operadora.nome}}</div>
+                      <div>{{produto.nome}}</div>
+                    </div>
+                  </mat-header-cell>
+                  <mat-cell *matCellDef="let produto; let index = index" style="justify-content: center">
+                    <div *ngIf="index === 0">
+                      {{produto.coparticipacao.percentualProntoSocorro}}%
+                      {{produto.coparticipacao.valorProntoSocorro | currency: 'BRL'}}
+                    </div>
+                    <div *ngIf="index === 1">
+                      {{produto.coparticipacao.percentualConsulta}}%
+                      {{produto.coparticipacao.valorConsulta | currency: 'BRL'}}
+                    </div>
+                    <div *ngIf="index === 2">
+                      {{produto.coparticipacao.percentualExameSimples}}%
+                      {{produto.coparticipacao.valorExameSimples | currency: 'BRL'}}
+                    </div>
+                    <div *ngIf="index === 3">
+                      {{produto.coparticipacao.percentualExameEspecial}}%
+                      {{produto.coparticipacao.valorExameEspecial | currency: 'BRL'}}
+                    </div>
+                    <div *ngIf="index === 4">
+                      {{produto.coparticipacao.percentualInternacao}}%
+                      {{produto.coparticipacao.valorInternacao | currency: 'BRL'}}
+                    </div>
+                  </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumnsCoparticipacao"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnsCoparticipacao;"></mat-row>
+              </mat-table>
+              <mat-paginator #paginatorCoparticipacao [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceLaboratorios.data.length" showFirstLastButtons></mat-paginator>
             </div>
 
           </mat-expansion-panel>
