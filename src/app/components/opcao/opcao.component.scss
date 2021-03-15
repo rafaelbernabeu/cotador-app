@@ -3,4 +3,11 @@
 .mat-row {
   display: inline-flex;
   min-width: 100%;
+  //border-bottom-width: 0px;
+}
+
+.mat-header-cell {
+  //color: white;
+  //background-color: black;
+  height: 56px;
 }

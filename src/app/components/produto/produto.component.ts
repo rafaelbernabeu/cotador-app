@@ -131,8 +131,6 @@ export class ProdutoComponent implements OnInit {
     }
     this.dataSourceLaboratorio.sortingDataAccessor = (laboratorio, property) => {
       switch (property) {
-        case 'estado':
-          return laboratorio.estado.sigla;
         default:
           return laboratorio[property];
       }

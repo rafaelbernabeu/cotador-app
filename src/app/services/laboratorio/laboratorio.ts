@@ -4,7 +4,7 @@ export class Laboratorio {
 
   id: number;
   nome: string;
-  estado: Estado;
+  local: string;
   selected: boolean;
 
 }
