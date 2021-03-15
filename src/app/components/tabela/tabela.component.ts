@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatAccordion, MatExpansionPanel} from '@angular/material/expansion';
@@ -24,6 +24,8 @@ import {Reajuste} from '../../services/reajuste/reajuste';
 import {ReajusteService} from '../../services/reajuste/reajuste.service';
 import {Entidade} from '../../services/entidade/entidade';
 import {EntidadeService} from '../../services/entidade/entidade.service';
+import {Profissao} from "../../services/profissao/profissao";
+import {ProfissaoService} from "../../services/profissao/profissao.service";
 
 @Component({
   selector: 'app-tabela',
@@ -49,7 +51,7 @@ export class TabelaComponent implements OnInit {
   @ViewChild('relacionamentoProduto') accordionProduto: MatExpansionPanel;
   @ViewChild('relacionamentoEntidade') accordionEntidade: MatExpansionPanel;
 
-  displayedColumns: string[] = ['id', 'nome', 'estado', 'operadora', 'administradora'];
+  displayedColumns: string[] = ['id', 'nome', 'estado', 'operadora', 'administradora', "reajuste", "idadeMinima", "idadeMaxima", "qtdMinVidas"];
   dataSourceTabela = new MatTableDataSource<Tabela>();
   dataSourceProduto = new MatTableDataSource<Produto>();
   dataSourceEntidade = new MatTableDataSource<Entidade>();
@@ -58,9 +60,10 @@ export class TabelaComponent implements OnInit {
   tabelaEditando: Tabela;
   tabelaSelecionada: Tabela;
   todosEstados: Estado[];
-  todasEntidades: Entidade[];
   todosProdutos: Produto[];
+  todasEntidades: Entidade[];
   todosReajustes: Reajuste[];
+  todasProfissoes: Profissao[];
   todasCategorias: Categoria[];
   todasOperadoras: Operadora[];
   todasAdministradoras: Administradora[];
@@ -75,6 +78,8 @@ export class TabelaComponent implements OnInit {
   administradoraFilteredOptions: Observable<Administradora[]>;
 
   constructor(
+    @Inject('Window') public window: Window,
+
     private dialog: MatDialog,
     private snackBar: SnackbarService,
     private tabelaService: TabelaService,
@@ -83,6 +88,7 @@ export class TabelaComponent implements OnInit {
     private reajusteService: ReajusteService,
     private operadoraService: OperadoraService,
     private categoriaService: CategoriaService,
+    private profissaoService: ProfissaoService,
     private administradoraService: AdministradoraService,
   ) {}
 
@@ -94,6 +100,10 @@ export class TabelaComponent implements OnInit {
     this.categoriaService.getAllCategorias().subscribe(response => this.todasCategorias = response);
     this.operadoraService.getAllOperadoras().subscribe(response => this.todasOperadoras = response);
     this.administradoraService.getAllAdministradoras().subscribe(response => this.todasAdministradoras = response);
+    this.profissaoService.getAllProfissoes().subscribe(response => {
+      this.todasProfissoes = response
+      this.displayedColumns.push(...this.todasProfissoes.map(p => p.nome));
+    })
     this.carregaTabelaTabela();
   }
 
@@ -396,5 +406,9 @@ export class TabelaComponent implements OnInit {
 
   categoriaEmpresarial(): boolean {
     return this.tabelaEditando.categoria === 'Empresarial';
+  }
+
+  getNomesEntidadesPorProfissao(tabela: Tabela, profissao: string): string {
+    return tabela.entidades.filter(e => e.profissoes.filter(p => p.nome === profissao).length > 0).map(e => e.nome).join(' / ');
   }
 }
