@@ -22,5 +22,6 @@ export class Opcao {
   valor49a53anos: number;
   valor54a58anos: number;
   valor59ouMaisAnos: number;
+  selected: boolean;
 
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, OnInit, ViewChild} from '@angular/core';
 import {CotacaoService} from "../../services/cotacao/cotacao.service";
 import {Cotacao} from "../../services/cotacao/cotacao";
 import {CategoriaService} from "../../services/categoria/categoria.service";
@@ -21,6 +21,10 @@ import {Hospital} from "../../services/hospital/hospital";
 import {Laboratorio} from "../../services/laboratorio/laboratorio";
 import {Produto} from "../../services/produto/produto";
 import {HospitalService} from "../../services/hospital/hospital.service";
+import {Operadora} from "../../services/operadora/operadora";
+import {Administradora} from "../../services/administradora/administradora";
+import {AdministradoraService} from "../../services/administradora/administradora.service";
+import {OperadoraService} from "../../services/operadora/operadora.service";
 
 @Component({
   selector: 'app-cotacao',
@@ -48,12 +52,15 @@ export class CotacaoComponent implements OnInit {
   @ViewChild('paginatorLaboratorio') paginatorLaboratorio: MatPaginator;
   @ViewChild('paginatorCoparticipacao') paginatorCoparticipacao: MatPaginator;
 
+  readonly displayedColumnsInicio: string[] = ['selected', 'id', 'estado', 'tabela', 'idadeMin', 'idadeMax', 'qtdMinVidas', 'qtdMinTitulares', 'acomodacao', 'administradora', 'operadora', 'produto', 'abrangencia', 'coparticipacao']
+  readonly displayedColumnsFim: string[] = ['valorTotal', 'reajuste'];
+  readonly displayedColumnsModoClienteInicio = ['operadora', 'produto', 'abrangencia'];
+  readonly displayedColumnsModoClienteFim = ['valorTotal', 'reajuste'];
+
   displayedColumnsCoparticipacao: string[];
   displayedColumnsLaboratorios: string[];
   displayedColumnsHospitais: string[];
   displayedColumnsCotacao: string[];
-  displayedColumnsInicio: string[] = ['id', 'estado', 'nomeTabela', 'nomeOperadora', 'nomeProduto', 'abrangencia', 'acomodacao', 'coparticipacao']
-  displayedColumnsFim: string[] = ['valorTotal', 'entidades'];
 
   dataSourceCotacaoAptComCopart = new MatTableDataSource<Opcao>();
   dataSourceCotacaoAptSemCopart = new MatTableDataSource<Opcao>();
@@ -67,10 +74,13 @@ export class CotacaoComponent implements OnInit {
   todasOpcoes: Opcao[];
   todosEstados: Estado[];
   todosHospitais: Hospital[];
+  todasOperadoras: Operadora[];
   todasCategorias: Categoria[];
   todasProfissoes: Profissao[];
   todasAcomodacoes: Acomodacao[];
+  todasAdministradoras: Administradora[];
 
+  modoCliente: boolean;
   todosProdutosCotacao: Produto[];
   filtroCotacao: Cotacao = new Cotacao();
 
@@ -78,38 +88,53 @@ export class CotacaoComponent implements OnInit {
   estadoFilteredOptions: Observable<Estado[]>;
 
   constructor(
+    @Inject('Window') public window: Window,
+
     private estadoService: EstadoService,
     private cotacaoService: CotacaoService,
     private hospitalService: HospitalService,
     private categoriaService: CategoriaService,
+    private operadoraService: OperadoraService,
     private profissaoService: ProfissaoService,
     private acomodacaoService: AcomodacaoService,
+    private administradoraService: AdministradoraService,
   ) { }
 
   ngOnInit(): void {
     this.hospitalService.getAllHospitais().subscribe(response => this.todosHospitais = response);
+    this.operadoraService.getAllOperadoras().subscribe(response => this.todasOperadoras = response);
     this.profissaoService.getAllProfissoes().subscribe(response => this.todasProfissoes = response);
     this.categoriaService.getAllCategorias().subscribe(response => this.todasCategorias = response);
     this.acomodacaoService.getAllAcomodacoes().subscribe(response => this.todasAcomodacoes = response);
+    this.administradoraService.getAllAdministradoras().subscribe(response => this.todasAdministradoras = response);
     this.estadoService.getAllEstados().subscribe(response => {
       this.todosEstados = response;
       setTimeout(() => this.estadoAutoCompleteControl.setValue(''));
     });
 
-    this.configDisplayedColumns();
+    this.configuraDisplayedColumns();
     this.iniciaAutoCompletes();
   }
 
   consultaCotacao(): void {
     this.cotacaoService.getCotacao(this.filtroCotacao).subscribe(response => {
       this.todasOpcoes = response;
+      this.todasOpcoes.forEach(op => op.selected = true);
       this.todosProdutosCotacao = this.todasOpcoes.map(op => op.produto).sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).filter(this.filtraDuplicadas);
-      this.configuraTabelasCotacao(this.todasOpcoes);
-      this.configuraTabelaHospital();
-      this.configuraTabelaLaboratorio();
-      this.configuraTabelaCoparticipacao();
-      this.configuraTabelaReembolso();
+      this.configuraTodasTabelas();
     });
+  }
+
+  private configuraTodasTabelas() {
+    this.configuraTabelasCotacao();
+    this.configuraTabelasAuxiliares();
+  }
+
+  private configuraTabelasAuxiliares() {
+    this.configuraTabelaHospital();
+    this.configuraTabelaLaboratorio();
+    this.configuraTabelaCoparticipacao();
+    this.configuraTabelaReembolso();
   }
 
   private configuraTabelaReembolso(): void {
@@ -139,23 +164,39 @@ export class CotacaoComponent implements OnInit {
     this.dataSourceLaboratorios.paginator = this.paginatorLaboratorio;
   }
 
-  private configuraTabelasCotacao(opcoes: Opcao[]): void {
-    this.dataSourceCotacaoEnfComCopart = new MatTableDataSource<Opcao>(opcoes.filter(op => op.acomodacao === 'Enfermaria' && op.coparticipacao));
-    this.dataSourceCotacaoEnfSemCopart = new MatTableDataSource<Opcao>(opcoes.filter(op => op.acomodacao === 'Enfermaria' && !op.coparticipacao));
-    this.dataSourceCotacaoAptComCopart = new MatTableDataSource<Opcao>(opcoes.filter(op => op.acomodacao === 'Apartamento' && op.coparticipacao));
+  private configuraTabelasCotacao(): void {
+    this.configuraTabelaEnfComCopart(this.todasOpcoes);
+    this.configuraTabelaEnfSemCopart(this.todasOpcoes);
+    this.configuraTabelaAptComCopart(this.todasOpcoes);
+    this.configuraTabelaAptSemCopart(this.todasOpcoes);
+  }
+
+  private configuraTabelaAptSemCopart(opcoes: Opcao[]) {
     this.dataSourceCotacaoAptSemCopart = new MatTableDataSource<Opcao>(opcoes.filter(op => op.acomodacao === 'Apartamento' && !op.coparticipacao));
-    this.dataSourceCotacaoEnfComCopart.sort = this.sortCotacaoEnfComCopart;
-    this.dataSourceCotacaoEnfSemCopart.sort = this.sortCotacaoEnfSemCopart;
-    this.dataSourceCotacaoAptComCopart.sort = this.sortCotacaoAptComCopart;
     this.dataSourceCotacaoAptSemCopart.sort = this.sortCotacaoAptSemCopart;
-    this.dataSourceCotacaoEnfComCopart.paginator = this.paginatorCotacaoEnfComCopart;
-    this.dataSourceCotacaoEnfSemCopart.paginator = this.paginatorCotacaoEnfSemCopart;
-    this.dataSourceCotacaoAptComCopart.paginator = this.paginatorCotacaoAptComCopart;
     this.dataSourceCotacaoAptSemCopart.paginator = this.paginatorCotacaoAptSemCopart;
-    this.dataSourceCotacaoEnfComCopart.sortingDataAccessor = this.getSortingDataAccessor();
-    this.dataSourceCotacaoEnfSemCopart.sortingDataAccessor = this.getSortingDataAccessor();
-    this.dataSourceCotacaoAptComCopart.sortingDataAccessor = this.getSortingDataAccessor();
     this.dataSourceCotacaoAptSemCopart.sortingDataAccessor = this.getSortingDataAccessor();
+  }
+
+  private configuraTabelaAptComCopart(opcoes: Opcao[]) {
+    this.dataSourceCotacaoAptComCopart = new MatTableDataSource<Opcao>(opcoes.filter(op => op.acomodacao === 'Apartamento' && op.coparticipacao));
+    this.dataSourceCotacaoAptComCopart.sort = this.sortCotacaoAptComCopart;
+    this.dataSourceCotacaoAptComCopart.paginator = this.paginatorCotacaoAptComCopart;
+    this.dataSourceCotacaoAptComCopart.sortingDataAccessor = this.getSortingDataAccessor();
+  }
+
+  private configuraTabelaEnfSemCopart(opcoes: Opcao[]) {
+    this.dataSourceCotacaoEnfSemCopart = new MatTableDataSource<Opcao>(opcoes.filter(op => op.acomodacao === 'Enfermaria' && !op.coparticipacao));
+    this.dataSourceCotacaoEnfSemCopart.sort = this.sortCotacaoEnfSemCopart;
+    this.dataSourceCotacaoEnfSemCopart.paginator = this.paginatorCotacaoEnfSemCopart;
+    this.dataSourceCotacaoEnfSemCopart.sortingDataAccessor = this.getSortingDataAccessor();
+  }
+
+  private configuraTabelaEnfComCopart(opcoes: Opcao[]) {
+    this.dataSourceCotacaoEnfComCopart = new MatTableDataSource<Opcao>(opcoes.filter(op => op.acomodacao === 'Enfermaria' && op.coparticipacao));
+    this.dataSourceCotacaoEnfComCopart.sort = this.sortCotacaoEnfComCopart;
+    this.dataSourceCotacaoEnfComCopart.paginator = this.paginatorCotacaoEnfComCopart;
+    this.dataSourceCotacaoEnfComCopart.sortingDataAccessor = this.getSortingDataAccessor();
   }
 
   private getSortingDataAccessor() {
@@ -226,7 +267,10 @@ export class CotacaoComponent implements OnInit {
   }
 
   consultaCotacaoProfissao(profissao: Profissao): void {
-    setTimeout(() => this.consultaCotacao());
+    setTimeout(() => {
+      this.consultaCotacao();
+      this.configuraDisplayedColumns();
+    });
   }
 
   consultaCotacaoAcomodacao(acomodacao: Acomodacao): void {
@@ -252,12 +296,31 @@ export class CotacaoComponent implements OnInit {
   }
 
   updateDisplayedColumns() {
-    setTimeout(() => this.configDisplayedColumns());
+    setTimeout(() => this.configuraDisplayedColumns());
   }
 
-  configDisplayedColumns(): void {
-    let columns: string[] = [...this.displayedColumnsInicio];
+  configuraDisplayedColumns(): void {
+    let columns: string[];
 
+    if (this.modoCliente) {
+      columns = [...this.displayedColumnsModoClienteInicio];
+    } else {
+      columns = [...this.displayedColumnsInicio];
+    }
+
+    this.adicionaColunasPorQtdVidas(columns);
+
+    if (this.modoCliente) {
+      this.displayedColumnsCotacao = columns.concat(this.displayedColumnsModoClienteFim);
+    } else {
+      this.displayedColumnsCotacao = columns.concat(this.displayedColumnsFim);
+      if (this.filtroCotacao.profissoes) {
+        this.displayedColumnsCotacao.push(...this.filtroCotacao.profissoes.map(p => p.nome));
+      }
+    }
+  }
+
+  private adicionaColunasPorQtdVidas(columns: string[]): string[] {
     if (this.filtroCotacao.qtdVidas0a18anos > 0) {
       columns.push('valor0a18anos')
     }
@@ -289,6 +352,30 @@ export class CotacaoComponent implements OnInit {
       columns.push('valor59ouMaisAnos')
     }
 
-    this.displayedColumnsCotacao = columns.concat(this.displayedColumnsFim)
+    return columns;
+  }
+
+  getNomesEntidadesPorProfissao(opcao: Opcao, profissao: string): string {
+    return opcao.tabela.entidades.filter(e => e.profissoes.filter(p => p.nome === profissao).length > 0).map(e => e.nome).join(' / ');
+  }
+
+  getTableWidth(): string {
+    return (this.displayedColumnsCotacao.length * 120)  +'px';
+  }
+
+  alteraModo(modoCliente: boolean) {
+    this.modoCliente = modoCliente;
+    this.configuraDisplayedColumns();
+    if (this.modoCliente) {
+      this.todosProdutosCotacao = this.todasOpcoes.filter(op => op.selected).map(op => op.produto).sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).filter(this.filtraDuplicadas);
+      this.configuraTabelaEnfComCopart(this.dataSourceCotacaoEnfComCopart.data.filter(op => op.selected));
+      this.configuraTabelaEnfSemCopart(this.dataSourceCotacaoEnfSemCopart.data.filter(op => op.selected));
+      this.configuraTabelaAptComCopart(this.dataSourceCotacaoAptComCopart.data.filter(op => op.selected));
+      this.configuraTabelaAptSemCopart(this.dataSourceCotacaoAptSemCopart.data.filter(op => op.selected));
+      this.configuraTabelasAuxiliares();
+    } else {
+      this.todosProdutosCotacao = this.todasOpcoes.map(op => op.produto).sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).filter(this.filtraDuplicadas);
+      this.configuraTodasTabelas();
+    }
   }
 }

@@ -3,15 +3,21 @@ import {Categoria} from "../categoria/categoria";
 import {Entidade} from "../entidade/entidade";
 import {Acomodacao} from "../acomodacao/Acomodacao";
 import {Estado} from "../estado/estado";
+import {Operadora} from "../operadora/operadora";
+import {Administradora} from "../administradora/administradora";
 
 export class Cotacao {
 
   id: number;
   estado: Estado;
   categoria: Categoria;
-  entidades: Entidade[];
-  profissoes: Profissao[];
   acomodacao: Acomodacao;
+
+  entidades: Entidade[];
+  operadoras: Operadora[];
+  profissoes: Profissao[];
+  administradoras: Administradora[];
+
   coparticipacao: boolean;
   qtdVidas0a18anos: number = 0;
   qtdVidas19a23anos: number = 0;
