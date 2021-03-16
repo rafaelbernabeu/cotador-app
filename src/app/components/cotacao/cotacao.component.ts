@@ -66,9 +66,9 @@ export class CotacaoComponent implements OnInit {
   dataSourceCotacaoAptSemCopart = new MatTableDataSource<Opcao>();
   dataSourceCotacaoEnfComCopart = new MatTableDataSource<Opcao>();
   dataSourceCotacaoEnfSemCopart = new MatTableDataSource<Opcao>();
-  dataSourceHospitais = new MatTableDataSource<Hospital>();
   dataSourceLaboratorios = new MatTableDataSource<Laboratorio>();
   dataSourceCoparticipacao = new MatTableDataSource<Produto>();
+  dataSourceHospitais = new MatTableDataSource<Hospital>();
   dataSourceReembolso = new MatTableDataSource<Produto>();
 
   todasOpcoes: Opcao[];
@@ -112,7 +112,6 @@ export class CotacaoComponent implements OnInit {
       setTimeout(() => this.estadoAutoCompleteControl.setValue(''));
     });
 
-    this.configuraDisplayedColumns();
     this.iniciaAutoCompletes();
   }
 
@@ -122,6 +121,7 @@ export class CotacaoComponent implements OnInit {
       this.todasOpcoes.forEach(op => op.selected = true);
       this.todosProdutosCotacao = this.todasOpcoes.map(op => op.produto).sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).filter(this.filtraDuplicadas);
       this.configuraTodasTabelas();
+      this.configuraDisplayedColumns();
     });
   }
 
@@ -244,38 +244,11 @@ export class CotacaoComponent implements OnInit {
     return valor0a18anos + valor19a23anos + valor24a28anos + valor29a33anos + valor34a38anos + valor39a43anos + valor44a48anos + valor49a53anos + valor54a58anos + valor59ouMaisAnos;
   }
 
-  consultaCotacaoCategoria(categoria: Categoria): void {
+  modelChangeCategoria(categoria: Categoria): void {
     if (categoria === 'Empresarial') {
       this.filtroCotacao.profissoes = [];
     }
     this.filtroCotacao.categoria = categoria;
-    this.consultaCotacao();
-  }
-
-  consultaCotacaoCoparticipacao(coparticipacao: boolean): void {
-    this.filtroCotacao.coparticipacao = coparticipacao;
-    this.consultaCotacao();
-  }
-
-  consultaCotacaoEstado(estado: Estado): void {
-    if (estado?.sigla && estado?.nome) {
-      this.filtroCotacao.estado = estado;
-      this.consultaCotacao();
-    } else {
-      this.filtroCotacao.estado = null;
-    }
-  }
-
-  consultaCotacaoProfissao(profissao: Profissao): void {
-    setTimeout(() => {
-      this.consultaCotacao();
-      this.configuraDisplayedColumns();
-    });
-  }
-
-  consultaCotacaoAcomodacao(acomodacao: Acomodacao): void {
-    this.filtroCotacao.acomodacao = acomodacao;
-    this.consultaCotacao();
   }
 
   displayEntidades(cotacao: Opcao): string {
@@ -360,7 +333,7 @@ export class CotacaoComponent implements OnInit {
   }
 
   getTableWidth(): string {
-    return (this.displayedColumnsCotacao.length * 120)  +'px';
+    return (this.displayedColumnsCotacao?.length * 120)  +'px';
   }
 
   alteraModo(modoCliente: boolean) {

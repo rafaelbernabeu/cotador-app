@@ -8,13 +8,13 @@
           Cotacao
         </span>
         <span style="float: right">
-          <a><mat-icon class="mouse-pointer">search</mat-icon></a>
+          <a><mat-icon (click)="consultaCotacao()" class="mouse-pointer">search</mat-icon></a>
         </span>
       </mat-card-title>
       <mat-card-content>
 
         <div style="margin-top: 40px; margin-bottom: 20px">
-          <mat-radio-group style="width: 50%" (ngModelChange)="consultaCotacaoCategoria($event)" [(ngModel)]="filtroCotacao.categoria">
+          <mat-radio-group style="width: 50%" (ngModelChange)="modelChangeCategoria($event)" [(ngModel)]="filtroCotacao.categoria">
             <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
               {{categoria}}
             </mat-radio-button>
@@ -28,7 +28,7 @@
         <div>
           <mat-form-field appearance="outline" style="width: 33%">
             <mat-label>Estado</mat-label>
-            <input (ngModelChange)="consultaCotacaoEstado($event)" matInput [formControl]="estadoAutoCompleteControl" [matAutocomplete]="auto1" type="text">
+            <input matInput [formControl]="estadoAutoCompleteControl" [matAutocomplete]="auto1" type="text">
             <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" [displayWith]="estadoDisplayFn">
               <mat-option *ngFor="let estado of estadoFilteredOptions | async" [value]="estado">
                 {{estado.nome}}
@@ -38,7 +38,7 @@
 
           <mat-form-field appearance="outline" style="width: 33%">
             <mat-label>Coparticipacao</mat-label>
-            <mat-select (ngModelChange)="consultaCotacaoCoparticipacao($event)" [(ngModel)]="filtroCotacao.coparticipacao">
+            <mat-select [(ngModel)]="filtroCotacao.coparticipacao">
               <mat-option [value]="null"></mat-option>
               <mat-option [value]="true">Com</mat-option>
               <mat-option [value]="false">Sem</mat-option>
@@ -47,7 +47,7 @@
 
           <mat-form-field appearance="outline" style="width: 33%">
             <mat-label>Acomodacao</mat-label>
-            <mat-select (ngModelChange)="consultaCotacaoAcomodacao($event)" [(ngModel)]="filtroCotacao.acomodacao">
+            <mat-select [(ngModel)]="filtroCotacao.acomodacao">
               <mat-option [value]=""></mat-option>
               <mat-option *ngFor="let acomodacao of todasAcomodacoes;" [value]="acomodacao">{{acomodacao}}</mat-option>
             </mat-select>
@@ -71,7 +71,7 @@
 
         <mat-form-field *ngIf="filtroCotacao.categoria === 'Adesao'" appearance="outline" style="width: 100%">
           <mat-label>Profissoes</mat-label>
-          <mat-select (ngModelChange)="consultaCotacaoProfissao($event)" [(ngModel)]="filtroCotacao.profissoes" multiple>
+          <mat-select [(ngModel)]="filtroCotacao.profissoes" multiple>
             <mat-option *ngFor="let profissao of todasProfissoes" [value]="profissao">{{profissao.nome}}</mat-option>
           </mat-select>
         </mat-form-field>
