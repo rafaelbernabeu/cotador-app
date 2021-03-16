@@ -910,13 +910,7 @@
               <mat-table #sortCoparticipacao='matSort' [dataSource]="dataSourceCoparticipacao" matSort class="mat-elevation-z8">
                 <ng-container matColumnDef="tipoCoparticipacao">
                   <mat-header-cell *matHeaderCellDef [style.color]="'white'" [style.background-color]="'black'" mat-sort-header>Coparticipacao</mat-header-cell>
-                  <mat-cell *matCellDef="let index = index">
-                    <div *ngIf="index === 0">Pronto Socorro</div>
-                    <div *ngIf="index === 1">Consultas</div>
-                    <div *ngIf="index === 2">Exame Simples</div>
-                    <div *ngIf="index === 3">Exame Especial</div>
-                    <div *ngIf="index === 4">Internacao</div>
-                  </mat-cell>
+                  <mat-cell *matCellDef="let coparticipacao"> {{coparticipacao}} </mat-cell>
                 </ng-container>
 
                 <ng-container [matColumnDef]="produto.nome" *ngFor="let produto of todosProdutosCotacao" >
@@ -926,7 +920,7 @@
                       <div>{{produto.nome}}</div>
                     </div>
                   </mat-header-cell>
-                  <mat-cell *matCellDef="let produto; let index = index" style="justify-content: center">
+                  <mat-cell *matCellDef="let coparticipacao; let index = index" style="justify-content: center">
                     <div *ngIf="index === 0">
                       {{produto.coparticipacao.percentualProntoSocorro}}%
                       {{produto.coparticipacao.valorProntoSocorro | currency: 'BRL'}}

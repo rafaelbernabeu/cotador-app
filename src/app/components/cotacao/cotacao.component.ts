@@ -67,7 +67,7 @@ export class CotacaoComponent implements OnInit {
   dataSourceCotacaoEnfComCopart = new MatTableDataSource<Opcao>();
   dataSourceCotacaoEnfSemCopart = new MatTableDataSource<Opcao>();
   dataSourceLaboratorios = new MatTableDataSource<Laboratorio>();
-  dataSourceCoparticipacao = new MatTableDataSource<Produto>();
+  dataSourceCoparticipacao = new MatTableDataSource<string>();
   dataSourceHospitais = new MatTableDataSource<Hospital>();
   dataSourceReembolso = new MatTableDataSource<Produto>();
 
@@ -145,7 +145,7 @@ export class CotacaoComponent implements OnInit {
 
   private configuraTabelaCoparticipacao(): void {
     this.displayedColumnsCoparticipacao = ['tipoCoparticipacao'].concat(this.todosProdutosCotacao.map(p => p.nome));
-    this.dataSourceCoparticipacao = new MatTableDataSource<Produto>(this.todosProdutosCotacao);
+    this.dataSourceCoparticipacao = new MatTableDataSource<string>(['Pronto Socorro', 'Consultas', 'Exame Simples', 'Exame Especial', 'Internacao']);
     this.dataSourceCoparticipacao.sort = this.sortCoparticipacao;
     this.dataSourceCoparticipacao.paginator = this.paginatorCoparticipacao;
   }
