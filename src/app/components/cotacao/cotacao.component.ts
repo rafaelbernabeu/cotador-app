@@ -287,7 +287,7 @@ export class CotacaoComponent implements OnInit {
       this.displayedColumnsCotacao = columns.concat(this.displayedColumnsModoClienteFim);
     } else {
       this.displayedColumnsCotacao = columns.concat(this.displayedColumnsFim);
-      if (this.filtroCotacao.profissoes) {
+      if (this.filtroCotacao.categoria === 'Adesao' && this.filtroCotacao.profissoes) {
         this.displayedColumnsCotacao.push(...this.filtroCotacao.profissoes.map(p => p.nome));
       }
     }
