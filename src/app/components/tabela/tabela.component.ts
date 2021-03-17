@@ -409,6 +409,7 @@ export class TabelaComponent implements OnInit {
   }
 
   getNomesEntidadesPorProfissao(tabela: Tabela, profissao: string): string {
-    return tabela.entidades.filter(e => e.profissoes.filter(p => p.nome === profissao).length > 0).map(e => e.nome).join(' / ');
+    let nomes = tabela.entidades.filter(e => e.profissoes.filter(p => p.nome === profissao).length > 0).map(e => e.nome).join(' / ');
+    return nomes ? nomes : '--';
   }
 }

@@ -496,6 +496,7 @@ export class OpcaoComponent implements OnInit {
   }
 
   getNomesEntidadesPorProfissao(opcao: Opcao, profissao: string): string {
-    return opcao.tabela.entidades.filter(e => e.profissoes.filter(p => p.nome === profissao).length > 0).map(e => e.nome).join(' / ');
+    let nomes = opcao.tabela.entidades.filter(e => e.profissoes.filter(p => p.nome === profissao).length > 0).map(e => e.nome).join(' / ');
+    return nomes ? nomes : '--';
   }
 }
