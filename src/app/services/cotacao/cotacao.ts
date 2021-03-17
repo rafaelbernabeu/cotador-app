@@ -18,6 +18,11 @@ export class Cotacao {
   profissoes: Profissao[];
   administradoras: Administradora[];
 
+  idadeMin: number;
+  idadeMax: number;
+  tipoFiltro: string;
+  qtdMinVidas: number;
+
   coparticipacao: boolean;
   qtdVidas0a18anos: number = 0;
   qtdVidas19a23anos: number = 0;

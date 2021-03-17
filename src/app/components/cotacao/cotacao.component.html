@@ -78,6 +78,32 @@
 
         <div>
           <mat-form-field appearance="outline" style="width: 20%">
+            <mat-label>Tipo Filtro</mat-label>
+            <mat-select [(ngModel)]="filtroCotacao.tipoFiltro">
+              <mat-option value="<"> < </mat-option>
+              <mat-option value="="> = </mat-option>
+              <mat-option value=">"> > </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 26%">
+            <mat-label>Idade Min.</mat-label>
+            <input type="number" matInput placeholder="Idade Minima" [disabled]="!filtroCotacao.tipoFiltro" [(ngModel)]="filtroCotacao.idadeMin">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 26%">
+            <mat-label>Idade Max.</mat-label>
+            <input type="number" matInput placeholder="Idade Maxima" [disabled]="!filtroCotacao.tipoFiltro" [(ngModel)]="filtroCotacao.idadeMax">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 26%">
+            <mat-label>Qtd. Min. Vidas</mat-label>
+            <input type="number" matInput placeholder="Qtd. Min. Vidas" [disabled]="!filtroCotacao.tipoFiltro" [(ngModel)]="filtroCotacao.qtdMinVidas">
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field appearance="outline" style="width: 20%">
             <mat-label>Qtd. Vidas 0 a 18</mat-label>
             <input type="number" matInput placeholder="0 a 18"
                    (ngModelChange)="updateDisplayedColumns()"

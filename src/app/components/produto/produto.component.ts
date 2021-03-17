@@ -100,10 +100,10 @@ export class ProdutoComponent implements OnInit {
       this.dataSourceProduto.sortingDataAccessor = (produto, property) => {
         const hospitais = this.todosHospitais.filter(h => h.nome === property);
         const laboratorios = this.todosLaboratorios.filter(l => l.nome === property);
-        if (laboratorios.length !== 0) {
+        if (laboratorios.length > 0) {
           return this.verificaSeLaboratorioSelecionado(produto, laboratorios.pop());
         }
-        if (hospitais.length !== 0) {
+        if (hospitais.length > 0) {
           return this.verificaSeHospitalSelecionado(produto, hospitais.pop());
         }
         switch (property) {
