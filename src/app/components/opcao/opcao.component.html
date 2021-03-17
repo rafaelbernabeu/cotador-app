@@ -26,7 +26,7 @@
               <mat-cell *matCellDef="let opcao" [style.background-color]="opcao.tabela.operadora.cor" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.tabela.estado.sigla}} </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="nomeTabela" sticky>
+            <ng-container matColumnDef="tabela" sticky>
               <mat-header-cell *matHeaderCellDef mat-sort-header> Tabela </mat-header-cell>
               <mat-cell *matCellDef="let opcao" [style.background-color]="opcao.tabela.operadora.cor" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.tabela.nome}} </mat-cell>
             </ng-container>
@@ -71,7 +71,7 @@
               <mat-cell *matCellDef="let opcao" [style.background-color]="opcao.tabela.operadora.cor" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.tabela.operadora.nome}} </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="nomeProduto" sticky>
+            <ng-container matColumnDef="produto" sticky>
               <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
               <mat-cell *matCellDef="let opcao" [style.background-color]="opcao.tabela.operadora.cor" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.produto.nome}} </mat-cell>
             </ng-container>

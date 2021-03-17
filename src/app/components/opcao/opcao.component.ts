@@ -41,7 +41,7 @@ export class OpcaoComponent implements OnInit {
 
   @ViewChild(MatAccordion) accordion: MatAccordion;
 
-  displayedColumns: string[] = ['id', 'estado', 'nomeTabela', 'idadeMin', 'idadeMax', 'qtdMinVidas', 'qtdMinTitulares', 'acomodacao', 'coparticipacao', 'administradora', 'operadora', 'nomeProduto', 'abrangencia', 'valor0a18anos', 'valor19a23anos', 'valor24a28anos', 'valor29a33anos', 'valor34a38anos', 'valor39a43anos', 'valor44a48anos', 'valor49a53anos', 'valor54a58anos', 'valor59ouMaisAnos', 'reajuste'];
+  displayedColumns: string[] = ['id', 'estado', 'tabela', 'idadeMin', 'idadeMax', 'qtdMinVidas', 'qtdMinTitulares', 'acomodacao', 'coparticipacao', 'administradora', 'operadora', 'produto', 'abrangencia', 'valor0a18anos', 'valor19a23anos', 'valor24a28anos', 'valor29a33anos', 'valor34a38anos', 'valor39a43anos', 'valor44a48anos', 'valor49a53anos', 'valor54a58anos', 'valor59ouMaisAnos', 'reajuste'];
   dataSourceOpcao = new MatTableDataSource<Opcao>();
 
   estado: string;
@@ -131,13 +131,13 @@ export class OpcaoComponent implements OnInit {
       this.dataSourceOpcao.sort = this.sortOpcao;
       this.dataSourceOpcao.paginator = this.paginatorOpcao;
       this.dataSourceOpcao.sortingDataAccessor = (opcao, property) => {
-        if (this.todasProfissoes.filter(p => p.nome === property)) {
+        if (this.todasProfissoes.filter(p => p.nome === property).length > 0) {
           return this.getNomesEntidadesPorProfissao(opcao, property);
         }
         switch (property) {
           case 'estado':
             return opcao.tabela.estado.sigla;
-          case 'nomeTabela':
+          case 'tabela':
             return opcao.tabela.nome;
           case 'idadeMin':
             return opcao.tabela.idadeMinima;
@@ -151,7 +151,7 @@ export class OpcaoComponent implements OnInit {
             return opcao.tabela.administradora.nome;
           case 'operadora':
             return opcao.tabela.operadora.nome;
-          case 'nomeProduto':
+          case 'produto':
             return opcao.produto.nome;
           case 'abrangencia':
             return opcao.produto.abrangencia;
