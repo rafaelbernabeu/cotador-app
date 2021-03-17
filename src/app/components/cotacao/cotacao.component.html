@@ -146,9 +146,9 @@
 
 </div>
 
-<div *ngIf="todasOpcoes" style="height: 20px"></div>
+<div *ngIf="todasOpcoes?.length > 0" style="height: 20px"></div>
 
-<div [hidden]="!todasOpcoes">
+<div [hidden]="!(todasOpcoes?.length > 0)">
 
   <mat-card>
     <mat-card-title>Resultados Consulta</mat-card-title>
