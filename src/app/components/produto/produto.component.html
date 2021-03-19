@@ -441,24 +441,24 @@
                     <mat-table #sortHospitalEditando="matSort" [dataSource]="dataSourceHospital" matSort class="mat-elevation-z8">
                       <ng-container matColumnDef="id">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-                        <mat-cell *matCellDef="let laboratorio" (click)="laboratorio.selected = !laboratorio.selected" class="mouse-pointer"> {{laboratorio.id}} </mat-cell>
+                        <mat-cell *matCellDef="let hospital" (click)="hospital.selected = !hospital.selected" class="mouse-pointer"> {{hospital.id}} </mat-cell>
                       </ng-container>
 
                       <ng-container matColumnDef="nome">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-                        <mat-cell *matCellDef="let laboratorio" (click)="laboratorio.selected = !laboratorio.selected" class="mouse-pointer"> {{laboratorio.nome}} </mat-cell>
+                        <mat-cell *matCellDef="let hospital" (click)="hospital.selected = !hospital.selected" class="mouse-pointer"> {{hospital.nome}} </mat-cell>
                       </ng-container>
 
                       <ng-container matColumnDef="local">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Local </mat-header-cell>
-                        <mat-cell *matCellDef="let hospital"> {{hospital.local}} </mat-cell>
+                        <mat-cell *matCellDef="let hospital" (click)="hospital.selected = !hospital.selected" class="mouse-pointer"> {{hospital.local}} </mat-cell>
                       </ng-container>
 
                       <ng-container matColumnDef="selected">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Selecione </mat-header-cell>
-                        <mat-cell *matCellDef="let laboratorio">
+                        <mat-cell *matCellDef="let hospital">
                           <section>
-                            <mat-checkbox [(ngModel)]="laboratorio.selected"></mat-checkbox>
+                            <mat-checkbox [(ngModel)]="hospital.selected"></mat-checkbox>
                           </section>
                         </mat-cell>
                       </ng-container>
