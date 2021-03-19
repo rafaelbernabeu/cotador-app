@@ -48,6 +48,7 @@ export class OperadoraComponent implements OnInit {
     this.estado = null;
     this.operadoraSelecionada = operadora;
     this.operadoraEditando = {...operadora};
+    this.editarOperadora();
   }
 
   editarOperadora(): void {

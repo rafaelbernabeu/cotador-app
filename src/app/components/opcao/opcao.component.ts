@@ -322,6 +322,7 @@ export class OpcaoComponent implements OnInit {
     this.operadoraAutoCompleteControl.setValue(this.opcaoEditando.tabela.operadora);
     this.administradoraAutoCompleteControl.setValue(this.opcaoEditando.tabela.administradora);
     this.preparaAutoCompletesParaEdicao(this.opcaoEditando);
+    this.editarOpcao();
   }
 
   copiarOpcao(): void {

@@ -197,6 +197,7 @@ export class TabelaComponent implements OnInit {
     this.operadoraAutoCompleteControl.setValue(this.tabelaEditando.operadora);
     this.administradoraAutoCompleteControl.setValue(this.tabelaEditando.administradora);
     this.carregaTabelasAdicionais(this.tabelaEditando);
+    this.editarTabela();
   }
 
   copiarTabela(): void {

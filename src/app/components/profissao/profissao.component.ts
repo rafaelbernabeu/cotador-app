@@ -48,6 +48,7 @@ export class ProfissaoComponent implements OnInit {
     this.estado = null;
     this.profissaoSelecionada = profissao;
     this.profissaoEditando = {...profissao};
+    this.editarProfissao();
   }
 
   editarProfissao(): void {

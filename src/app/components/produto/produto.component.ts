@@ -155,6 +155,7 @@ export class ProdutoComponent implements OnInit {
     this.autoCompleteControl.disable();
     this.autoCompleteControl.setValue(this.produtoEditando.operadora);
     this.carregaTabelasAdicionais(this.produtoEditando);
+    this.editarProduto();
   }
 
   copiarProduto(): void {

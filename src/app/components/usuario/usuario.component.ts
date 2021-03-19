@@ -63,6 +63,7 @@ export class UsuarioComponent implements OnInit {
     this.usuarioSelecionado = usuario;
     this.usuarioEditando = {...usuario};
     this.carregaTabelaRoles(this.usuarioSelecionado.roles);
+    this.editarUsuario();
   }
 
   editarUsuario(): void {

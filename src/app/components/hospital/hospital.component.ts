@@ -48,6 +48,7 @@ export class HospitalComponent implements OnInit {
     this.estado = null;
     this.hospitalSelecionado = hospital;
     this.hospitalEditando = {...hospital};
+    this.editarHospital();
   }
 
   editarHospital(): void {

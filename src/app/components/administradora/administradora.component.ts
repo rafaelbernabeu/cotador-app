@@ -48,6 +48,7 @@ export class AdministradoraComponent implements OnInit {
     this.estado = null;
     this.administradoraSelecionada = administradora;
     this.AdministradoraEditando = {...administradora};
+    this.editarAdministradora();
   }
 
   editarAdministradora(): void {

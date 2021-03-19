@@ -56,6 +56,7 @@ export class LaboratorioComponent implements OnInit {
     this.estado = null;
     this.laboratorioSelecionado = laboratorio;
     this.laboratorioEditando = {...laboratorio};
+    this.editarLaboratorio();
   }
 
   editarLaboratorio(): void {
