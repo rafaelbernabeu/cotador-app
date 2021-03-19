@@ -245,6 +245,7 @@ export class TabelaComponent implements OnInit {
       });
     });
     this.carregaTabelaEntidade(this.todasEntidades);
+    this.accordionEntidade.open();
   }
 
   cancelarEdicao(): void {
