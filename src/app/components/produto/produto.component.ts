@@ -172,6 +172,7 @@ export class ProdutoComponent implements OnInit {
     this.preparaTodosParaNovaVerificacao();
     this.configuraLaboratoriosParaEdicao();
     this.configuraHospitaisParaEdicao();
+    setTimeout(() => this.accordion.openAll());
   }
 
   configuraLaboratoriosParaEdicao(): void {
@@ -217,6 +218,7 @@ export class ProdutoComponent implements OnInit {
     this.preparaTodosParaNovaVerificacao();
     this.configuraLaboratoriosParaEdicao();
     this.configuraHospitaisParaEdicao();
+    setTimeout(() => this.accordion.openAll());
   }
 
   visualizar(): void {
