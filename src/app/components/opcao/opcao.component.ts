@@ -39,8 +39,6 @@ export class OpcaoComponent implements OnInit {
   @ViewChild(MatSort) sortOpcao: MatSort;
   @ViewChild(MatPaginator) paginatorOpcao: MatPaginator;
 
-  @ViewChild(MatAccordion) accordion: MatAccordion;
-
   displayedColumns: string[] = ['id', 'estado', 'tabela', 'idadeMin', 'idadeMax', 'qtdMinVidas', 'qtdMinTitulares', 'acomodacao', 'coparticipacao', 'administradora', 'operadora', 'produto', 'abrangencia', 'valor0a18anos', 'valor19a23anos', 'valor24a28anos', 'valor29a33anos', 'valor34a38anos', 'valor39a43anos', 'valor44a48anos', 'valor49a53anos', 'valor54a58anos', 'valor59ouMaisAnos', 'reajuste'];
   dataSourceOpcao = new MatTableDataSource<Opcao>();
 
