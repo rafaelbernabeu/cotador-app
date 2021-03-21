@@ -4,16 +4,17 @@
       <span>
         Lista de Produtos
       </span>
-        <span style="float: right">
-        <a (click)="adicionar()">
-          <mat-icon class="mouse-pointer">add</mat-icon>
-        </a>
+      <span style="float: right">
+        <a (click)="adicionar()"><mat-icon class="mouse-pointer">add</mat-icon></a>
+      </span>
+      <span style="float: right">
+        <a (click)="filtrar()"><mat-icon class="mouse-pointer">search</mat-icon></a>
       </span>
       </mat-card-title>
     <br/>
 
     <mat-card-content>
-      <div [style.width]="this.produtoSelecionado ? (window.innerWidth * 0.70) + 'px' : (window.innerWidth * 0.95) + 'px'" style="overflow: auto;">
+      <div [style.width]="this.produtoSelecionado || filtrandoProduto() ? (window.innerWidth * 0.70) + 'px' : (window.innerWidth * 0.95) + 'px'" style="overflow: auto;">
         <mat-table style="width: 5000px" #sortProduto="matSort" [dataSource]="dataSourceProduto" matSort>
           <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
@@ -43,35 +44,35 @@
           <ng-container matColumnDef="valorProntoSocorro">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Pronto Socorro </mat-header-cell>
             <mat-cell *matCellDef="let produto" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer">
-              {{produto.coparticipacao.percentualProntoSocorro}}% ... {{produto.coparticipacao.valorProntoSocorro | currency:'BRL'}}
+              {{produto.coparticipacao.percentualProntoSocorro}}% | {{produto.coparticipacao.valorProntoSocorro}}
             </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="valorConsulta">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Consulta </mat-header-cell>
             <mat-cell *matCellDef="let produto" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer">
-              {{produto.coparticipacao.percentualConsulta}}% ... {{produto.coparticipacao.valorConsulta | currency:'BRL'}}
+              {{produto.coparticipacao.percentualConsulta}}% | {{produto.coparticipacao.valorConsulta}}
             </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="valorExameSimples">
-            <mat-header-cell *matHeaderCellDef mat-sort-header> Excame Simples </mat-header-cell>
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Exame Simples </mat-header-cell>
             <mat-cell *matCellDef="let produto" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer">
-              {{produto.coparticipacao.percentualExameSimples}}% ... {{produto.coparticipacao.valorExameSimples | currency:'BRL'}}
+              {{produto.coparticipacao.percentualExameSimples}}% | {{produto.coparticipacao.valorExameSimples}}
             </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="valorExameEspecial">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Exame Especial </mat-header-cell>
             <mat-cell *matCellDef="let produto" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer">
-              {{produto.coparticipacao.percentualExameEspecial}}% ... {{produto.coparticipacao.valorExameEspecial | currency:'BRL'}}
+              {{produto.coparticipacao.percentualExameEspecial}}% | {{produto.coparticipacao.valorExameEspecial}}
             </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="valorInternacao">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Internacao </mat-header-cell>
             <mat-cell *matCellDef="let produto" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer">
-              {{produto.coparticipacao.percentualInternacao}}% ... {{produto.coparticipacao.valorInternacao | currency:'BRL'}}
+              {{produto.coparticipacao.percentualInternacao}}% | {{produto.coparticipacao.valorInternacao}}
             </mat-cell>
           </ng-container>
 
@@ -121,7 +122,57 @@
     </mat-card-content>
   </mat-card>
 
-  <div *ngIf="produtoSelecionado" style="width: 10px"></div>
+  <div *ngIf="produtoSelecionado || filtrandoProduto()" style="width: 10px"></div>
+
+  <div *ngIf="filtrandoProduto()" [style.width]="window.innerWidth * 0.25 + 'px'" style="flex-direction: column">
+    <div>
+      <mat-card>
+        <mat-card-title>
+          <span>Filtrando Produto</span>
+
+          <span style="float: right; padding-left: 20px">
+          <a *ngIf="adicionandoProduto()" (click)="cancelarAdicao()">
+            <mat-icon class="mouse-pointer">close</mat-icon>
+          </a>
+        </span>
+        </mat-card-title>
+        <br/>
+
+        <mat-card-content>
+          <div style="float: right; padding-bottom: 10px">
+            <mat-slide-toggle (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.ativo" labelPosition="before"></mat-slide-toggle>
+          </div>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Nome</mat-label>
+            <input matInput (ngModelChange)="filtraProduto()" placeholder="Nome" [(ngModel)]="filtroProduto.nome">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Operadora</mat-label>
+            <input matInput (ngModelChange)="filtraProduto()" [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto" type="text">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let operadora of filteredOptions | async" [value]="operadora">
+                {{operadora.nome}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Abrangencia</mat-label>
+            <mat-select (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.abrangencia">
+              <mat-option *ngFor="let abrangencia of todasAbrangencias;" [value]="abrangencia">{{abrangencia}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Reembolso</mat-label>
+            <input matInput (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.reembolso" type="number" placeholder="Reembolso">
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
 
   <div *ngIf="produtoSelecionado" [style.width]="window.innerWidth * 0.25 + 'px'" style="flex-direction: column">
     <div>
@@ -169,7 +220,7 @@
           </mat-form-field>
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Operadora</mat-label>
-            <input matInput [formControl]="autoCompleteControl" [matAutocomplete]="auto" type="text">
+            <input matInput [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto" type="text">
             <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
               <mat-option *ngFor="let operadora of filteredOptions | async" [value]="operadora">
                 {{operadora.nome}}

@@ -48,13 +48,15 @@ export class ProdutoComponent implements OnInit {
   dataSourceLaboratorio = new MatTableDataSource<Laboratorio>();
 
   estado: string;
+  filtroProduto: Produto;
   produtoEditando: Produto;
   produtoSelecionado: Produto;
+  todosProdutos: Produto[];
   todosHospitais: Hospital[];
   todasOperadoras: Operadora[];
   todosLaboratorios: Laboratorio[];
   todasAbrangencias: Abrangencia[];
-  autoCompleteControl = new FormControl();
+  operadoraAutoCompleteControl = new FormControl();
   filteredOptions: Observable<Operadora[]>;
 
   constructor(
@@ -70,8 +72,8 @@ export class ProdutoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.autoCompleteControl.disable();
-    this.filteredOptions = this.autoCompleteControl.valueChanges.pipe(
+    this.operadoraAutoCompleteControl.disable();
+    this.filteredOptions = this.operadoraAutoCompleteControl.valueChanges.pipe(
       startWith(''),
       map(value => typeof value === 'string' ? value : value.name),
       map(value => this.filterAutoComplete(value))
@@ -94,30 +96,35 @@ export class ProdutoComponent implements OnInit {
 
   private carregaTabelaProduto(): void {
     this.produtoService.getAllProdutos().subscribe(response => {
-      this.dataSourceProduto = new MatTableDataSource<Produto>(response);
-      this.dataSourceProduto.sort = this.sortProduto;
-      this.dataSourceProduto.paginator = this.paginatorProduto;
-      this.dataSourceProduto.sortingDataAccessor = (produto, property) => {
-        const hospitais = this.todosHospitais.filter(h => h.nome === property);
-        const laboratorios = this.todosLaboratorios.filter(l => l.nome === property);
-        if (laboratorios.length > 0) {
-          return this.verificaSeLaboratorioSelecionado(produto, laboratorios.pop());
-        }
-        if (hospitais.length > 0) {
-          return this.verificaSeHospitalSelecionado(produto, hospitais.pop());
-        }
-        switch (property) {
-          case 'operadora':
-            return produto.operadora.nome;
-          case 'totalLaboratorios':
-            return produto.laboratorios.length;
-          case 'totalHospitais':
-            return produto.hospitais.length;
-          default:
-            return produto[property];
-        }
-      };
+      this.todosProdutos = response;
+      this.configuraTabelaProduto(this.todosProdutos);
     });
+  }
+
+  private configuraTabelaProduto(produtos: Produto[]) {
+    this.dataSourceProduto = new MatTableDataSource<Produto>(produtos);
+    this.dataSourceProduto.sort = this.sortProduto;
+    this.dataSourceProduto.paginator = this.paginatorProduto;
+    this.dataSourceProduto.sortingDataAccessor = (produto, property) => {
+      const hospitais = this.todosHospitais.filter(h => h.nome === property);
+      const laboratorios = this.todosLaboratorios.filter(l => l.nome === property);
+      if (laboratorios.length > 0) {
+        return this.verificaSeLaboratorioSelecionado(produto, laboratorios.pop());
+      }
+      if (hospitais.length > 0) {
+        return this.verificaSeHospitalSelecionado(produto, hospitais.pop());
+      }
+      switch (property) {
+        case 'operadora':
+          return produto.operadora.nome;
+        case 'totalLaboratorios':
+          return produto.laboratorios.length;
+        case 'totalHospitais':
+          return produto.hospitais.length;
+        default:
+          return produto[property];
+      }
+    };
   }
 
   private carregaTabelaLaboratorio(laboratorios: Laboratorio[]): void {
@@ -152,8 +159,8 @@ export class ProdutoComponent implements OnInit {
     this.estado = null;
     this.produtoSelecionado = produto;
     this.produtoEditando = {...produto};
-    this.autoCompleteControl.disable();
-    this.autoCompleteControl.setValue(this.produtoEditando.operadora);
+    this.operadoraAutoCompleteControl.disable();
+    this.operadoraAutoCompleteControl.setValue(this.produtoEditando.operadora);
     this.carregaTabelasAdicionais(this.produtoEditando);
     this.editarProduto();
   }
@@ -168,7 +175,7 @@ export class ProdutoComponent implements OnInit {
 
   editarProduto(): void {
     this.estado = 'editandoProduto';
-    this.autoCompleteControl.enable();
+    this.operadoraAutoCompleteControl.enable();
     this.preparaTodosParaNovaVerificacao();
     this.configuraLaboratoriosParaEdicao();
     this.configuraHospitaisParaEdicao();
@@ -200,20 +207,20 @@ export class ProdutoComponent implements OnInit {
   cancelarEdicao(): void {
     this.estado = null;
     this.produtoEditando = {...this.produtoSelecionado};
-    this.autoCompleteControl.disable();
+    this.operadoraAutoCompleteControl.disable();
   }
 
   cancelarAdicao(): void {
     this.estado = null;
     this.produtoSelecionado = null;
-    this.autoCompleteControl.disable();
+    this.operadoraAutoCompleteControl.disable();
   }
 
   adicionar(): void {
     this.estado = 'adicionando';
     this.produtoSelecionado = new Produto();
-    this.autoCompleteControl.enable();
-    this.autoCompleteControl.setValue('');
+    this.operadoraAutoCompleteControl.enable();
+    this.operadoraAutoCompleteControl.setValue('');
     this.produtoEditando = this.produtoSelecionado;
     this.preparaTodosParaNovaVerificacao();
     this.configuraLaboratoriosParaEdicao();
@@ -223,14 +230,14 @@ export class ProdutoComponent implements OnInit {
 
   visualizar(): void {
     this.estado = null;
-    this.autoCompleteControl.disable();
+    this.operadoraAutoCompleteControl.disable();
   }
 
   limpar(): void {
     this.estado = null;
     this.produtoEditando = null;
     this.produtoSelecionado = null;
-    this.autoCompleteControl.disable();
+    this.operadoraAutoCompleteControl.disable();
     this.preparaTodosParaNovaVerificacao();
   }
 
@@ -243,7 +250,7 @@ export class ProdutoComponent implements OnInit {
   }
 
   salvarNovoProduto(): void {
-    this.produtoEditando.operadora = this.autoCompleteControl.value;
+    this.produtoEditando.operadora = this.operadoraAutoCompleteControl.value;
     this.produtoEditando.hospitais = this.todosHospitais.filter(l => l.selected);
     this.produtoEditando.laboratorios = this.todosLaboratorios.filter(l => l.selected);
     this.produtoService.adicionarProduto(this.produtoEditando).subscribe(response => {
@@ -259,7 +266,7 @@ export class ProdutoComponent implements OnInit {
   }
 
   atualizarProduto(): void {
-    this.produtoEditando.operadora = this.autoCompleteControl.value;
+    this.produtoEditando.operadora = this.operadoraAutoCompleteControl.value;
     this.produtoEditando.hospitais = this.todosHospitais.filter(l => l.selected);
     this.produtoEditando.laboratorios = this.todosLaboratorios.filter(l => l.selected);
     this.produtoService.editarProduto(this.produtoEditando).subscribe(response => {
@@ -310,5 +317,39 @@ export class ProdutoComponent implements OnInit {
 
   verificaSeHospitalSelecionado(produto: Produto, hospital: Hospital) {
     return produto.hospitais.filter(hosp => hosp.id === hospital.id).length !== 0
+  }
+
+  filtrandoProduto(): boolean {
+    return this.estado === 'filtrando';
+  }
+
+  filtrar(): void {
+    this.estado = 'filtrando';
+    this.produtoSelecionado = null;
+    this.filtroProduto = new Produto();
+    this.operadoraAutoCompleteControl.enable();
+    this.operadoraAutoCompleteControl.setValue('');
+  }
+
+  filtraProduto() {
+    setTimeout(() => {
+      let produtosFiltrados = this.todosProdutos;
+
+      if (this.filtroProduto.ativo != null) {
+        produtosFiltrados = this.todosProdutos.filter(p => p.ativo == this.filtroProduto.ativo);
+      }
+
+      if (this.filtroProduto.nome) {
+        produtosFiltrados = produtosFiltrados.filter(p => p.nome.toLowerCase().includes(this.filtroProduto.nome.toLowerCase()));
+      }
+
+      if (this.operadoraAutoCompleteControl.value?.id) {
+        produtosFiltrados = produtosFiltrados.filter(p => p.operadora.id === this.operadoraAutoCompleteControl.value.id);
+      }
+
+
+
+      this.configuraTabelaProduto(produtosFiltrados);
+    });
   }
 }
