@@ -25,7 +25,7 @@ import {Operadora} from "../../services/operadora/operadora";
 import {Administradora} from "../../services/administradora/administradora";
 import {AdministradoraService} from "../../services/administradora/administradora.service";
 import {OperadoraService} from "../../services/operadora/operadora.service";
-import {COMMA, ENTER} from "@angular/cdk/keycodes";
+import {BACKSLASH, COMMA, DASH, ENTER, SEMICOLON, SLASH} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from "@angular/material/chips";
 
 @Component({
@@ -58,7 +58,7 @@ export class CotacaoComponent implements OnInit {
   readonly displayedColumnsFim: string[] = ['valorTotal', 'reajuste'];
   readonly displayedColumnsModoClienteInicio = ['operadora', 'produto', 'abrangencia'];
   readonly displayedColumnsModoClienteFim = ['valorTotal', 'reajuste'];
-  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA, SEMICOLON, DASH, SLASH, BACKSLASH];
 
   displayedColumnsCoparticipacao: string[];
   displayedColumnsLaboratorios: string[];
