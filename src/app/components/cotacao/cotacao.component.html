@@ -76,94 +76,62 @@
           </mat-select>
         </mat-form-field>
 
-        <div>
-          <mat-form-field appearance="outline" style="width: 20%">
-            <mat-label>Tipo Filtro</mat-label>
-            <mat-select [(ngModel)]="filtroCotacao.tipoFiltro">
-              <mat-option value="<"> < </mat-option>
-              <mat-option value="="> = </mat-option>
-              <mat-option value=">"> > </mat-option>
-            </mat-select>
-          </mat-form-field>
+        <mat-form-field appearance="outline" style="width: 100%">
+          <mat-label>Idades</mat-label>
+          <mat-chip-list #chipList aria-label="Fruit selection">
+            <mat-chip  *ngFor="let vida of filtroCotacao.vidas"
+                       (removed)="removeIdade(vida)">
+              {{vida}}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <input type="number" placeholder="Idades..."
+                   [matChipInputFor]="chipList"
+                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                   [matChipInputAddOnBlur]="true"
+                   (matChipInputTokenEnd)="addIdade($event)">
+          </mat-chip-list>
+        </mat-form-field>
 
-          <mat-form-field appearance="outline" style="width: 26%">
-            <mat-label>Idade Min.</mat-label>
-            <input type="number" matInput placeholder="Idade Minima" [disabled]="!filtroCotacao.tipoFiltro" [(ngModel)]="filtroCotacao.idadeMin">
+        <div style="text-align: center">
+          <mat-form-field appearance="outline" style="width: 5%">
+            <mat-label>0 - 18</mat-label>
+            <input type="number" matInput placeholder="0 a 18" [ngModel]="filtroCotacao.qtdVidas0a18anos" [disabled]="true">
           </mat-form-field>
-
-          <mat-form-field appearance="outline" style="width: 26%">
-            <mat-label>Idade Max.</mat-label>
-            <input type="number" matInput placeholder="Idade Maxima" [disabled]="!filtroCotacao.tipoFiltro" [(ngModel)]="filtroCotacao.idadeMax">
+          <mat-form-field appearance="outline" style="width: 5%">
+            <mat-label>19 - 23</mat-label>
+            <input type="number" matInput placeholder="19 a 23" [ngModel]="filtroCotacao.qtdVidas19a23anos" [disabled]="true">
           </mat-form-field>
-
-          <mat-form-field appearance="outline" style="width: 26%">
-            <mat-label>Qtd. Min. Vidas</mat-label>
-            <input type="number" matInput placeholder="Qtd. Min. Vidas" [disabled]="!filtroCotacao.tipoFiltro" [(ngModel)]="filtroCotacao.qtdMinVidas">
+          <mat-form-field appearance="outline" style="width: 5%">
+            <mat-label>24 - 28</mat-label>
+            <input type="number" matInput placeholder="24 a 28" [ngModel]="filtroCotacao.qtdVidas24a28anos" [disabled]="true">
           </mat-form-field>
-        </div>
-
-        <div>
-          <mat-form-field appearance="outline" style="width: 20%">
-            <mat-label>Qtd. Vidas 0 a 18</mat-label>
-            <input type="number" matInput placeholder="0 a 18"
-                   (ngModelChange)="updateDisplayedColumns()"
-                   [(ngModel)]="filtroCotacao.qtdVidas0a18anos">
+          <mat-form-field appearance="outline" style="width: 5%">
+            <mat-label>29 - 33</mat-label>
+            <input type="number" matInput placeholder="29 a 33" [ngModel]="filtroCotacao.qtdVidas29a33anos" [disabled]="true">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 20%">
-            <mat-label>Qtd. Vidas 19 a 23</mat-label>
-            <input type="number" matInput placeholder="19 a 23"
-                   (ngModelChange)="updateDisplayedColumns()"
-                   [(ngModel)]="filtroCotacao.qtdVidas19a23anos">
+          <mat-form-field appearance="outline" style="width: 5%">
+            <mat-label>34 - 38</mat-label>
+            <input type="number" matInput placeholder="34 a 38" [ngModel]="filtroCotacao.qtdVidas34a38anos" [disabled]="true">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 20%">
-            <mat-label>Qtd. Vidas 24 a 28</mat-label>
-            <input type="number" matInput placeholder="24 a 28"
-                   (ngModelChange)="updateDisplayedColumns()"
-                   [(ngModel)]="filtroCotacao.qtdVidas24a28anos">
+          <mat-form-field appearance="outline" style="width: 5%">
+            <mat-label>39 - 43</mat-label>
+            <input type="number" matInput placeholder="39 a 43" [ngModel]="filtroCotacao.qtdVidas39a43anos" [disabled]="true">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 20%">
-            <mat-label>Qtd. Vidas 29 a 33</mat-label>
-            <input type="number" matInput placeholder="29 a 33"
-                   (ngModelChange)="updateDisplayedColumns()"
-                   [(ngModel)]="filtroCotacao.qtdVidas29a33anos">
+          <mat-form-field appearance="outline" style="width: 5%">
+            <mat-label>44 - 48</mat-label>
+            <input type="number" matInput placeholder="44 a 48" [ngModel]="filtroCotacao.qtdVidas44a48anos" [disabled]="true">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 20%">
-            <mat-label>Qtd. Vidas 34 a 38</mat-label>
-            <input type="number" matInput placeholder="34 a 38"
-                   (ngModelChange)="updateDisplayedColumns()"
-                   [(ngModel)]="filtroCotacao.qtdVidas34a38anos">
+          <mat-form-field appearance="outline" style="width: 5%">
+            <mat-label>49 - 53</mat-label>
+            <input type="number" matInput placeholder="49 a 53" [ngModel]="filtroCotacao.qtdVidas49a53anos" [disabled]="true">
           </mat-form-field>
-        </div>
-        <div>
-          <mat-form-field appearance="outline" style="width: 20%">
-            <mat-label>Qtd. Vidas 39 a 43</mat-label>
-            <input type="number" matInput placeholder="39 a 43"
-                   (ngModelChange)="updateDisplayedColumns()"
-                   [(ngModel)]="filtroCotacao.qtdVidas39a43anos">
+          <mat-form-field appearance="outline" style="width: 5%">
+            <mat-label>54 - 58</mat-label>
+            <input type="number" matInput placeholder="54 a 58" [ngModel]="filtroCotacao.qtdVidas54a58anos" [disabled]="true">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 20%">
-            <mat-label>Qtd. Vidas 44 a 48</mat-label>
-            <input type="number" matInput placeholder="44 a 48"
-                   (ngModelChange)="updateDisplayedColumns()"
-                   [(ngModel)]="filtroCotacao.qtdVidas44a48anos">
-          </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 20%">
-            <mat-label>Qtd. Vidas 49 a 53</mat-label>
-            <input type="number" matInput placeholder="49 a 53"
-                   (ngModelChange)="updateDisplayedColumns()"
-                   [(ngModel)]="filtroCotacao.qtdVidas49a53anos">
-          </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 20%">
-            <mat-label>Qtd. Vidas 54 a 58</mat-label>
-            <input type="number" matInput placeholder="54 a 58"
-                   (ngModelChange)="updateDisplayedColumns()"
-                   [(ngModel)]="filtroCotacao.qtdVidas54a58anos">
-          </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 20%">
-            <mat-label>Qtd. Vidas 59 ou Mais</mat-label>
-            <input type="number" matInput placeholder="59 ou Mais"
-                   (ngModelChange)="updateDisplayedColumns()"
-                   [(ngModel)]="filtroCotacao.qtdVidas59ouMaisAnos">
+          <mat-form-field appearance="outline" style="width: 5%">
+            <mat-label>59 - Mais</mat-label>
+            <input type="number" matInput placeholder="59 ou Mais" [ngModel]="filtroCotacao.qtdVidas59ouMaisAnos" [disabled]="true">
           </mat-form-field>
         </div>
       </mat-card-content>

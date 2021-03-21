@@ -25,6 +25,8 @@ import {Operadora} from "../../services/operadora/operadora";
 import {Administradora} from "../../services/administradora/administradora";
 import {AdministradoraService} from "../../services/administradora/administradora.service";
 import {OperadoraService} from "../../services/operadora/operadora.service";
+import {COMMA, ENTER} from "@angular/cdk/keycodes";
+import {MatChipInputEvent} from "@angular/material/chips";
 
 @Component({
   selector: 'app-cotacao',
@@ -56,6 +58,7 @@ export class CotacaoComponent implements OnInit {
   readonly displayedColumnsFim: string[] = ['valorTotal', 'reajuste'];
   readonly displayedColumnsModoClienteInicio = ['operadora', 'produto', 'abrangencia'];
   readonly displayedColumnsModoClienteFim = ['valorTotal', 'reajuste'];
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   displayedColumnsCoparticipacao: string[];
   displayedColumnsLaboratorios: string[];
@@ -281,6 +284,7 @@ export class CotacaoComponent implements OnInit {
       columns = [...this.displayedColumnsInicio];
     }
 
+    this.configuraQtdVidas();
     this.adicionaColunasPorQtdVidas(columns);
 
     if (this.modoCliente) {
@@ -350,5 +354,42 @@ export class CotacaoComponent implements OnInit {
       this.todosProdutosCotacao = this.todasOpcoes.map(op => op.produto).sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).filter(this.filtraDuplicadas);
       this.configuraTodasTabelas();
     }
+  }
+
+  addIdade(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our fruit
+    if ((value || '').trim()) {
+      this.filtroCotacao.vidas.push(Number(value));
+      this.configuraDisplayedColumns();
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  removeIdade(idade: any) {
+    const index = this.filtroCotacao.vidas.indexOf(idade);
+
+    if (index >= 0) {
+      this.filtroCotacao.vidas.splice(index, 1);
+    }
+  }
+
+  configuraQtdVidas(): void {
+    this.filtroCotacao.qtdVidas0a18anos = this.filtroCotacao.vidas.filter(n => n >= 0 && n <= 18).length;
+    this.filtroCotacao.qtdVidas19a23anos = this.filtroCotacao.vidas.filter(n => n >= 19 && n <= 23).length
+    this.filtroCotacao.qtdVidas24a28anos = this.filtroCotacao.vidas.filter(n => n >= 24 && n <= 28).length
+    this.filtroCotacao.qtdVidas29a33anos = this.filtroCotacao.vidas.filter(n => n >= 29 && n <= 33).length
+    this.filtroCotacao.qtdVidas34a38anos = this.filtroCotacao.vidas.filter(n => n >= 34 && n <= 38).length
+    this.filtroCotacao.qtdVidas39a43anos = this.filtroCotacao.vidas.filter(n => n >= 39 && n <= 43).length
+    this.filtroCotacao.qtdVidas44a48anos = this.filtroCotacao.vidas.filter(n => n >= 44 && n <= 48).length
+    this.filtroCotacao.qtdVidas49a53anos = this.filtroCotacao.vidas.filter(n => n >= 49 && n <= 53).length
+    this.filtroCotacao.qtdVidas54a58anos = this.filtroCotacao.vidas.filter(n => n >= 54 && n <= 58).length
+    this.filtroCotacao.qtdVidas59ouMaisAnos = this.filtroCotacao.vidas.filter(n => n >= 59).length
   }
 }

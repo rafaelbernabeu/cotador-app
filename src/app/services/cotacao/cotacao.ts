@@ -20,9 +20,7 @@ export class Cotacao {
 
   idadeMin: number;
   idadeMax: number;
-  tipoFiltro: string;
-  qtdMinVidas: number;
-
+  vidas: number[] = [];
   coparticipacao: boolean;
   qtdVidas0a18anos: number = 0;
   qtdVidas19a23anos: number = 0;
