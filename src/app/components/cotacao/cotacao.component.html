@@ -919,23 +919,23 @@
                   </mat-header-cell>
                   <mat-cell *matCellDef="let coparticipacao; let index = index" style="justify-content: center">
                     <div *ngIf="index === 0">
-                      {{produto.coparticipacao.percentualProntoSocorro}}%
+                      {{produto.coparticipacao.percentualProntoSocorro}}% |
                       {{produto.coparticipacao.valorProntoSocorro | currency: 'BRL'}}
                     </div>
                     <div *ngIf="index === 1">
-                      {{produto.coparticipacao.percentualConsulta}}%
+                      {{produto.coparticipacao.percentualConsulta}}% |
                       {{produto.coparticipacao.valorConsulta | currency: 'BRL'}}
                     </div>
                     <div *ngIf="index === 2">
-                      {{produto.coparticipacao.percentualExameSimples}}%
+                      {{produto.coparticipacao.percentualExameSimples}}% |
                       {{produto.coparticipacao.valorExameSimples | currency: 'BRL'}}
                     </div>
                     <div *ngIf="index === 3">
-                      {{produto.coparticipacao.percentualExameEspecial}}%
+                      {{produto.coparticipacao.percentualExameEspecial}}% |
                       {{produto.coparticipacao.valorExameEspecial | currency: 'BRL'}}
                     </div>
                     <div *ngIf="index === 4">
-                      {{produto.coparticipacao.percentualInternacao}}%
+                      {{produto.coparticipacao.percentualInternacao}}% |
                       {{produto.coparticipacao.valorInternacao | currency: 'BRL'}}
                     </div>
                   </mat-cell>
