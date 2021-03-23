@@ -414,4 +414,8 @@ export class TabelaComponent implements OnInit {
     let nomes = tabela.entidades.filter(e => e.profissoes.filter(p => p.nome === profissao).length > 0).map(e => e.nome).join(' / ');
     return nomes ? nomes : '--';
   }
+
+  getTableWidth(): string {
+    return (this.displayedColumns?.length * 125)  +'px';
+  }
 }

@@ -15,7 +15,7 @@
 
       <mat-card-content>
         <div [style.width]="this.tabelaSelecionada ? (window.innerWidth * 0.70) + 'px' : (window.innerWidth * 0.95) + 'px'" style="overflow: auto;">
-          <mat-table style="width: 6000px" #sortTabela="matSort" [dataSource]="dataSourceTabela" matSort class="mat-elevation-z8">
+          <mat-table [style.width]="getTableWidth()" #sortTabela="matSort" [dataSource]="dataSourceTabela" matSort class="mat-elevation-z8">
             <ng-container matColumnDef="id">
               <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
               <mat-cell *matCellDef="let tabela" [style.color]="'white'" [style.background-color]="tabela.operadora.cor" (click)="selecionaTabela(tabela)" class="mouse-pointer"> {{tabela.id}} </mat-cell>
@@ -38,7 +38,7 @@
 
             <ng-container matColumnDef="administradora">
               <mat-header-cell *matHeaderCellDef mat-sort-header> Administradora </mat-header-cell>
-              <mat-cell *matCellDef="let tabela" [style.color]="'white'" [style.background-color]="tabela.operadora.cor" (click)="selecionaTabela(tabela)" class="mouse-pointer"> {{tabela.administradora.nome}} </mat-cell>
+              <mat-cell *matCellDef="let tabela" [style.color]="'white'" [style.background-color]="tabela.operadora.cor" (click)="selecionaTabela(tabela)" class="mouse-pointer"> {{tabela.administradora?.nome}} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="reajuste">
