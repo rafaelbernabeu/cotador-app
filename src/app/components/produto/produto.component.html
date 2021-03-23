@@ -44,35 +44,60 @@
           <ng-container matColumnDef="valorProntoSocorro">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Pronto Socorro </mat-header-cell>
             <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer">
-              {{produto.coparticipacao.percentualProntoSocorro}}% | {{produto.coparticipacao.valorProntoSocorro}}
+              <span style="padding-right: 10px;">
+                {{produto.coparticipacao.percentualProntoSocorro}}%
+              </span> |
+              <span style="padding-left: 10px;">
+                {{produto.coparticipacao.valorProntoSocorro}}
+              </span>
             </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="valorConsulta">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Consulta </mat-header-cell>
             <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer">
-              {{produto.coparticipacao.percentualConsulta}}% | {{produto.coparticipacao.valorConsulta}}
+              <span style="padding-right: 10px;">
+                {{produto.coparticipacao.percentualConsulta}}%
+              </span> |
+              <span style="padding-left: 10px;">
+                {{produto.coparticipacao.valorConsulta}}
+              </span>
             </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="valorExameSimples">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Exame Simples </mat-header-cell>
             <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer">
-              {{produto.coparticipacao.percentualExameSimples}}% | {{produto.coparticipacao.valorExameSimples}}
+              <span style="padding-right: 10px;">
+                {{produto.coparticipacao.percentualExameSimples}}%
+              </span> |
+              <span style="padding-left: 10px;">
+                {{produto.coparticipacao.valorExameSimples}}
+              </span>
             </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="valorExameEspecial">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Exame Especial </mat-header-cell>
             <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer">
-              {{produto.coparticipacao.percentualExameEspecial}}% | {{produto.coparticipacao.valorExameEspecial}}
+              <span style="padding-right: 10px;">
+                {{produto.coparticipacao.percentualExameEspecial}}%
+              </span> |
+              <span style="padding-left: 10px;">
+                {{produto.coparticipacao.valorExameEspecial}}
+              </span>
             </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="valorInternacao">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Internacao </mat-header-cell>
             <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer">
-              {{produto.coparticipacao.percentualInternacao}}% | {{produto.coparticipacao.valorInternacao}}
+              <span style="padding-right: 10px;">
+                {{produto.coparticipacao.percentualInternacao}}%
+              </span> |
+              <span style="padding-left: 10px;">
+                {{produto.coparticipacao.valorInternacao}}
+              </span>
             </mat-cell>
           </ng-container>
 

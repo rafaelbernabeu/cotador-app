@@ -115,6 +115,16 @@ export class ProdutoComponent implements OnInit {
         return this.verificaSeHospitalSelecionado(produto, hospitais.pop());
       }
       switch (property) {
+        case 'valorProntoSocorro' :
+          return produto.coparticipacao.valorProntoSocorro
+        case 'valorConsulta' :
+          return produto.coparticipacao.valorConsulta
+        case 'valorInternacao' :
+          return produto.coparticipacao.valorInternacao
+        case 'valorExameSimples' :
+          return produto.coparticipacao.valorExameSimples
+        case 'valorExameEspecial' :
+          return produto.coparticipacao.valorExameEspecial
         case 'operadora':
           return produto.operadora.nome;
         case 'totalLaboratorios':
@@ -346,8 +356,6 @@ export class ProdutoComponent implements OnInit {
       if (this.operadoraAutoCompleteControl.value?.id) {
         produtosFiltrados = produtosFiltrados.filter(p => p.operadora.id === this.operadoraAutoCompleteControl.value.id);
       }
-
-
 
       this.configuraTabelaProduto(produtosFiltrados);
     });
