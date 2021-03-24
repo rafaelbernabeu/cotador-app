@@ -5,7 +5,7 @@
 
       <mat-card-title>
         <span>
-          Cotacao
+          Cotação
         </span>
         <span style="float: right">
           <div (click)="consultaCotacao()" class="mouse-pointer" style="font-size: initial">
@@ -16,7 +16,7 @@
       </mat-card-title>
       <mat-card-content>
 
-        <div style="margin-top: 40px; margin-bottom: 20px">
+        <div style="margin-top: 40px; margin-bottom: 30px">
           <mat-radio-group style="width: 50%" (ngModelChange)="modelChangeCategoria($event)" [(ngModel)]="filtroCotacao.categoria">
             <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
               {{categoria}}
@@ -29,7 +29,7 @@
         </div>
 
         <div>
-          <mat-form-field appearance="outline" style="width: 33%">
+          <mat-form-field appearance="outline" [style.width]="isCotacaoEmpresarial() ? '25%' : '33.3%'">
             <mat-label>Estado</mat-label>
             <input matInput [formControl]="estadoAutoCompleteControl" [matAutocomplete]="auto1" type="text">
             <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" [displayWith]="estadoDisplayFn">
@@ -39,8 +39,17 @@
             </mat-autocomplete>
           </mat-form-field>
 
-          <mat-form-field appearance="outline" style="width: 33%">
-            <mat-label>Coparticipacao</mat-label>
+          <mat-form-field *ngIf="isCotacaoEmpresarial()" appearance="outline" [style.width]="isCotacaoEmpresarial() ? '25%' : '33%'">
+            <mat-label>Tipo Adesão</mat-label>
+            <mat-select [(ngModel)]="filtroCotacao.tipoAdesao">
+              <mat-option [value]="null"></mat-option>
+              <mat-option [value]="'livreAdesao'">Livre Adesão</mat-option>
+              <mat-option [value]="'compulsoria'">Compulsória</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" [style.width]="isCotacaoEmpresarial() ? '25%' : '33.3%'">
+            <mat-label>Coparticipação</mat-label>
             <mat-select [(ngModel)]="filtroCotacao.coparticipacao">
               <mat-option [value]="null"></mat-option>
               <mat-option [value]="true">Com</mat-option>
@@ -48,8 +57,8 @@
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field appearance="outline" style="width: 33%">
-            <mat-label>Acomodacao</mat-label>
+          <mat-form-field appearance="outline" [style.width]="isCotacaoEmpresarial() ? '25%' : '33.3%'">
+            <mat-label>Acomodação</mat-label>
             <mat-select [(ngModel)]="filtroCotacao.acomodacao">
               <mat-option [value]=""></mat-option>
               <mat-option *ngFor="let acomodacao of todasAcomodacoes;" [value]="acomodacao">{{acomodacao}}</mat-option>
@@ -72,8 +81,8 @@
           </mat-form-field>
         </div>
 
-        <mat-form-field *ngIf="filtroCotacao.categoria === 'Adesao'" appearance="outline" style="width: 100%">
-          <mat-label>Profissoes</mat-label>
+        <mat-form-field *ngIf="isCotacaoAdesao()" appearance="outline" style="width: 100%">
+          <mat-label>Profissões</mat-label>
           <mat-select [(ngModel)]="filtroCotacao.profissoes" multiple>
             <mat-option *ngFor="let profissao of todasProfissoes" [value]="profissao">{{profissao.nome}}</mat-option>
           </mat-select>
@@ -164,7 +173,7 @@
                 <mat-icon>attach_money</mat-icon>
               </mat-panel-title>
               <mat-panel-description>
-                <b>Apartamento - Sem Coparticipacao</b>
+                <b>Apartamento - Sem Coparticipação</b>
               </mat-panel-description>
             </mat-expansion-panel-header>
 
@@ -238,7 +247,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="coparticipacao">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Coparticipacao </mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Coparticipação </mat-header-cell>
                   <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.coparticipacao ? 'Com' : 'Sem'}} </mat-cell>
                 </ng-container>
 
@@ -326,7 +335,7 @@
                 <mat-icon>attach_money</mat-icon>
               </mat-panel-title>
               <mat-panel-description>
-                <b>Apartamento - Com Coparticipacao</b>
+                <b>Apartamento - Com Coparticipação</b>
               </mat-panel-description>
             </mat-expansion-panel-header>
 
@@ -401,7 +410,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="coparticipacao">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Coparticipacao </mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Coparticipação </mat-header-cell>
                   <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.coparticipacao ? 'Com' : 'Sem'}} </mat-cell>
                 </ng-container>
 
@@ -489,7 +498,7 @@
                 <mat-icon>attach_money</mat-icon>
               </mat-panel-title>
               <mat-panel-description>
-                <b>Enfermaria - Sem Coparticipacao</b>
+                <b>Enfermaria - Sem Coparticipação</b>
               </mat-panel-description>
             </mat-expansion-panel-header>
 
@@ -564,7 +573,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="coparticipacao">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Coparticipacao </mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Coparticipação </mat-header-cell>
                   <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.coparticipacao ? 'Com' : 'Sem'}} </mat-cell>
                 </ng-container>
 
@@ -652,7 +661,7 @@
                 <mat-icon>attach_money</mat-icon>
               </mat-panel-title>
               <mat-panel-description>
-                <b>Enfermaria - Com Coparticipacao</b>
+                <b>Enfermaria - Com Coparticipação</b>
               </mat-panel-description>
             </mat-expansion-panel-header>
 
@@ -727,7 +736,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="coparticipacao">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Coparticipacao </mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Coparticipação </mat-header-cell>
                   <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.coparticipacao ? 'Com' : 'Sem'}} </mat-cell>
                 </ng-container>
 
@@ -899,14 +908,14 @@
                 <mat-icon>payments</mat-icon>
               </mat-panel-title>
               <mat-panel-description>
-                <b>Coparticipacao</b>
+                <b>Coparticipação</b>
               </mat-panel-description>
             </mat-expansion-panel-header>
 
             <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
               <mat-table #sortCoparticipacao='matSort' [dataSource]="dataSourceCoparticipacao" matSort class="mat-elevation-z8">
                 <ng-container matColumnDef="tipoCoparticipacao">
-                  <mat-header-cell *matHeaderCellDef [style.color]="'white'" [style.background-color]="'black'" mat-sort-header>Coparticipacao</mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef [style.color]="'white'" [style.background-color]="'black'" mat-sort-header>Coparticipação</mat-header-cell>
                   <mat-cell *matCellDef="let coparticipacao"> {{coparticipacao}} </mat-cell>
                 </ng-container>
 

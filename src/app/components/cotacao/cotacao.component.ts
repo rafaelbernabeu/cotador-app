@@ -250,6 +250,7 @@ export class CotacaoComponent implements OnInit {
   modelChangeCategoria(categoria: Categoria): void {
     if (categoria === 'Empresarial') {
       this.filtroCotacao.profissoes = [];
+      this.filtroCotacao.tipoAdesao = null;
     }
     this.filtroCotacao.categoria = categoria;
   }
@@ -291,7 +292,7 @@ export class CotacaoComponent implements OnInit {
       this.displayedColumnsCotacao = columns.concat(this.displayedColumnsModoClienteFim);
     } else {
       this.displayedColumnsCotacao = columns.concat(this.displayedColumnsFim);
-      if (this.filtroCotacao.categoria === 'Adesao' && this.filtroCotacao.profissoes) {
+      if (this.isCotacaoAdesao() && this.filtroCotacao.profissoes) {
         this.displayedColumnsCotacao.push(...this.filtroCotacao.profissoes.map(p => p.nome));
       }
     }
@@ -391,5 +392,13 @@ export class CotacaoComponent implements OnInit {
     this.filtroCotacao.qtdVidas49a53anos = this.filtroCotacao.vidas.filter(n => n >= 49 && n <= 53).length
     this.filtroCotacao.qtdVidas54a58anos = this.filtroCotacao.vidas.filter(n => n >= 54 && n <= 58).length
     this.filtroCotacao.qtdVidas59ouMaisAnos = this.filtroCotacao.vidas.filter(n => n >= 59).length
+  }
+
+  isCotacaoAdesao(): boolean {
+    return this.filtroCotacao.categoria === 'Adesao';
+  }
+
+  isCotacaoEmpresarial(): boolean {
+    return this.filtroCotacao.categoria === 'Empresarial';
   }
 }
