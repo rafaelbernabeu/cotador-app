@@ -102,6 +102,7 @@ registerLocaleData(localePt, 'pt');
   providers: [
     AuthService,
     { provide: 'Window',  useValue: window },
+    { provide: 'Navigator',  useValue: navigator },
     { provide: LOCALE_ID, useValue: "pt" },
   ],
   bootstrap: [AppComponent]

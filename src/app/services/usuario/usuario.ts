@@ -1,4 +1,5 @@
 import {Role} from '../role/role';
+import {Geolocation} from "./geolocation";
 
 export class Usuario {
 
@@ -6,6 +7,8 @@ export class Usuario {
   nome: string;
   email: string;
   password: string;
+
   roles: Role[];
+  geolocation: Geolocation;
 
 }

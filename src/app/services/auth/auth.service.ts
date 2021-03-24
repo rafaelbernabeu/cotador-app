@@ -23,7 +23,7 @@ export class AuthService {
   fazerLogin(usuario: Usuario): Observable<boolean> {
     this.usuarioAutenticado = false;
     return new Observable(observer => {
-      this.http.get<Token>(this.getLoginUrl(), this.getBasicAuthHeader(usuario)).subscribe(
+      this.http.post<Token>(this.getLoginUrl(), usuario.geolocation, this.getBasicAuthHeader(usuario)).subscribe(
         data => {
           if (data.token) {
             this.tokenService.setToken(data.token);
