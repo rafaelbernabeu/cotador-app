@@ -139,7 +139,7 @@ export class TabelaComponent implements OnInit {
       this.dataSourceTabela.sortingDataAccessor = (tabela, property) => {
         switch (property) {
           case 'administradora':
-            return tabela.administradora.nome;
+            return tabela.administradora?.nome;
           case 'estado':
             return tabela.estado.nome;
           case 'operadora':
@@ -334,7 +334,7 @@ export class TabelaComponent implements OnInit {
     this.tabelaEditando.estado = this.estadoAutoCompleteControl.value;
     this.tabelaEditando.reajuste = this.reajusteAutoCompleteControl.value;
     this.tabelaEditando.operadora = this.operadoraAutoCompleteControl.value;
-    this.tabelaEditando.administradora = this.administradoraAutoCompleteControl.value;
+    this.tabelaEditando.administradora = this.administradoraAutoCompleteControl.value ? this.administradoraAutoCompleteControl.value : null;
     this.tabelaEditando.produtos = this.todosProdutos.filter(p => p.selected);
     this.tabelaEditando.entidades = this.todasEntidades.filter(e => e.selected);
     this.tabelaService.editarTabela(this.tabelaEditando).subscribe(response => {
@@ -417,5 +417,20 @@ export class TabelaComponent implements OnInit {
 
   getTableWidth(): string {
     return (this.displayedColumns?.length * 125)  +'px';
+  }
+
+  isCategoriaEmpresarial(): boolean {
+    return this.tabelaEditando.categoria === 'Empresarial';
+  }
+
+  isCategoriaAdesao(): boolean {
+    return this.tabelaEditando.categoria === 'Adesão';
+  }
+
+  modelChangeCategoria(categoria: string) {
+    this.tabelaEditando.categoria = categoria;
+    if (this.isCategoriaEmpresarial()) {
+      this.administradoraAutoCompleteControl.setValue('');
+    }
   }
 }

@@ -122,7 +122,7 @@
 
         <mat-card-content>
           <div style="margin-bottom: 20px">
-            <mat-radio-group [(ngModel)]="tabelaEditando.categoria" [disabled]="!adicionandoTabela() && !editandoTabela()">
+            <mat-radio-group (ngModelChange)="modelChangeCategoria($event)" [(ngModel)]="tabelaEditando.categoria" [disabled]="!adicionandoTabela() && !editandoTabela()">
               <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
                 {{categoria}}
               </mat-radio-button>
@@ -144,7 +144,8 @@
             <input matInput placeholder="Nome" [disabled]="!adicionandoTabela() && !editandoTabela()"
                    [(ngModel)]="tabelaEditando.nome">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 100%">
+
+          <mat-form-field *ngIf="isCategoriaAdesao()" appearance="outline" style="width: 100%">
             <mat-label>Administradora</mat-label>
             <input matInput [formControl]="administradoraAutoCompleteControl" [matAutocomplete]="auto2" type="text">
             <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="administradoraDisplayFn">
@@ -153,6 +154,7 @@
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>
+
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Operadora</mat-label>
             <input (ngModelChange)="carregaTabelaProdutoPorOperadora()" matInput [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto3" type="text">
@@ -201,7 +203,7 @@
               <mat-slide-toggle [(ngModel)]="tabelaEditando.contemplaMEI" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">MEI</mat-slide-toggle>
             </span>
             <span style="padding-left: 25px" *ngIf="categoriaEmpresarial()">
-              <mat-slide-toggle [(ngModel)]="tabelaEditando.livreAdesao" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">Livre Adesao</mat-slide-toggle>
+              <mat-slide-toggle [(ngModel)]="tabelaEditando.livreAdesao" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">Livre Adesão</mat-slide-toggle>
             </span>
             <span style="padding-left: 25px" *ngIf="categoriaEmpresarial()">
               <mat-slide-toggle [(ngModel)]="tabelaEditando.compulsoria" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">Compulsoria</mat-slide-toggle>
