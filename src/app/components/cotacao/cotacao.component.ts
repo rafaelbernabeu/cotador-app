@@ -395,7 +395,7 @@ export class CotacaoComponent implements OnInit {
   }
 
   isCotacaoAdesao(): boolean {
-    return this.filtroCotacao.categoria === 'Adesao';
+    return this.filtroCotacao.categoria === 'Adesão';
   }
 
   isCotacaoEmpresarial(): boolean {
