@@ -228,7 +228,7 @@
 
                 <ng-container matColumnDef="administradora" sticky>
                   <mat-header-cell *matHeaderCellDef mat-sort-header> Administradora </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.administradora.nome}} </mat-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.administradora?.nome}} </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="operadora">
@@ -391,7 +391,7 @@
 
                 <ng-container matColumnDef="administradora" sticky>
                   <mat-header-cell *matHeaderCellDef mat-sort-header> Administradora </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.administradora.nome}} </mat-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.administradora?.nome}} </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="operadora">
@@ -554,7 +554,7 @@
 
                 <ng-container matColumnDef="administradora" sticky>
                   <mat-header-cell *matHeaderCellDef mat-sort-header> Administradora </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.administradora.nome}} </mat-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.administradora?.nome}} </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="operadora">
@@ -717,7 +717,7 @@
 
                 <ng-container matColumnDef="administradora" sticky>
                   <mat-header-cell *matHeaderCellDef mat-sort-header> Administradora </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.administradora.nome}} </mat-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.administradora?.nome}} </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="operadora">
