@@ -63,7 +63,7 @@
 
             <ng-container matColumnDef="administradora" sticky>
               <mat-header-cell *matHeaderCellDef mat-sort-header> Administradora </mat-header-cell>
-              <mat-cell *matCellDef="let opcao" [style.color]="'white'" [style.background-color]="opcao.tabela.operadora.cor" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.tabela.administradora.nome}} </mat-cell>
+              <mat-cell *matCellDef="let opcao" [style.color]="'white'" [style.background-color]="opcao.tabela.operadora.cor" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.tabela.administradora?.nome}} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="operadora" sticky>

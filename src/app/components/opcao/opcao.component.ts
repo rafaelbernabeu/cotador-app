@@ -164,10 +164,16 @@ export class OpcaoComponent implements OnInit {
 
   private preparaAutoCompletesParaEdicao(): void {
     this.carregaEstadoPorCategoria();
-    this.carregaAdministradoraPorEstadoAndCategoria();
-    this.carregaOperadoraPorAdministradoraAndEstadoAndCategoria();
-    this.carregaTabelaPorOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI()
-    this.carregaProdutosPorTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI()
+    if (this.isCategoriaAdesao()) {
+      this.carregaAdministradoraPorEstadoAndCategoria();
+      this.carregaOperadoraPorAdministradoraAndEstadoAndCategoria();
+      this.carregaTabelaPorOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI()
+      this.carregaProdutosPorTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI()
+    } else if (this.isCategoriaEmpresarial()) {
+      this.carregaOperadoraPorEstadoAndCategoria();
+      this.carregaTabelaPorOperadoraAndEstadoAndCategoriaAndMEI()
+      this.carregaProdutosPorTabelaAndOperadoraAndEstadoAndCategoriaAndMEI()
+    }
   }
 
   private modelChangeCategoria(categoria: Categoria): void {
@@ -400,7 +406,7 @@ export class OpcaoComponent implements OnInit {
     this.produtoAutoCompleteControl.setValue(this.opcaoEditando.produto)
     this.estadoAutoCompleteControl.setValue(this.opcaoEditando.tabela.estado);
     this.operadoraAutoCompleteControl.setValue(this.opcaoEditando.tabela.operadora);
-    this.administradoraAutoCompleteControl.setValue(this.opcaoEditando.tabela.administradora);
+    this.administradoraAutoCompleteControl.setValue(this.opcaoEditando.tabela.administradora ? this.opcaoEditando.tabela.administradora : '');
     this.preparaAutoCompletesParaEdicao();
     this.editarOpcao();
   }
