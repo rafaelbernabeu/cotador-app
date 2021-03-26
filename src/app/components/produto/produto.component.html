@@ -165,7 +165,7 @@
 
         <mat-card-content>
           <div style="float: right; padding-bottom: 10px">
-            <mat-slide-toggle (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.ativo" labelPosition="before"></mat-slide-toggle>
+            <mat-slide-toggle (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.ativo" labelPosition="before">Ativo</mat-slide-toggle>
           </div>
 
           <mat-form-field appearance="outline" style="width: 100%">
@@ -174,26 +174,80 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Operadora</mat-label>
-            <input matInput (ngModelChange)="filtraProduto()" [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto" type="text">
-            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
-              <mat-option *ngFor="let operadora of filteredOptions | async" [value]="operadora">
-                {{operadora.nome}}
-              </mat-option>
-            </mat-autocomplete>
+            <mat-label>Operadoras</mat-label>
+            <mat-select (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.operadoras" multiple>
+              <mat-option *ngFor="let operadora of todasOperadoras;" [value]="operadora">{{operadora.nome}}</mat-option>
+            </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Abrangencia</mat-label>
             <mat-select (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.abrangencia">
+              <mat-option [value]="null"></mat-option>
               <mat-option *ngFor="let abrangencia of todasAbrangencias;" [value]="abrangencia">{{abrangencia}}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Reembolso</mat-label>
-            <input matInput (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.reembolso" type="number" placeholder="Reembolso">
+            <mat-label>Laboratorios</mat-label>
+            <mat-select (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.laboratorios" multiple>
+              <mat-option *ngFor="let laboratorio of todosLaboratorios;" [value]="laboratorio">{{laboratorio.nome}}</mat-option>
+            </mat-select>
           </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Hospitais</mat-label>
+            <mat-select (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.hospitais" multiple>
+              <mat-option *ngFor="let hospital of todosHospitais;" [value]="hospital">{{hospital.nome}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div>
+            <mat-form-field appearance="outline" style="width: 30%">
+              <mat-label>Tipo Filtro</mat-label>
+              <mat-select (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.tipoFiltro">
+                <mat-option [value]="'<'"><</mat-option>
+                <mat-option [value]="'='">=</mat-option>
+                <mat-option [value]="'>'">></mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 70%">
+              <mat-label>Reembolso</mat-label>
+              <input matInput [disabled]="!filtroProduto.tipoFiltro" (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.reembolso" type="number" placeholder="Reembolso">
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Exame Simples</mat-label>
+              <input matInput [disabled]="!filtroProduto.tipoFiltro" (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.coparticipacao.valorExameSimples" type="number" placeholder="Exame Simples">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Exame Especial</mat-label>
+              <input matInput [disabled]="!filtroProduto.tipoFiltro" (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.coparticipacao.valorExameEspecial" type="number" placeholder="Exame Especial">
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field appearance="outline" style="width: 33%">
+              <mat-label>Pronto Socorro</mat-label>
+              <input matInput [disabled]="!filtroProduto.tipoFiltro" (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.coparticipacao.valorProntoSocorro" type="number" placeholder="Pronto Socorro">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 33%">
+              <mat-label>Consulta</mat-label>
+              <input matInput [disabled]="!filtroProduto.tipoFiltro" (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.coparticipacao.valorConsulta" type="number" placeholder="Consulta">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 33%">
+                <mat-label>Internaçao</mat-label>
+              <input matInput [disabled]="!filtroProduto.tipoFiltro" (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.coparticipacao.valorInternacao" type="number" placeholder="Internaçao">
+            </mat-form-field>
+
+          </div>
+
         </mat-card-content>
       </mat-card>
     </div>
@@ -235,7 +289,7 @@
 
         <mat-card-content>
           <div style="float: right; padding-bottom: 10px">
-            <mat-slide-toggle [(ngModel)]="produtoEditando.ativo" [disabled]="!adicionandoProduto() && !editandoProduto()" labelPosition="before"></mat-slide-toggle>
+            <mat-slide-toggle [(ngModel)]="produtoEditando.ativo" [disabled]="!adicionandoProduto() && !editandoProduto()" labelPosition="before">Ativo</mat-slide-toggle>
           </div>
 
           <mat-form-field appearance="outline" style="width: 100%">

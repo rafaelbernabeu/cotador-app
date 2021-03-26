@@ -19,6 +19,7 @@ import {Hospital} from '../../services/hospital/hospital';
 import {HospitalService} from '../../services/hospital/hospital.service';
 import {AbrangenciaService} from '../../services/abrangencia/abrangencia.service';
 import {Abrangencia} from '../../services/abrangencia/abrangencia';
+import {FiltroProduto} from "../../services/produto/filtro-produto";
 
 @Component({
   selector: 'app-produto',
@@ -48,7 +49,7 @@ export class ProdutoComponent implements OnInit {
   dataSourceLaboratorio = new MatTableDataSource<Laboratorio>();
 
   estado: string;
-  filtroProduto: Produto;
+  filtroProduto: FiltroProduto;
   produtoEditando: Produto;
   produtoSelecionado: Produto;
   todosProdutos: Produto[];
@@ -336,7 +337,7 @@ export class ProdutoComponent implements OnInit {
   filtrar(): void {
     this.estado = 'filtrando';
     this.produtoSelecionado = null;
-    this.filtroProduto = new Produto();
+    this.filtroProduto = new FiltroProduto();
     this.operadoraAutoCompleteControl.enable();
     this.operadoraAutoCompleteControl.setValue('');
   }
@@ -353,11 +354,119 @@ export class ProdutoComponent implements OnInit {
         produtosFiltrados = produtosFiltrados.filter(p => p.nome.toLowerCase().includes(this.filtroProduto.nome.toLowerCase()));
       }
 
-      if (this.operadoraAutoCompleteControl.value?.id) {
-        produtosFiltrados = produtosFiltrados.filter(p => p.operadora.id === this.operadoraAutoCompleteControl.value.id);
+      if (this.filtroProduto.abrangencia) {
+        produtosFiltrados = produtosFiltrados.filter(p => p.abrangencia === this.filtroProduto.abrangencia);
+      }
+
+      if (this.filtroProduto.operadoras.length > 0) {
+        produtosFiltrados = produtosFiltrados.filter(p => this.filtroProduto.operadoras.filter(op => op.id === p.operadora.id).length > 0);
+      }
+
+      if (this.filtroProduto.laboratorios.length > 0) {
+        produtosFiltrados = produtosFiltrados.filter(p => p.laboratorios.filter(l => this.filtroProduto.laboratorios.filter(lf => l.id === lf.id).length > 0).length === this.filtroProduto.laboratorios.length);
+      }
+
+      if (this.filtroProduto.hospitais.length > 0) {
+        produtosFiltrados = produtosFiltrados.filter(p => p.hospitais.filter(h => this.filtroProduto.hospitais.filter(hf => h.id === hf.id).length > 0).length === this.filtroProduto.hospitais.length);
+      }
+
+      if (this.filtroProduto.tipoFiltro) {
+
+        produtosFiltrados = this.filtraProdutoPorReembolso(produtosFiltrados, this.filtroProduto.tipoFiltro);
+        produtosFiltrados = this.filtraProdutoPorValorProntoSocorro(produtosFiltrados, this.filtroProduto.tipoFiltro);
+        produtosFiltrados = this.filtraProdutoPorValorExameSimples(produtosFiltrados, this.filtroProduto.tipoFiltro);
+        produtosFiltrados = this.filtraProdutoPorValorExameEspecial(produtosFiltrados, this.filtroProduto.tipoFiltro);
+        produtosFiltrados = this.filtraProdutoPorValorInternacao(produtosFiltrados, this.filtroProduto.tipoFiltro);
+        produtosFiltrados = this.filtraProdutoPorValorConsulta(produtosFiltrados, this.filtroProduto.tipoFiltro);
+
       }
 
       this.configuraTabelaProduto(produtosFiltrados);
+
     });
+  }
+
+  private filtraProdutoPorReembolso(produtosFiltrados: Produto[], tipoFiltro: string) {
+    if (this.filtroProduto.reembolso > 0) {
+      switch (tipoFiltro) {
+        case '<':
+          return produtosFiltrados.filter(p => p.reembolso <= this.filtroProduto.reembolso);
+        case '=':
+          return produtosFiltrados.filter(p => p.reembolso === this.filtroProduto.reembolso);
+        case '>':
+          return produtosFiltrados.filter(p => p.reembolso >= this.filtroProduto.reembolso);
+      }
+    }
+    return produtosFiltrados;
+  }
+
+  private filtraProdutoPorValorProntoSocorro(produtosFiltrados: Produto[], tipoFiltro: string) {
+    if (this.filtroProduto.coparticipacao.valorProntoSocorro > 0) {
+      switch (tipoFiltro) {
+        case '<':
+          return produtosFiltrados.filter(p => p.coparticipacao.valorProntoSocorro <= this.filtroProduto.coparticipacao.valorProntoSocorro);
+        case '=':
+          return produtosFiltrados.filter(p => p.coparticipacao.valorProntoSocorro === this.filtroProduto.coparticipacao.valorProntoSocorro);
+        case '>':
+          return produtosFiltrados.filter(p => p.coparticipacao.valorProntoSocorro >= this.filtroProduto.coparticipacao.valorProntoSocorro);
+      }
+    }
+    return produtosFiltrados;
+  }
+
+  private filtraProdutoPorValorExameSimples(produtosFiltrados: Produto[], tipoFiltro: string) {
+    if (this.filtroProduto.coparticipacao.valorExameSimples > 0) {
+      switch (tipoFiltro) {
+        case '<':
+          return produtosFiltrados.filter(p => p.coparticipacao.valorExameSimples <= this.filtroProduto.coparticipacao.valorExameSimples);
+        case '=':
+          return produtosFiltrados.filter(p => p.coparticipacao.valorExameSimples === this.filtroProduto.coparticipacao.valorExameSimples);
+        case '>':
+          return produtosFiltrados.filter(p => p.coparticipacao.valorExameSimples >= this.filtroProduto.coparticipacao.valorExameSimples);
+      }
+    }
+    return produtosFiltrados;
+  }
+
+  private filtraProdutoPorValorExameEspecial(produtosFiltrados: Produto[], tipoFiltro: string) {
+    if (this.filtroProduto.coparticipacao.valorExameEspecial > 0) {
+      switch (tipoFiltro) {
+        case '<':
+          return produtosFiltrados.filter(p => p.coparticipacao.valorExameEspecial <= this.filtroProduto.coparticipacao.valorExameEspecial);
+        case '=':
+          return produtosFiltrados.filter(p => p.coparticipacao.valorExameEspecial === this.filtroProduto.coparticipacao.valorExameEspecial);
+        case '>':
+          return produtosFiltrados.filter(p => p.coparticipacao.valorExameEspecial >= this.filtroProduto.coparticipacao.valorExameEspecial);
+      }
+    }
+    return produtosFiltrados;
+  }
+
+  private filtraProdutoPorValorInternacao(produtosFiltrados: Produto[], tipoFiltro: string) {
+    if (this.filtroProduto.coparticipacao.valorInternacao > 0) {
+      switch (tipoFiltro) {
+        case '<':
+          return produtosFiltrados.filter(p => p.coparticipacao.valorInternacao <= this.filtroProduto.coparticipacao.valorInternacao);
+        case '=':
+          return produtosFiltrados.filter(p => p.coparticipacao.valorInternacao === this.filtroProduto.coparticipacao.valorInternacao);
+        case '>':
+          return produtosFiltrados.filter(p => p.coparticipacao.valorInternacao >= this.filtroProduto.coparticipacao.valorInternacao);
+      }
+    }
+    return produtosFiltrados;
+  }
+
+  private filtraProdutoPorValorConsulta(produtosFiltrados: Produto[], tipoFiltro: string) {
+    if (this.filtroProduto.coparticipacao.valorConsulta > 0) {
+      switch (tipoFiltro) {
+        case '<':
+          return produtosFiltrados.filter(p => p.coparticipacao.valorConsulta <= this.filtroProduto.coparticipacao.valorConsulta);
+        case '=':
+          return produtosFiltrados.filter(p => p.coparticipacao.valorConsulta === this.filtroProduto.coparticipacao.valorConsulta);
+        case '>':
+          return produtosFiltrados.filter(p => p.coparticipacao.valorConsulta >= this.filtroProduto.coparticipacao.valorConsulta);
+      }
+    }
+    return produtosFiltrados;
   }
 }
