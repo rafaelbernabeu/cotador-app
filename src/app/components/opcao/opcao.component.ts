@@ -195,7 +195,14 @@ export class OpcaoComponent implements OnInit {
       let novoEstadoSelecionado: any = this.estadoAutoCompleteControl.value;
       if (this.todosEstados.filter(e => e.nome === novoEstadoSelecionado?.nome).length === 0) {
         novoEstadoSelecionado = '';
+        this.administradoraAutoCompleteControl.disable()
         this.administradoraAutoCompleteControl.setValue('');
+        this.operadoraAutoCompleteControl.disable()
+        this.operadoraAutoCompleteControl.setValue('');
+        this.tabelaAutoCompleteControl.disable()
+        this.tabelaAutoCompleteControl.setValue('');
+        this.produtoAutoCompleteControl.disable()
+        this.produtoAutoCompleteControl.setValue('');
       }
       setTimeout(() => this.estadoAutoCompleteControl.setValue(novoEstadoSelecionado));
     });
@@ -263,7 +270,10 @@ export class OpcaoComponent implements OnInit {
         let novaOperadoraSelecionada: any = this.operadoraAutoCompleteControl.value;
         if (this.todasOperadoras.filter(o => o.nome === novaOperadoraSelecionada?.nome).length === 0) {
           novaOperadoraSelecionada = '';
+          this.tabelaAutoCompleteControl.disable()
           this.tabelaAutoCompleteControl.setValue('');
+          this.produtoAutoCompleteControl.disable()
+          this.produtoAutoCompleteControl.setValue('');
         }
         setTimeout(() => this.operadoraAutoCompleteControl.setValue(novaOperadoraSelecionada));
       });
