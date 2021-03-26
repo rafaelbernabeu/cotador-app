@@ -146,7 +146,7 @@ export class OpcaoComponent implements OnInit {
           case 'qtdMinTitulares':
             return opcao.tabela.qtdMinTitulares;
           case 'administradora':
-            return opcao.tabela.administradora.nome;
+            return opcao.tabela.administradora?.nome;
           case 'operadora':
             return opcao.tabela.operadora.nome;
           case 'produto':
@@ -162,8 +162,8 @@ export class OpcaoComponent implements OnInit {
     });
   }
 
-  private preparaAutoCompletesParaEdicao(opcao: Opcao): void {
-    this.carregaEstadoPorCategoria(opcao.categoria);
+  private preparaAutoCompletesParaEdicao(): void {
+    this.carregaEstadoPorCategoria();
     this.carregaAdministradoraPorEstadoAndCategoria();
     this.carregaOperadoraPorAdministradoraAndEstadoAndCategoria();
     this.carregaTabelaPorOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI()
@@ -171,13 +171,17 @@ export class OpcaoComponent implements OnInit {
   }
 
   private modelChangeCategoria(categoria: Categoria): void {
+    this.opcaoEditando.categoria = categoria;
     if (this.adicionandoOpcao() || this.editandoOpcao()) {
-      this.carregaEstadoPorCategoria(categoria);
+      if (this.isCategoriaEmpresarial()) {
+        this.administradoraAutoCompleteControl.setValue('');
+      }
+      this.carregaEstadoPorCategoria();
     }
   }
 
-  private carregaEstadoPorCategoria(categoria: Categoria): void {
-    this.categoriaService.getEstadosByCategoria(categoria).subscribe(response => {
+  private carregaEstadoPorCategoria(): void {
+    this.categoriaService.getEstadosByCategoria(this.opcaoEditando.categoria).subscribe(response => {
       this.todosEstados = response;
       if (this.editandoOpcao() || this.adicionandoOpcao()) {
         this.estadoAutoCompleteControl.enable();
@@ -193,7 +197,11 @@ export class OpcaoComponent implements OnInit {
 
   private modelChangeEstado(): void {
     if (this.adicionandoOpcao() || this.editandoOpcao()) {
-      this.carregaAdministradoraPorEstadoAndCategoria();
+      if (this.isCategoriaAdesao()) {
+        this.carregaAdministradoraPorEstadoAndCategoria();
+      } else if (this.isCategoriaEmpresarial()) {
+        this.carregaOperadoraPorEstadoAndCategoria();
+      }
     }
   }
 
@@ -208,7 +216,12 @@ export class OpcaoComponent implements OnInit {
         let novaAdministradoraSelecionada: any = this.administradoraAutoCompleteControl.value;
         if (this.todasAdministradoras.filter(a => a.nome === novaAdministradoraSelecionada?.nome).length === 0) {
           novaAdministradoraSelecionada = '';
+          this.operadoraAutoCompleteControl.disable()
           this.operadoraAutoCompleteControl.setValue('');
+          this.tabelaAutoCompleteControl.disable()
+          this.tabelaAutoCompleteControl.setValue('');
+          this.produtoAutoCompleteControl.disable()
+          this.produtoAutoCompleteControl.setValue('');
         }
         setTimeout(() => this.administradoraAutoCompleteControl.setValue(novaAdministradoraSelecionada));
       });
@@ -216,14 +229,14 @@ export class OpcaoComponent implements OnInit {
   }
 
   private modelChangeMEI(contemplaMEI: boolean): void {
-    if (this.adicionandoOpcao() || this.editandoOpcao()) {
-      this.carregaOperadoraPorEstadoAndCategoriaAndAdministradoraAndMEI(contemplaMEI);
-    }
-  }
-
-  private carregaOperadoraPorEstadoAndCategoriaAndAdministradoraAndMEI(contemplaMEI: boolean): void {
     this.opcaoEditando.mei = contemplaMEI;
-    this.carregaOperadoraPorAdministradoraAndEstadoAndCategoria();
+    if (this.adicionandoOpcao() || this.editandoOpcao()) {
+      if (this.isCategoriaAdesao()) {
+        this.carregaOperadoraPorAdministradoraAndEstadoAndCategoria();
+      } else if (this.isCategoriaEmpresarial()) {
+        this.carregaOperadoraPorEstadoAndCategoria();
+      }
+    }
   }
 
   private modelChangeAdministradora(): void {
@@ -251,9 +264,34 @@ export class OpcaoComponent implements OnInit {
     }
   }
 
+  private carregaOperadoraPorEstadoAndCategoria(): void {
+    const estado = this.estadoAutoCompleteControl.value;
+    if (estado.sigla && this.opcaoEditando.categoria) {
+      this.estadoService.getOperadorasByEstadoAndCategoriaAndMEI(estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
+        this.todasOperadoras = response;
+        if (this.editandoOpcao() || this.adicionandoOpcao()) {
+          this.operadoraAutoCompleteControl.enable();
+        }
+        let novaOperadoraSelecionada: any = this.operadoraAutoCompleteControl.value;
+        if (this.todasOperadoras.filter(o => o.nome === novaOperadoraSelecionada?.nome).length === 0) {
+          novaOperadoraSelecionada = '';
+          this.tabelaAutoCompleteControl.disable()
+          this.tabelaAutoCompleteControl.setValue('');
+          this.produtoAutoCompleteControl.disable()
+          this.produtoAutoCompleteControl.setValue('');
+        }
+        setTimeout(() => this.operadoraAutoCompleteControl.setValue(novaOperadoraSelecionada));
+      });
+    }
+  }
+
   private modelChangeOperadora(): void {
     if (this.adicionandoOpcao() || this.editandoOpcao()) {
-      this.carregaTabelaPorOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI();
+      if (this.isCategoriaAdesao()) {
+        this.carregaTabelaPorOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI();
+      } else if (this.isCategoriaEmpresarial()) {
+        this.carregaTabelaPorOperadoraAndEstadoAndCategoriaAndMEI();
+      }
     }
   }
 
@@ -270,6 +308,27 @@ export class OpcaoComponent implements OnInit {
         let novaTabelaSelecionada: any = this.tabelaAutoCompleteControl.value;
         if (this.todasTabelas.filter(t => t.nome === novaTabelaSelecionada?.nome).length === 0) {
           novaTabelaSelecionada = '';
+          this.produtoAutoCompleteControl.disable();
+          this.produtoAutoCompleteControl.setValue('');
+        }
+        setTimeout(() => this.tabelaAutoCompleteControl.setValue(novaTabelaSelecionada));
+      });
+    }
+  }
+
+  private carregaTabelaPorOperadoraAndEstadoAndCategoriaAndMEI(): void {
+    const estado = this.estadoAutoCompleteControl.value;
+    const operadora = this.operadoraAutoCompleteControl.value;
+    if (operadora.id && estado.sigla && this.opcaoEditando.categoria) {
+      this.operadoraService.getTabelasByOperadoraAndEstadoAndCategoriaAndMEI(operadora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
+        this.todasTabelas = response;
+        if (this.editandoOpcao() || this.adicionandoOpcao()) {
+          this.tabelaAutoCompleteControl.enable();
+        }
+        let novaTabelaSelecionada: any = this.tabelaAutoCompleteControl.value;
+        if (this.todasTabelas.filter(t => t.nome === novaTabelaSelecionada?.nome).length === 0) {
+          novaTabelaSelecionada = '';
+          this.produtoAutoCompleteControl.disable();
           this.produtoAutoCompleteControl.setValue('');
         }
         setTimeout(() => this.tabelaAutoCompleteControl.setValue(novaTabelaSelecionada));
@@ -279,7 +338,11 @@ export class OpcaoComponent implements OnInit {
 
   private modelChangeTabela(): void {
     if (this.adicionandoOpcao() || this.editandoOpcao()) {
-      this.carregaProdutosPorTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI();
+      if (this.isCategoriaAdesao()) {
+        this.carregaProdutosPorTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI();
+      } else if (this.isCategoriaEmpresarial()) {
+        this.carregaProdutosPorTabelaAndOperadoraAndEstadoAndCategoriaAndMEI();
+      }
     }
   }
 
@@ -290,6 +353,25 @@ export class OpcaoComponent implements OnInit {
     const tabela = this.tabelaAutoCompleteControl.value;
     if (tabela.id && operadora.id && estado.sigla && administradora.id && this.opcaoEditando.categoria) {
       this.tabelaService.getProdutosByTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(tabela, operadora, administradora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
+        this.todosProdutos = response;
+        if (this.editandoOpcao() || this.adicionandoOpcao()) {
+          this.produtoAutoCompleteControl.enable();
+        }
+        let novoProdutoSelecionado: any = this.produtoAutoCompleteControl.value;
+        if (this.todosProdutos.filter(o => o.nome === novoProdutoSelecionado?.nome).length === 0) {
+          novoProdutoSelecionado = '';
+        }
+        setTimeout(() => this.produtoAutoCompleteControl.setValue(novoProdutoSelecionado));
+      });
+    }
+  }
+
+  private carregaProdutosPorTabelaAndOperadoraAndEstadoAndCategoriaAndMEI(): void {
+    const estado = this.estadoAutoCompleteControl.value;
+    const operadora = this.operadoraAutoCompleteControl.value;
+    const tabela = this.tabelaAutoCompleteControl.value;
+    if (tabela.id && operadora.id && estado.sigla && this.opcaoEditando.categoria) {
+      this.tabelaService.getProdutosByTabelaAndOperadoraAndEstadoAndCategoriaAndMEI(tabela, operadora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
         this.todosProdutos = response;
         if (this.editandoOpcao() || this.adicionandoOpcao()) {
           this.produtoAutoCompleteControl.enable();
@@ -319,7 +401,7 @@ export class OpcaoComponent implements OnInit {
     this.estadoAutoCompleteControl.setValue(this.opcaoEditando.tabela.estado);
     this.operadoraAutoCompleteControl.setValue(this.opcaoEditando.tabela.operadora);
     this.administradoraAutoCompleteControl.setValue(this.opcaoEditando.tabela.administradora);
-    this.preparaAutoCompletesParaEdicao(this.opcaoEditando);
+    this.preparaAutoCompletesParaEdicao();
     this.editarOpcao();
   }
 
@@ -498,4 +580,13 @@ export class OpcaoComponent implements OnInit {
     let nomes = opcao.tabela.entidades.filter(e => e.profissoes.filter(p => p.nome === profissao).length > 0).map(e => e.nome).join(' / ');
     return nomes ? nomes : '--';
   }
+
+  isCategoriaEmpresarial(): boolean {
+    return this.opcaoEditando.categoria === 'Empresarial';
+  }
+
+  isCategoriaAdesao(): boolean {
+    return this.opcaoEditando.categoria === 'Adesão';
+  }
+
 }

@@ -37,6 +37,17 @@ export class TabelaService {
     });
   }
 
+  public getProdutosByTabelaAndOperadoraAndEstadoAndCategoriaAndMEI(tabela: Tabela, operadora: Operadora, estado: Estado, categoria: Categoria, mei: boolean): Observable<Produto[]> {
+    return this.http.get<Produto[]>(this.getApiUrl() + '/' + tabela.id + this.api.PRODUTO_API_URL, {
+      headers: this.authServie.getTokenHeader().headers,
+      params: new HttpParams()
+        .append('operadora', operadora.id.toString())
+        .append('estado', estado.sigla)
+        .append('categoria', categoria.toString())
+        .append('mei', '' + mei)
+    });
+  }
+
   public adicionarTabela(tabela: Tabela): Observable<Tabela> {
     return this.http.post<Tabela>(this.getApiUrl(), tabela, this.authServie.getTokenHeader());
   }

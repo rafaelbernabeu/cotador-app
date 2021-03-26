@@ -206,7 +206,7 @@
             </mat-autocomplete>
           </mat-form-field>
 
-          <mat-form-field appearance="outline" style="width: 100%">
+          <mat-form-field *ngIf="isCategoriaAdesao()" appearance="outline" style="width: 100%">
             <mat-label>Administradora</mat-label>
             <input matInput (ngModelChange)="modelChangeAdministradora()" [formControl]="administradoraAutoCompleteControl" [matAutocomplete]="auto2" type="text">
             <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="administradoraDisplayFn">

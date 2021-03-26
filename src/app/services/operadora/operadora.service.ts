@@ -40,6 +40,16 @@ export class OperadoraService {
     });
   }
 
+  public getTabelasByOperadoraAndEstadoAndCategoriaAndMEI(operadora: Operadora, estado: Estado, categoria: Categoria, mei: boolean): Observable<Tabela[]> {
+    return this.http.get<Tabela[]>(this.getApiUrl() + '/' + operadora.id + this.api.TABELA_API_URL, {
+      headers: this.authServie.getTokenHeader().headers,
+      params: new HttpParams()
+        .append('estado', estado.sigla)
+        .append('categoria', categoria.toString())
+        .append('mei', '' + mei)
+    });
+  }
+
   public adicionarOperadora(operadora: Operadora): Observable<Operadora> {
     return this.http.post<Operadora>(this.getApiUrl(), operadora, this.authServie.getTokenHeader());
   }

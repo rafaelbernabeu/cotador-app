@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {Estado} from './estado';
 import {Administradora} from '../administradora/administradora';
 import {Categoria} from '../categoria/categoria';
+import {Operadora} from "../operadora/operadora";
 
 @Injectable({
   providedIn: 'root'
@@ -30,8 +31,17 @@ export class EstadoService {
     );
   }
 
+  public getOperadorasByEstadoAndCategoriaAndMEI(estado: Estado, categoria: Categoria, contemplaMEI: boolean): Observable<Operadora[]> {
+    return this.http.get<Operadora[]>(this.getApiUrl() + '/' + estado.sigla + this.api.OPERADORA_API_URL, {
+        headers: this.authServie.getTokenHeader().headers,
+        params: new HttpParams()
+          .append('categoria', categoria.toString())
+          .append('mei', '' + contemplaMEI)
+      }
+    );
+  }
+
   private getApiUrl(): string {
     return this.api.BASE_API_URL + this.api.ESTADO_API_URL;
   }
-
 }
