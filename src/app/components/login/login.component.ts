@@ -31,24 +31,26 @@ export class LoginComponent implements OnInit {
 
   fazerLogin(): void {
     this.navigator.geolocation.getCurrentPosition(
-      position => {
-        this.usuario.geolocation = new Geolocation(position.coords);
-        this.authService.fazerLogin(this.usuario).subscribe(
-          sucessoLogin => {
-            this.snackBar.openSnackBar('Login efetuado com sucesso!');
-            this.router.navigate(['/home']);
-          },
-          erroLogin => {
-            this.snackBar.openSnackBar('Dados nao conferem!');
-            this.usuario.email = '';
-            this.usuario.password = '';
-          }
-        );
-      },
+      position => this.login(position),
       errorLocaltion => {
-        this.snackBar.openSnackBar("Sem permissao de acesso a localizaçao. Tente novamente.")
+        this.snackBar.openSnackBar("Sem permissao de acesso a localizaçao.");
+        this.login();
       }
     );
+  }
 
+  login(geolocarion?: GeolocationPosition): void {
+    this.usuario.geolocation = geolocarion ? new Geolocation(geolocarion.coords) : new Geolocation();
+    this.authService.fazerLogin(this.usuario).subscribe(
+      sucessoLogin => {
+        this.snackBar.openSnackBar('Login efetuado com sucesso!');
+        this.router.navigate(['/home']);
+      },
+      erroLogin => {
+        this.snackBar.openSnackBar('Dados nao conferem!');
+        this.usuario.email = '';
+        this.usuario.password = '';
+      }
+    );
   }
 }
