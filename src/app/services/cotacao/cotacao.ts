@@ -18,6 +18,7 @@ export class Cotacao {
   profissoes: Profissao[];
   administradoras: Administradora[];
 
+  mei: boolean;
   idadeMin: number;
   idadeMax: number;
   tipoAdesao: string;

@@ -22,6 +22,9 @@
               {{categoria}}
             </mat-radio-button>
           </mat-radio-group>
+          <span *ngIf="isCotacaoEmpresarial()" style="padding-left: 20px;">
+            <mat-slide-toggle [(ngModel)]="filtroCotacao.mei" labelPosition="before">MEI</mat-slide-toggle>
+          </span>
 
           <span style="float: right;">
             <mat-slide-toggle (ngModelChange)="alteraModo($event)" [(ngModel)]="modoCliente" labelPosition="before">Modo Cliente</mat-slide-toggle>
