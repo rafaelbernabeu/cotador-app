@@ -125,6 +125,7 @@ export class CotacaoComponent implements OnInit {
       this.todosProdutosCotacao = this.todasOpcoes.map(op => op.produto).sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).filter(this.filtraDuplicadas);
       this.configuraTodasTabelas();
       this.configuraDisplayedColumns();
+      this.accordion.openAll();
     });
   }
 
