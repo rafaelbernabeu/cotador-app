@@ -70,26 +70,25 @@
         </div>
 
         <div>
-          <mat-form-field appearance="outline" style="width: 50%">
+          <mat-form-field appearance="outline" [style.width]="filtroCotacao.categoria === 'Adesão' ? '33.33%' : '100%'">
             <mat-label>Operadora</mat-label>
             <mat-select [(ngModel)]="filtroCotacao.operadoras" multiple>
               <mat-option *ngFor="let operadora of todasOperadoras" [value]="operadora">{{operadora.nome}}</mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 50%">
+          <mat-form-field appearance="outline" *ngIf="isCotacaoAdesao()" style="width: 33.33%">
             <mat-label>Administradora</mat-label>
             <mat-select [(ngModel)]="filtroCotacao.administradoras" multiple>
               <mat-option *ngFor="let administradora of todasAdministradoras" [value]="administradora">{{administradora.nome}}</mat-option>
             </mat-select>
           </mat-form-field>
+          <mat-form-field *ngIf="isCotacaoAdesao()" appearance="outline" style="width: 33.33%">
+            <mat-label>Profissões</mat-label>
+            <mat-select [(ngModel)]="filtroCotacao.profissoes" multiple>
+              <mat-option *ngFor="let profissao of todasProfissoes" [value]="profissao">{{profissao.nome}}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
-
-        <mat-form-field *ngIf="isCotacaoAdesao()" appearance="outline" style="width: 100%">
-          <mat-label>Profissões</mat-label>
-          <mat-select [(ngModel)]="filtroCotacao.profissoes" multiple>
-            <mat-option *ngFor="let profissao of todasProfissoes" [value]="profissao">{{profissao.nome}}</mat-option>
-          </mat-select>
-        </mat-form-field>
 
         <mat-form-field appearance="outline" style="width: 100%">
           <mat-label>Idades</mat-label>
@@ -108,43 +107,43 @@
         </mat-form-field>
 
         <div style="text-align: center">
-          <mat-form-field appearance="outline" style="width: 5%">
+          <mat-form-field appearance="outline" style="width: 7%">
             <mat-label>0 - 18</mat-label>
             <input type="number" matInput placeholder="0 a 18" [ngModel]="filtroCotacao.qtdVidas0a18anos" [disabled]="true">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 5%">
+          <mat-form-field appearance="outline" style="width: 7%">
             <mat-label>19 - 23</mat-label>
             <input type="number" matInput placeholder="19 a 23" [ngModel]="filtroCotacao.qtdVidas19a23anos" [disabled]="true">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 5%">
+          <mat-form-field appearance="outline" style="width: 7%">
             <mat-label>24 - 28</mat-label>
             <input type="number" matInput placeholder="24 a 28" [ngModel]="filtroCotacao.qtdVidas24a28anos" [disabled]="true">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 5%">
+          <mat-form-field appearance="outline" style="width: 7%">
             <mat-label>29 - 33</mat-label>
             <input type="number" matInput placeholder="29 a 33" [ngModel]="filtroCotacao.qtdVidas29a33anos" [disabled]="true">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 5%">
+          <mat-form-field appearance="outline" style="width: 7%">
             <mat-label>34 - 38</mat-label>
             <input type="number" matInput placeholder="34 a 38" [ngModel]="filtroCotacao.qtdVidas34a38anos" [disabled]="true">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 5%">
+          <mat-form-field appearance="outline" style="width: 7%">
             <mat-label>39 - 43</mat-label>
             <input type="number" matInput placeholder="39 a 43" [ngModel]="filtroCotacao.qtdVidas39a43anos" [disabled]="true">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 5%">
+          <mat-form-field appearance="outline" style="width: 7%">
             <mat-label>44 - 48</mat-label>
             <input type="number" matInput placeholder="44 a 48" [ngModel]="filtroCotacao.qtdVidas44a48anos" [disabled]="true">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 5%">
+          <mat-form-field appearance="outline" style="width: 7%">
             <mat-label>49 - 53</mat-label>
             <input type="number" matInput placeholder="49 a 53" [ngModel]="filtroCotacao.qtdVidas49a53anos" [disabled]="true">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 5%">
+          <mat-form-field appearance="outline" style="width: 7%">
             <mat-label>54 - 58</mat-label>
             <input type="number" matInput placeholder="54 a 58" [ngModel]="filtroCotacao.qtdVidas54a58anos" [disabled]="true">
           </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 5%">
+          <mat-form-field appearance="outline" style="width: 7%">
             <mat-label>59 - Mais</mat-label>
             <input type="number" matInput placeholder="59 ou Mais" [ngModel]="filtroCotacao.qtdVidas59ouMaisAnos" [disabled]="true">
           </mat-form-field>
@@ -166,11 +165,10 @@
       <button mat-button (click)="accordion.closeAll()">Collapse All</button>
     </div>
     <mat-card-content>
-
       <mat-accordion multi>
 
         <div [hidden]="filtroCotacao.coparticipacao === true || filtroCotacao.acomodacao === 'Enfermaria'">
-          <mat-expansion-panel>
+          <mat-expansion-panel #panelAptSemCopart>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 <mat-icon>attach_money</mat-icon>
@@ -332,7 +330,7 @@
           </mat-expansion-panel>
         </div>
         <div style="padding-top: 20px" [hidden]="filtroCotacao.coparticipacao === false || filtroCotacao.acomodacao === 'Enfermaria'">
-          <mat-expansion-panel>
+          <mat-expansion-panel #panelAptComCopart>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 <mat-icon>attach_money</mat-icon>
@@ -495,7 +493,7 @@
           </mat-expansion-panel>
         </div>
         <div style="padding-top: 20px" [hidden]="filtroCotacao.coparticipacao === true || filtroCotacao.acomodacao === 'Apartamento'">
-          <mat-expansion-panel>
+          <mat-expansion-panel #panelEnfSemCopart>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 <mat-icon>attach_money</mat-icon>
@@ -658,7 +656,7 @@
           </mat-expansion-panel>
         </div>
         <div style="padding-top: 20px" [hidden]="filtroCotacao.coparticipacao === false || filtroCotacao.acomodacao === 'Apartamento'">
-          <mat-expansion-panel>
+          <mat-expansion-panel #panelEnfComCopart>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 <mat-icon>attach_money</mat-icon>
@@ -822,7 +820,7 @@
         </div>
 
         <div style="padding-top: 20px">
-          <mat-expansion-panel>
+          <mat-expansion-panel #panelHospitais>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 <mat-icon>local_hospital</mat-icon>
@@ -864,7 +862,7 @@
         </div>
 
         <div style="padding-top: 20px">
-          <mat-expansion-panel>
+          <mat-expansion-panel #panelLaboratorios>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 <mat-icon>science</mat-icon>
@@ -905,7 +903,7 @@
         </div>
 
         <div [hidden]="filtroCotacao.coparticipacao === false" style="padding-top: 20px">
-          <mat-expansion-panel>
+          <mat-expansion-panel #panelCoparticipacao>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 <mat-icon>payments</mat-icon>
@@ -963,7 +961,7 @@
         </div>
 
         <div style="padding-top: 20px">
-          <mat-expansion-panel>
+          <mat-expansion-panel #panelReembolso>
             <mat-expansion-panel-header>
               <mat-panel-title>
                 <mat-icon>account_balance_wallet</mat-icon>

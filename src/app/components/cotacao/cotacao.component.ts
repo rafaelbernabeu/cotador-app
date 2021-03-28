@@ -16,7 +16,7 @@ import {Opcao} from "../../services/opcao/opcao";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
-import {MatAccordion} from "@angular/material/expansion";
+import {MatAccordion, MatExpansionPanel} from "@angular/material/expansion";
 import {Hospital} from "../../services/hospital/hospital";
 import {Laboratorio} from "../../services/laboratorio/laboratorio";
 import {Produto} from "../../services/produto/produto";
@@ -36,6 +36,15 @@ import {MatChipInputEvent} from "@angular/material/chips";
 export class CotacaoComponent implements OnInit {
 
   @ViewChild(MatAccordion) accordion: MatAccordion;
+  @ViewChild('panelAptComCopart') panelAptComCopart: MatExpansionPanel;
+  @ViewChild('panelAptSemCopart') panelAptSemCopart: MatExpansionPanel;
+  @ViewChild('panelEnfComCopart') panelEnfComCopart: MatExpansionPanel;
+  @ViewChild('panelEnfSemCopart') panelEnfSemCopart: MatExpansionPanel;
+  @ViewChild('panelCoparticipacao') panelCoparticipacao: MatExpansionPanel;
+  @ViewChild('panelLaboratorios') panelLaboratorios: MatExpansionPanel;
+  @ViewChild('panelHospitais') panelHospitais: MatExpansionPanel;
+  @ViewChild('panelReembolso') panelReembolso: MatExpansionPanel;
+
   @ViewChild('sortCotacaoAptComCopart') sortCotacaoAptComCopart: MatSort;
   @ViewChild('sortCotacaoAptSemCopart') sortCotacaoAptSemCopart: MatSort;
   @ViewChild('sortCotacaoEnfComCopart') sortCotacaoEnfComCopart: MatSort;
@@ -145,6 +154,9 @@ export class CotacaoComponent implements OnInit {
     this.dataSourceReembolso = new MatTableDataSource<Produto>(this.todosProdutosCotacao);
     this.dataSourceReembolso.sort = this.sortReembolso;
     this.dataSourceReembolso.paginator = this.paginatorReembolso;
+    if (!this.dataSourceReembolso.data.length) {
+      setTimeout(() => this.panelReembolso.close());
+    }
   }
 
   private configuraTabelaCoparticipacao(): void {
@@ -152,6 +164,9 @@ export class CotacaoComponent implements OnInit {
     this.dataSourceCoparticipacao = new MatTableDataSource<string>(['Pronto Socorro', 'Consultas', 'Exame Simples', 'Exame Especial', 'Internacao']);
     this.dataSourceCoparticipacao.sort = this.sortCoparticipacao;
     this.dataSourceCoparticipacao.paginator = this.paginatorCoparticipacao;
+    if (!this.dataSourceCoparticipacao.data.length) {
+      setTimeout(() => this.panelCoparticipacao.close());
+    }
   }
 
   private configuraTabelaHospital(): void {
@@ -159,6 +174,9 @@ export class CotacaoComponent implements OnInit {
     this.dataSourceHospitais = new MatTableDataSource<Hospital>(this.todosProdutosCotacao.map(p => p.hospitais).reduce((acc, value) => acc.concat(value)).filter(this.filtraDuplicadas));
     this.dataSourceHospitais.sort = this.sortHospital;
     this.dataSourceHospitais.paginator = this.paginatorHospital;
+    if (!this.dataSourceHospitais.data.length) {
+      setTimeout(() => this.panelHospitais.close());
+    }
   }
 
   private configuraTabelaLaboratorio(): void {
@@ -166,6 +184,10 @@ export class CotacaoComponent implements OnInit {
     this.dataSourceLaboratorios = new MatTableDataSource<Laboratorio>(this.todosProdutosCotacao.map(p => p.laboratorios).reduce((acc, value) => acc.concat(value)).filter(this.filtraDuplicadas));
     this.dataSourceLaboratorios.sort = this.sortLaboratorio;
     this.dataSourceLaboratorios.paginator = this.paginatorLaboratorio;
+    if (!this.dataSourceLaboratorios.data.length) {
+      setTimeout(() => this.panelLaboratorios.close());
+    }
+
   }
 
   private configuraTabelasCotacao(): void {
@@ -180,6 +202,9 @@ export class CotacaoComponent implements OnInit {
     this.dataSourceCotacaoAptSemCopart.sort = this.sortCotacaoAptSemCopart;
     this.dataSourceCotacaoAptSemCopart.paginator = this.paginatorCotacaoAptSemCopart;
     this.dataSourceCotacaoAptSemCopart.sortingDataAccessor = this.getSortingDataAccessor();
+    if (!this.dataSourceCotacaoAptSemCopart.data.length) {
+      setTimeout(() => this.panelAptSemCopart.close());
+    }
   }
 
   private configuraTabelaAptComCopart(opcoes: Opcao[]) {
@@ -187,6 +212,9 @@ export class CotacaoComponent implements OnInit {
     this.dataSourceCotacaoAptComCopart.sort = this.sortCotacaoAptComCopart;
     this.dataSourceCotacaoAptComCopart.paginator = this.paginatorCotacaoAptComCopart;
     this.dataSourceCotacaoAptComCopart.sortingDataAccessor = this.getSortingDataAccessor();
+    if (!this.dataSourceCotacaoAptComCopart.data.length) {
+      setTimeout(() => this.panelAptComCopart.close());
+    }
   }
 
   private configuraTabelaEnfSemCopart(opcoes: Opcao[]) {
@@ -194,6 +222,9 @@ export class CotacaoComponent implements OnInit {
     this.dataSourceCotacaoEnfSemCopart.sort = this.sortCotacaoEnfSemCopart;
     this.dataSourceCotacaoEnfSemCopart.paginator = this.paginatorCotacaoEnfSemCopart;
     this.dataSourceCotacaoEnfSemCopart.sortingDataAccessor = this.getSortingDataAccessor();
+    if (!this.dataSourceCotacaoEnfSemCopart.data.length) {
+      setTimeout(() => this.panelEnfSemCopart.close());
+    }
   }
 
   private configuraTabelaEnfComCopart(opcoes: Opcao[]) {
@@ -201,6 +232,9 @@ export class CotacaoComponent implements OnInit {
     this.dataSourceCotacaoEnfComCopart.sort = this.sortCotacaoEnfComCopart;
     this.dataSourceCotacaoEnfComCopart.paginator = this.paginatorCotacaoEnfComCopart;
     this.dataSourceCotacaoEnfComCopart.sortingDataAccessor = this.getSortingDataAccessor();
+    if (!this.dataSourceCotacaoEnfComCopart.data.length) {
+      setTimeout(() => this.panelEnfComCopart.close());
+    }
   }
 
   private getSortingDataAccessor() {
@@ -250,8 +284,10 @@ export class CotacaoComponent implements OnInit {
 
   modelChangeCategoria(categoria: Categoria): void {
     if (categoria === 'Empresarial') {
+      this.filtroCotacao.mei = null;
       this.filtroCotacao.profissoes = [];
       this.filtroCotacao.tipoAdesao = null;
+      this.filtroCotacao.administradoras = [];
     }
     this.filtroCotacao.categoria = categoria;
   }
