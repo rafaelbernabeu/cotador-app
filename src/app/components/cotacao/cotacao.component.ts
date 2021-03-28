@@ -57,11 +57,9 @@ export class CotacaoComponent implements OnInit {
   @ViewChild('sortHospital') sortHospital: MatSort;
   @ViewChild('sortReembolso') sortReembolso: MatSort;
   @ViewChild('sortLaboratorio') sortLaboratorio: MatSort;
-  @ViewChild('sortCoparticipacao') sortCoparticipacao: MatSort;
   @ViewChild('paginatorHospital') paginatorHospital: MatPaginator;
   @ViewChild('paginatorReembolso') paginatorReembolso: MatPaginator;
   @ViewChild('paginatorLaboratorio') paginatorLaboratorio: MatPaginator;
-  @ViewChild('paginatorCoparticipacao') paginatorCoparticipacao: MatPaginator;
 
   readonly displayedColumnsInicio: string[] = ['selected', 'id', 'estado', 'tabela', 'idadeMin', 'idadeMax', 'qtdMinVidas', 'qtdMinTitulares', 'acomodacao', 'administradora', 'operadora', 'produto', 'abrangencia', 'coparticipacao']
   readonly displayedColumnsFim: string[] = ['valorTotal', 'reajuste'];
@@ -154,6 +152,16 @@ export class CotacaoComponent implements OnInit {
     this.dataSourceReembolso = new MatTableDataSource<Produto>(this.todosProdutosCotacao);
     this.dataSourceReembolso.sort = this.sortReembolso;
     this.dataSourceReembolso.paginator = this.paginatorReembolso;
+    this.dataSourceReembolso.sortingDataAccessor = (produto, property) => {
+      switch (property) {
+        case 'produto':
+          return produto.nome;
+        case 'reembolso':
+          return produto.reembolso;
+        case 'operadora':
+          return produto.operadora.nome;
+      }
+    }
     if (!this.dataSourceReembolso.data.length) {
       setTimeout(() => this.panelReembolso.close());
     }
@@ -162,8 +170,6 @@ export class CotacaoComponent implements OnInit {
   private configuraTabelaCoparticipacao(): void {
     this.displayedColumnsCoparticipacao = ['tipoCoparticipacao'].concat(this.todosProdutosCotacao.map(p => p.nome));
     this.dataSourceCoparticipacao = new MatTableDataSource<string>(['Pronto Socorro', 'Consultas', 'Exame Simples', 'Exame Especial', 'Internacao']);
-    this.dataSourceCoparticipacao.sort = this.sortCoparticipacao;
-    this.dataSourceCoparticipacao.paginator = this.paginatorCoparticipacao;
     if (!this.dataSourceCoparticipacao.data.length) {
       setTimeout(() => this.panelCoparticipacao.close());
     }
@@ -174,6 +180,7 @@ export class CotacaoComponent implements OnInit {
     this.dataSourceHospitais = new MatTableDataSource<Hospital>(this.todosProdutosCotacao.map(p => p.hospitais).reduce((acc, value) => acc.concat(value)).filter(this.filtraDuplicadas));
     this.dataSourceHospitais.sort = this.sortHospital;
     this.dataSourceHospitais.paginator = this.paginatorHospital;
+    this.dataSourceHospitais.sortingDataAccessor = (hospital, property) => hospital.nome;
     if (!this.dataSourceHospitais.data.length) {
       setTimeout(() => this.panelHospitais.close());
     }
@@ -184,6 +191,7 @@ export class CotacaoComponent implements OnInit {
     this.dataSourceLaboratorios = new MatTableDataSource<Laboratorio>(this.todosProdutosCotacao.map(p => p.laboratorios).reduce((acc, value) => acc.concat(value)).filter(this.filtraDuplicadas));
     this.dataSourceLaboratorios.sort = this.sortLaboratorio;
     this.dataSourceLaboratorios.paginator = this.paginatorLaboratorio;
+    this.dataSourceLaboratorios.sortingDataAccessor = (laboratorio, property) => laboratorio.nome;
     if (!this.dataSourceLaboratorios.data.length) {
       setTimeout(() => this.panelLaboratorios.close());
     }

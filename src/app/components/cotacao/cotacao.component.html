@@ -841,7 +841,7 @@
                 </ng-container>
 
                 <ng-container [matColumnDef]="produto.nome" *ngFor="let produto of todosProdutosCotacao" >
-                  <mat-header-cell *matHeaderCellDef style="justify-content: center" [style.color]="'white'" [style.background-color]="produto.operadora.cor" mat-sort-header>
+                  <mat-header-cell *matHeaderCellDef style="justify-content: center" [style.color]="'white'" [style.background-color]="produto.operadora.cor">
                     <div style="flex-direction: column">
                       <div>{{produto.operadora.nome}}</div>
                       <div>{{produto.nome}}</div>
@@ -882,7 +882,7 @@
                 </ng-container>
 
                 <ng-container [matColumnDef]="produto.nome" *ngFor="let produto of todosProdutosCotacao" >
-                  <mat-header-cell *matHeaderCellDef style="justify-content: center" [style.color]="'white'" [style.background-color]="produto.operadora.cor" mat-sort-header>
+                  <mat-header-cell *matHeaderCellDef style="justify-content: center" [style.color]="'white'" [style.background-color]="produto.operadora.cor">
                     <div style="flex-direction: column">
                       <div>{{produto.operadora.nome}}</div>
                       <div>{{produto.nome}}</div>
@@ -914,14 +914,14 @@
             </mat-expansion-panel-header>
 
             <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
-              <mat-table #sortCoparticipacao='matSort' [dataSource]="dataSourceCoparticipacao" matSort class="mat-elevation-z8">
+              <mat-table [dataSource]="dataSourceCoparticipacao" class="mat-elevation-z8">
                 <ng-container matColumnDef="tipoCoparticipacao">
-                  <mat-header-cell *matHeaderCellDef [style.color]="'white'" [style.background-color]="'black'" mat-sort-header>Coparticipação</mat-header-cell>
+                  <mat-header-cell *matHeaderCellDef [style.color]="'white'" [style.background-color]="'black'">Coparticipação</mat-header-cell>
                   <mat-cell *matCellDef="let coparticipacao"> {{coparticipacao}} </mat-cell>
                 </ng-container>
 
                 <ng-container [matColumnDef]="produto.nome" *ngFor="let produto of todosProdutosCotacao" >
-                  <mat-header-cell *matHeaderCellDef style="justify-content: center" [style.color]="'white'" [style.background-color]="produto.operadora.cor" mat-sort-header>
+                  <mat-header-cell *matHeaderCellDef style="justify-content: center" [style.color]="'white'" [style.background-color]="produto.operadora.cor">
                     <div style="flex-direction: column">
                       <div>{{produto.operadora.nome}}</div>
                       <div>{{produto.nome}}</div>
@@ -954,7 +954,6 @@
                 <mat-header-row *matHeaderRowDef="displayedColumnsCoparticipacao"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumnsCoparticipacao;"></mat-row>
               </mat-table>
-              <mat-paginator #paginatorCoparticipacao [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCoparticipacao.data.length" showFirstLastButtons></mat-paginator>
             </div>
 
           </mat-expansion-panel>
