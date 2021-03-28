@@ -240,6 +240,50 @@ export class CotacaoComponent implements OnInit {
   private getSortingDataAccessor() {
     return (opcao, property) => {
       switch (property) {
+        case 'estado':
+          return opcao.tabela.estado.sigla;
+        case 'tabela':
+          return opcao.tabela.nome;
+        case 'idadeMin':
+          return opcao.tabela.idadeMinima;
+        case 'idadeMax':
+          return opcao.tabela.idadeMaxima;
+        case 'qtdMinVidas':
+          return opcao.tabela.qtdMinVidas;
+        case 'qtdMinTitulares':
+          return opcao.tabela.qtdMinTitulares;
+        case 'administradora':
+          return opcao.tabela.administradoras?.nome;
+        case 'operadora':
+          return opcao.tabela.operadora.nome;
+        case 'produto':
+          return opcao.produto.nome;
+        case 'abrangencia':
+          return opcao.produto.abrangencia;
+        case 'valor0a18anos':
+          return opcao.valor0a18anos * this.filtroCotacao.qtdVidas0a18anos;
+        case 'valor19a23anos':
+          return opcao.valor19a23anos * this.filtroCotacao.qtdVidas19a23anos;
+        case 'valor24a28anos':
+          return opcao.valor24a28anos * this.filtroCotacao.qtdVidas24a28anos;
+        case 'valor29a33anos':
+          return opcao.valor29a33anos * this.filtroCotacao.qtdVidas29a33anos;
+        case 'valor34a38anos':
+          return opcao.valor34a38anos * this.filtroCotacao.qtdVidas34a38anos;
+        case 'valor39a43anos':
+          return opcao.valor39a43anos * this.filtroCotacao.qtdVidas39a43anos;
+        case 'valor44a48anos':
+          return opcao.valor44a48anos * this.filtroCotacao.qtdVidas44a48anos;
+        case 'valor49a53anos':
+          return opcao.valor49a53anos * this.filtroCotacao.qtdVidas49a53anos;
+        case 'valor54a58anos':
+          return opcao.valor54a58anos * this.filtroCotacao.qtdVidas54a58anos;
+        case 'valor59ouMaisAnos':
+          return opcao.valor59ouMaisAnos * this.filtroCotacao.qtdVidas59ouMaisAnos;
+        case 'valorTotal':
+          return this.calculaValorCotacao(opcao);
+        case 'reajuste':
+          return opcao.tabela.reajuste;
         default:
           return opcao[property];
       }
