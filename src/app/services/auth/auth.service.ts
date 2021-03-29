@@ -1,11 +1,11 @@
-import {ActivatedRoute, Router} from '@angular/router';
-import { Injectable } from '@angular/core';
+import {Router} from '@angular/router';
+import {Injectable} from '@angular/core';
 
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Token } from '../token/token';
-import { ApiService } from '../api/api.service';
-import { Usuario } from '../usuario/usuario';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {Observable} from 'rxjs';
+import {Token} from '../token/token';
+import {ApiService} from '../api/api.service';
+import {Usuario} from '../usuario/usuario';
 import {TokenService} from '../token/token.service';
 
 @Injectable()

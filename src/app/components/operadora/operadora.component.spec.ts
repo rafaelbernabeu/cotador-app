@@ -1,6 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { OperadoraComponent } from './operadora.component';
+import {OperadoraComponent} from './operadora.component';
 
 describe('OperadoraComponent', () => {
   let component: OperadoraComponent;

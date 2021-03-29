@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {AuthService} from '../auth/auth.service';
 import {HttpClient} from '@angular/common/http';
 import {ApiService} from '../api/api.service';
 import {Observable} from 'rxjs';
 import {Hospital} from '../hospital/hospital';
-import {Entidade} from '../entidade/entidade';
 
 @Injectable({
   providedIn: 'root'

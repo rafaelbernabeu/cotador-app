@@ -7,7 +7,6 @@ import {SnackbarService} from '../../services/snackbar/snackbar.service';
 import {OpcaoService} from '../../services/opcao/opcao.service';
 import {DialogComponent} from '../dialog/dialog.component';
 import {Opcao} from '../../services/opcao/opcao';
-import {MatAccordion} from '@angular/material/expansion';
 import {Produto} from '../../services/produto/produto';
 import {Estado} from '../../services/estado/estado';
 import {Categoria} from '../../services/categoria/categoria';
@@ -25,9 +24,11 @@ import {Acomodacao} from '../../services/acomodacao/Acomodacao';
 import {AcomodacaoService} from '../../services/acomodacao/acomodacao.service';
 import {TabelaService} from '../../services/tabela/tabela.service';
 import {EntidadeService} from "../../services/entidade/entidade.service";
-import {Entidade} from "../../services/entidade/entidade";
 import {Profissao} from "../../services/profissao/profissao";
 import {ProfissaoService} from "../../services/profissao/profissao.service";
+import {FiltroOpcao} from "../../services/opcao/filtro-opcao";
+import {Abrangencia} from "../../services/abrangencia/abrangencia";
+import {Reajuste} from "../../services/reajuste/reajuste";
 
 @Component({
   selector: 'app-opcao',
@@ -45,14 +46,17 @@ export class OpcaoComponent implements OnInit {
   estado: string;
   opcaoEditando: Opcao;
   opcaoSelecionada: Opcao;
-  todasAcomodacoes: Acomodacao[];
+  filtroOpcao: FiltroOpcao;
+  todasOpcoes: Opcao[];
   todasTabelas: Tabela[];
   todosEstados: Estado[];
-  todasEntidades: Entidade[];
-  todasProfissoes: Profissao[];
   todosProdutos: Produto[];
+  todosReajustes: Reajuste[];
+  todasProfissoes: Profissao[];
   todasCategorias: Categoria[];
   todasOperadoras: Operadora[];
+  todasAcomodacoes: Acomodacao[];
+  todasAbrangencias: Abrangencia[];
   todasAdministradoras: Administradora[];
 
   tabelaAutoCompleteControl = new FormControl();
@@ -83,14 +87,13 @@ export class OpcaoComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.iniciaAutoCompletes();
-    this.entidadeService.getAllEntidades().subscribe(response => this.todasEntidades = response)
     this.categoriaService.getAllCategorias().subscribe(response => this.todasCategorias = response);
     this.acomodacaoService.getAllAcomodacoes().subscribe(response => this.todasAcomodacoes = response);
     this.profissaoService.getAllProfissoes().subscribe(response => {
-      this.todasProfissoes = response
+      this.todasProfissoes = response;
       this.displayedColumns.push(...this.todasProfissoes.map(p => p.nome));
     })
+    this.iniciaAutoCompletes();
     this.carregaTabelaOpcao();
   }
 
@@ -125,41 +128,46 @@ export class OpcaoComponent implements OnInit {
 
   private carregaTabelaOpcao(): void {
     this.opcaoService.getAllOpcoes().subscribe(response => {
-      this.dataSourceOpcao = new MatTableDataSource<Opcao>(response);
-      this.dataSourceOpcao.sort = this.sortOpcao;
-      this.dataSourceOpcao.paginator = this.paginatorOpcao;
-      this.dataSourceOpcao.sortingDataAccessor = (opcao, property) => {
-        if (this.todasProfissoes.filter(p => p.nome === property).length > 0) {
-          return this.getNomesEntidadesPorProfissao(opcao, property);
-        }
-        switch (property) {
-          case 'estado':
-            return opcao.tabela.estado.sigla;
-          case 'tabela':
-            return opcao.tabela.nome;
-          case 'idadeMin':
-            return opcao.tabela.idadeMinima;
-          case 'idadeMax':
-            return opcao.tabela.idadeMinima;
-          case 'qtdMinVidas':
-            return opcao.tabela.qtdMinVidas;
-          case 'qtdMinTitulares':
-            return opcao.tabela.qtdMinTitulares;
-          case 'administradora':
-            return opcao.tabela.administradora?.nome;
-          case 'operadora':
-            return opcao.tabela.operadora.nome;
-          case 'produto':
-            return opcao.produto.nome;
-          case 'abrangencia':
-            return opcao.produto.abrangencia;
-          case 'reajuste':
-            return opcao.tabela.reajuste;
-          default:
-            return opcao[property];
-        }
-      };
+      this.todasOpcoes = response;
+      this.configuraTabelaOpcao(this.todasOpcoes);
     });
+  }
+
+  private configuraTabelaOpcao(opcoes: Opcao[]) {
+    this.dataSourceOpcao = new MatTableDataSource<Opcao>(opcoes);
+    this.dataSourceOpcao.sort = this.sortOpcao;
+    this.dataSourceOpcao.paginator = this.paginatorOpcao;
+    this.dataSourceOpcao.sortingDataAccessor = (opcao, property) => {
+      if (this.todasProfissoes.filter(p => p.nome === property).length > 0) {
+        return this.getNomesEntidadesPorProfissao(opcao, property);
+      }
+      switch (property) {
+        case 'estado':
+          return opcao.tabela.estado.sigla;
+        case 'tabela':
+          return opcao.tabela.nome;
+        case 'idadeMin':
+          return opcao.tabela.idadeMinima;
+        case 'idadeMax':
+          return opcao.tabela.idadeMinima;
+        case 'qtdMinVidas':
+          return opcao.tabela.qtdMinVidas;
+        case 'qtdMinTitulares':
+          return opcao.tabela.qtdMinTitulares;
+        case 'administradora':
+          return opcao.tabela.administradora?.nome;
+        case 'operadora':
+          return opcao.tabela.operadora.nome;
+        case 'produto':
+          return opcao.produto.nome;
+        case 'abrangencia':
+          return opcao.produto.abrangencia;
+        case 'reajuste':
+          return opcao.tabela.reajuste;
+        default:
+          return opcao[property];
+      }
+    };
   }
 
   private preparaAutoCompletesParaEdicao(): void {
@@ -603,6 +611,169 @@ export class OpcaoComponent implements OnInit {
 
   isCategoriaAdesao(): boolean {
     return this.opcaoEditando.categoria === 'Adesão';
+  }
+
+  filtrandoOpcao(): boolean {
+    return this.estado === 'filtrando';
+  }
+
+  filtraOpcao() {
+    setTimeout(() => {
+      let opcoesFiltradas = this.todasOpcoes;
+
+      if (this.filtroOpcao.estados.length > 0) {
+        opcoesFiltradas = opcoesFiltradas.filter(op => this.filtroOpcao.estados.filter(e => e.sigla === op.tabela.estado.sigla).length > 0);
+      }
+
+      if (this.filtroOpcao.tabelas.length > 0) {
+        opcoesFiltradas = opcoesFiltradas.filter(op => this.filtroOpcao.tabelas.filter(t => t.id === op.tabela.id).length > 0);
+      }
+
+      if (this.filtroOpcao.acomodacao) {
+        opcoesFiltradas = opcoesFiltradas.filter(op => op.acomodacao === this.filtroOpcao.acomodacao);
+      }
+
+      if (this.filtroOpcao.coparticipacao != null) {
+        opcoesFiltradas = opcoesFiltradas.filter(op => op.coparticipacao === this.filtroOpcao.coparticipacao);
+      }
+
+      if (this.filtroOpcao.administradoras.length > 0) {
+        opcoesFiltradas = opcoesFiltradas.filter(op => this.filtroOpcao.administradoras.filter(adm => op.tabela.administradora && adm.id === op.tabela.administradora.id).length > 0);
+      }
+
+      if (this.filtroOpcao.operadoras.length > 0) {
+        opcoesFiltradas = opcoesFiltradas.filter(op => this.filtroOpcao.operadoras.filter(o => o.id === op.tabela.operadora.id).length > 0);
+      }
+
+      if (this.filtroOpcao.produtos.length > 0) {
+        opcoesFiltradas = opcoesFiltradas.filter(op => this.filtroOpcao.produtos.filter(p => p.id === op.produto.id).length > 0);
+      }
+
+      if (this.filtroOpcao.abrangencia) {
+        opcoesFiltradas = opcoesFiltradas.filter(op => op.produto.abrangencia === this.filtroOpcao.abrangencia);
+      }
+
+      if (this.filtroOpcao.reajuste) {
+        opcoesFiltradas = opcoesFiltradas.filter(op => op.tabela.reajuste === this.filtroOpcao.reajuste);
+      }
+
+      if (this.filtroOpcao.tipoFiltro) {
+
+        opcoesFiltradas = this.filtraOpcaoPorReembolso(opcoesFiltradas, this.filtroOpcao.tipoFiltro);
+        opcoesFiltradas = this.filtraOpcaoPorIdadeMin(opcoesFiltradas, this.filtroOpcao.tipoFiltro);
+        opcoesFiltradas = this.filtraOpcaoPorIdadeMax(opcoesFiltradas, this.filtroOpcao.tipoFiltro);
+        opcoesFiltradas = this.filtraOpcaoPorQtdMinVidas(opcoesFiltradas, this.filtroOpcao.tipoFiltro);
+        opcoesFiltradas = this.filtraOpcaoPorQtdMinTitulares(opcoesFiltradas, this.filtroOpcao.tipoFiltro);
+
+      }
+
+      this.configuraTabelaOpcao(opcoesFiltradas);
+
+    });
+  }
+
+  filtrar(): void {
+    this.todasTabelas = this.todasOpcoes.map(op => op.tabela).filter(this.filtraDuplicadasId);
+    this.todosProdutos = this.todasOpcoes.map(op => op.produto).filter(this.filtraDuplicadasId);
+    this.todosEstados = this.todasOpcoes.map(op => op.tabela.estado).filter(this.filtraDuplicadasNome);
+    this.todasOperadoras = this.todasOpcoes.map(op => op.tabela.operadora).filter(this.filtraDuplicadasId);
+    this.todosReajustes = this.todasOpcoes.map(op => op.tabela.reajuste).filter(this.filtraDuplicadasString);
+    this.todasAdministradoras = this.todasOpcoes.map(op => op.tabela.administradora).filter(this.filtraDuplicadasId);
+    this.todasAbrangencias = this.todasOpcoes.map(op => op.produto.abrangencia).filter(this.filtraDuplicadasString);
+
+    this.estado = 'filtrando';
+    this.opcaoSelecionada = null;
+    this.filtroOpcao = new FiltroOpcao();
+  }
+
+  private filtraOpcaoPorReembolso(opcoesFiltradas: Opcao[], tipoFiltro: string) {
+    if (this.filtroOpcao.reembolso > 0) {
+      switch (tipoFiltro) {
+        case '<':
+          return opcoesFiltradas.filter(op => op.produto.reembolso <= this.filtroOpcao.reembolso);
+        case '=':
+          return opcoesFiltradas.filter(op => op.produto.reembolso === this.filtroOpcao.reembolso);
+        case '>':
+          return opcoesFiltradas.filter(op => op.produto.reembolso >= this.filtroOpcao.reembolso);
+      }
+    }
+    return opcoesFiltradas;
+  }
+
+  private filtraOpcaoPorIdadeMin(opcoesFiltradas: Opcao[], tipoFiltro: string) {
+    if (this.filtroOpcao.idadeMin > 0) {
+      switch (tipoFiltro) {
+        case '<':
+          return opcoesFiltradas.filter(op => op.tabela.idadeMinima <= this.filtroOpcao.idadeMin);
+        case '=':
+          return opcoesFiltradas.filter(op => op.tabela.idadeMinima === this.filtroOpcao.idadeMin);
+        case '>':
+          return opcoesFiltradas.filter(op => op.tabela.idadeMinima >= this.filtroOpcao.idadeMin);
+      }
+    }
+    return opcoesFiltradas;
+  }
+
+  private filtraOpcaoPorIdadeMax(opcoesFiltradas: Opcao[], tipoFiltro: string) {
+    if (this.filtroOpcao.idadeMax > 0) {
+      switch (tipoFiltro) {
+        case '<':
+          return opcoesFiltradas.filter(op => op.tabela.idadeMaxima <= this.filtroOpcao.idadeMax);
+        case '=':
+          return opcoesFiltradas.filter(op => op.tabela.idadeMaxima === this.filtroOpcao.idadeMax);
+        case '>':
+          return opcoesFiltradas.filter(op => op.tabela.idadeMaxima >= this.filtroOpcao.idadeMax);
+      }
+    }
+    return opcoesFiltradas;
+  }
+
+  private filtraOpcaoPorQtdMinVidas(opcoesFiltradas: Opcao[], tipoFiltro: string) {
+    if (this.filtroOpcao.qtdMinVidas > 0) {
+      switch (tipoFiltro) {
+        case '<':
+          return opcoesFiltradas.filter(op => op.tabela.qtdMinVidas <= this.filtroOpcao.qtdMinVidas);
+        case '=':
+          return opcoesFiltradas.filter(op => op.tabela.qtdMinVidas === this.filtroOpcao.qtdMinVidas);
+        case '>':
+          return opcoesFiltradas.filter(op => op.tabela.qtdMinVidas >= this.filtroOpcao.qtdMinVidas);
+      }
+    }
+    return opcoesFiltradas;
+  }
+
+  private filtraOpcaoPorQtdMinTitulares(produtosFiltrados: Opcao[], tipoFiltro: string) {
+    if (this.filtroOpcao.qtdMinTitulares > 0) {
+      switch (tipoFiltro) {
+        case '<':
+          return produtosFiltrados.filter(op => op.tabela.qtdMinTitulares <= this.filtroOpcao.qtdMinTitulares);
+        case '=':
+          return produtosFiltrados.filter(op => op.tabela.qtdMinTitulares === this.filtroOpcao.qtdMinTitulares);
+        case '>':
+          return produtosFiltrados.filter(op => op.tabela.qtdMinTitulares >= this.filtroOpcao.qtdMinTitulares);
+      }
+    }
+    return produtosFiltrados;
+  }
+
+  private filtraDuplicadasId(value: { id }, index, self: { id }[]): boolean {
+    const searchElement: {id} = self.filter(item => item.id === value.id)[0];
+    return self.indexOf(searchElement) === index;
+  }
+
+  private filtraDuplicadasNome(value: { nome }, index, self: { nome }[]): boolean {
+    const searchElement = self.filter(item => item.nome === value.nome)[0];
+    return self.indexOf(searchElement) === index;
+  }
+
+  private filtraDuplicadasString(value: string, index, self: string[]): boolean {
+    const searchElement = self.filter(item => item === value)[0];
+    return self.indexOf(searchElement) === index;
+  }
+
+  cancelarFiltro(): void {
+    this.cancelarAdicao();
+    this.configuraTabelaOpcao(this.todasOpcoes);
   }
 
 }

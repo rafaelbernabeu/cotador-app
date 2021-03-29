@@ -338,8 +338,6 @@ export class ProdutoComponent implements OnInit {
     this.estado = 'filtrando';
     this.produtoSelecionado = null;
     this.filtroProduto = new FiltroProduto();
-    this.operadoraAutoCompleteControl.enable();
-    this.operadoraAutoCompleteControl.setValue('');
   }
 
   filtraProduto() {
@@ -347,7 +345,7 @@ export class ProdutoComponent implements OnInit {
       let produtosFiltrados = this.todosProdutos;
 
       if (this.filtroProduto.ativo != null) {
-        produtosFiltrados = this.todosProdutos.filter(p => p.ativo == this.filtroProduto.ativo);
+        produtosFiltrados = this.todosProdutos.filter(p => p.ativo === this.filtroProduto.ativo);
       }
 
       if (this.filtroProduto.nome) {
@@ -468,5 +466,10 @@ export class ProdutoComponent implements OnInit {
       }
     }
     return produtosFiltrados;
+  }
+
+  cancelarFiltro(): void {
+    this.cancelarAdicao();
+    this.configuraTabelaProduto(this.todosProdutos);
   }
 }

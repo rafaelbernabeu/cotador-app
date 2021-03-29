@@ -156,7 +156,7 @@
           <span>Filtrando Produto</span>
 
           <span style="float: right; padding-left: 20px">
-          <a (click)="cancelarAdicao()">
+          <a (click)="cancelarFiltro()">
             <mat-icon class="mouse-pointer">close</mat-icon>
           </a>
         </span>
@@ -164,9 +164,14 @@
         <br/>
 
         <mat-card-content>
-          <div style="float: right; padding-bottom: 10px">
-            <mat-slide-toggle (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.ativo" labelPosition="before">Ativo</mat-slide-toggle>
-          </div>
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Situação</mat-label>
+            <mat-select (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.ativo">
+              <mat-option [value]="null"></mat-option>
+              <mat-option [value]="true">Ativos</mat-option>
+              <mat-option [value]="false">Inativos</mat-option>
+            </mat-select>
+          </mat-form-field>
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Nome</mat-label>
@@ -245,7 +250,6 @@
                 <mat-label>Internaçao</mat-label>
               <input matInput [disabled]="!filtroProduto.tipoFiltro" (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.coparticipacao.valorInternacao" type="number" placeholder="Internaçao">
             </mat-form-field>
-
           </div>
 
         </mat-card-content>

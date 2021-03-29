@@ -1,5 +1,3 @@
-import {Estado} from "../estado/estado";
-
 export class Laboratorio {
 
   id: number;

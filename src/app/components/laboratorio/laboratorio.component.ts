@@ -9,9 +9,6 @@ import {LaboratorioService} from '../../services/laboratorio/laboratorio.service
 import {DialogComponent} from '../dialog/dialog.component';
 import {EstadoService} from "../../services/estado/estado.service";
 import {Estado} from "../../services/estado/estado";
-import {FormControl} from "@angular/forms";
-import {Observable} from "rxjs";
-import {map, startWith} from "rxjs/operators";
 
 @Component({
   selector: 'app-laboratorio',

@@ -6,6 +6,9 @@
         Lista de Opcoes
       </span>
         <span style="float: right">
+        <a (click)="filtrar()">
+          <mat-icon class="mouse-pointer">search</mat-icon>
+        </a>
         <a (click)="adicionar()">
           <mat-icon class="mouse-pointer">add</mat-icon>
         </a>
@@ -14,7 +17,7 @@
       <br/>
 
       <mat-card-content>
-        <div [style.width]="this.opcaoSelecionada ? (window.innerWidth * 0.70) + 'px' : (window.innerWidth * 0.95) + 'px'" style="overflow: auto;">
+        <div [style.width]="this.opcaoSelecionada || this.filtrandoOpcao() ? (window.innerWidth * 0.70) + 'px' : (window.innerWidth * 0.95) + 'px'" style="overflow: auto;">
           <mat-table style="width: 7000px" [dataSource]="dataSourceOpcao" matSort class="mat-elevation-z8">
             <ng-container matColumnDef="id">
               <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
@@ -145,7 +148,135 @@
     </mat-card>
   </div>
 
-  <div *ngIf="opcaoSelecionada" style="width: 10px"></div>
+  <div *ngIf="opcaoSelecionada || filtrandoOpcao()" style="width: 10px"></div>
+
+  <div *ngIf="filtrandoOpcao()" [style.width]="window.innerWidth * 0.25 + 'px'" style="flex-direction: column">
+    <div>
+      <mat-card>
+        <mat-card-title>
+          <span>Filtrando Opções</span>
+
+          <span style="float: right; padding-left: 20px">
+          <a (click)="cancelarFiltro()">
+            <mat-icon class="mouse-pointer">close</mat-icon>
+          </a>
+        </span>
+        </mat-card-title>
+        <br/>
+
+        <mat-card-content>
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Estado</mat-label>
+            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.estados" multiple>
+              <mat-option *ngFor="let estado of todosEstados;" [value]="estado">{{estado.sigla}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Tabela</mat-label>
+            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.tabelas" multiple>
+              <mat-option *ngFor="let tabela of todasTabelas;" [value]="tabela">{{tabela.nome}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Acomodação</mat-label>
+            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.acomodacao">
+              <mat-option [value]="null"></mat-option>
+              <mat-option *ngFor="let acomodacao of todasAcomodacoes;" [value]="acomodacao">{{acomodacao}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Coparticipacao</mat-label>
+            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.coparticipacao">
+              <mat-option [value]="null"></mat-option>
+              <mat-option [value]="true">Com</mat-option>
+              <mat-option [value]="false">Sem</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Administradora</mat-label>
+            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.administradoras" multiple>
+              <mat-option *ngFor="let administradora of todasAdministradoras;" [value]="administradora">{{administradora.nome}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Operadora</mat-label>
+            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.operadoras" multiple>
+              <mat-option *ngFor="let operadora of todasOperadoras;" [value]="operadora">{{operadora.nome}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Produto</mat-label>
+            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.produtos" multiple>
+              <mat-option *ngFor="let produto of todosProdutos;" [value]="produto">{{produto.nome}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Abrangência</mat-label>
+            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.abrangencia">
+              <mat-option [value]="null"></mat-option>
+              <mat-option *ngFor="let abrangencia of todasAbrangencias;" [value]="abrangencia">{{abrangencia}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Reajuste</mat-label>
+            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.reajuste">
+              <mat-option [value]="null"></mat-option>
+              <mat-option *ngFor="let reajuste of todosReajustes;" [value]="reajuste">{{reajuste}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div>
+            <mat-form-field appearance="outline" style="width: 30%">
+              <mat-label>Tipo Filtro</mat-label>
+              <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.tipoFiltro">
+                <mat-option [value]="'<'"><</mat-option>
+                <mat-option [value]="'='">=</mat-option>
+                <mat-option [value]="'>'">></mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 70%">
+              <mat-label>Reembolso</mat-label>
+              <input matInput [disabled]="!filtroOpcao.tipoFiltro" (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.reembolso" type="number" placeholder="Reembolso">
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Idade Min.</mat-label>
+              <input matInput [disabled]="!filtroOpcao.tipoFiltro" (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.idadeMin" type="number" placeholder="Idade Min.">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Idade Max</mat-label>
+              <input matInput [disabled]="!filtroOpcao.tipoFiltro" (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.idadeMax" type="number" placeholder="Idade Max.">
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Qtd. Min. Vidas</mat-label>
+              <input matInput [disabled]="!filtroOpcao.tipoFiltro" (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.qtdMinVidas" type="number" placeholder="Qtd. Min. Vidas">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Qtd. Min. Titulares<Titulares></Titulares></mat-label>
+              <input matInput [disabled]="!filtroOpcao.tipoFiltro" (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.qtdMinTitulares" type="number" placeholder="Qtd. Min. Titulares">
+            </mat-form-field>
+          </div>
+
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
 
   <div *ngIf="opcaoSelecionada" style="flex-direction: column;">
     <div>

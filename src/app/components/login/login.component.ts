@@ -1,10 +1,9 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import { AuthService } from '../../services/auth/auth.service';
-import { Router } from '@angular/router';
-import { SnackbarService } from '../../services/snackbar/snackbar.service';
-import { Usuario } from '../../services/usuario/usuario';
-import { Geolocation } from "../../services/usuario/geolocation";
-import * as bcrypt from 'bcryptjs';
+import {AuthService} from '../../services/auth/auth.service';
+import {Router} from '@angular/router';
+import {SnackbarService} from '../../services/snackbar/snackbar.service';
+import {Usuario} from '../../services/usuario/usuario';
+import {Geolocation} from "../../services/usuario/geolocation";
 
 @Component({
   selector: 'app-login',

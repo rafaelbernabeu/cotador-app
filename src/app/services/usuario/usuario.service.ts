@@ -1,10 +1,9 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Usuario} from './usuario';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from '../auth/auth.service';
 import {Observable} from 'rxjs';
 import {ApiService} from '../api/api.service';
-import {Profissao} from '../profissao/profissao';
 import {Role} from '../role/role';
 
 @Injectable({
