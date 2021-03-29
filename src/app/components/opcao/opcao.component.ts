@@ -649,6 +649,10 @@ export class OpcaoComponent implements OnInit {
         opcoesFiltradas = opcoesFiltradas.filter(op => this.filtroOpcao.produtos.filter(p => p.id === op.produto.id).length > 0);
       }
 
+      if (this.filtroOpcao.profissoes.length > 0) {
+        opcoesFiltradas = opcoesFiltradas.filter(op => op.tabela.entidades.filter(e => e.profissoes.filter(p => this.filtroOpcao.profissoes.filter(fp => p.id === fp.id).length > 0).length > 0).length > 0);
+      }
+
       if (this.filtroOpcao.abrangencia) {
         opcoesFiltradas = opcoesFiltradas.filter(op => op.produto.abrangencia === this.filtroOpcao.abrangencia);
       }

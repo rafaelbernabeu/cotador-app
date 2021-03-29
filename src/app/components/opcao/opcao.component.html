@@ -233,6 +233,14 @@
             </mat-select>
           </mat-form-field>
 
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Profissão</mat-label>
+            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.profissoes" multiple>
+              <mat-option *ngFor="let profissao of todasProfissoes;" [value]="profissao">{{profissao.nome}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
           <div>
             <mat-form-field appearance="outline" style="width: 30%">
               <mat-label>Tipo Filtro</mat-label>
