@@ -235,6 +235,7 @@ export class ProdutoComponent implements OnInit {
     this.operadoraAutoCompleteControl.enable();
     this.operadoraAutoCompleteControl.setValue('');
     this.produtoEditando = this.produtoSelecionado;
+    this.paginatorProduto._changePageSize(5);
     this.preparaTodosParaNovaVerificacao();
     this.configuraLaboratoriosParaEdicao();
     this.configuraHospitaisParaEdicao();
