@@ -174,6 +174,7 @@ export class ProdutoComponent implements OnInit {
     this.operadoraAutoCompleteControl.setValue(this.produtoEditando.operadora);
     this.carregaTabelasAdicionais(this.produtoEditando);
     this.editarProduto();
+    this.paginatorProduto._changePageSize(5);
   }
 
   copiarProduto(): void {
@@ -225,6 +226,7 @@ export class ProdutoComponent implements OnInit {
     this.estado = null;
     this.produtoSelecionado = null;
     this.operadoraAutoCompleteControl.disable();
+    this.paginatorProduto._changePageSize(20);
   }
 
   adicionar(): void {
