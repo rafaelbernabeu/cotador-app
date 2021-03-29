@@ -356,16 +356,16 @@ export class ProdutoComponent implements OnInit {
         produtosFiltrados = produtosFiltrados.filter(p => p.abrangencia === this.filtroProduto.abrangencia);
       }
 
-      if (this.filtroProduto.operadoras.length > 0) {
-        produtosFiltrados = produtosFiltrados.filter(p => this.filtroProduto.operadoras.filter(op => op.id === p.operadora.id).length > 0);
+      if (this.filtroProduto.operadoras.length) {
+        produtosFiltrados = produtosFiltrados.filter(p => this.filtroProduto.operadoras.filter(op => op.id === p.operadora.id).length);
       }
 
-      if (this.filtroProduto.laboratorios.length > 0) {
-        produtosFiltrados = produtosFiltrados.filter(p => p.laboratorios.filter(l => this.filtroProduto.laboratorios.filter(lf => l.id === lf.id).length > 0).length === this.filtroProduto.laboratorios.length);
+      if (this.filtroProduto.laboratorios.length) {
+        produtosFiltrados = produtosFiltrados.filter(p => p.laboratorios.filter(l => this.filtroProduto.laboratorios.filter(lf => l.id === lf.id).length).length === this.filtroProduto.laboratorios.length);
       }
 
-      if (this.filtroProduto.hospitais.length > 0) {
-        produtosFiltrados = produtosFiltrados.filter(p => p.hospitais.filter(h => this.filtroProduto.hospitais.filter(hf => h.id === hf.id).length > 0).length === this.filtroProduto.hospitais.length);
+      if (this.filtroProduto.hospitais.length) {
+        produtosFiltrados = produtosFiltrados.filter(p => p.hospitais.filter(h => this.filtroProduto.hospitais.filter(hf => h.id === hf.id).length).length === this.filtroProduto.hospitais.length);
       }
 
       if (this.filtroProduto.tipoFiltro) {
@@ -385,7 +385,7 @@ export class ProdutoComponent implements OnInit {
   }
 
   private filtraProdutoPorReembolso(produtosFiltrados: Produto[], tipoFiltro: string) {
-    if (this.filtroProduto.reembolso > 0) {
+    if (this.filtroProduto.reembolso) {
       switch (tipoFiltro) {
         case '<':
           return produtosFiltrados.filter(p => p.reembolso <= this.filtroProduto.reembolso);
@@ -399,7 +399,7 @@ export class ProdutoComponent implements OnInit {
   }
 
   private filtraProdutoPorValorProntoSocorro(produtosFiltrados: Produto[], tipoFiltro: string) {
-    if (this.filtroProduto.coparticipacao.valorProntoSocorro > 0) {
+    if (this.filtroProduto.coparticipacao.valorProntoSocorro) {
       switch (tipoFiltro) {
         case '<':
           return produtosFiltrados.filter(p => p.coparticipacao.valorProntoSocorro <= this.filtroProduto.coparticipacao.valorProntoSocorro);
@@ -413,7 +413,7 @@ export class ProdutoComponent implements OnInit {
   }
 
   private filtraProdutoPorValorExameSimples(produtosFiltrados: Produto[], tipoFiltro: string) {
-    if (this.filtroProduto.coparticipacao.valorExameSimples > 0) {
+    if (this.filtroProduto.coparticipacao.valorExameSimples) {
       switch (tipoFiltro) {
         case '<':
           return produtosFiltrados.filter(p => p.coparticipacao.valorExameSimples <= this.filtroProduto.coparticipacao.valorExameSimples);
@@ -427,7 +427,7 @@ export class ProdutoComponent implements OnInit {
   }
 
   private filtraProdutoPorValorExameEspecial(produtosFiltrados: Produto[], tipoFiltro: string) {
-    if (this.filtroProduto.coparticipacao.valorExameEspecial > 0) {
+    if (this.filtroProduto.coparticipacao.valorExameEspecial) {
       switch (tipoFiltro) {
         case '<':
           return produtosFiltrados.filter(p => p.coparticipacao.valorExameEspecial <= this.filtroProduto.coparticipacao.valorExameEspecial);
@@ -441,7 +441,7 @@ export class ProdutoComponent implements OnInit {
   }
 
   private filtraProdutoPorValorInternacao(produtosFiltrados: Produto[], tipoFiltro: string) {
-    if (this.filtroProduto.coparticipacao.valorInternacao > 0) {
+    if (this.filtroProduto.coparticipacao.valorInternacao) {
       switch (tipoFiltro) {
         case '<':
           return produtosFiltrados.filter(p => p.coparticipacao.valorInternacao <= this.filtroProduto.coparticipacao.valorInternacao);
@@ -455,7 +455,7 @@ export class ProdutoComponent implements OnInit {
   }
 
   private filtraProdutoPorValorConsulta(produtosFiltrados: Produto[], tipoFiltro: string) {
-    if (this.filtroProduto.coparticipacao.valorConsulta > 0) {
+    if (this.filtroProduto.coparticipacao.valorConsulta) {
       switch (tipoFiltro) {
         case '<':
           return produtosFiltrados.filter(p => p.coparticipacao.valorConsulta <= this.filtroProduto.coparticipacao.valorConsulta);
