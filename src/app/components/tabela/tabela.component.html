@@ -1,11 +1,14 @@
 <div class="flex-container" style="width: 100%">
-  <div style="width: 100%">
+  <div>
     <mat-card>
       <mat-card-title>
       <span>
         Lista de Tabelas
       </span>
         <span style="float: right">
+        <a (click)="filtrar()">
+          <mat-icon class="mouse-pointer">search</mat-icon>
+        </a>
         <a (click)="adicionar()">
           <mat-icon class="mouse-pointer">add</mat-icon>
         </a>
@@ -14,7 +17,7 @@
       <br/>
 
       <mat-card-content>
-        <div [style.width]="this.tabelaSelecionada ? (window.innerWidth * 0.70) + 'px' : (window.innerWidth * 0.95) + 'px'" style="overflow: auto;">
+        <div [style.width]="this.tabelaSelecionada || filtrandoTabela() ? (window.innerWidth * 0.70) + 'px' : (window.innerWidth * 0.95) + 'px'" style="overflow: auto;">
           <mat-table [style.width]="getTableWidth()" #sortTabela="matSort" [dataSource]="dataSourceTabela" matSort class="mat-elevation-z8">
             <ng-container matColumnDef="id">
               <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
@@ -84,7 +87,102 @@
     </mat-card>
   </div>
 
-  <div *ngIf="tabelaSelecionada" style="width: 20px"></div>
+  <div *ngIf="tabelaSelecionada || filtrandoTabela()" [style.width]="filtrandoTabela() ? '10px' : '20px'"></div>
+
+  <div *ngIf="filtrandoTabela()" [style.width]="window.innerWidth * 0.25 + 'px'" style="flex-direction: column">
+    <div>
+      <mat-card>
+        <mat-card-title>
+          <span>Filtrando Tabela</span>
+
+          <span style="float: right; padding-left: 20px">
+          <a (click)="cancelarFiltro()">
+            <mat-icon class="mouse-pointer">close</mat-icon>
+          </a>
+        </span>
+        </mat-card-title>
+        <br/>
+
+        <mat-card-content>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Nome</mat-label>
+            <input matInput (ngModelChange)="filtraTabela()" placeholder="Nome" [(ngModel)]="filtroTabela.nome">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Estado</mat-label>
+            <mat-select (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.estados" multiple>
+              <mat-option *ngFor="let estado of todosEstados;" [value]="estado">{{estado.sigla}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Operadoras</mat-label>
+            <mat-select (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.operadoras" multiple>
+              <mat-option *ngFor="let operadora of todasOperadoras;" [value]="operadora">{{operadora.nome}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Administradoras</mat-label>
+            <mat-select (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.administradoras" multiple>
+              <mat-option *ngFor="let administradora of todasAdministradoras;" [value]="administradora">{{administradora.nome}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Reajuste</mat-label>
+            <mat-select (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.reajustes">
+              <mat-option [value]="null"></mat-option>
+              <mat-option *ngFor="let reajuste of todosReajustes;" [value]="reajuste">{{reajuste}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 100%">
+            <mat-label>Profissão</mat-label>
+            <mat-select (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.profissoes" multiple>
+              <mat-option *ngFor="let profissao of todasProfissoes;" [value]="profissao">{{profissao.nome}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div>
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Tipo Filtro</mat-label>
+              <mat-select (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.tipoFiltro">
+                <mat-option [value]="'<'"><</mat-option>
+                <mat-option [value]="'='">=</mat-option>
+                <mat-option [value]="'>'">></mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Idade Min.</mat-label>
+              <input matInput [disabled]="!filtroTabela.tipoFiltro" (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.idadeMinima" type="number" placeholder="Idade Min.">
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field appearance="outline" style="width: 33.3%">
+              <mat-label>Idade Max.</mat-label>
+              <input matInput [disabled]="!filtroTabela.tipoFiltro" (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.idadeMaxima" type="number" placeholder="Idade Max.">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 33.3%">
+              <mat-label>Qtd. Min. Vidas</mat-label>
+              <input matInput [disabled]="!filtroTabela.tipoFiltro" (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.qtdMinVidas" type="number" placeholder="Qtd. Min. Vidas">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 33.3%">
+              <mat-label>Qtd. Min. Titulares</mat-label>
+              <input matInput [disabled]="!filtroTabela.tipoFiltro" (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.qtdMinTitulares" type="number" placeholder="Qtd. Min. Titulares">
+            </mat-form-field>
+          </div>
+
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
 
   <div *ngIf="tabelaSelecionada" style="flex-direction: column">
     <div>

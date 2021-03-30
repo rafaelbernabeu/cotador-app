@@ -26,6 +26,7 @@ import {Entidade} from '../../services/entidade/entidade';
 import {EntidadeService} from '../../services/entidade/entidade.service';
 import {Profissao} from "../../services/profissao/profissao";
 import {ProfissaoService} from "../../services/profissao/profissao.service";
+import {FiltroTabela} from "../../services/tabela/filtro-tabela";
 
 @Component({
   selector: 'app-tabela',
@@ -51,7 +52,7 @@ export class TabelaComponent implements OnInit {
   @ViewChild('relacionamentoProduto') accordionProduto: MatExpansionPanel;
   @ViewChild('relacionamentoEntidade') accordionEntidade: MatExpansionPanel;
 
-  displayedColumns: string[] = ['id', 'nome', 'estado', 'operadora', 'administradora', "reajuste", "idadeMinima", "idadeMaxima", "qtdMinVidas"];
+  displayedColumns: string[] = ['id', 'nome', 'estado', 'operadora', 'administradora', "reajuste", "idadeMinima", "idadeMaxima", "qtdMinVidas", "qtdMinTitulares"];
   dataSourceTabela = new MatTableDataSource<Tabela>();
   dataSourceProduto = new MatTableDataSource<Produto>();
   dataSourceEntidade = new MatTableDataSource<Entidade>();
@@ -59,6 +60,8 @@ export class TabelaComponent implements OnInit {
   estado: string;
   tabelaEditando: Tabela;
   tabelaSelecionada: Tabela;
+  filtroTabela: FiltroTabela;
+  todasTabelas: Tabela[];
   todosEstados: Estado[];
   todosProdutos: Produto[];
   todasEntidades: Entidade[];
@@ -133,22 +136,28 @@ export class TabelaComponent implements OnInit {
 
   private carregaTabelaTabela(): void {
     this.tabelaService.getAllTabelas().subscribe(response => {
-      this.dataSourceTabela = new MatTableDataSource<Tabela>(response);
-      this.dataSourceTabela.sort = this.sortTabela;
-      this.dataSourceTabela.paginator = this.paginatorTabela;
-      this.dataSourceTabela.sortingDataAccessor = (tabela, property) => {
-        switch (property) {
-          case 'administradora':
-            return tabela.administradora?.nome;
-          case 'estado':
-            return tabela.estado.nome;
-          case 'operadora':
-            return tabela.operadora.nome;
-          default:
-            return tabela[property];
-        }
-      };
+      this.todasTabelas = response;
+      this.configuraTabelaTabela(response);
+
     });
+  }
+
+  private configuraTabelaTabela(tabelas: Tabela[]): void {
+    this.dataSourceTabela = new MatTableDataSource<Tabela>(tabelas);
+    this.dataSourceTabela.sort = this.sortTabela;
+    this.dataSourceTabela.paginator = this.paginatorTabela;
+    this.dataSourceTabela.sortingDataAccessor = (tabela, property) => {
+      switch (property) {
+        case 'administradora':
+          return tabela.administradora?.nome;
+        case 'estado':
+          return tabela.estado.nome;
+        case 'operadora':
+          return tabela.operadora.nome;
+        default:
+          return tabela[property];
+      }
+    };
   }
 
   private carregaTabelaProdutoPorOperadora(): void {
@@ -436,4 +445,78 @@ export class TabelaComponent implements OnInit {
       this.administradoraAutoCompleteControl.setValue('');
     }
   }
+
+  filtrandoTabela(): boolean {
+    return this.estado === 'filtrando';
+  }
+
+  filtrar(): void {
+    this.estado = 'filtrando';
+    this.tabelaSelecionada = null;
+    this.filtroTabela = new FiltroTabela();
+  }
+
+  filtraTabela() {
+    setTimeout(() => {
+      let tabelasFiltradas = this.todasTabelas;
+
+      // if (this.filtroTabela.ativo != null) {
+      //   tabelasFiltradas = this.todosProdutos.filter(p => p.ativo === this.filtroProduto.ativo);
+      // }
+      //
+      // if (this.filtroTabela.nome) {
+      //   tabelasFiltradas = tabelasFiltradas.filter(p => p.nome.toLowerCase().includes(this.filtroTabela.nome.toLowerCase()));
+      // }
+      //
+      // if (this.filtroTabela.abrangencia) {
+      //   tabelasFiltradas = tabelasFiltradas.filter(p => p.abrangencia === this.filtroTabela.abrangencia);
+      // }
+      //
+      // if (this.filtroTabela.operadoras.length) {
+      //   tabelasFiltradas = tabelasFiltradas.filter(p => this.filtroTabela.operadoras.filter(op => op.id === p.operadora.id).length);
+      // }
+      //
+      // if (this.filtroTabela.laboratorios.length) {
+      //   tabelasFiltradas = tabelasFiltradas.filter(p => p.laboratorios.filter(l => this.filtroTabela.laboratorios.filter(lf => l.id === lf.id).length).length === this.filtroTabela.laboratorios.length);
+      // }
+      //
+      // if (this.filtroTabela.hospitais.length) {
+      //   tabelasFiltradas = tabelasFiltradas.filter(p => p.hospitais.filter(h => this.filtroTabela.hospitais.filter(hf => h.id === hf.id).length).length === this.filtroTabela.hospitais.length);
+      // }
+      //
+      // if (this.filtroTabela.tipoFiltro) {
+      //
+      //   tabelasFiltradas = this.filtraProdutoPorReembolso(tabelasFiltradas, this.filtroTabela.tipoFiltro);
+      //   tabelasFiltradas = this.filtraProdutoPorValorProntoSocorro(tabelasFiltradas, this.filtroTabela.tipoFiltro);
+      //   tabelasFiltradas = this.filtraProdutoPorValorExameSimples(tabelasFiltradas, this.filtroTabela.tipoFiltro);
+      //   tabelasFiltradas = this.filtraProdutoPorValorExameEspecial(tabelasFiltradas, this.filtroTabela.tipoFiltro);
+      //   tabelasFiltradas = this.filtraProdutoPorValorInternacao(tabelasFiltradas, this.filtroTabela.tipoFiltro);
+      //   tabelasFiltradas = this.filtraProdutoPorValorConsulta(tabelasFiltradas, this.filtroTabela.tipoFiltro);
+      //
+      // }
+
+      this.configuraTabelaTabela(tabelasFiltradas);
+
+    });
+  }
+
+  private filtraProdutoPorReembolso(produtosFiltrados: Produto[], tipoFiltro: string) {
+    if (this.filtroTabela) {
+      switch (tipoFiltro) {
+        case '<':
+          // return produtosFiltrados.filter(p => p.reembolso <= this.filtroTabela.reembolso);
+        case '=':
+          // return produtosFiltrados.filter(p => p.reembolso === this.filtroTabela.reembolso);
+        case '>':
+          // return produtosFiltrados.filter(p => p.reembolso >= this.filtroTabela.reembolso);
+      }
+    }
+    return produtosFiltrados;
+  }
+
+  cancelarFiltro(): void {
+    this.cancelarAdicao();
+    this.configuraTabelaTabela(this.todasTabelas);
+  }
+
 }
