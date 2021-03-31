@@ -46,6 +46,7 @@ import {ProfissaoComponent} from './components/profissao/profissao.component';
 import {TabelaComponent} from './components/tabela/tabela.component';
 import {UsuarioComponent} from './components/usuario/usuario.component';
 import {registerLocaleData} from "@angular/common";
+import {MatTabsModule} from "@angular/material/tabs";
 
 registerLocaleData(localePt, 'pt');
 
@@ -76,6 +77,7 @@ registerLocaleData(localePt, 'pt');
     MatSortModule,
     MatMenuModule,
     MatListModule,
+    MatTabsModule,
     MatInputModule,
     MatTableModule,
     MatChipsModule,
