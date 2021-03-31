@@ -21,7 +21,6 @@ export class FiltroOpcao {
   qtdMinTitulares: number;
   coparticipacao: boolean;
 
-  reajuste: Reajuste;
   categoria: Categoria
   acomodacao: Acomodacao;
   abrangencia: Abrangencia;
@@ -29,6 +28,7 @@ export class FiltroOpcao {
   estados: Estado[] = [];
   tabelas: Tabela[] = [];
   produtos: Produto[] = [];
+  reajustes: Reajuste[] = [];
   operadoras: Operadora[] = [];
   profissoes: Profissao[] = [];
   administradoras: Administradora[] = [];

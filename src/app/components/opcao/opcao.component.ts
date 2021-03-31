@@ -29,6 +29,8 @@ import {ProfissaoService} from "../../services/profissao/profissao.service";
 import {FiltroOpcao} from "../../services/opcao/filtro-opcao";
 import {Abrangencia} from "../../services/abrangencia/abrangencia";
 import {Reajuste} from "../../services/reajuste/reajuste";
+import {UtilService} from "../../services/util/util.service";
+import {ReajusteService} from "../../services/reajuste/reajuste.service";
 
 @Component({
   selector: 'app-opcao',
@@ -78,6 +80,7 @@ export class OpcaoComponent implements OnInit {
     private opcaoService: OpcaoService,
     private estadoService: EstadoService,
     private tabelaService: TabelaService,
+    private reajusteService: ReajusteService,
     private entidadeService: EntidadeService,
     private operadoraService: OperadoraService,
     private profissaoService: ProfissaoService,
@@ -657,8 +660,8 @@ export class OpcaoComponent implements OnInit {
         opcoesFiltradas = opcoesFiltradas.filter(op => op.produto.abrangencia === this.filtroOpcao.abrangencia);
       }
 
-      if (this.filtroOpcao.reajuste) {
-        opcoesFiltradas = opcoesFiltradas.filter(op => op.tabela.reajuste === this.filtroOpcao.reajuste);
+      if (this.filtroOpcao.reajustes.length) {
+        opcoesFiltradas = opcoesFiltradas.filter(op => this.filtroOpcao.reajustes.filter(r => r === op.tabela.reajuste).length);
       }
 
       if (this.filtroOpcao.tipoFiltro) {
@@ -677,13 +680,13 @@ export class OpcaoComponent implements OnInit {
   }
 
   filtrar(): void {
-    this.todasTabelas = this.todasOpcoes.map(op => op.tabela).filter(this.filtraDuplicadasId);
-    this.todosProdutos = this.todasOpcoes.map(op => op.produto).filter(this.filtraDuplicadasId);
-    this.todosEstados = this.todasOpcoes.map(op => op.tabela.estado).filter(this.filtraDuplicadasNome);
-    this.todasOperadoras = this.todasOpcoes.map(op => op.tabela.operadora).filter(this.filtraDuplicadasId);
-    this.todosReajustes = this.todasOpcoes.map(op => op.tabela.reajuste).filter(this.filtraDuplicadasString);
-    this.todasAdministradoras = this.todasOpcoes.map(op => op.tabela.administradora).filter(this.filtraDuplicadasId);
-    this.todasAbrangencias = this.todasOpcoes.map(op => op.produto.abrangencia).filter(this.filtraDuplicadasString);
+    this.reajusteService.getAllReajustes().subscribe(response => this.todosReajustes = response);
+    this.todasTabelas = this.todasOpcoes.map(op => op.tabela).filter(UtilService.filtraDuplicadasId);
+    this.todosProdutos = this.todasOpcoes.map(op => op.produto).filter(UtilService.filtraDuplicadasId);
+    this.todosEstados = this.todasOpcoes.map(op => op.tabela.estado).filter(UtilService.filtraDuplicadasNome);
+    this.todasOperadoras = this.todasOpcoes.map(op => op.tabela.operadora).filter(UtilService.filtraDuplicadasId);
+    this.todasAdministradoras = this.todasOpcoes.map(op => op.tabela.administradora).filter(UtilService.filtraDuplicadasId);
+    this.todasAbrangencias = this.todasOpcoes.map(op => op.produto.abrangencia).filter(UtilService.filtraDuplicadasString);
 
     this.estado = 'filtrando';
     this.opcaoSelecionada = null;
@@ -760,20 +763,7 @@ export class OpcaoComponent implements OnInit {
     return produtosFiltrados;
   }
 
-  private filtraDuplicadasId(value: { id }, index, self: { id }[]): boolean {
-    const searchElement: {id} = self.filter(item => item.id === value.id)[0];
-    return self.indexOf(searchElement) === index;
-  }
 
-  private filtraDuplicadasNome(value: { nome }, index, self: { nome }[]): boolean {
-    const searchElement = self.filter(item => item.nome === value.nome)[0];
-    return self.indexOf(searchElement) === index;
-  }
-
-  private filtraDuplicadasString(value: string, index, self: string[]): boolean {
-    const searchElement = self.filter(item => item === value)[0];
-    return self.indexOf(searchElement) === index;
-  }
 
   cancelarFiltro(): void {
     this.cancelarAdicao();

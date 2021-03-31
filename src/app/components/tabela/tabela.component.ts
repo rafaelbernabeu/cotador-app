@@ -27,6 +27,7 @@ import {EntidadeService} from '../../services/entidade/entidade.service';
 import {Profissao} from "../../services/profissao/profissao";
 import {ProfissaoService} from "../../services/profissao/profissao.service";
 import {FiltroTabela} from "../../services/tabela/filtro-tabela";
+import {UtilService} from "../../services/util/util.service";
 
 @Component({
   selector: 'app-tabela',
@@ -60,7 +61,6 @@ export class TabelaComponent implements OnInit {
   estado: string;
   tabelaEditando: Tabela;
   tabelaSelecionada: Tabela;
-  filtroTabela: FiltroTabela;
   todasTabelas: Tabela[];
   todosEstados: Estado[];
   todosProdutos: Produto[];
@@ -70,6 +70,11 @@ export class TabelaComponent implements OnInit {
   todasCategorias: Categoria[];
   todasOperadoras: Operadora[];
   todasAdministradoras: Administradora[];
+
+  filtroTabela: FiltroTabela;
+  todosEstadosTabela: Estado[];
+  todasOperadorasTabela: Operadora[];
+  todasAdministradorasTabela: Administradora[];
 
   reajusteAutoCompleteControl = new FormControl();
   estadoAutoCompleteControl = new FormControl();
@@ -451,6 +456,10 @@ export class TabelaComponent implements OnInit {
   }
 
   filtrar(): void {
+    this.todosEstadosTabela = this.todasTabelas.map(t => t.estado).filter(UtilService.filtraDuplicadasNome);
+    this.todasOperadorasTabela = this.todasTabelas.map(t => t.operadora).filter(UtilService.filtraDuplicadasId);
+    this.todasAdministradorasTabela = this.todasTabelas.filter(t => t.administradora).map(t => t.administradora).filter(UtilService.filtraDuplicadasId);
+
     this.estado = 'filtrando';
     this.tabelaSelecionada = null;
     this.filtroTabela = new FiltroTabela();
@@ -460,58 +469,42 @@ export class TabelaComponent implements OnInit {
     setTimeout(() => {
       let tabelasFiltradas = this.todasTabelas;
 
-      // if (this.filtroTabela.ativo != null) {
-      //   tabelasFiltradas = this.todosProdutos.filter(p => p.ativo === this.filtroProduto.ativo);
-      // }
-      //
-      // if (this.filtroTabela.nome) {
-      //   tabelasFiltradas = tabelasFiltradas.filter(p => p.nome.toLowerCase().includes(this.filtroTabela.nome.toLowerCase()));
-      // }
-      //
-      // if (this.filtroTabela.abrangencia) {
-      //   tabelasFiltradas = tabelasFiltradas.filter(p => p.abrangencia === this.filtroTabela.abrangencia);
-      // }
-      //
-      // if (this.filtroTabela.operadoras.length) {
-      //   tabelasFiltradas = tabelasFiltradas.filter(p => this.filtroTabela.operadoras.filter(op => op.id === p.operadora.id).length);
-      // }
-      //
-      // if (this.filtroTabela.laboratorios.length) {
-      //   tabelasFiltradas = tabelasFiltradas.filter(p => p.laboratorios.filter(l => this.filtroTabela.laboratorios.filter(lf => l.id === lf.id).length).length === this.filtroTabela.laboratorios.length);
-      // }
-      //
-      // if (this.filtroTabela.hospitais.length) {
-      //   tabelasFiltradas = tabelasFiltradas.filter(p => p.hospitais.filter(h => this.filtroTabela.hospitais.filter(hf => h.id === hf.id).length).length === this.filtroTabela.hospitais.length);
-      // }
-      //
-      // if (this.filtroTabela.tipoFiltro) {
-      //
-      //   tabelasFiltradas = this.filtraProdutoPorReembolso(tabelasFiltradas, this.filtroTabela.tipoFiltro);
-      //   tabelasFiltradas = this.filtraProdutoPorValorProntoSocorro(tabelasFiltradas, this.filtroTabela.tipoFiltro);
-      //   tabelasFiltradas = this.filtraProdutoPorValorExameSimples(tabelasFiltradas, this.filtroTabela.tipoFiltro);
-      //   tabelasFiltradas = this.filtraProdutoPorValorExameEspecial(tabelasFiltradas, this.filtroTabela.tipoFiltro);
-      //   tabelasFiltradas = this.filtraProdutoPorValorInternacao(tabelasFiltradas, this.filtroTabela.tipoFiltro);
-      //   tabelasFiltradas = this.filtraProdutoPorValorConsulta(tabelasFiltradas, this.filtroTabela.tipoFiltro);
-      //
-      // }
+      if (this.filtroTabela.nome) {
+        tabelasFiltradas = tabelasFiltradas.filter(t => t.nome.toLowerCase().includes(this.filtroTabela.nome.toLowerCase()));
+      }
+
+      if (this.filtroTabela.estados.length) {
+        tabelasFiltradas = tabelasFiltradas.filter(t => this.filtroTabela.estados.filter(e => e.sigla === t.estado.sigla).length);
+      }
+
+      if (this.filtroTabela.operadoras.length) {
+        tabelasFiltradas = tabelasFiltradas.filter(t => this.filtroTabela.operadoras.filter(op => op.id === t.operadora.id).length);
+      }
+
+      if (this.filtroTabela.administradoras.length) {
+        tabelasFiltradas = tabelasFiltradas.filter(t => t.administradora).filter(t => this.filtroTabela.administradoras.filter(adm => adm.id === t.administradora.id).length);
+      }
+
+      if (this.filtroTabela.reajustes.length) {
+        tabelasFiltradas = tabelasFiltradas.filter(t => this.filtroTabela.reajustes.filter(r => r === t.reajuste).length);
+      }
+
+      if (this.filtroTabela.profissoes.length) {
+        tabelasFiltradas = tabelasFiltradas.filter(t => t.entidades.filter(e => e.profissoes.filter(p => this.filtroTabela.profissoes.filter(fp => p.id === fp.id).length).length).length);
+      }
+
+      if (this.filtroTabela.tipoFiltro) {
+
+        tabelasFiltradas = UtilService.filtraListaPorValorProperty(tabelasFiltradas, this.filtroTabela, 'qtdMinVidas');
+        tabelasFiltradas = UtilService.filtraListaPorValorProperty(tabelasFiltradas, this.filtroTabela, 'qtdMinTitulares');
+        tabelasFiltradas = UtilService.filtraListaPorValorProperty(tabelasFiltradas, this.filtroTabela, 'idadeMinima');
+        tabelasFiltradas = UtilService.filtraListaPorValorProperty(tabelasFiltradas, this.filtroTabela, 'idadeMaxima');
+
+      }
 
       this.configuraTabelaTabela(tabelasFiltradas);
 
     });
-  }
-
-  private filtraProdutoPorReembolso(produtosFiltrados: Produto[], tipoFiltro: string) {
-    if (this.filtroTabela) {
-      switch (tipoFiltro) {
-        case '<':
-          // return produtosFiltrados.filter(p => p.reembolso <= this.filtroTabela.reembolso);
-        case '=':
-          // return produtosFiltrados.filter(p => p.reembolso === this.filtroTabela.reembolso);
-        case '>':
-          // return produtosFiltrados.filter(p => p.reembolso >= this.filtroTabela.reembolso);
-      }
-    }
-    return produtosFiltrados;
   }
 
   cancelarFiltro(): void {

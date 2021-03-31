@@ -27,6 +27,7 @@ import {AdministradoraService} from "../../services/administradora/administrador
 import {OperadoraService} from "../../services/operadora/operadora.service";
 import {BACKSLASH, COMMA, DASH, ENTER, SEMICOLON, SLASH} from "@angular/cdk/keycodes";
 import {MatChipInputEvent} from "@angular/material/chips";
+import {UtilService} from "../../services/util/util.service";
 
 @Component({
   selector: 'app-cotacao',
@@ -129,7 +130,7 @@ export class CotacaoComponent implements OnInit {
     this.cotacaoService.getCotacao(this.filtroCotacao).subscribe(response => {
       this.todasOpcoes = response;
       this.todasOpcoes.forEach(op => op.selected = true);
-      this.todosProdutosCotacao = this.todasOpcoes.map(op => op.produto).sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).filter(this.filtraDuplicadas);
+      this.todosProdutosCotacao = this.todasOpcoes.map(op => op.produto).sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).filter(UtilService.filtraDuplicadasId);
       this.configuraTodasTabelas();
       this.configuraDisplayedColumns();
       this.accordion.openAll();
@@ -177,7 +178,7 @@ export class CotacaoComponent implements OnInit {
 
   private configuraTabelaHospital(): void {
     this.displayedColumnsHospitais = ['nomeHospital'].concat(this.todosProdutosCotacao.map(p => p.nome));
-    this.dataSourceHospitais = new MatTableDataSource<Hospital>(this.todosProdutosCotacao.map(p => p.hospitais).reduce((acc, value) => acc.concat(value)).filter(this.filtraDuplicadas));
+    this.dataSourceHospitais = new MatTableDataSource<Hospital>(this.todosProdutosCotacao.map(p => p.hospitais).reduce((acc, value) => acc.concat(value)).filter(UtilService.filtraDuplicadasId));
     this.dataSourceHospitais.sort = this.sortHospital;
     this.dataSourceHospitais.paginator = this.paginatorHospital;
     this.dataSourceHospitais.sortingDataAccessor = (hospital, property) => hospital.nome;
@@ -188,7 +189,7 @@ export class CotacaoComponent implements OnInit {
 
   private configuraTabelaLaboratorio(): void {
     this.displayedColumnsLaboratorios = ['nomeLaboratorio'].concat(this.todosProdutosCotacao.map(p => p.nome));
-    this.dataSourceLaboratorios = new MatTableDataSource<Laboratorio>(this.todosProdutosCotacao.map(p => p.laboratorios).reduce((acc, value) => acc.concat(value)).filter(this.filtraDuplicadas));
+    this.dataSourceLaboratorios = new MatTableDataSource<Laboratorio>(this.todosProdutosCotacao.map(p => p.laboratorios).reduce((acc, value) => acc.concat(value)).filter(UtilService.filtraDuplicadasId));
     this.dataSourceLaboratorios.sort = this.sortLaboratorio;
     this.dataSourceLaboratorios.paginator = this.paginatorLaboratorio;
     this.dataSourceLaboratorios.sortingDataAccessor = (laboratorio, property) => laboratorio.nome;
@@ -356,11 +357,6 @@ export class CotacaoComponent implements OnInit {
     return produto.laboratorios.filter(l => l.id === laboratorio.id).length > 0;
   }
 
-  private filtraDuplicadas(value: { id }, index, self: { id }[]): boolean {
-    const searchElement: {id} = self.filter(item => item.id === value.id)[0];
-    return self.indexOf(searchElement) === index;
-  }
-
   updateDisplayedColumns() {
     setTimeout(() => this.configuraDisplayedColumns());
   }
@@ -434,14 +430,14 @@ export class CotacaoComponent implements OnInit {
     this.modoCliente = modoCliente;
     this.configuraDisplayedColumns();
     if (this.modoCliente) {
-      this.todosProdutosCotacao = this.todasOpcoes.filter(op => op.selected).map(op => op.produto).sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).filter(this.filtraDuplicadas);
+      this.todosProdutosCotacao = this.todasOpcoes.filter(op => op.selected).map(op => op.produto).sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).filter(UtilService.filtraDuplicadasId);
       this.configuraTabelaEnfComCopart(this.dataSourceCotacaoEnfComCopart.data.filter(op => op.selected));
       this.configuraTabelaEnfSemCopart(this.dataSourceCotacaoEnfSemCopart.data.filter(op => op.selected));
       this.configuraTabelaAptComCopart(this.dataSourceCotacaoAptComCopart.data.filter(op => op.selected));
       this.configuraTabelaAptSemCopart(this.dataSourceCotacaoAptSemCopart.data.filter(op => op.selected));
       this.configuraTabelasAuxiliares();
     } else {
-      this.todosProdutosCotacao = this.todasOpcoes.map(op => op.produto).sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).filter(this.filtraDuplicadas);
+      this.todosProdutosCotacao = this.todasOpcoes.map(op => op.produto).sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).filter(UtilService.filtraDuplicadasId);
       this.configuraTodasTabelas();
     }
   }

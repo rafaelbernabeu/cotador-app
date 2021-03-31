@@ -113,28 +113,27 @@
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Estado</mat-label>
             <mat-select (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.estados" multiple>
-              <mat-option *ngFor="let estado of todosEstados;" [value]="estado">{{estado.sigla}}</mat-option>
+              <mat-option *ngFor="let estado of todosEstadosTabela;" [value]="estado">{{estado.sigla}}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Operadoras</mat-label>
             <mat-select (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.operadoras" multiple>
-              <mat-option *ngFor="let operadora of todasOperadoras;" [value]="operadora">{{operadora.nome}}</mat-option>
+              <mat-option *ngFor="let operadora of todasOperadorasTabela;" [value]="operadora">{{operadora.nome}}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Administradoras</mat-label>
             <mat-select (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.administradoras" multiple>
-              <mat-option *ngFor="let administradora of todasAdministradoras;" [value]="administradora">{{administradora.nome}}</mat-option>
+              <mat-option *ngFor="let administradora of todasAdministradorasTabela;" [value]="administradora">{{administradora.nome}}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Reajuste</mat-label>
-            <mat-select (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.reajustes">
-              <mat-option [value]="null"></mat-option>
+            <mat-select (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.reajustes" multiple>
               <mat-option *ngFor="let reajuste of todosReajustes;" [value]="reajuste">{{reajuste}}</mat-option>
             </mat-select>
           </mat-form-field>
