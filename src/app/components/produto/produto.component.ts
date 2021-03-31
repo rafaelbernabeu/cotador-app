@@ -20,6 +20,7 @@ import {HospitalService} from '../../services/hospital/hospital.service';
 import {AbrangenciaService} from '../../services/abrangencia/abrangencia.service';
 import {Abrangencia} from '../../services/abrangencia/abrangencia';
 import {FiltroProduto} from "../../services/produto/filtro-produto";
+import {UtilService} from "../../services/util/util.service";
 
 @Component({
   selector: 'app-produto',
@@ -373,12 +374,12 @@ export class ProdutoComponent implements OnInit {
 
       if (this.filtroProduto.tipoFiltro) {
 
-        produtosFiltrados = this.filtraProdutoPorReembolso(produtosFiltrados, this.filtroProduto.tipoFiltro);
-        produtosFiltrados = this.filtraProdutoPorValorProntoSocorro(produtosFiltrados, this.filtroProduto.tipoFiltro);
-        produtosFiltrados = this.filtraProdutoPorValorExameSimples(produtosFiltrados, this.filtroProduto.tipoFiltro);
-        produtosFiltrados = this.filtraProdutoPorValorExameEspecial(produtosFiltrados, this.filtroProduto.tipoFiltro);
-        produtosFiltrados = this.filtraProdutoPorValorInternacao(produtosFiltrados, this.filtroProduto.tipoFiltro);
-        produtosFiltrados = this.filtraProdutoPorValorConsulta(produtosFiltrados, this.filtroProduto.tipoFiltro);
+        produtosFiltrados = UtilService.filtraListaPorValorProperty(produtosFiltrados, this.filtroProduto, 'reembolso');
+        produtosFiltrados = this.filtraProdutoPorCoparticipacao(produtosFiltrados, this.filtroProduto, 'valorProntoSocorro');
+        produtosFiltrados = this.filtraProdutoPorCoparticipacao(produtosFiltrados, this.filtroProduto, 'valorExameSimples');
+        produtosFiltrados = this.filtraProdutoPorCoparticipacao(produtosFiltrados, this.filtroProduto, 'valorExameEspecial');
+        produtosFiltrados = this.filtraProdutoPorCoparticipacao(produtosFiltrados, this.filtroProduto, 'valorInternacao');
+        produtosFiltrados = this.filtraProdutoPorCoparticipacao(produtosFiltrados, this.filtroProduto, 'valorConsulta');
 
       }
 
@@ -387,85 +388,15 @@ export class ProdutoComponent implements OnInit {
     });
   }
 
-  private filtraProdutoPorReembolso(produtosFiltrados: Produto[], tipoFiltro: string) {
-    if (this.filtroProduto.reembolso) {
-      switch (tipoFiltro) {
+  private filtraProdutoPorCoparticipacao(produtosFiltrados: Produto[], filtro: any, property: string) {
+    if (filtro.coparticipacao[property]) {
+      switch (filtro.tipoFiltro) {
         case '<':
-          return produtosFiltrados.filter(p => p.reembolso <= this.filtroProduto.reembolso);
+          return produtosFiltrados.filter(p => p.coparticipacao[property] <= filtro.coparticipacao[property]);
         case '=':
-          return produtosFiltrados.filter(p => p.reembolso === this.filtroProduto.reembolso);
+          return produtosFiltrados.filter(p => p.coparticipacao[property] === filtro.coparticipacao[property]);
         case '>':
-          return produtosFiltrados.filter(p => p.reembolso >= this.filtroProduto.reembolso);
-      }
-    }
-    return produtosFiltrados;
-  }
-
-  private filtraProdutoPorValorProntoSocorro(produtosFiltrados: Produto[], tipoFiltro: string) {
-    if (this.filtroProduto.coparticipacao.valorProntoSocorro) {
-      switch (tipoFiltro) {
-        case '<':
-          return produtosFiltrados.filter(p => p.coparticipacao.valorProntoSocorro <= this.filtroProduto.coparticipacao.valorProntoSocorro);
-        case '=':
-          return produtosFiltrados.filter(p => p.coparticipacao.valorProntoSocorro === this.filtroProduto.coparticipacao.valorProntoSocorro);
-        case '>':
-          return produtosFiltrados.filter(p => p.coparticipacao.valorProntoSocorro >= this.filtroProduto.coparticipacao.valorProntoSocorro);
-      }
-    }
-    return produtosFiltrados;
-  }
-
-  private filtraProdutoPorValorExameSimples(produtosFiltrados: Produto[], tipoFiltro: string) {
-    if (this.filtroProduto.coparticipacao.valorExameSimples) {
-      switch (tipoFiltro) {
-        case '<':
-          return produtosFiltrados.filter(p => p.coparticipacao.valorExameSimples <= this.filtroProduto.coparticipacao.valorExameSimples);
-        case '=':
-          return produtosFiltrados.filter(p => p.coparticipacao.valorExameSimples === this.filtroProduto.coparticipacao.valorExameSimples);
-        case '>':
-          return produtosFiltrados.filter(p => p.coparticipacao.valorExameSimples >= this.filtroProduto.coparticipacao.valorExameSimples);
-      }
-    }
-    return produtosFiltrados;
-  }
-
-  private filtraProdutoPorValorExameEspecial(produtosFiltrados: Produto[], tipoFiltro: string) {
-    if (this.filtroProduto.coparticipacao.valorExameEspecial) {
-      switch (tipoFiltro) {
-        case '<':
-          return produtosFiltrados.filter(p => p.coparticipacao.valorExameEspecial <= this.filtroProduto.coparticipacao.valorExameEspecial);
-        case '=':
-          return produtosFiltrados.filter(p => p.coparticipacao.valorExameEspecial === this.filtroProduto.coparticipacao.valorExameEspecial);
-        case '>':
-          return produtosFiltrados.filter(p => p.coparticipacao.valorExameEspecial >= this.filtroProduto.coparticipacao.valorExameEspecial);
-      }
-    }
-    return produtosFiltrados;
-  }
-
-  private filtraProdutoPorValorInternacao(produtosFiltrados: Produto[], tipoFiltro: string) {
-    if (this.filtroProduto.coparticipacao.valorInternacao) {
-      switch (tipoFiltro) {
-        case '<':
-          return produtosFiltrados.filter(p => p.coparticipacao.valorInternacao <= this.filtroProduto.coparticipacao.valorInternacao);
-        case '=':
-          return produtosFiltrados.filter(p => p.coparticipacao.valorInternacao === this.filtroProduto.coparticipacao.valorInternacao);
-        case '>':
-          return produtosFiltrados.filter(p => p.coparticipacao.valorInternacao >= this.filtroProduto.coparticipacao.valorInternacao);
-      }
-    }
-    return produtosFiltrados;
-  }
-
-  private filtraProdutoPorValorConsulta(produtosFiltrados: Produto[], tipoFiltro: string) {
-    if (this.filtroProduto.coparticipacao.valorConsulta) {
-      switch (tipoFiltro) {
-        case '<':
-          return produtosFiltrados.filter(p => p.coparticipacao.valorConsulta <= this.filtroProduto.coparticipacao.valorConsulta);
-        case '=':
-          return produtosFiltrados.filter(p => p.coparticipacao.valorConsulta === this.filtroProduto.coparticipacao.valorConsulta);
-        case '>':
-          return produtosFiltrados.filter(p => p.coparticipacao.valorConsulta >= this.filtroProduto.coparticipacao.valorConsulta);
+          return produtosFiltrados.filter(p => p.coparticipacao[property] >= filtro.coparticipacao[property]);
       }
     }
     return produtosFiltrados;
