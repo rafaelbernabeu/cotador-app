@@ -1,1 +1,18 @@
-<p>Auditoria login is under construction, come back soon!</p>
+<div>
+  <div style="padding-top: 30px">
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>Período da pesquisa</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input matStartDate placeholder="Data início">
+        <input matEndDate placeholder="Data fim">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <br/>
+    <p>Auditoria login is under construction, come back soon!</p>
+  </div>
+</div>
