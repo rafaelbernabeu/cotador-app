@@ -47,6 +47,9 @@ import {TabelaComponent} from './components/tabela/tabela.component';
 import {UsuarioComponent} from './components/usuario/usuario.component';
 import {registerLocaleData} from "@angular/common";
 import {MatTabsModule} from "@angular/material/tabs";
+import {AuditoriaLoginComponent} from './components/auditoria-login/auditoria-login.component';
+import {AuditoriaCotacaoComponent} from './components/auditoria-cotacao/auditoria-cotacao.component';
+import {AuditoriaAlteracoesComponent} from './components/auditoria-alteracoes/auditoria-alteracoes.component';
 
 registerLocaleData(localePt, 'pt');
 
@@ -68,6 +71,9 @@ registerLocaleData(localePt, 'pt');
     AuditoriaComponent,
     LaboratorioComponent,
     AdministradoraComponent,
+    AuditoriaLoginComponent,
+    AuditoriaCotacaoComponent,
+    AuditoriaAlteracoesComponent,
   ],
   imports: [
     FormsModule,
