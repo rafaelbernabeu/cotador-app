@@ -258,12 +258,12 @@
           <div>
             <mat-form-field appearance="outline" style="width: 50%">
               <mat-label>Idade Min.</mat-label>
-              <input matInput [disabled]="!filtroOpcao.tipoFiltro" (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.idadeMin" type="number" placeholder="Idade Min.">
+              <input matInput [disabled]="!filtroOpcao.tipoFiltro" (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.idadeMinima" type="number" placeholder="Idade Min.">
             </mat-form-field>
 
             <mat-form-field appearance="outline" style="width: 50%">
               <mat-label>Idade Max</mat-label>
-              <input matInput [disabled]="!filtroOpcao.tipoFiltro" (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.idadeMax" type="number" placeholder="Idade Max.">
+              <input matInput [disabled]="!filtroOpcao.tipoFiltro" (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.idadeMaxima" type="number" placeholder="Idade Max.">
             </mat-form-field>
           </div>
 

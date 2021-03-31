@@ -666,11 +666,11 @@ export class OpcaoComponent implements OnInit {
 
       if (this.filtroOpcao.tipoFiltro) {
 
-        opcoesFiltradas = this.filtraOpcaoPorReembolso(opcoesFiltradas, this.filtroOpcao.tipoFiltro);
-        opcoesFiltradas = this.filtraOpcaoPorIdadeMin(opcoesFiltradas, this.filtroOpcao.tipoFiltro);
-        opcoesFiltradas = this.filtraOpcaoPorIdadeMax(opcoesFiltradas, this.filtroOpcao.tipoFiltro);
-        opcoesFiltradas = this.filtraOpcaoPorQtdMinVidas(opcoesFiltradas, this.filtroOpcao.tipoFiltro);
-        opcoesFiltradas = this.filtraOpcaoPorQtdMinTitulares(opcoesFiltradas, this.filtroOpcao.tipoFiltro);
+        opcoesFiltradas = this.filtraOpcaoPorProduto(opcoesFiltradas, this.filtroOpcao, 'reembolso');
+        opcoesFiltradas = this.filtraOpcaoPorTabela(opcoesFiltradas, this.filtroOpcao, 'idadeMinima');
+        opcoesFiltradas = this.filtraOpcaoPorTabela(opcoesFiltradas, this.filtroOpcao, 'idadeMaxima');
+        opcoesFiltradas = this.filtraOpcaoPorTabela(opcoesFiltradas, this.filtroOpcao, 'qtdMinVidas');
+        opcoesFiltradas = this.filtraOpcaoPorTabela(opcoesFiltradas, this.filtroOpcao, 'qtdMinTitulares');
 
       }
 
@@ -693,77 +693,33 @@ export class OpcaoComponent implements OnInit {
     this.filtroOpcao = new FiltroOpcao();
   }
 
-  private filtraOpcaoPorReembolso(opcoesFiltradas: Opcao[], tipoFiltro: string) {
-    if (this.filtroOpcao.reembolso) {
-      switch (tipoFiltro) {
+  private filtraOpcaoPorProduto(opcoesFiltradas: Opcao[], filtro: any, property: string) {
+    if (filtro[property]) {
+      switch (filtro.tipoFiltro) {
         case '<':
-          return opcoesFiltradas.filter(op => op.produto.reembolso <= this.filtroOpcao.reembolso);
+          return opcoesFiltradas.filter(op => op.produto[property] <= this.filtroOpcao[property]);
         case '=':
-          return opcoesFiltradas.filter(op => op.produto.reembolso === this.filtroOpcao.reembolso);
+          return opcoesFiltradas.filter(op => op.produto[property] === this.filtroOpcao[property]);
         case '>':
-          return opcoesFiltradas.filter(op => op.produto.reembolso >= this.filtroOpcao.reembolso);
+          return opcoesFiltradas.filter(op => op.produto[property] >= this.filtroOpcao[property]);
       }
     }
     return opcoesFiltradas;
   }
 
-  private filtraOpcaoPorIdadeMin(opcoesFiltradas: Opcao[], tipoFiltro: string) {
-    if (this.filtroOpcao.idadeMin) {
-      switch (tipoFiltro) {
+  private filtraOpcaoPorTabela(opcoesFiltradas: Opcao[], filtro: any, property: string) {
+    if (filtro[property]) {
+      switch (filtro.tipoFiltro) {
         case '<':
-          return opcoesFiltradas.filter(op => op.tabela.idadeMinima <= this.filtroOpcao.idadeMin);
+          return opcoesFiltradas.filter(op => op.tabela[property] <= this.filtroOpcao[property]);
         case '=':
-          return opcoesFiltradas.filter(op => op.tabela.idadeMinima === this.filtroOpcao.idadeMin);
+          return opcoesFiltradas.filter(op => op.tabela[property] === this.filtroOpcao[property]);
         case '>':
-          return opcoesFiltradas.filter(op => op.tabela.idadeMinima >= this.filtroOpcao.idadeMin);
+          return opcoesFiltradas.filter(op => op.tabela[property] >= this.filtroOpcao[property]);
       }
     }
     return opcoesFiltradas;
   }
-
-  private filtraOpcaoPorIdadeMax(opcoesFiltradas: Opcao[], tipoFiltro: string) {
-    if (this.filtroOpcao.idadeMax) {
-      switch (tipoFiltro) {
-        case '<':
-          return opcoesFiltradas.filter(op => op.tabela.idadeMaxima <= this.filtroOpcao.idadeMax);
-        case '=':
-          return opcoesFiltradas.filter(op => op.tabela.idadeMaxima === this.filtroOpcao.idadeMax);
-        case '>':
-          return opcoesFiltradas.filter(op => op.tabela.idadeMaxima >= this.filtroOpcao.idadeMax);
-      }
-    }
-    return opcoesFiltradas;
-  }
-
-  private filtraOpcaoPorQtdMinVidas(opcoesFiltradas: Opcao[], tipoFiltro: string) {
-    if (this.filtroOpcao.qtdMinVidas) {
-      switch (tipoFiltro) {
-        case '<':
-          return opcoesFiltradas.filter(op => op.tabela.qtdMinVidas <= this.filtroOpcao.qtdMinVidas);
-        case '=':
-          return opcoesFiltradas.filter(op => op.tabela.qtdMinVidas === this.filtroOpcao.qtdMinVidas);
-        case '>':
-          return opcoesFiltradas.filter(op => op.tabela.qtdMinVidas >= this.filtroOpcao.qtdMinVidas);
-      }
-    }
-    return opcoesFiltradas;
-  }
-
-  private filtraOpcaoPorQtdMinTitulares(produtosFiltrados: Opcao[], tipoFiltro: string) {
-    if (this.filtroOpcao.qtdMinTitulares) {
-      switch (tipoFiltro) {
-        case '<':
-          return produtosFiltrados.filter(op => op.tabela.qtdMinTitulares <= this.filtroOpcao.qtdMinTitulares);
-        case '=':
-          return produtosFiltrados.filter(op => op.tabela.qtdMinTitulares === this.filtroOpcao.qtdMinTitulares);
-        case '>':
-          return produtosFiltrados.filter(op => op.tabela.qtdMinTitulares >= this.filtroOpcao.qtdMinTitulares);
-      }
-    }
-    return produtosFiltrados;
-  }
-
-
 
   cancelarFiltro(): void {
     this.cancelarAdicao();

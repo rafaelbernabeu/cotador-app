@@ -13,8 +13,8 @@ export class FiltroOpcao {
 
   id: number;
   mei = false;
-  idadeMin: number;
-  idadeMax: number;
+  idadeMinima: number;
+  idadeMaxima: number;
   reembolso: number;
   tipoFiltro: string;
   qtdMinVidas: number;
