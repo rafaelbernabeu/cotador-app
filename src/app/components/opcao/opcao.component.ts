@@ -624,6 +624,17 @@ export class OpcaoComponent implements OnInit {
     setTimeout(() => {
       let opcoesFiltradas = this.todasOpcoes;
 
+      if (this.filtroOpcao.categoria) {
+
+        opcoesFiltradas = opcoesFiltradas.filter(op => op.tabela.categoria === this.filtroOpcao.categoria);
+
+        if (this.filtroOpcao.categoria === 'Empresarial' && this.filtroOpcao.mei) {
+
+          opcoesFiltradas = opcoesFiltradas.filter(op => op.tabela.contemplaMEI === this.filtroOpcao.mei);
+
+        }
+      }
+
       if (this.filtroOpcao.estados.length) {
         opcoesFiltradas = opcoesFiltradas.filter(op => this.filtroOpcao.estados.filter(e => e.sigla === op.tabela.estado.sigla).length);
       }
@@ -685,7 +696,7 @@ export class OpcaoComponent implements OnInit {
     this.todosProdutos = this.todasOpcoes.map(op => op.produto).filter(UtilService.filtraDuplicadasId);
     this.todosEstados = this.todasOpcoes.map(op => op.tabela.estado).filter(UtilService.filtraDuplicadasNome);
     this.todasOperadoras = this.todasOpcoes.map(op => op.tabela.operadora).filter(UtilService.filtraDuplicadasId);
-    this.todasAdministradoras = this.todasOpcoes.map(op => op.tabela.administradora).filter(UtilService.filtraDuplicadasId);
+    this.todasAdministradoras = this.todasOpcoes.filter(op => op.tabela.administradora).map(op => op.tabela.administradora).filter(UtilService.filtraDuplicadasId);
     this.todasAbrangencias = this.todasOpcoes.map(op => op.produto.abrangencia).filter(UtilService.filtraDuplicadasString);
 
     this.estado = 'filtrando';
@@ -724,6 +735,10 @@ export class OpcaoComponent implements OnInit {
   cancelarFiltro(): void {
     this.cancelarAdicao();
     this.configuraTabelaOpcao(this.todasOpcoes);
+  }
+
+  getTableWidth(): string {
+    return (this.displayedColumns?.length * 125)  +'px';
   }
 
 }

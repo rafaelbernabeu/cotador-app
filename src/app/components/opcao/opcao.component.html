@@ -18,7 +18,7 @@
 
       <mat-card-content>
         <div [style.width]="this.opcaoSelecionada || this.filtrandoOpcao() ? (window.innerWidth * 0.70) + 'px' : (window.innerWidth * 0.95) + 'px'" style="overflow: auto;">
-          <mat-table style="width: 7000px" [dataSource]="dataSourceOpcao" matSort class="mat-elevation-z8">
+          <mat-table [style.width]="getTableWidth()" [dataSource]="dataSourceOpcao" matSort class="mat-elevation-z8">
             <ng-container matColumnDef="id">
               <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
               <mat-cell *matCellDef="let opcao" [style.color]="'white'" [style.background-color]="opcao.tabela.operadora.cor" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.id}} </mat-cell>
@@ -165,6 +165,20 @@
         <br/>
 
         <mat-card-content>
+          <div style="display: flex; margin-bottom: 20px">
+            <div style="width: 60%">
+              <mat-radio-group (ngModelChange)="filtraOpcao();" [(ngModel)]="filtroOpcao.categoria" >
+                <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
+                  {{categoria}}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div *ngIf="filtroOpcao.categoria === 'Empresarial'" style="width: 40%; text-align: right">
+              <mat-slide-toggle (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.mei"  labelPosition="before">MEI</mat-slide-toggle>
+            </div>
+          </div>
+
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Estado</mat-label>
             <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.estados" multiple>
