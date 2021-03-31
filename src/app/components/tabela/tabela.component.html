@@ -104,6 +104,31 @@
         <br/>
 
         <mat-card-content>
+          <div style="display: flex; margin-bottom: 20px">
+            <div style="width: 60%">
+              <mat-radio-group (ngModelChange)="filtraTabela();" [(ngModel)]="filtroTabela.categoria" >
+                <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
+                  {{categoria}}
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+            <div style="width: 40%; text-align: right">
+              <mat-slide-toggle (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.preferencial"  labelPosition="before">Preferencial</mat-slide-toggle>
+            </div>
+          </div>
+
+          <div *ngIf="filtroTabela.categoria === 'Empresarial'" style="float: right; padding-bottom: 15px">
+            <span>
+              <mat-slide-toggle (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.contemplaMEI" labelPosition="before">MEI</mat-slide-toggle>
+            </span>
+            <span style="padding-left: 25px">
+              <mat-slide-toggle (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.livreAdesao" labelPosition="before">Livre Adesão</mat-slide-toggle>
+            </span>
+            <span style="padding-left: 25px">
+              <mat-slide-toggle (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.compulsoria" labelPosition="before">Compulsoria</mat-slide-toggle>
+            </span>
+          </div>
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Nome</mat-label>
@@ -224,6 +249,10 @@
                 {{categoria}}
               </mat-radio-button>
             </mat-radio-group>
+
+            <div style="float: right">
+              <mat-slide-toggle [(ngModel)]="tabelaEditando.preferencial" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">Preferencial</mat-slide-toggle>
+            </div>
           </div>
 
           <mat-form-field appearance="outline" style="width: 100%">
@@ -304,9 +333,6 @@
             </span>
             <span style="padding-left: 25px" *ngIf="categoriaEmpresarial()">
               <mat-slide-toggle [(ngModel)]="tabelaEditando.compulsoria" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">Compulsoria</mat-slide-toggle>
-            </span>
-            <span style="padding-left: 25px">
-              <mat-slide-toggle [(ngModel)]="tabelaEditando.preferencial" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">Preferencial</mat-slide-toggle>
             </span>
           </div>
 

@@ -469,6 +469,29 @@ export class TabelaComponent implements OnInit {
     setTimeout(() => {
       let tabelasFiltradas = this.todasTabelas;
 
+      if (this.filtroTabela.categoria) {
+        tabelasFiltradas = tabelasFiltradas.filter(t => t.categoria === this.filtroTabela.categoria);
+
+        if (this.filtroTabela.categoria === 'Empresarial') {
+
+          if (this.filtroTabela.contemplaMEI != null) {
+            tabelasFiltradas = tabelasFiltradas.filter(t => t.contemplaMEI === this.filtroTabela.contemplaMEI);
+          }
+
+          if (this.filtroTabela.livreAdesao != null) {
+            tabelasFiltradas = tabelasFiltradas.filter(t => t.livreAdesao === this.filtroTabela.livreAdesao);
+          }
+
+          if (this.filtroTabela.compulsoria != null) {
+            tabelasFiltradas = tabelasFiltradas.filter(t => t.compulsoria === this.filtroTabela.compulsoria);
+          }
+        }
+      }
+
+      if (this.filtroTabela.preferencial != null) {
+        tabelasFiltradas = tabelasFiltradas.filter(t => t.preferencial === this.filtroTabela.preferencial);
+      }
+
       if (this.filtroTabela.nome) {
         tabelasFiltradas = tabelasFiltradas.filter(t => t.nome.toLowerCase().includes(this.filtroTabela.nome.toLowerCase()));
       }

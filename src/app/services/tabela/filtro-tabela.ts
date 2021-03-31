@@ -16,7 +16,7 @@ export class FiltroTabela {
   contemplaMEI: boolean;
   preferencial: boolean;
   qtdMinTitulares: number;
-  categoria: Categoria = new Categoria();
+  categoria: Categoria;
 
   estados: Estado[] = [];
   reajustes: string[] = [];
