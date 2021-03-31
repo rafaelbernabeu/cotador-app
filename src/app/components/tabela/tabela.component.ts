@@ -472,7 +472,9 @@ export class TabelaComponent implements OnInit {
       if (this.filtroTabela.categoria) {
         tabelasFiltradas = tabelasFiltradas.filter(t => t.categoria === this.filtroTabela.categoria);
 
-        if (this.filtroTabela.categoria === 'Empresarial') {
+        if (this.filtroTabela.categoria === 'Adesão' && this.filtroTabela.administradoras.length) {
+            tabelasFiltradas = tabelasFiltradas.filter(t => t.administradora).filter(t => this.filtroTabela.administradoras.filter(adm => adm.id === t.administradora.id).length);
+        } else if (this.filtroTabela.categoria === 'Empresarial') {
 
           if (this.filtroTabela.contemplaMEI != null) {
             tabelasFiltradas = tabelasFiltradas.filter(t => t.contemplaMEI === this.filtroTabela.contemplaMEI);
@@ -504,9 +506,7 @@ export class TabelaComponent implements OnInit {
         tabelasFiltradas = tabelasFiltradas.filter(t => this.filtroTabela.operadoras.filter(op => op.id === t.operadora.id).length);
       }
 
-      if (this.filtroTabela.administradoras.length) {
-        tabelasFiltradas = tabelasFiltradas.filter(t => t.administradora).filter(t => this.filtroTabela.administradoras.filter(adm => adm.id === t.administradora.id).length);
-      }
+
 
       if (this.filtroTabela.reajustes.length) {
         tabelasFiltradas = tabelasFiltradas.filter(t => this.filtroTabela.reajustes.filter(r => r === t.reajuste).length);

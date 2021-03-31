@@ -625,13 +625,12 @@ export class OpcaoComponent implements OnInit {
       let opcoesFiltradas = this.todasOpcoes;
 
       if (this.filtroOpcao.categoria) {
-
         opcoesFiltradas = opcoesFiltradas.filter(op => op.tabela.categoria === this.filtroOpcao.categoria);
 
-        if (this.filtroOpcao.categoria === 'Empresarial' && this.filtroOpcao.mei) {
-
+        if (this.filtroOpcao.categoria === 'Adesão' && this.filtroOpcao.administradoras.length) {
+          opcoesFiltradas = opcoesFiltradas.filter(op => this.filtroOpcao.administradoras.filter(adm => op.tabela.administradora && adm.id === op.tabela.administradora.id).length);
+        } else if (this.filtroOpcao.categoria === 'Empresarial' && this.filtroOpcao.mei) {
           opcoesFiltradas = opcoesFiltradas.filter(op => op.tabela.contemplaMEI === this.filtroOpcao.mei);
-
         }
       }
 
@@ -649,10 +648,6 @@ export class OpcaoComponent implements OnInit {
 
       if (this.filtroOpcao.coparticipacao != null) {
         opcoesFiltradas = opcoesFiltradas.filter(op => op.coparticipacao === this.filtroOpcao.coparticipacao);
-      }
-
-      if (this.filtroOpcao.administradoras.length) {
-        opcoesFiltradas = opcoesFiltradas.filter(op => this.filtroOpcao.administradoras.filter(adm => op.tabela.administradora && adm.id === op.tabela.administradora.id).length);
       }
 
       if (this.filtroOpcao.operadoras.length) {

@@ -149,7 +149,7 @@
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field appearance="outline" style="width: 100%">
+          <mat-form-field *ngIf="filtroTabela.categoria === 'Adesão'" appearance="outline" style="width: 100%">
             <mat-label>Administradoras</mat-label>
             <mat-select (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.administradoras" multiple>
               <mat-option *ngFor="let administradora of todasAdministradorasTabela;" [value]="administradora">{{administradora.nome}}</mat-option>
