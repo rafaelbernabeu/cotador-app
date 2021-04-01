@@ -7,6 +7,10 @@ export class UtilService {
 
   constructor() { }
 
+  public getDate(dataHora: any): Date {
+    return new Date(dataHora[0],dataHora[1],dataHora[2],dataHora[3],dataHora[4],dataHora[5],dataHora[6]);
+  }
+
   public static filtraDuplicadasId(value: { id }, index, self: { id }[]): boolean {
     const searchElement: {id} = self.filter(item => item.id === value.id)[0];
     return self.indexOf(searchElement) === index;

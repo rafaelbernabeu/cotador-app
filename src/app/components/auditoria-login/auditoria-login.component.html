@@ -13,6 +13,46 @@
 
   <div>
     <br/>
-    <p>Auditoria login is under construction, come back soon!</p>
+
+    <mat-table [dataSource]="dataSourceLogin" matSort class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+        <mat-cell *matCellDef="let login" class="mouse-pointer"> {{login.id}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="ip">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> IP </mat-header-cell>
+        <mat-cell *matCellDef="let login" class="mouse-pointer"> {{login.ip}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="usuario">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </mat-header-cell>
+        <mat-cell *matCellDef="let login" class="mouse-pointer"> {{login.usuario}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="latitude">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Localizaçao </mat-header-cell>
+        <mat-cell *matCellDef="let login" class="mouse-pointer">
+          <a target="_blank" [href]="'https://www.google.com.br/maps/search/' + login.latitude +','+ login.longitude" >
+            <div>
+              Lat: {{login.latitude}}
+            </div>
+            <div>
+              Lon: {{login.longitude}}
+            </div>
+          </a>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="userAgent">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> User-Agent </mat-header-cell>
+        <mat-cell *matCellDef="let login" class="mouse-pointer"> {{login.userAgent}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="dataHora">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Data </mat-header-cell>
+        <mat-cell *matCellDef="let login" class="mouse-pointer"> {{ utilService.getDate(login.dataHora) | date: 'medium' }} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceLogin.data.length" showFirstLastButtons></mat-paginator>
   </div>
 </div>

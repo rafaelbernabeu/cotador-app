@@ -26,4 +26,9 @@ export class ApiService {
   LABORATORIO_API_URL = '/laboratorios';
   ADMINISTRADORA_API_URL = '/administradoras';
 
+  AUDITORIA_API_URL = '/auditoria';
+  AUDIT_LOGIN_API_URL = this.AUDITORIA_API_URL + '/login';
+  AUDIT_COTACAO_API_URL = this.AUDITORIA_API_URL + '/cotacao';
+  AUDIT_ALTERACAO_API_URL = this.AUDITORIA_API_URL + '/alteracao';
+
 }
