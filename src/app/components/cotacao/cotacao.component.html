@@ -90,21 +90,39 @@
           </mat-form-field>
         </div>
 
-        <mat-form-field appearance="outline" style="width: 100%">
-          <mat-label>Idades</mat-label>
-          <mat-chip-list #chipList aria-label="Fruit selection">
-            <mat-chip  *ngFor="let vida of filtroCotacao.vidas"
-                       (removed)="removeIdade(vida)">
-              {{vida}}
-              <mat-icon matChipRemove>cancel</mat-icon>
-            </mat-chip>
-            <input type="number" placeholder="Idades..."
-                   [matChipInputFor]="chipList"
-                   [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-                   [matChipInputAddOnBlur]="true"
-                   (matChipInputTokenEnd)="addIdade($event)">
-          </mat-chip-list>
-        </mat-form-field>
+        <div>
+          <mat-form-field appearance="outline" style="width: 50%">
+            <mat-label>Idades Titulares</mat-label>
+            <mat-chip-list #chipList1 aria-label="Fruit selection">
+              <mat-chip  *ngFor="let vida of filtroCotacao.titulares"
+                         (removed)="removeIdadeTitular(vida)">
+                {{vida}}
+                <mat-icon matChipRemove>cancel</mat-icon>
+              </mat-chip>
+              <input type="number" placeholder="Idades..."
+                     [matChipInputFor]="chipList1"
+                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                     [matChipInputAddOnBlur]="true"
+                     (matChipInputTokenEnd)="addIdadeTitular($event)">
+            </mat-chip-list>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" style="width: 50%">
+              <mat-label>Idades Dependentes</mat-label>
+              <mat-chip-list #chipList2 aria-label="Fruit selection">
+                <mat-chip  *ngFor="let vida of filtroCotacao.dependentes"
+                           (removed)="removeIdadeDependente(vida)">
+                  {{vida}}
+                  <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+                <input type="number" placeholder="Idades..."
+                       [matChipInputFor]="chipList2"
+                       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                       [matChipInputAddOnBlur]="true"
+                       (matChipInputTokenEnd)="addIdadeDependente($event)">
+              </mat-chip-list>
+          </mat-form-field>
+        </div>
 
         <div style="text-align: center">
           <mat-form-field appearance="outline" style="width: 7%">

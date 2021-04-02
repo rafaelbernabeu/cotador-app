@@ -442,13 +442,21 @@ export class CotacaoComponent implements OnInit {
     }
   }
 
-  addIdade(event: MatChipInputEvent): void {
+  addIdadeTitular(event: MatChipInputEvent): void {
+    this.addIdade(event, this.filtroCotacao.titulares)
+  }
+
+  addIdadeDependente(event: MatChipInputEvent): void {
+    this.addIdade(event, this.filtroCotacao.dependentes)
+  }
+
+  private addIdade(event: MatChipInputEvent, vidas: number[]): void {
     const input = event.input;
     const value = event.value;
 
     // Add our fruit
     if ((value || '').trim()) {
-      this.filtroCotacao.vidas.push(Number(value));
+      vidas.push(Number(value));
       this.configuraDisplayedColumns();
     }
 
@@ -458,25 +466,36 @@ export class CotacaoComponent implements OnInit {
     }
   }
 
-  removeIdade(idade: any) {
-    const index = this.filtroCotacao.vidas.indexOf(idade);
+  removeIdadeTitular(idade: any) {
+    this.removeIdade(idade, this.filtroCotacao.titulares);
+  }
+
+  removeIdadeDependente(idade: any) {
+    this.removeIdade(idade, this.filtroCotacao.dependentes);
+  }
+
+  private removeIdade(idade: any, vidas: number[]) {
+    const index = vidas.indexOf(idade);
 
     if (index >= 0) {
-      this.filtroCotacao.vidas.splice(index, 1);
+      vidas.splice(index, 1);
     }
   }
 
   configuraQtdVidas(): void {
-    this.filtroCotacao.qtdVidas0a18anos = this.filtroCotacao.vidas.filter(n => n >= 0 && n <= 18).length;
-    this.filtroCotacao.qtdVidas19a23anos = this.filtroCotacao.vidas.filter(n => n >= 19 && n <= 23).length
-    this.filtroCotacao.qtdVidas24a28anos = this.filtroCotacao.vidas.filter(n => n >= 24 && n <= 28).length
-    this.filtroCotacao.qtdVidas29a33anos = this.filtroCotacao.vidas.filter(n => n >= 29 && n <= 33).length
-    this.filtroCotacao.qtdVidas34a38anos = this.filtroCotacao.vidas.filter(n => n >= 34 && n <= 38).length
-    this.filtroCotacao.qtdVidas39a43anos = this.filtroCotacao.vidas.filter(n => n >= 39 && n <= 43).length
-    this.filtroCotacao.qtdVidas44a48anos = this.filtroCotacao.vidas.filter(n => n >= 44 && n <= 48).length
-    this.filtroCotacao.qtdVidas49a53anos = this.filtroCotacao.vidas.filter(n => n >= 49 && n <= 53).length
-    this.filtroCotacao.qtdVidas54a58anos = this.filtroCotacao.vidas.filter(n => n >= 54 && n <= 58).length
-    this.filtroCotacao.qtdVidas59ouMaisAnos = this.filtroCotacao.vidas.filter(n => n >= 59).length
+    let vidas = this.filtroCotacao.titulares.concat(this.filtroCotacao.dependentes);
+
+    this.filtroCotacao.qtdVidas0a18anos = vidas.filter(n => n >= 0 && n <= 18).length;
+    this.filtroCotacao.qtdVidas19a23anos = vidas.filter(n => n >= 19 && n <= 23).length
+    this.filtroCotacao.qtdVidas24a28anos = vidas.filter(n => n >= 24 && n <= 28).length
+    this.filtroCotacao.qtdVidas29a33anos = vidas.filter(n => n >= 29 && n <= 33).length
+    this.filtroCotacao.qtdVidas34a38anos = vidas.filter(n => n >= 34 && n <= 38).length
+    this.filtroCotacao.qtdVidas39a43anos = vidas.filter(n => n >= 39 && n <= 43).length
+    this.filtroCotacao.qtdVidas44a48anos = vidas.filter(n => n >= 44 && n <= 48).length
+    this.filtroCotacao.qtdVidas49a53anos = vidas.filter(n => n >= 49 && n <= 53).length
+    this.filtroCotacao.qtdVidas54a58anos = vidas.filter(n => n >= 54 && n <= 58).length
+    this.filtroCotacao.qtdVidas59ouMaisAnos = vidas.filter(n => n >= 59).length
+
   }
 
   isCotacaoAdesao(): boolean {
