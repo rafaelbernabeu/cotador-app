@@ -12,7 +12,7 @@ import {Reajuste} from "../reajuste/reajuste";
 export class FiltroOpcao {
 
   id: number;
-  mei = false;
+  mei: boolean = false;
   idadeMinima: number;
   idadeMaxima: number;
   reembolso: number;
