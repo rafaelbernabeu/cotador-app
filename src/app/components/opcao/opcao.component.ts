@@ -644,7 +644,7 @@ export class OpcaoComponent implements OnInit {
 
         if (this.filtroOpcao.categoria === 'Adesão' && this.filtroOpcao.administradoras.length) {
           opcoesFiltradas = opcoesFiltradas.filter(op => this.filtroOpcao.administradoras.filter(adm => op.tabela.administradora && adm.id === op.tabela.administradora.id).length);
-        } else if (this.filtroOpcao.categoria === 'Empresarial' && this.filtroOpcao.mei) {
+        } else if (this.filtroOpcao.categoria === 'Empresarial' && this.filtroOpcao.mei != null) {
           opcoesFiltradas = opcoesFiltradas.filter(op => op.tabela.contemplaMEI === this.filtroOpcao.mei);
         }
       }
