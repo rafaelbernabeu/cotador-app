@@ -7,6 +7,7 @@ import {SnackbarService} from '../../services/snackbar/snackbar.service';
 import {OperadoraService} from '../../services/operadora/operadora.service';
 import {DialogComponent} from '../dialog/dialog.component';
 import {Operadora} from '../../services/operadora/operadora';
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-operadora',
@@ -15,6 +16,7 @@ import {Operadora} from '../../services/operadora/operadora';
 })
 export class OperadoraComponent implements OnInit {
 
+  @ViewChild(NgForm) formOperadora: NgForm;
   @ViewChild(MatSort) sortOperadora: MatSort;
   @ViewChild(MatPaginator) paginatorOperadora: MatPaginator;
 
@@ -67,6 +69,7 @@ export class OperadoraComponent implements OnInit {
 
   adicionar(): void {
     this.estado = 'adicionando';
+    this.formOperadora?.reset();
     this.operadoraSelecionada = new Operadora();
     this.operadoraEditando = this.operadoraSelecionada;
   }
@@ -90,20 +93,33 @@ export class OperadoraComponent implements OnInit {
   }
 
   salvarNovaOperadora(): void {
-    this.operadoraService.adicionarOperadora(this.operadoraEditando).subscribe(response => {
-      this.snackBar.openSnackBar('Operadora adicionada com sucesso!');
-      this.limpar();
-      this.carregaTabelaOperadora();
-    });
+    if (this.formOperadora.valid) {
+      this.operadoraService.adicionarOperadora(this.operadoraEditando).subscribe(response => {
+        this.snackBar.openSnackBar('Operadora adicionada com sucesso!');
+        this.limpar();
+        this.carregaTabelaOperadora();
+      });
+    } else {
+      this.erroFormInvalido();
+    }
   }
 
   atualizarOperadora(): void {
-    this.operadoraService.editarOperadora(this.operadoraEditando).subscribe(response => {
-      this.snackBar.openSnackBar('Operadora atualizada com sucesso!');
-      this.visualizar();
-      this.carregaTabelaOperadora();
-      this.operadoraSelecionada = response;
-    });
+    if (this.formOperadora.valid) {
+      this.operadoraService.editarOperadora(this.operadoraEditando).subscribe(response => {
+        this.snackBar.openSnackBar('Operadora atualizada com sucesso!');
+        this.visualizar();
+        this.carregaTabelaOperadora();
+        this.operadoraSelecionada = response;
+      });
+    } else {
+      this.erroFormInvalido();
+    }
+  }
+
+  private erroFormInvalido(): void {
+    this.formOperadora.form.markAllAsTouched();
+    this.snackBar.openSnackBar("Preencha todos os campos!");
   }
 
   removerOperadora(): void {
@@ -124,4 +140,13 @@ export class OperadoraComponent implements OnInit {
       }
     });
   }
+
+  onSubmit(): void {
+    if (this.adicionandoOperadora()) {
+      this.salvarNovaOperadora();
+    } else if (this.editandoOperadora()) {
+      this.atualizarOperadora();
+    }
+  }
+
 }

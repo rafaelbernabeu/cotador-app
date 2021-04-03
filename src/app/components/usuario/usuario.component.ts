@@ -10,8 +10,7 @@ import {Role} from '../../services/role/role';
 import {DialogComponent} from '../dialog/dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import * as bcrypt from 'bcryptjs';
-import {NgForm, NgModel} from "@angular/forms";
-import {UtilService} from "../../services/util/util.service";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-usuario',
@@ -187,10 +186,6 @@ export class UsuarioComponent implements OnInit {
         });
       }
     });
-  }
-
-  isFormInvalido(...models: NgModel[]): boolean {
-    return UtilService.isFormInvalido(...models);
   }
 
   onSubmit(): void {
