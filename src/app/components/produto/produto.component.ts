@@ -9,7 +9,7 @@ import {DialogComponent} from '../dialog/dialog.component';
 import {Produto} from '../../services/produto/produto';
 import {Operadora} from '../../services/operadora/operadora';
 import {OperadoraService} from '../../services/operadora/operadora.service';
-import {FormControl} from '@angular/forms';
+import {FormControl, NgForm} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {MatAccordion} from '@angular/material/expansion';
@@ -29,6 +29,7 @@ import {UtilService} from "../../services/util/util.service";
 })
 export class ProdutoComponent implements OnInit {
 
+  @ViewChild('formProduto') formProduto: NgForm;
   @ViewChild('sortProduto') sortProduto: MatSort;
   @ViewChild('paginatorProduto') paginatorProduto: MatPaginator;
 
@@ -232,6 +233,7 @@ export class ProdutoComponent implements OnInit {
 
   adicionar(): void {
     this.estado = 'adicionando';
+    this.formProduto?.resetForm();
     this.produtoSelecionado = new Produto();
     this.operadoraAutoCompleteControl.enable();
     this.operadoraAutoCompleteControl.setValue('');
@@ -265,14 +267,18 @@ export class ProdutoComponent implements OnInit {
   }
 
   salvarNovoProduto(): void {
-    this.produtoEditando.operadora = this.operadoraAutoCompleteControl.value;
-    this.produtoEditando.hospitais = this.todosHospitais.filter(l => l.selected);
-    this.produtoEditando.laboratorios = this.todosLaboratorios.filter(l => l.selected);
-    this.produtoService.adicionarProduto(this.produtoEditando).subscribe(response => {
-      this.snackBar.openSnackBar('Produto adicionado com sucesso!');
-      this.limpar();
-      this.carregaTabelaProduto();
-    });
+    if (this.formProduto.valid) {
+      this.produtoEditando.operadora = this.operadoraAutoCompleteControl.value;
+      this.produtoEditando.hospitais = this.todosHospitais.filter(l => l.selected);
+      this.produtoEditando.laboratorios = this.todosLaboratorios.filter(l => l.selected);
+      this.produtoService.adicionarProduto(this.produtoEditando).subscribe(response => {
+        this.snackBar.openSnackBar('Produto adicionado com sucesso!');
+        this.limpar();
+        this.carregaTabelaProduto();
+      });
+    } else {
+      this.erroFormInvalido();
+    }
   }
 
   private preparaTodosParaNovaVerificacao(): void {
@@ -281,16 +287,25 @@ export class ProdutoComponent implements OnInit {
   }
 
   atualizarProduto(): void {
-    this.produtoEditando.operadora = this.operadoraAutoCompleteControl.value;
-    this.produtoEditando.hospitais = this.todosHospitais.filter(l => l.selected);
-    this.produtoEditando.laboratorios = this.todosLaboratorios.filter(l => l.selected);
-    this.produtoService.editarProduto(this.produtoEditando).subscribe(response => {
-      this.snackBar.openSnackBar('Produto atualizado com sucesso!');
-      this.visualizar();
-      this.carregaTabelaProduto();
-      this.produtoSelecionado = response;
-      this.carregaTabelasAdicionais(this.produtoSelecionado);
-    });
+    if (this.formProduto.valid) {
+      this.produtoEditando.operadora = this.operadoraAutoCompleteControl.value;
+      this.produtoEditando.hospitais = this.todosHospitais.filter(l => l.selected);
+      this.produtoEditando.laboratorios = this.todosLaboratorios.filter(l => l.selected);
+      this.produtoService.editarProduto(this.produtoEditando).subscribe(response => {
+        this.snackBar.openSnackBar('Produto atualizado com sucesso!');
+        this.visualizar();
+        this.carregaTabelaProduto();
+        this.produtoSelecionado = response;
+        this.carregaTabelasAdicionais(this.produtoSelecionado);
+      });
+    } else {
+      this.erroFormInvalido();
+    }
+  }
+
+  private erroFormInvalido(): void {
+    this.formProduto.form.markAllAsTouched();
+    this.snackBar.openSnackBar("Preencha todos os campos!");
   }
 
   private carregaTabelasAdicionais(produto: Produto): void {
@@ -406,4 +421,13 @@ export class ProdutoComponent implements OnInit {
     this.cancelarAdicao();
     this.configuraTabelaProduto(this.todosProdutos);
   }
+
+  onSubmit(): void {
+    if (this.adicionandoProduto()) {
+      this.salvarNovoProduto();
+    } else if (this.editandoProduto()) {
+      this.atualizarProduto();
+    }
+  }
+
 }

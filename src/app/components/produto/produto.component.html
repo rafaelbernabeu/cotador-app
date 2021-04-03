@@ -292,40 +292,43 @@
         <br/>
 
         <mat-card-content>
-          <div style="float: right; padding-bottom: 10px">
-            <mat-slide-toggle [(ngModel)]="produtoEditando.ativo" [disabled]="!adicionandoProduto() && !editandoProduto()" labelPosition="before">Ativo</mat-slide-toggle>
-          </div>
+          <form #formProduto="ngForm" (submit)="onSubmit()">
+            <div style="float: right; padding-bottom: 10px">
+              <mat-slide-toggle [(ngModel)]="produtoEditando.ativo" name="ativo" [disabled]="!adicionandoProduto() && !editandoProduto()" labelPosition="before">Ativo</mat-slide-toggle>
+            </div>
 
-          <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Nome</mat-label>
-            <input matInput placeholder="Nome" [disabled]="!adicionandoProduto() && !editandoProduto()"
-                   [(ngModel)]="produtoEditando.nome">
-          </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Operadora</mat-label>
-            <input matInput [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto" type="text">
-            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
-              <mat-option *ngFor="let operadora of filteredOptions | async" [value]="operadora">
-                {{operadora.nome}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Abrangencia</mat-label>
-            <mat-select [(ngModel)]="produtoEditando.abrangencia" [disabled]="!adicionandoProduto() && !editandoProduto()">
-              <mat-option *ngFor="let abrangencia of todasAbrangencias;" [value]="abrangencia">{{abrangencia}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Reembolso</mat-label>
-            <input matInput type="number" placeholder="Reembolso" [disabled]="!adicionandoProduto() && !editandoProduto()"
-                   [(ngModel)]="produtoEditando.reembolso">
-          </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Observacoes</mat-label>
-            <textarea maxlength="100" matInput placeholder="Reembolso" [disabled]="!adicionandoProduto() && !editandoProduto()"
-                      [(ngModel)]="produtoEditando.observacao"></textarea>
-          </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Nome</mat-label>
+              <input matInput placeholder="Nome" name="nome" [disabled]="!adicionandoProduto() && !editandoProduto()"
+                     [(ngModel)]="produtoEditando.nome" required>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Operadora</mat-label>
+              <input matInput name="operadora" [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto" type="text" required>
+              <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let operadora of filteredOptions | async" [value]="operadora">
+                  {{operadora.nome}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Abrangencia</mat-label>
+              <mat-select name="abrangencia" [(ngModel)]="produtoEditando.abrangencia" [disabled]="!adicionandoProduto() && !editandoProduto()" required>
+                <mat-option *ngFor="let abrangencia of todasAbrangencias;" [value]="abrangencia">{{abrangencia}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Reembolso</mat-label>
+              <input matInput name="reembolso" type="number" placeholder="Reembolso" [disabled]="!adicionandoProduto() && !editandoProduto()"
+                     [(ngModel)]="produtoEditando.reembolso">
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Observacoes</mat-label>
+              <textarea matInput name="observacao" placeholder="Reembolso" [disabled]="!adicionandoProduto() && !editandoProduto()"
+                        [(ngModel)]="produtoEditando.observacao" maxlength="100"></textarea>
+            </mat-form-field>
+            <button type="submit" hidden></button>
+          </form>
         </mat-card-content>
       </mat-card>
     </div>
