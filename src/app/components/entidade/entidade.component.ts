@@ -9,6 +9,7 @@ import {ProfissaoService} from '../../services/profissao/profissao.service';
 import {SnackbarService} from '../../services/snackbar/snackbar.service';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogComponent} from '../dialog/dialog.component';
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-entidade',
@@ -17,6 +18,7 @@ import {DialogComponent} from '../dialog/dialog.component';
 })
 export class EntidadeComponent implements OnInit {
 
+  @ViewChild('formEntidade') formEntidade: NgForm;
   @ViewChild('entidadesSort') sortEntidade: MatSort;
   @ViewChild('profissoesSort') sortProfissao: MatSort;
   @ViewChild('paginatorEntidades') paginatorEntidade: MatPaginator;
@@ -90,6 +92,7 @@ export class EntidadeComponent implements OnInit {
 
   adicionar(): void {
     this.estado = 'adicionando';
+    this.formEntidade?.resetForm();
     this.entidadeSelecionada = new Entidade();
     this.entidadeEditando = this.entidadeSelecionada;
     this.preparaProfissoesParaNovaVerificacao();
@@ -130,23 +133,36 @@ export class EntidadeComponent implements OnInit {
   }
 
   salvarNovaEntidade(): void {
-    this.entidadeEditando.profissoes = this.todasProfissoes.filter(p => p.selected);
-    this.entidadeService.adicionarEntidade(this.entidadeEditando).subscribe(response => {
-      this.snackBar.openSnackBar('Entidade adicionada com sucesso!');
-      this.limpar();
-      this.carregaTabelaEntidade();
-    });
+    if (this.formEntidade.valid) {
+      this.entidadeEditando.profissoes = this.todasProfissoes.filter(p => p.selected);
+      this.entidadeService.adicionarEntidade(this.entidadeEditando).subscribe(response => {
+        this.snackBar.openSnackBar('Entidade adicionada com sucesso!');
+        this.limpar();
+        this.carregaTabelaEntidade();
+      });
+    } else {
+      this.erroFormInvalido();
+    }
   }
 
   atualizarEntidade(): void {
-    this.entidadeEditando.profissoes = this.todasProfissoes.filter(p => p.selected);
-    this.entidadeService.editarEntidade(this.entidadeEditando).subscribe(response => {
-      this.snackBar.openSnackBar('Entidade atualizada com sucesso!');
-      this.visualizar();
-      this.carregaTabelaEntidade();
-      this.entidadeSelecionada = response;
-      this.carregaTabelaProfissao(this.entidadeSelecionada.profissoes);
-    });
+    if (this.formEntidade.valid) {
+      this.entidadeEditando.profissoes = this.todasProfissoes.filter(p => p.selected);
+      this.entidadeService.editarEntidade(this.entidadeEditando).subscribe(response => {
+        this.snackBar.openSnackBar('Entidade atualizada com sucesso!');
+        this.visualizar();
+        this.carregaTabelaEntidade();
+        this.entidadeSelecionada = response;
+        this.carregaTabelaProfissao(this.entidadeSelecionada.profissoes);
+      });
+    } else {
+      this.erroFormInvalido();
+    }
+  }
+
+  private erroFormInvalido(): void {
+    this.formEntidade.form.markAllAsTouched();
+    this.snackBar.openSnackBar("Preencha todos os campos!");
   }
 
   removerEntidade(): void {
@@ -166,5 +182,13 @@ export class EntidadeComponent implements OnInit {
         });
       }
     });
+  }
+
+  onSubmit(): void {
+    if (this.adicionandoEntidade()) {
+      this.salvarNovaEntidade();
+    } else if (this.editandoEntidade()) {
+      this.atualizarEntidade();
+    }
   }
 }

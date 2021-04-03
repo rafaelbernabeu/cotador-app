@@ -67,11 +67,14 @@
         <br/>
 
         <mat-card-content>
-          <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Nome</mat-label>
-            <input matInput placeholder="Nome" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
-                   [(ngModel)]="entidadeEditando.nome">
-          </mat-form-field>
+          <form #formEntidade="ngForm" (submit)="onSubmit()">
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Nome</mat-label>
+              <input matInput placeholder="Nome" name="nome" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
+                     [(ngModel)]="entidadeEditando.nome" required>
+            </mat-form-field>
+            <button type="submit" hidden></button>
+          </form>
         </mat-card-content>
       </mat-card>
     </div>
