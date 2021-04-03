@@ -67,11 +67,14 @@
         <br/>
 
         <mat-card-content>
-          <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Nome</mat-label>
-            <input matInput placeholder="Nome" [disabled]="!adicionandoAdministradora() && !editandoAdministradora()"
-                   [(ngModel)]="AdministradoraEditando.nome">
-          </mat-form-field>
+          <form #administradoraForm="ngForm" (submit)="onSubmit()">
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Nome</mat-label>
+              <input matInput placeholder="Nome" name="nome" [disabled]="!adicionandoAdministradora() && !editandoAdministradora()"
+                     [(ngModel)]="AdministradoraEditando.nome" required>
+            </mat-form-field>
+            <button type="submit" hidden></button>
+          </form>
         </mat-card-content>
       </mat-card>
     </div>

@@ -7,6 +7,7 @@ import {SnackbarService} from '../../services/snackbar/snackbar.service';
 import {DialogComponent} from '../dialog/dialog.component';
 import {Administradora} from '../../services/administradora/administradora';
 import {AdministradoraService} from '../../services/administradora/administradora.service';
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-administradora',
@@ -15,6 +16,7 @@ import {AdministradoraService} from '../../services/administradora/administrador
 })
 export class AdministradoraComponent implements OnInit {
 
+  @ViewChild(NgForm) formAdministradora: NgForm;
   @ViewChild(MatSort) sortAdministradora: MatSort;
   @ViewChild(MatPaginator) paginatorAdministradora: MatPaginator;
 
@@ -67,6 +69,7 @@ export class AdministradoraComponent implements OnInit {
 
   adicionar(): void {
     this.estado = 'adicionando';
+    this.formAdministradora?.reset();
     this.administradoraSelecionada = new Administradora();
     this.AdministradoraEditando = this.administradoraSelecionada;
   }
@@ -90,20 +93,33 @@ export class AdministradoraComponent implements OnInit {
   }
 
   salvarNovaAdministradora(): void {
-    this.administradoraService.adicionarAdministradora(this.AdministradoraEditando).subscribe(response => {
-      this.snackBar.openSnackBar('Administradora adicionada com sucesso!');
-      this.limpar();
-      this.carregaTabelaAdministradora();
-    });
+    if (this.formAdministradora.valid) {
+      this.administradoraService.adicionarAdministradora(this.AdministradoraEditando).subscribe(response => {
+        this.snackBar.openSnackBar('Administradora adicionada com sucesso!');
+        this.limpar();
+        this.carregaTabelaAdministradora();
+      });
+    } else {
+      this.erroFormInvalido();
+    }
   }
 
   atualizarAdministradora(): void {
-    this.administradoraService.editarAdministradora(this.AdministradoraEditando).subscribe(response => {
-      this.snackBar.openSnackBar('Administradora atualizada com sucesso!');
-      this.visualizar();
-      this.carregaTabelaAdministradora();
-      this.administradoraSelecionada = response;
-    });
+    if (this.formAdministradora.valid) {
+      this.administradoraService.editarAdministradora(this.AdministradoraEditando).subscribe(response => {
+        this.snackBar.openSnackBar('Administradora atualizada com sucesso!');
+        this.visualizar();
+        this.carregaTabelaAdministradora();
+        this.administradoraSelecionada = response;
+      });
+    } else {
+      this.erroFormInvalido();
+    }
+  }
+
+  private erroFormInvalido(): void {
+    this.formAdministradora.form.markAllAsTouched();
+    this.snackBar.openSnackBar("Preencha todos os campos!");
   }
 
   removerAdministradora(): void {
@@ -123,6 +139,14 @@ export class AdministradoraComponent implements OnInit {
         });
       }
     });
+  }
+
+  onSubmit(): void {
+    if (this.adicionandoAdministradora()) {
+      this.salvarNovaAdministradora();
+    } else if (this.editandoAdministradora()) {
+      this.atualizarAdministradora();
+    }
   }
 
 }
