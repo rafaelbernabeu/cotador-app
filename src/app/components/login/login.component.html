@@ -1,26 +1,30 @@
 <mat-card style="text-align: center">
-  <mat-card-header>
-    <mat-card-title>Login</mat-card-title>
+  <mat-card-header style="justify-content: center">
+    <mat-card-title>
+      Bem-vindo!
+    </mat-card-title>
   </mat-card-header>
   <mat-card-content>
+    <br/>
 
-    <form class="example-form">
-      <mat-form-field class="example-full-width">
+    <form #loginForm="ngForm" (submit)="loginForm.valid ? fazerLogin() : loginForm.form.markAllAsTouched()">
+      <mat-form-field>
         <mat-label>Email</mat-label>
-        <input matInput [(ngModel)]="usuario.email" placeholder="email" name="email" type="text">
+        <input matInput [(ngModel)]="usuario.email" placeholder="Email" name="email" type="text" required>
       </mat-form-field>
 
       <br/>
 
-      <mat-form-field class="example-full-width">
+      <mat-form-field>
         <mat-label>Senha</mat-label>
-        <input matInput [(ngModel)]="usuario.password" placeholder="password" name="password" type="password">
+        <input matInput [(ngModel)]="usuario.password" placeholder="Senha" name="password" type="password" required>
       </mat-form-field>
+      <button type="submit" hidden></button>
     </form>
 
   </mat-card-content>
   <mat-card-actions>
-    <button mat-raised-button color="warn" (click)="fazerLogin()" name="action" type="submit">
+    <button mat-raised-button color="warn" [disabled]="loginForm.invalid" (click)="fazerLogin()" name="action" type="submit">
       Login
     </button>
   </mat-card-actions>
