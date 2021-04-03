@@ -10,7 +10,8 @@ import {Role} from '../../services/role/role';
 import {DialogComponent} from '../dialog/dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import * as bcrypt from 'bcryptjs';
-import {NgModel} from "@angular/forms";
+import {NgForm, NgModel} from "@angular/forms";
+import {UtilService} from "../../services/util/util.service";
 
 @Component({
   selector: 'app-usuario',
@@ -19,6 +20,7 @@ import {NgModel} from "@angular/forms";
 })
 export class UsuarioComponent implements OnInit {
 
+  @ViewChild('usuarioForm') formUsuario: NgForm;
   @ViewChild('usuariosSort') sortUsuario: MatSort;
   @ViewChild('rolesSort') sortProfissao: MatSort;
   @ViewChild('paginatorUsuarios') paginatorUsuario: MatPaginator;
@@ -61,6 +63,7 @@ export class UsuarioComponent implements OnInit {
 
   selecionarUsuario(usuario: Usuario): void {
     this.estado = null;
+    this.formUsuario?.reset();
     this.usuarioSelecionado = usuario;
     this.usuarioEditando = {...usuario};
     this.carregaTabelaRoles(this.usuarioSelecionado.roles);
@@ -92,6 +95,7 @@ export class UsuarioComponent implements OnInit {
   }
 
   adicionar(): void {
+    this.formUsuario?.reset();
     this.estado = 'adicionando';
     this.usuarioSelecionado = new Usuario();
     this.usuarioEditando = this.usuarioSelecionado;
@@ -133,24 +137,37 @@ export class UsuarioComponent implements OnInit {
   }
 
   salvarNovoUsuario(): void {
-    this.usuarioEditando.roles = this.todasRoles.filter(r => r.selected);
-    this.usuarioEditando.password = bcrypt.hashSync(this.usuarioEditando.password, 10);
-    this.usuarioService.adicionarUsuario(this.usuarioEditando).subscribe(response => {
-      this.snackBar.openSnackBar('Usuario adicionado com sucesso!');
-      this.limpar();
-      this.carregaTabelaUsuarios();
-    });
+    if (this.formUsuario.valid) {
+      this.usuarioEditando.roles = this.todasRoles.filter(r => r.selected);
+      this.usuarioEditando.password = bcrypt.hashSync(this.usuarioEditando.password, 10);
+      this.usuarioService.adicionarUsuario(this.usuarioEditando).subscribe(response => {
+        this.snackBar.openSnackBar('Usuario adicionado com sucesso!');
+        this.limpar();
+        this.carregaTabelaUsuarios();
+      });
+    } else {
+      this.erroFormInvalido();
+    }
   }
 
   atualizarUsuario(): void {
-    this.usuarioEditando.roles = this.todasRoles.filter(r => r.selected);
-    this.usuarioService.editarUsuario(this.usuarioEditando).subscribe(response => {
-      this.snackBar.openSnackBar('Usuario atualizado com sucesso!');
-      this.visualizar();
-      this.carregaTabelaUsuarios();
-      this.usuarioSelecionado = response;
-      this.carregaTabelaRoles(this.usuarioSelecionado.roles);
-    });
+    if (this.formUsuario.valid) {
+      this.usuarioEditando.roles = this.todasRoles.filter(r => r.selected);
+      this.usuarioService.editarUsuario(this.usuarioEditando).subscribe(response => {
+        this.snackBar.openSnackBar('Usuario atualizado com sucesso!');
+        this.visualizar();
+        this.carregaTabelaUsuarios();
+        this.usuarioSelecionado = response;
+        this.carregaTabelaRoles(this.usuarioSelecionado.roles);
+      });
+    } else {
+      this.erroFormInvalido();
+    }
+  }
+
+  private erroFormInvalido(): void {
+    this.formUsuario.form.markAllAsTouched();
+    this.snackBar.openSnackBar("Preencha todos os dados!");
   }
 
   removerUsuario(): void {
@@ -172,10 +189,16 @@ export class UsuarioComponent implements OnInit {
     });
   }
 
-  isFormInvalido(nome: NgModel, email: NgModel, senha: NgModel): boolean {
-    return nome.invalid && (nome.dirty || nome.touched) ||
-      email.invalid && (email.dirty || email.touched) ||
-      senha.invalid && (senha.dirty || senha.touched);
+  isFormInvalido(...models: NgModel[]): boolean {
+    return UtilService.isFormInvalido(...models);
+  }
+
+  onSubmit(): void {
+    if (this.adicionandoUsuario()) {
+      this.salvarNovoUsuario();
+    } else if (this.editandoUsuario()) {
+      this.atualizarUsuario();
+    }
   }
 
 }
