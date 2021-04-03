@@ -338,7 +338,7 @@ export class CotacaoComponent implements OnInit {
 
   modelChangeCategoria(categoria: Categoria): void {
     if (categoria === 'Empresarial') {
-      this.filtroCotacao.mei = null;
+      this.filtroCotacao.mei = false;
       this.filtroCotacao.profissoes = [];
       this.filtroCotacao.tipoAdesao = null;
       this.filtroCotacao.administradoras = [];
