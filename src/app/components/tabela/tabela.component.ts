@@ -539,7 +539,6 @@ export class TabelaComponent implements OnInit {
 
   cancelarFiltro(): void {
     this.cancelarAdicao();
-    this.configuraTabelaTabela(this.todasTabelas);
   }
 
   onSubmit(): void {

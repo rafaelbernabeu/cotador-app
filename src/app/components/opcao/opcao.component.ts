@@ -744,7 +744,6 @@ export class OpcaoComponent implements OnInit {
 
   cancelarFiltro(): void {
     this.cancelarAdicao();
-    this.configuraTabelaOpcao(this.todasOpcoes);
   }
 
   getTableWidth(): string {

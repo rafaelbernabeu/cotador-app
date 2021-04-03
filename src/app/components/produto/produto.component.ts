@@ -419,7 +419,6 @@ export class ProdutoComponent implements OnInit {
 
   cancelarFiltro(): void {
     this.cancelarAdicao();
-    this.configuraTabelaProduto(this.todosProdutos);
   }
 
   onSubmit(): void {
