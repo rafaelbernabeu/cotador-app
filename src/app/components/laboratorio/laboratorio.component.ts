@@ -9,6 +9,7 @@ import {LaboratorioService} from '../../services/laboratorio/laboratorio.service
 import {DialogComponent} from '../dialog/dialog.component';
 import {EstadoService} from "../../services/estado/estado.service";
 import {Estado} from "../../services/estado/estado";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-laboratorio',
@@ -17,6 +18,7 @@ import {Estado} from "../../services/estado/estado";
 })
 export class LaboratorioComponent implements OnInit {
 
+  @ViewChild(NgForm) formLaboratorio: NgForm;
   @ViewChild(MatSort) sortLaboratorio: MatSort;
   @ViewChild(MatPaginator) paginatorLaboratorio: MatPaginator;
 
@@ -72,6 +74,7 @@ export class LaboratorioComponent implements OnInit {
 
   adicionar(): void {
     this.estado = 'adicionando';
+    this.formLaboratorio?.resetForm();
     this.laboratorioSelecionado = new Laboratorio();
     this.laboratorioEditando = this.laboratorioSelecionado;
   }
@@ -95,20 +98,33 @@ export class LaboratorioComponent implements OnInit {
   }
 
   salvarNovoLaboratorio(): void {
-    this.laboratorioService.adicionarLaboratorio(this.laboratorioEditando).subscribe(response => {
-      this.snackBar.openSnackBar('Laboratorio adicionado com sucesso!');
-      this.limpar();
-      this.carregaTabelaLaboratorio();
-    });
+    if (this.formLaboratorio.valid) {
+      this.laboratorioService.adicionarLaboratorio(this.laboratorioEditando).subscribe(response => {
+        this.snackBar.openSnackBar('Laboratorio adicionado com sucesso!');
+        this.limpar();
+        this.carregaTabelaLaboratorio();
+      });
+    } else {
+      this.erroFormInvalido();
+    }
   }
 
   atualizarLaboratorio(): void {
-    this.laboratorioService.editarLaboratorio(this.laboratorioEditando).subscribe(response => {
-      this.snackBar.openSnackBar('Laboratorio atualizado com sucesso!');
-      this.visualizar();
-      this.carregaTabelaLaboratorio();
-      this.laboratorioSelecionado = response;
-    });
+    if (this.formLaboratorio.valid) {
+      this.laboratorioService.editarLaboratorio(this.laboratorioEditando).subscribe(response => {
+        this.snackBar.openSnackBar('Laboratorio atualizado com sucesso!');
+        this.visualizar();
+        this.carregaTabelaLaboratorio();
+        this.laboratorioSelecionado = response;
+      });
+    } else {
+      this.erroFormInvalido();
+    }
+  }
+
+  private erroFormInvalido(): void {
+    this.formLaboratorio.form.markAllAsTouched();
+    this.snackBar.openSnackBar("Preencha todos os campos!");
   }
 
   removerLaboratorio(): void {
@@ -129,4 +145,13 @@ export class LaboratorioComponent implements OnInit {
       }
     });
   }
+
+  onSubmit(): void {
+    if (this.adicionandoLaboratorio()) {
+      this.salvarNovoLaboratorio();
+    } else if (this.editandoLaboratorio()) {
+      this.atualizarLaboratorio();
+    }
+  }
+
 }
