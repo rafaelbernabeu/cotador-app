@@ -63,9 +63,9 @@ export class UsuarioComponent implements OnInit {
 
   selecionarUsuario(usuario: Usuario): void {
     this.estado = null;
-    this.formUsuario?.reset();
     this.usuarioSelecionado = usuario;
     this.usuarioEditando = {...usuario};
+    this.formUsuario?.form.markAsUntouched();
     this.carregaTabelaRoles(this.usuarioSelecionado.roles);
     this.editarUsuario();
   }
@@ -167,7 +167,7 @@ export class UsuarioComponent implements OnInit {
 
   private erroFormInvalido(): void {
     this.formUsuario.form.markAllAsTouched();
-    this.snackBar.openSnackBar("Preencha todos os dados!");
+    this.snackBar.openSnackBar("Preencha todos os campos!");
   }
 
   removerUsuario(): void {

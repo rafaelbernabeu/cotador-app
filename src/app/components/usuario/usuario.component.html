@@ -73,51 +73,25 @@
 
         <mat-card-content>
           <form #usuarioForm="ngForm" (submit)="onSubmit()">
-            <div ngModelGroup="usuarioFormGroup" #usuarioFormGroup="ngModelGroup">
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Nome</mat-label>
+              <input matInput placeholder="Nome" [disabled]="!adicionandoUsuario() && !editandoUsuario()"
+                     [(ngModel)]="usuarioEditando.nome" name="nome" type="text" #nome="ngModel" required>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Email</mat-label>
+              <input matInput placeholder="Email" [disabled]="!adicionandoUsuario() && !editandoUsuario()"
+                     [(ngModel)]="usuarioEditando.email" name="email" type="email" #email="ngModel" required>
+            </mat-form-field>
+            <div [hidden]="!adicionandoUsuario() && !editandoUsuario()">
               <mat-form-field appearance="outline" style="width: 100%">
-                <mat-label>Nome</mat-label>
-                <input matInput placeholder="Nome" [disabled]="!adicionandoUsuario() && !editandoUsuario()"
-                       [(ngModel)]="usuarioEditando.nome" name="nome" type="text" #nome="ngModel" required>
+                <input matInput placeholder="Senha" [(ngModel)]="usuarioEditando.password" name="senha" type="password" #senha="ngModel" required>
+                <mat-label>Senha</mat-label>
               </mat-form-field>
-              <mat-form-field appearance="outline" style="width: 100%">
-                <mat-label>Email</mat-label>
-                <input matInput placeholder="Email" [disabled]="!adicionandoUsuario() && !editandoUsuario()"
-                       [(ngModel)]="usuarioEditando.email" name="email" type="email" #email="ngModel" required>
-              </mat-form-field>
-              <div [hidden]="!adicionandoUsuario() && !editandoUsuario()">
-                <mat-form-field appearance="outline" style="width: 100%">
-                  <input matInput placeholder="Senha" [(ngModel)]="usuarioEditando.password" name="senha" type="password" #senha="ngModel" required>
-                  <mat-label>Senha</mat-label>
-                </mat-form-field>
-              </div>
             </div>
             <button type="submit" hidden></button>
           </form>
         </mat-card-content>
-
-        Dirty: {{nome.dirty}}
-        Touched: {{nome.touched}}
-        Dirty: {{email.dirty}}
-        Touched: {{email.touched}}
-        Dirty: {{senha.dirty}}
-        Touched: {{senha.touched}}
-
-        {{usuarioForm.valid}}
-
-        {{usuarioFormGroup.valid}}
-
-        <div *ngIf="isFormInvalido(nome, email, senha)" class="alert alert-danger">
-          <div *ngIf="nome?.errors?.required">
-            * Campo Nome obrigatorio.
-          </div>
-          <div *ngIf="email?.errors?.required">
-            * Campo Email obrigatorio.
-          </div>
-          <div *ngIf="(adicionandoUsuario() || editandoUsuario()) && senha?.errors?.required">
-            * Campo Senha obrigatorio.
-          </div>
-
-        </div>
       </mat-card>
     </div>
     <div *ngIf="usuarioSelecionado" style="height: 20px"></div>
