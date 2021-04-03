@@ -94,8 +94,8 @@ export class UsuarioComponent implements OnInit {
   }
 
   adicionar(): void {
-    this.formUsuario?.reset();
     this.estado = 'adicionando';
+    this.formUsuario?.resetForm();
     this.usuarioSelecionado = new Usuario();
     this.usuarioEditando = this.usuarioSelecionado;
     this.preparaRolesParaNovaVerificacao();
