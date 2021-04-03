@@ -4,7 +4,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatAccordion, MatExpansionPanel} from '@angular/material/expansion';
 import {MatTableDataSource} from '@angular/material/table';
 import {Operadora} from '../../services/operadora/operadora';
-import {FormControl} from '@angular/forms';
+import {FormControl, NgForm} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {SnackbarService} from '../../services/snackbar/snackbar.service';
@@ -36,6 +36,7 @@ import {UtilService} from "../../services/util/util.service";
 })
 export class TabelaComponent implements OnInit {
 
+  @ViewChild('formTabela') formTabela: NgForm;
   @ViewChild('sortTabela') sortTabela: MatSort;
   @ViewChild('paginatorTabela') paginatorTabela: MatPaginator;
 
@@ -284,6 +285,7 @@ export class TabelaComponent implements OnInit {
 
   adicionar(): void {
     this.estado = 'adicionando';
+    this.formTabela?.resetForm();
     this.tabelaSelecionada = new Tabela();
     this.tabelaEditando = this.tabelaSelecionada;
     this.reajusteAutoCompleteControl.enable();
@@ -361,6 +363,11 @@ export class TabelaComponent implements OnInit {
       this.tabelaSelecionada = response;
       this.carregaTabelasAdicionais(this.tabelaSelecionada);
     });
+  }
+
+  private erroFormInvalido(): void {
+    this.formTabela.form.markAllAsTouched();
+    this.snackBar.openSnackBar("Preencha todos os campos!");
   }
 
   private carregaTabelasAdicionais(tabela: Tabela): void {
@@ -533,6 +540,14 @@ export class TabelaComponent implements OnInit {
   cancelarFiltro(): void {
     this.cancelarAdicao();
     this.configuraTabelaTabela(this.todasTabelas);
+  }
+
+  onSubmit(): void {
+    if (this.adicionandoTabela()) {
+      this.salvarNovaTabela();
+    } else if (this.editandoTabela()) {
+      this.atualizarTabela();
+    }
   }
 
 }

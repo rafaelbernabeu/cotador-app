@@ -12,7 +12,7 @@ import {Estado} from '../../services/estado/estado';
 import {Categoria} from '../../services/categoria/categoria';
 import {Operadora} from '../../services/operadora/operadora';
 import {Administradora} from '../../services/administradora/administradora';
-import {FormControl} from '@angular/forms';
+import {FormControl, NgForm, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {EstadoService} from '../../services/estado/estado.service';
 import {OperadoraService} from '../../services/operadora/operadora.service';
@@ -39,6 +39,7 @@ import {ReajusteService} from "../../services/reajuste/reajuste.service";
 })
 export class OpcaoComponent implements OnInit {
 
+  @ViewChild(NgForm) formOpcao: NgForm;
   @ViewChild(MatSort) sortOpcao: MatSort;
   @ViewChild(MatPaginator) paginatorOpcao: MatPaginator;
 
@@ -61,11 +62,11 @@ export class OpcaoComponent implements OnInit {
   todasAbrangencias: Abrangencia[];
   todasAdministradoras: Administradora[];
 
-  tabelaAutoCompleteControl = new FormControl();
-  estadoAutoCompleteControl = new FormControl();
-  produtoAutoCompleteControl = new FormControl();
-  operadoraAutoCompleteControl = new FormControl();
-  administradoraAutoCompleteControl = new FormControl();
+  tabelaAutoCompleteControl = new FormControl(Validators.required);
+  estadoAutoCompleteControl = new FormControl(Validators.required);
+  produtoAutoCompleteControl = new FormControl(Validators.required);
+  operadoraAutoCompleteControl = new FormControl(Validators.required);
+  administradoraAutoCompleteControl = new FormControl(Validators.required);
   tabelaFilteredOptions: Observable<Tabela[]>;
   estadoFilteredOptions: Observable<Estado[]>;
   produtoFilteredOptions: Observable<Produto[]>;
@@ -476,6 +477,7 @@ export class OpcaoComponent implements OnInit {
 
   adicionar(): void {
     this.estado = 'adicionando';
+    this.formOpcao?.resetForm();
     this.opcaoSelecionada = new Opcao();
     this.opcaoEditando = this.opcaoSelecionada;
     this.tabelaAutoCompleteControl.disable();
@@ -519,24 +521,37 @@ export class OpcaoComponent implements OnInit {
   }
 
   salvarNovaOpcao(): void {
-    this.opcaoEditando.tabela = this.tabelaAutoCompleteControl.value;
-    this.opcaoEditando.produto = this.produtoAutoCompleteControl.value;
-    this.opcaoService.adicionarOpcao(this.opcaoEditando).subscribe(response => {
-      this.snackBar.openSnackBar('Opcao adicionado com sucesso!');
-      this.limpar();
-      this.carregaTabelaOpcao();
-    });
+    if (this.formOpcao.valid) {
+      this.opcaoEditando.tabela = this.tabelaAutoCompleteControl.value;
+      this.opcaoEditando.produto = this.produtoAutoCompleteControl.value;
+      this.opcaoService.adicionarOpcao(this.opcaoEditando).subscribe(response => {
+        this.snackBar.openSnackBar('Opcao adicionado com sucesso!');
+        this.limpar();
+        this.carregaTabelaOpcao();
+      });
+    } else {
+      this.erroFormInvalido();
+    }
   }
 
   atualizarOpcao(): void {
-    this.opcaoEditando.tabela = this.tabelaAutoCompleteControl.value;
-    this.opcaoEditando.produto = this.produtoAutoCompleteControl.value;
-    this.opcaoService.editarOpcao(this.opcaoEditando).subscribe(response => {
-      this.snackBar.openSnackBar('Opcao atualizado com sucesso!');
-      this.visualizar();
-      this.carregaTabelaOpcao();
-      this.opcaoSelecionada = response;
-    });
+    if (this.formOpcao.valid) {
+      this.opcaoEditando.tabela = this.tabelaAutoCompleteControl.value;
+      this.opcaoEditando.produto = this.produtoAutoCompleteControl.value;
+      this.opcaoService.editarOpcao(this.opcaoEditando).subscribe(response => {
+        this.snackBar.openSnackBar('Opcao atualizado com sucesso!');
+        this.visualizar();
+        this.carregaTabelaOpcao();
+        this.opcaoSelecionada = response;
+      });
+    } else {
+      this.erroFormInvalido();
+    }
+  }
+
+  private erroFormInvalido(): void {
+    this.formOpcao.form.markAllAsTouched();
+    this.snackBar.openSnackBar("Preencha todos os campos!");
   }
 
   removerOpcao(): void {
@@ -734,6 +749,14 @@ export class OpcaoComponent implements OnInit {
 
   getTableWidth(): string {
     return (this.displayedColumns?.length * 125)  +'px';
+  }
+
+  onSubmit(): void {
+    if (this.adicionandoOpcao()) {
+      this.salvarNovaOpcao();
+    } else if (this.editandoOpcao()) {
+      this.atualizarOpcao();
+    }
   }
 
 }
