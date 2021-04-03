@@ -3,7 +3,7 @@ import {CotacaoService} from "../../services/cotacao/cotacao.service";
 import {Cotacao} from "../../services/cotacao/cotacao";
 import {CategoriaService} from "../../services/categoria/categoria.service";
 import {Categoria} from "../../services/categoria/categoria";
-import {FormControl} from "@angular/forms";
+import {FormControl, NgForm} from "@angular/forms";
 import {Estado} from "../../services/estado/estado";
 import {Profissao} from "../../services/profissao/profissao";
 import {Observable} from "rxjs";
@@ -36,6 +36,7 @@ import {UtilService} from "../../services/util/util.service";
 })
 export class CotacaoComponent implements OnInit {
 
+  @ViewChild(NgForm) formCotacao: NgForm;
   @ViewChild(MatAccordion) accordion: MatAccordion;
   @ViewChild('panelAptComCopart') panelAptComCopart: MatExpansionPanel;
   @ViewChild('panelAptSemCopart') panelAptSemCopart: MatExpansionPanel;

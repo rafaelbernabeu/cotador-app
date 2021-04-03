@@ -45,7 +45,6 @@
           <mat-form-field *ngIf="isCotacaoEmpresarial()" appearance="outline" [style.width]="isCotacaoEmpresarial() ? '25%' : '33%'">
             <mat-label>Tipo Adesão</mat-label>
             <mat-select [(ngModel)]="filtroCotacao.tipoAdesao">
-              <mat-option [value]="null"></mat-option>
               <mat-option [value]="'livreAdesao'">Livre Adesão</mat-option>
               <mat-option [value]="'compulsoria'">Compulsória</mat-option>
             </mat-select>
@@ -54,16 +53,16 @@
           <mat-form-field appearance="outline" [style.width]="isCotacaoEmpresarial() ? '25%' : '33.3%'">
             <mat-label>Coparticipação</mat-label>
             <mat-select [(ngModel)]="filtroCotacao.coparticipacao">
-              <mat-option [value]="null"></mat-option>
-              <mat-option [value]="true">Com</mat-option>
               <mat-option [value]="false">Sem</mat-option>
+              <mat-option [value]="true">Com</mat-option>
+              <mat-option [value]="''">Todas</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline" [style.width]="isCotacaoEmpresarial() ? '25%' : '33.3%'">
             <mat-label>Acomodação</mat-label>
             <mat-select [(ngModel)]="filtroCotacao.acomodacao">
-              <mat-option [value]=""></mat-option>
+              <mat-option [value]="''">Todas</mat-option>
               <mat-option *ngFor="let acomodacao of todasAcomodacoes;" [value]="acomodacao">{{acomodacao}}</mat-option>
             </mat-select>
           </mat-form-field>
