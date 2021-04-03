@@ -7,6 +7,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {SnackbarService} from '../../services/snackbar/snackbar.service';
 import {HospitalService} from '../../services/hospital/hospital.service';
 import {DialogComponent} from '../dialog/dialog.component';
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-hospital',
@@ -15,6 +16,7 @@ import {DialogComponent} from '../dialog/dialog.component';
 })
 export class HospitalComponent implements OnInit {
 
+  @ViewChild(NgForm) formHospital: NgForm;
   @ViewChild(MatSort) sortHospital: MatSort;
   @ViewChild(MatPaginator) paginatorHospital: MatPaginator;
 
@@ -67,6 +69,7 @@ export class HospitalComponent implements OnInit {
 
   adicionar(): void {
     this.estado = 'adicionando';
+    this.formHospital?.resetForm();
     this.hospitalSelecionado = new Hospital();
     this.hospitalEditando = this.hospitalSelecionado;
   }
@@ -90,20 +93,33 @@ export class HospitalComponent implements OnInit {
   }
 
   salvarNovoHospital(): void {
-    this.hospitalService.adicionarHospital(this.hospitalEditando).subscribe(response => {
-      this.snackBar.openSnackBar('Hospital adicionado com sucesso!');
-      this.limpar();
-      this.carregaTabelaHospital();
-    });
+    if (this.formHospital.valid) {
+      this.hospitalService.adicionarHospital(this.hospitalEditando).subscribe(response => {
+        this.snackBar.openSnackBar('Hospital adicionado com sucesso!');
+        this.limpar();
+        this.carregaTabelaHospital();
+      });
+    } else {
+      this.erroFormInvalido();
+    }
   }
 
   atualizarHospital(): void {
-    this.hospitalService.editarHospital(this.hospitalEditando).subscribe(response => {
-      this.snackBar.openSnackBar('Hospital atualizado com sucesso!');
-      this.visualizar();
-      this.carregaTabelaHospital();
-      this.hospitalSelecionado = response;
-    });
+    if (this.formHospital.valid) {
+      this.hospitalService.editarHospital(this.hospitalEditando).subscribe(response => {
+        this.snackBar.openSnackBar('Hospital atualizado com sucesso!');
+        this.visualizar();
+        this.carregaTabelaHospital();
+        this.hospitalSelecionado = response;
+      });
+    } else {
+      this.erroFormInvalido();
+    }
+  }
+
+  private erroFormInvalido(): void {
+    this.formHospital.form.markAllAsTouched();
+    this.snackBar.openSnackBar("Preencha todos os campos!");
   }
 
   removerHospital(): void {
@@ -123,6 +139,14 @@ export class HospitalComponent implements OnInit {
         });
       }
     });
+  }
+
+  onSubmit(): void {
+    if (this.adicionandoHospital()) {
+      this.salvarNovoHospital();
+    } else if (this.editandoHospital()) {
+      this.atualizarHospital();
+    }
   }
 
 }

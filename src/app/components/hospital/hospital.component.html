@@ -72,16 +72,19 @@
         <br/>
 
         <mat-card-content>
-          <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Nome</mat-label>
-            <input matInput placeholder="Nome" [disabled]="!adicionandoHospital() && !editandoHospital()"
-                   [(ngModel)]="hospitalEditando.nome">
-          </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Local</mat-label>
-            <input matInput placeholder="Local" [disabled]="!adicionandoHospital() && !editandoHospital()"
-                   [(ngModel)]="hospitalEditando.local">
-          </mat-form-field>
+          <form #formHospital="ngForm" (submit)="onSubmit()">
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Nome</mat-label>
+              <input matInput placeholder="Nome" name="nome" [disabled]="!adicionandoHospital() && !editandoHospital()"
+                     [(ngModel)]="hospitalEditando.nome" required>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Local</mat-label>
+              <input matInput placeholder="Local" name="local" [disabled]="!adicionandoHospital() && !editandoHospital()"
+                     [(ngModel)]="hospitalEditando.local">
+            </mat-form-field>
+            <button type="submit" hidden></button>
+          </form>
         </mat-card-content>
       </mat-card>
     </div>
