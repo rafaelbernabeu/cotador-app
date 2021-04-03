@@ -69,7 +69,7 @@ export class OperadoraComponent implements OnInit {
 
   adicionar(): void {
     this.estado = 'adicionando';
-    this.formOperadora?.reset();
+    this.formOperadora?.resetForm();
     this.operadoraSelecionada = new Operadora();
     this.operadoraEditando = this.operadoraSelecionada;
   }
