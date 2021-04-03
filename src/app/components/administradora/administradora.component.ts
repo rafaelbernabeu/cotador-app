@@ -69,7 +69,7 @@ export class AdministradoraComponent implements OnInit {
 
   adicionar(): void {
     this.estado = 'adicionando';
-    this.formAdministradora?.reset();
+    this.formAdministradora?.resetForm();
     this.administradoraSelecionada = new Administradora();
     this.AdministradoraEditando = this.administradoraSelecionada;
   }
