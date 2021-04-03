@@ -67,11 +67,14 @@
         <br/>
 
         <mat-card-content>
-          <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Nome</mat-label>
-            <input matInput placeholder="Nome" [disabled]="!adicionandoProfissao() && !editandoProfissao()"
-                   [(ngModel)]="profissaoEditando.nome">
-          </mat-form-field>
+          <form #profissaoForm="ngForm" (submit)="onSubmit()">
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Nome</mat-label>
+              <input matInput placeholder="Nome" name="nome" [disabled]="!adicionandoProfissao() && !editandoProfissao()"
+                     [(ngModel)]="profissaoEditando.nome" required>
+            </mat-form-field>
+            <button type="submit" hidden></button>
+          </form>
         </mat-card-content>
       </mat-card>
     </div>

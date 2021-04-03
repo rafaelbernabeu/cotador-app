@@ -7,6 +7,7 @@ import {MatDialog} from '@angular/material/dialog';
 import {SnackbarService} from '../../services/snackbar/snackbar.service';
 import {ProfissaoService} from '../../services/profissao/profissao.service';
 import {DialogComponent} from '../dialog/dialog.component';
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-profissao',
@@ -15,6 +16,7 @@ import {DialogComponent} from '../dialog/dialog.component';
 })
 export class ProfissaoComponent implements OnInit {
 
+  @ViewChild(NgForm) formProfissao: NgForm;
   @ViewChild(MatSort) sortProfissao: MatSort;
   @ViewChild(MatPaginator) paginatorProfissao: MatPaginator;
 
@@ -67,6 +69,7 @@ export class ProfissaoComponent implements OnInit {
 
   adicionar(): void {
     this.estado = 'adicionando';
+    this.formProfissao?.reset();
     this.profissaoSelecionada = new Profissao();
     this.profissaoEditando = this.profissaoSelecionada;
   }
@@ -90,20 +93,33 @@ export class ProfissaoComponent implements OnInit {
   }
 
   salvarNovaProfissao(): void {
-    this.profissaoService.adicionarProfissao(this.profissaoEditando).subscribe(response => {
-      this.snackBar.openSnackBar('Profissao adicionada com sucesso!');
-      this.limpar();
-      this.carregaTabelaProfissao();
-    });
+    if (this.formProfissao.valid) {
+      this.profissaoService.adicionarProfissao(this.profissaoEditando).subscribe(response => {
+        this.snackBar.openSnackBar('Profissao adicionada com sucesso!');
+        this.limpar();
+        this.carregaTabelaProfissao();
+      });
+    } else {
+      this.erroFormInvalido();
+    }
   }
 
   atualizarProfissao(): void {
-    this.profissaoService.editarProfissao(this.profissaoEditando).subscribe(response => {
-      this.snackBar.openSnackBar('Profissao atualizada com sucesso!');
-      this.visualizar();
-      this.carregaTabelaProfissao();
-      this.profissaoSelecionada = response;
-    });
+    if (this.formProfissao.valid) {
+      this.profissaoService.editarProfissao(this.profissaoEditando).subscribe(response => {
+        this.snackBar.openSnackBar('Profissao atualizada com sucesso!');
+        this.visualizar();
+        this.carregaTabelaProfissao();
+        this.profissaoSelecionada = response;
+      });
+    } else {
+      this.erroFormInvalido();
+    }
+  }
+
+  private erroFormInvalido(): void {
+    this.formProfissao.form.markAllAsTouched();
+    this.snackBar.openSnackBar("Preencha todos os campos!");
   }
 
   removerProfissao(): void {
@@ -123,6 +139,14 @@ export class ProfissaoComponent implements OnInit {
         });
       }
     });
+  }
+
+  onSubmit(): void {
+    if (this.adicionandoProfissao()) {
+      this.salvarNovaProfissao();
+    } else if (this.editandoProfissao()) {
+      this.atualizarProfissao();
+    }
   }
 
 }
