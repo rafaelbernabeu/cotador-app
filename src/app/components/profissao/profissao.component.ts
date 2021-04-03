@@ -69,7 +69,7 @@ export class ProfissaoComponent implements OnInit {
 
   adicionar(): void {
     this.estado = 'adicionando';
-    this.formProfissao?.reset();
+    this.formProfissao?.resetForm();
     this.profissaoSelecionada = new Profissao();
     this.profissaoEditando = this.profissaoSelecionada;
   }
