@@ -10,6 +10,7 @@ import {Role} from '../../services/role/role';
 import {DialogComponent} from '../dialog/dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import * as bcrypt from 'bcryptjs';
+import {NgModel} from "@angular/forms";
 
 @Component({
   selector: 'app-usuario',
@@ -170,4 +171,11 @@ export class UsuarioComponent implements OnInit {
       }
     });
   }
+
+  isFormInvalido(nome: NgModel, email: NgModel, senha: NgModel): boolean {
+    return nome.invalid && (nome.dirty || nome.touched) ||
+      email.invalid && (email.dirty || email.touched) ||
+      senha.invalid && (senha.dirty || senha.touched);
+  }
+
 }
