@@ -654,7 +654,7 @@ export class OpcaoComponent implements OnInit {
       }
 
       if (this.filtroOpcao.tabelas.length) {
-        opcoesFiltradas = opcoesFiltradas.filter(op => this.filtroOpcao.tabelas.filter(t => t.id === op.tabela.id).length);
+        opcoesFiltradas = opcoesFiltradas.filter(op => this.filtroOpcao.tabelas.filter(t => t.nome === op.tabela.nome).length);
       }
 
       if (this.filtroOpcao.acomodacao) {
@@ -702,7 +702,7 @@ export class OpcaoComponent implements OnInit {
 
   filtrar(): void {
     this.reajusteService.getAllReajustes().subscribe(response => this.todosReajustes = response);
-    this.todasTabelas = this.todasOpcoes.map(op => op.tabela).filter(UtilService.filtraDuplicadasId);
+    this.todasTabelas = this.todasOpcoes.map(op => op.tabela).filter(UtilService.filtraDuplicadasNome);
     this.todosProdutos = this.todasOpcoes.map(op => op.produto).filter(UtilService.filtraDuplicadasId);
     this.todosEstados = this.todasOpcoes.map(op => op.tabela.estado).filter(UtilService.filtraDuplicadasNome);
     this.todasOperadoras = this.todasOpcoes.map(op => op.tabela.operadora).filter(UtilService.filtraDuplicadasId);
