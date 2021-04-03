@@ -167,7 +167,7 @@
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Situação</mat-label>
             <mat-select (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.ativo">
-              <mat-option [value]="null"></mat-option>
+              <mat-option [value]="''">Todos</mat-option>
               <mat-option [value]="true">Ativos</mat-option>
               <mat-option [value]="false">Inativos</mat-option>
             </mat-select>
@@ -188,7 +188,7 @@
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Abrangencia</mat-label>
             <mat-select (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.abrangencia">
-              <mat-option [value]="null"></mat-option>
+              <mat-option [value]="''">Todas</mat-option>
               <mat-option *ngFor="let abrangencia of todasAbrangencias;" [value]="abrangencia">{{abrangencia}}</mat-option>
             </mat-select>
           </mat-form-field>

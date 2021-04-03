@@ -363,7 +363,7 @@ export class ProdutoComponent implements OnInit {
     setTimeout(() => {
       let produtosFiltrados = this.todosProdutos;
 
-      if (this.filtroProduto.ativo != null) {
+      if (this.filtroProduto.ativo != null && typeof this.filtroProduto.ativo === "boolean") {
         produtosFiltrados = this.todosProdutos.filter(p => p.ativo === this.filtroProduto.ativo);
       }
 
