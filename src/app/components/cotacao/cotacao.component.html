@@ -196,7 +196,7 @@
             </mat-expansion-panel-header>
 
             <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
-              <mat-table [style.width]="getTableWidth()" #sortCotacaoAptSemCopart='matSort' [dataSource]="dataSourceCotacaoAptSemCopart" matSort class="mat-elevation-z8">
+              <mat-table style="margin: auto" [style.width]="getTableWidth()" #sortCotacaoAptSemCopart='matSort' [dataSource]="dataSourceCotacaoAptSemCopart" matSort class="mat-elevation-z8">
                 <ng-container matColumnDef="selected">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Exibir</mat-header-cell>
                   <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer">
@@ -341,7 +341,7 @@
                 <mat-header-row *matHeaderRowDef="displayedColumnsCotacao"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumnsCotacao;"></mat-row>
               </mat-table>
-              <mat-paginator [style.width]="getTableWidth()"  #paginatorCotacaoAptSemCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoAptSemCopart.data.length" showFirstLastButtons></mat-paginator>
+              <mat-paginator style="margin: auto" [style.width]="getTableWidth()"  #paginatorCotacaoAptSemCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoAptSemCopart.data.length" showFirstLastButtons></mat-paginator>
             </div>
 
           </mat-expansion-panel>
@@ -358,7 +358,7 @@
             </mat-expansion-panel-header>
 
             <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
-              <mat-table [style.width]="getTableWidth()" #sortCotacaoAptComCopart='matSort' [dataSource]="dataSourceCotacaoAptComCopart" matSort class="mat-elevation-z8">
+              <mat-table style="margin: auto" [style.width]="getTableWidth()" #sortCotacaoAptComCopart='matSort' [dataSource]="dataSourceCotacaoAptComCopart" matSort class="mat-elevation-z8">
 
                 <ng-container matColumnDef="selected">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Exibir</mat-header-cell>
@@ -504,7 +504,7 @@
                 <mat-header-row *matHeaderRowDef="displayedColumnsCotacao"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumnsCotacao;"></mat-row>
               </mat-table>
-              <mat-paginator [style.width]="getTableWidth()" #paginatorCotacaoAptComCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoAptComCopart.data.length" showFirstLastButtons></mat-paginator>
+              <mat-paginator style="margin: auto" [style.width]="getTableWidth()" #paginatorCotacaoAptComCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoAptComCopart.data.length" showFirstLastButtons></mat-paginator>
             </div>
 
           </mat-expansion-panel>
@@ -521,7 +521,7 @@
             </mat-expansion-panel-header>
 
             <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
-              <mat-table [style.width]="getTableWidth()" #sortCotacaoEnfSemCopart='matSort' [dataSource]="dataSourceCotacaoEnfSemCopart" matSort class="mat-elevation-z8">
+              <mat-table style="margin: auto" [style.width]="getTableWidth()" #sortCotacaoEnfSemCopart='matSort' [dataSource]="dataSourceCotacaoEnfSemCopart" matSort class="mat-elevation-z8">
 
                 <ng-container matColumnDef="selected">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Exibir</mat-header-cell>
@@ -667,7 +667,7 @@
                 <mat-header-row *matHeaderRowDef="displayedColumnsCotacao"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumnsCotacao;"></mat-row>
               </mat-table>
-              <mat-paginator [style.width]="getTableWidth()" #paginatorCotacaoEnfSemCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoEnfSemCopart.data.length" showFirstLastButtons></mat-paginator>
+              <mat-paginator style="margin: auto" [style.width]="getTableWidth()" #paginatorCotacaoEnfSemCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoEnfSemCopart.data.length" showFirstLastButtons></mat-paginator>
             </div>
 
           </mat-expansion-panel>
@@ -684,7 +684,7 @@
             </mat-expansion-panel-header>
 
             <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
-              <mat-table [style.width]="getTableWidth()" #sortCotacaoEnfComCopart='matSort' [dataSource]="dataSourceCotacaoEnfComCopart" matSort class="mat-elevation-z8">
+              <mat-table style="margin: auto" [style.width]="getTableWidth()" #sortCotacaoEnfComCopart='matSort' [dataSource]="dataSourceCotacaoEnfComCopart" matSort class="mat-elevation-z8">
 
                 <ng-container matColumnDef="selected">
                   <mat-header-cell *matHeaderCellDef mat-sort-header>Exibir</mat-header-cell>
@@ -830,7 +830,7 @@
                 <mat-header-row *matHeaderRowDef="displayedColumnsCotacao"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumnsCotacao;"></mat-row>
               </mat-table>
-              <mat-paginator [style.width]="getTableWidth()" #paginatorCotacaoEnfComCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoEnfComCopart.data.length" showFirstLastButtons></mat-paginator>
+              <mat-paginator style="margin: auto" [style.width]="getTableWidth()" #paginatorCotacaoEnfComCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoEnfComCopart.data.length" showFirstLastButtons></mat-paginator>
             </div>
 
           </mat-expansion-panel>
