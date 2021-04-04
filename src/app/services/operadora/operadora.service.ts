@@ -29,14 +29,13 @@ export class OperadoraService {
     return this.http.get<Produto[]>(this.getApiUrl() + '/' + operadora.id + this.api.PRODUTO_API_URL, this.authServie.getTokenHeader());
   }
 
-  public getTabelasByOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(operadora: Operadora, administradora: Administradora, estado: Estado, categoria: Categoria, mei: boolean): Observable<Tabela[]> {
+  public getTabelasByOperadoraAndAdministradoraAndEstadoAndCategoria(operadora: Operadora, administradora: Administradora, estado: Estado, categoria: Categoria): Observable<Tabela[]> {
     return this.http.get<Tabela[]>(this.getApiUrl() + '/' + operadora.id + this.api.TABELA_API_URL, {
       headers: this.authServie.getTokenHeader().headers,
       params: new HttpParams()
         .append('administradora', administradora.id.toString())
         .append('estado', estado.sigla)
         .append('categoria', categoria.toString())
-        .append('mei', '' + mei)
     });
   }
 

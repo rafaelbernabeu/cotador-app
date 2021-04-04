@@ -179,8 +179,8 @@ export class OpcaoComponent implements OnInit {
     if (this.isCategoriaAdesao()) {
       this.carregaAdministradoraPorEstadoAndCategoria();
       this.carregaOperadoraPorAdministradoraAndEstadoAndCategoria();
-      this.carregaTabelaPorOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI()
-      this.carregaProdutosPorTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI()
+      this.carregaTabelaPorOperadoraAndAdministradoraAndEstadoAndCategoria()
+      this.carregaProdutosPorTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoria()
     } else if (this.isCategoriaEmpresarial()) {
       this.carregaOperadoraPorEstadoAndCategoria();
       this.carregaTabelaPorOperadoraAndEstadoAndCategoriaAndMEI()
@@ -259,7 +259,7 @@ export class OpcaoComponent implements OnInit {
       if (this.isCategoriaAdesao()) {
         this.carregaOperadoraPorAdministradoraAndEstadoAndCategoria();
       } else if (this.isCategoriaEmpresarial()) {
-        this.carregaOperadoraPorEstadoAndCategoria();
+        this.carregaTabelaPorOperadoraAndEstadoAndCategoriaAndMEI();
       }
     }
   }
@@ -316,19 +316,19 @@ export class OpcaoComponent implements OnInit {
   private modelChangeOperadora(): void {
     if (this.adicionandoOpcao() || this.editandoOpcao()) {
       if (this.isCategoriaAdesao()) {
-        this.carregaTabelaPorOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI();
+        this.carregaTabelaPorOperadoraAndAdministradoraAndEstadoAndCategoria();
       } else if (this.isCategoriaEmpresarial()) {
         this.carregaTabelaPorOperadoraAndEstadoAndCategoriaAndMEI();
       }
     }
   }
 
-  private carregaTabelaPorOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(): void {
+  private carregaTabelaPorOperadoraAndAdministradoraAndEstadoAndCategoria(): void {
     const estado = this.estadoAutoCompleteControl.value;
     const administradora = this.administradoraAutoCompleteControl.value;
     const operadora = this.operadoraAutoCompleteControl.value;
     if (operadora.id && estado.sigla && administradora.id && this.opcaoEditando.categoria) {
-      this.operadoraService.getTabelasByOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(operadora, administradora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
+      this.operadoraService.getTabelasByOperadoraAndAdministradoraAndEstadoAndCategoria(operadora, administradora, estado, this.opcaoEditando.categoria).subscribe(response => {
         this.todasTabelas = response;
         if (this.editandoOpcao() || this.adicionandoOpcao()) {
           this.tabelaAutoCompleteControl.enable();
@@ -367,20 +367,20 @@ export class OpcaoComponent implements OnInit {
   private modelChangeTabela(): void {
     if (this.adicionandoOpcao() || this.editandoOpcao()) {
       if (this.isCategoriaAdesao()) {
-        this.carregaProdutosPorTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI();
+        this.carregaProdutosPorTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoria();
       } else if (this.isCategoriaEmpresarial()) {
         this.carregaProdutosPorTabelaAndOperadoraAndEstadoAndCategoriaAndMEI();
       }
     }
   }
 
-  private carregaProdutosPorTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(): void {
+  private carregaProdutosPorTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoria(): void {
     const estado = this.estadoAutoCompleteControl.value;
     const administradora = this.administradoraAutoCompleteControl.value;
     const operadora = this.operadoraAutoCompleteControl.value;
     const tabela = this.tabelaAutoCompleteControl.value;
     if (tabela.id && operadora.id && estado.sigla && administradora.id && this.opcaoEditando.categoria) {
-      this.tabelaService.getProdutosByTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(tabela, operadora, administradora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
+      this.tabelaService.getProdutosByTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoria(tabela, operadora, administradora, estado, this.opcaoEditando.categoria).subscribe(response => {
         this.todosProdutos = response;
         if (this.editandoOpcao() || this.adicionandoOpcao()) {
           this.produtoAutoCompleteControl.enable();

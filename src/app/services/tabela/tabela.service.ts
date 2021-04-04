@@ -25,7 +25,7 @@ export class TabelaService {
     return this.http.get<Tabela[]>(this.getApiUrl(), this.authServie.getTokenHeader());
   }
 
-  public getProdutosByTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(tabela: Tabela, operadora: Operadora, administradora: Administradora, estado: Estado, categoria: Categoria, mei: boolean): Observable<Produto[]> {
+  public getProdutosByTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoria(tabela: Tabela, operadora: Operadora, administradora: Administradora, estado: Estado, categoria: Categoria): Observable<Produto[]> {
     return this.http.get<Produto[]>(this.getApiUrl() + '/' + tabela.id + this.api.PRODUTO_API_URL, {
       headers: this.authServie.getTokenHeader().headers,
       params: new HttpParams()
@@ -33,7 +33,6 @@ export class TabelaService {
         .append('administradora', administradora.id.toString())
         .append('estado', estado.sigla)
         .append('categoria', categoria.toString())
-        .append('mei', '' + mei)
     });
   }
 
