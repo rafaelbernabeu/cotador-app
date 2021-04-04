@@ -312,7 +312,7 @@
               </mat-autocomplete>
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 100%">
-              <mat-label>Abrangencia</mat-label>
+              <mat-label>Abrangência</mat-label>
               <mat-select name="abrangencia" [(ngModel)]="produtoEditando.abrangencia" [disabled]="!adicionandoProduto() && !editandoProduto()" required>
                 <mat-option *ngFor="let abrangencia of todasAbrangencias;" [value]="abrangencia">{{abrangencia}}</mat-option>
               </mat-select>
