@@ -9,7 +9,7 @@ import {DialogComponent} from '../dialog/dialog.component';
 import {Produto} from '../../services/produto/produto';
 import {Operadora} from '../../services/operadora/operadora';
 import {OperadoraService} from '../../services/operadora/operadora.service';
-import {FormControl, NgForm} from '@angular/forms';
+import {FormControl, NgForm, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {MatAccordion} from '@angular/material/expansion';
@@ -59,7 +59,7 @@ export class ProdutoComponent implements OnInit {
   todasOperadoras: Operadora[];
   todosLaboratorios: Laboratorio[];
   todasAbrangencias: Abrangencia[];
-  operadoraAutoCompleteControl = new FormControl();
+  operadoraAutoCompleteControl = new FormControl(Validators.required);
   filteredOptions: Observable<Operadora[]>;
 
   constructor(
@@ -234,6 +234,7 @@ export class ProdutoComponent implements OnInit {
   adicionar(): void {
     this.estado = 'adicionando';
     this.formProduto?.resetForm();
+    this.operadoraAutoCompleteControl?.reset();
     this.produtoSelecionado = new Produto();
     this.operadoraAutoCompleteControl.enable();
     this.operadoraAutoCompleteControl.setValue('');
@@ -267,7 +268,7 @@ export class ProdutoComponent implements OnInit {
   }
 
   salvarNovoProduto(): void {
-    if (this.formProduto.valid) {
+    if (this.isFormValido()) {
       this.produtoEditando.operadora = this.operadoraAutoCompleteControl.value;
       this.produtoEditando.hospitais = this.todosHospitais.filter(l => l.selected);
       this.produtoEditando.laboratorios = this.todosLaboratorios.filter(l => l.selected);
@@ -287,7 +288,7 @@ export class ProdutoComponent implements OnInit {
   }
 
   atualizarProduto(): void {
-    if (this.formProduto.valid) {
+    if (this.isFormValido()) {
       this.produtoEditando.operadora = this.operadoraAutoCompleteControl.value;
       this.produtoEditando.hospitais = this.todosHospitais.filter(l => l.selected);
       this.produtoEditando.laboratorios = this.todosLaboratorios.filter(l => l.selected);
@@ -305,6 +306,9 @@ export class ProdutoComponent implements OnInit {
 
   private erroFormInvalido(): void {
     this.formProduto.form.markAllAsTouched();
+    if (!this.operadoraAutoCompleteControl.value.id) {
+      this.operadoraAutoCompleteControl.setValue('');
+    }
     this.snackBar.openSnackBar("Preencha todos os campos!");
   }
 
@@ -427,6 +431,11 @@ export class ProdutoComponent implements OnInit {
     } else if (this.editandoProduto()) {
       this.atualizarProduto();
     }
+  }
+
+  isFormValido(): boolean {
+    return this.formProduto.valid && this.operadoraAutoCompleteControl.valid &&
+      this.operadoraAutoCompleteControl.value.id;
   }
 
 }
