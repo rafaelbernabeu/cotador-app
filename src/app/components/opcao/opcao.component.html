@@ -343,7 +343,7 @@
                 </mat-radio-group>
               </div>
 
-              <div style="width: 40%; text-align: right">
+              <div *ngIf="isCategoriaEmpresarial()" style="width: 40%; text-align: right">
                 <mat-slide-toggle name="mei" (ngModelChange)="modelChangeMEI($event)" [(ngModel)]="opcaoEditando.mei" [disabled]="!adicionandoOpcao() && !editandoOpcao()" labelPosition="before">Contempla MEI</mat-slide-toggle>
               </div>
             </div>

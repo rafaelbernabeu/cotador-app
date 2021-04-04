@@ -477,7 +477,6 @@ export class OpcaoComponent implements OnInit {
 
   adicionar(): void {
     this.estado = 'adicionando';
-    this.formOpcao?.resetForm();
     this.opcaoSelecionada = new Opcao();
     this.opcaoEditando = this.opcaoSelecionada;
     this.tabelaAutoCompleteControl.disable();
@@ -490,6 +489,16 @@ export class OpcaoComponent implements OnInit {
     this.produtoAutoCompleteControl.setValue('');
     this.operadoraAutoCompleteControl.setValue('');
     this.administradoraAutoCompleteControl.setValue('');
+    this.tabelaAutoCompleteControl.markAsPristine();
+    this.estadoAutoCompleteControl.markAsPristine();
+    this.produtoAutoCompleteControl.markAsPristine();
+    this.operadoraAutoCompleteControl.markAsPristine();
+    this.administradoraAutoCompleteControl.markAsPristine();
+    this.tabelaAutoCompleteControl.markAsUntouched();
+    this.estadoAutoCompleteControl.markAsUntouched();
+    this.produtoAutoCompleteControl.markAsUntouched();
+    this.operadoraAutoCompleteControl.markAsUntouched();
+    this.administradoraAutoCompleteControl.markAsUntouched();
   }
 
   visualizar(): void {
@@ -552,6 +561,27 @@ export class OpcaoComponent implements OnInit {
   private erroFormInvalido(): void {
     this.formOpcao.form.markAllAsTouched();
     this.snackBar.openSnackBar("Preencha todos os campos!");
+    if (!this.tabelaAutoCompleteControl.value.id){
+      this.tabelaAutoCompleteControl.setValue('');
+      this.tabelaAutoCompleteControl.markAllAsTouched();
+    }
+    if (!this.estadoAutoCompleteControl.value.sigla){
+      this.estadoAutoCompleteControl.setValue('');
+      this.estadoAutoCompleteControl.markAllAsTouched();
+    }
+    if (!this.produtoAutoCompleteControl.value.id){
+      this.produtoAutoCompleteControl.setValue('');
+      this.produtoAutoCompleteControl.markAllAsTouched();
+    }
+    if (!this.operadoraAutoCompleteControl.value.id){
+      this.operadoraAutoCompleteControl.setValue('');
+      this.operadoraAutoCompleteControl.markAllAsTouched();
+    }
+    if (!this.administradoraAutoCompleteControl.value.id){
+      this.administradoraAutoCompleteControl.setValue('');
+      this.administradoraAutoCompleteControl.markAllAsTouched();
+    }
+
   }
 
   removerOpcao(): void {
