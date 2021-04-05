@@ -179,7 +179,7 @@ export class CotacaoComponent implements OnInit {
 
   private configuraTabelaHospital(): void {
     this.displayedColumnsHospitais = ['nomeHospital'].concat(this.todosProdutosCotacao.map(p => p.nome));
-    this.dataSourceHospitais = new MatTableDataSource<Hospital>(this.todosProdutosCotacao.map(p => p.hospitais).reduce((acc, value) => acc.concat(value)).filter(UtilService.filtraDuplicadasId));
+    this.dataSourceHospitais = new MatTableDataSource<Hospital>(this.todosProdutosCotacao.map(p => p.hospitais)?.reduce((acc, value) => acc.concat(value)).filter(UtilService.filtraDuplicadasId));
     this.dataSourceHospitais.sort = this.sortHospital;
     this.dataSourceHospitais.paginator = this.paginatorHospital;
     this.dataSourceHospitais.sortingDataAccessor = (hospital, property) => hospital.nome;
@@ -190,7 +190,7 @@ export class CotacaoComponent implements OnInit {
 
   private configuraTabelaLaboratorio(): void {
     this.displayedColumnsLaboratorios = ['nomeLaboratorio'].concat(this.todosProdutosCotacao.map(p => p.nome));
-    this.dataSourceLaboratorios = new MatTableDataSource<Laboratorio>(this.todosProdutosCotacao.map(p => p.laboratorios).reduce((acc, value) => acc.concat(value)).filter(UtilService.filtraDuplicadasId));
+    this.dataSourceLaboratorios = new MatTableDataSource<Laboratorio>(this.todosProdutosCotacao.map(p => p.laboratorios)?.reduce((acc, value) => acc.concat(value)).filter(UtilService.filtraDuplicadasId));
     this.dataSourceLaboratorios.sort = this.sortLaboratorio;
     this.dataSourceLaboratorios.paginator = this.paginatorLaboratorio;
     this.dataSourceLaboratorios.sortingDataAccessor = (laboratorio, property) => laboratorio.nome;
@@ -315,10 +315,6 @@ export class CotacaoComponent implements OnInit {
 
   estadoDisplayFn(estado: Estado): string {
     return estado && estado.nome ? estado.nome : '';
-  }
-
-  selecionaCotacao(cotacao: Opcao) {
-    console.log(cotacao);
   }
 
   calculaValorCotacao(opcao: Opcao): number {
