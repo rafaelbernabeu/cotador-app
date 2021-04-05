@@ -4,7 +4,7 @@ import {MatPaginator} from '@angular/material/paginator';
 import {MatAccordion, MatExpansionPanel} from '@angular/material/expansion';
 import {MatTableDataSource} from '@angular/material/table';
 import {Operadora} from '../../services/operadora/operadora';
-import {FormControl, NgForm} from '@angular/forms';
+import {FormControl, NgForm, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {MatDialog} from '@angular/material/dialog';
 import {SnackbarService} from '../../services/snackbar/snackbar.service';
@@ -77,10 +77,10 @@ export class TabelaComponent implements OnInit {
   todasOperadorasTabela: Operadora[];
   todasAdministradorasTabela: Administradora[];
 
-  reajusteAutoCompleteControl = new FormControl();
-  estadoAutoCompleteControl = new FormControl();
-  operadoraAutoCompleteControl = new FormControl();
-  administradoraAutoCompleteControl = new FormControl();
+  reajusteAutoCompleteControl = new FormControl(Validators.required);
+  estadoAutoCompleteControl = new FormControl(Validators.required);
+  operadoraAutoCompleteControl = new FormControl(Validators.required);
+  administradoraAutoCompleteControl = new FormControl(Validators.required);
   reajusteFilteredOptions: Observable<Reajuste[]>;
   estadoFilteredOptions: Observable<Estado[]>;
   operadoraFilteredOptions: Observable<Operadora[]>;
@@ -296,6 +296,14 @@ export class TabelaComponent implements OnInit {
     this.estadoAutoCompleteControl.setValue('');
     this.operadoraAutoCompleteControl.setValue('');
     this.administradoraAutoCompleteControl.setValue('');
+    this.reajusteAutoCompleteControl.markAsPristine();
+    this.estadoAutoCompleteControl.markAsPristine();
+    this.operadoraAutoCompleteControl.markAsPristine();
+    this.administradoraAutoCompleteControl.markAsPristine();
+    this.reajusteAutoCompleteControl.markAsUntouched();
+    this.estadoAutoCompleteControl.markAsUntouched();
+    this.operadoraAutoCompleteControl.markAsUntouched();
+    this.administradoraAutoCompleteControl.markAsUntouched();
     this.paginatorTabela._changePageSize(10);
     this.preparaTodosParaNovaVerificacao();
     this.accordionProduto.close();
@@ -331,17 +339,21 @@ export class TabelaComponent implements OnInit {
   }
 
   salvarNovaTabela(): void {
-    this.tabelaEditando.estado = this.estadoAutoCompleteControl.value;
-    this.tabelaEditando.reajuste = this.reajusteAutoCompleteControl.value;
-    this.tabelaEditando.operadora = this.operadoraAutoCompleteControl.value;
-    this.tabelaEditando.administradora = this.administradoraAutoCompleteControl.value;
-    this.tabelaEditando.produtos = this.todosProdutos.filter(p => p.selected);
-    this.tabelaEditando.entidades = this.todasEntidades.filter(e => e.selected);
-    this.tabelaService.adicionarTabela(this.tabelaEditando).subscribe(response => {
-      this.snackBar.openSnackBar('Tabela adicionado com sucesso!');
-      this.limpar();
-      this.carregaTabelaTabela();
-    });
+    if (this.isFormValido()) {
+      this.tabelaEditando.estado = this.estadoAutoCompleteControl.value;
+      this.tabelaEditando.reajuste = this.reajusteAutoCompleteControl.value;
+      this.tabelaEditando.operadora = this.operadoraAutoCompleteControl.value;
+      this.tabelaEditando.administradora = this.administradoraAutoCompleteControl.value ? this.administradoraAutoCompleteControl.value : null;
+      this.tabelaEditando.produtos = this.todosProdutos.filter(p => p.selected);
+      this.tabelaEditando.entidades = this.todasEntidades.filter(e => e.selected);
+      this.tabelaService.adicionarTabela(this.tabelaEditando).subscribe(response => {
+        this.snackBar.openSnackBar('Tabela adicionado com sucesso!');
+        this.limpar();
+        this.carregaTabelaTabela();
+      });
+    } else {
+      this.erroFormInvalido();
+    }
   }
 
   private preparaTodosParaNovaVerificacao(): void {
@@ -350,23 +362,43 @@ export class TabelaComponent implements OnInit {
   }
 
   atualizarTabela(): void {
-    this.tabelaEditando.estado = this.estadoAutoCompleteControl.value;
-    this.tabelaEditando.reajuste = this.reajusteAutoCompleteControl.value;
-    this.tabelaEditando.operadora = this.operadoraAutoCompleteControl.value;
-    this.tabelaEditando.administradora = this.administradoraAutoCompleteControl.value ? this.administradoraAutoCompleteControl.value : null;
-    this.tabelaEditando.produtos = this.todosProdutos.filter(p => p.selected);
-    this.tabelaEditando.entidades = this.todasEntidades.filter(e => e.selected);
-    this.tabelaService.editarTabela(this.tabelaEditando).subscribe(response => {
-      this.snackBar.openSnackBar('Tabela atualizado com sucesso!');
-      this.visualizar();
-      this.carregaTabelaTabela();
-      this.tabelaSelecionada = response;
-      this.carregaTabelasAdicionais(this.tabelaSelecionada);
-    });
+    if (this.isFormValido()) {
+      this.tabelaEditando.estado = this.estadoAutoCompleteControl.value;
+      this.tabelaEditando.reajuste = this.reajusteAutoCompleteControl.value;
+      this.tabelaEditando.operadora = this.operadoraAutoCompleteControl.value;
+      this.tabelaEditando.administradora = this.administradoraAutoCompleteControl.value ? this.administradoraAutoCompleteControl.value : null;
+      this.tabelaEditando.produtos = this.todosProdutos.filter(p => p.selected);
+      this.tabelaEditando.entidades = this.todasEntidades.filter(e => e.selected);
+      this.tabelaService.editarTabela(this.tabelaEditando).subscribe(response => {
+        this.snackBar.openSnackBar('Tabela atualizado com sucesso!');
+        this.visualizar();
+        this.carregaTabelaTabela();
+        this.tabelaSelecionada = response;
+        this.carregaTabelasAdicionais(this.tabelaSelecionada);
+      });
+    } else {
+      this.erroFormInvalido();
+    }
   }
 
   private erroFormInvalido(): void {
     this.formTabela.form.markAllAsTouched();
+    if (this.isCategoriaAdesao() && !this.administradoraAutoCompleteControl.value.id) {
+      this.administradoraAutoCompleteControl.setValue('');
+      this.administradoraAutoCompleteControl.markAllAsTouched();
+    }
+    if (!this.estadoAutoCompleteControl.value.sigla){
+      this.estadoAutoCompleteControl.setValue('');
+      this.estadoAutoCompleteControl.markAllAsTouched();
+    }
+    if (!this.operadoraAutoCompleteControl.value.id){
+      this.operadoraAutoCompleteControl.setValue('');
+      this.operadoraAutoCompleteControl.markAllAsTouched();
+    }
+    if (!this.reajusteAutoCompleteControl.value){
+      this.reajusteAutoCompleteControl.setValue('');
+      this.reajusteAutoCompleteControl.markAllAsTouched();
+    }
     this.snackBar.openSnackBar("Preencha todos os campos!");
   }
 
@@ -513,8 +545,6 @@ export class TabelaComponent implements OnInit {
         tabelasFiltradas = tabelasFiltradas.filter(t => this.filtroTabela.operadoras.filter(op => op.id === t.operadora.id).length);
       }
 
-
-
       if (this.filtroTabela.reajustes.length) {
         tabelasFiltradas = tabelasFiltradas.filter(t => this.filtroTabela.reajustes.filter(r => r === t.reajuste).length);
       }
@@ -547,6 +577,22 @@ export class TabelaComponent implements OnInit {
     } else if (this.editandoTabela()) {
       this.atualizarTabela();
     }
+  }
+
+  isFormValido(): boolean {
+    if (this.isCategoriaAdesao()) {
+      return this.formTabela.valid &&
+        this.estadoAutoCompleteControl.valid && this.estadoAutoCompleteControl.value.sigla &&
+        this.administradoraAutoCompleteControl.valid && this.administradoraAutoCompleteControl.value.id &&
+        this.operadoraAutoCompleteControl.valid && this.operadoraAutoCompleteControl.value.id &&
+        this.reajusteAutoCompleteControl.valid && this.reajusteAutoCompleteControl.value;
+    } else if (this.isCategoriaEmpresarial()) {
+      return this.formTabela.valid &&
+        this.estadoAutoCompleteControl.valid && this.estadoAutoCompleteControl.value.sigla &&
+        this.operadoraAutoCompleteControl.valid && this.operadoraAutoCompleteControl.value.id &&
+        this.reajusteAutoCompleteControl.valid && this.reajusteAutoCompleteControl.value;
+    }
+    return false;
   }
 
 }

@@ -243,99 +243,100 @@
         <br/>
 
         <mat-card-content>
-          <div style="margin-bottom: 20px">
-            <mat-radio-group (ngModelChange)="modelChangeCategoria($event)" [(ngModel)]="tabelaEditando.categoria" [disabled]="!adicionandoTabela() && !editandoTabela()">
-              <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
-                {{categoria}}
-              </mat-radio-button>
-            </mat-radio-group>
+          <form #formTabela="ngForm" (submit)="onSubmit()">
+            <div style="margin-bottom: 20px">
+              <mat-radio-group name="categoria" (ngModelChange)="modelChangeCategoria($event)" [(ngModel)]="tabelaEditando.categoria" [disabled]="!adicionandoTabela() && !editandoTabela()" required>
+                <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
+                  {{categoria}}
+                </mat-radio-button>
+              </mat-radio-group>
 
-            <div style="float: right">
-              <mat-slide-toggle [(ngModel)]="tabelaEditando.preferencial" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">Preferencial</mat-slide-toggle>
+              <div style="float: right">
+                <mat-slide-toggle name="preferencial" [(ngModel)]="tabelaEditando.preferencial" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">Preferencial</mat-slide-toggle>
+              </div>
             </div>
-          </div>
 
-          <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Estado</mat-label>
-            <input matInput [formControl]="estadoAutoCompleteControl" [matAutocomplete]="auto1" type="text">
-            <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" [displayWith]="estadoDisplayFn">
-              <mat-option *ngFor="let estado of estadoFilteredOptions | async" [value]="estado">
-                {{estado.nome}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Nome</mat-label>
-            <input matInput placeholder="Nome" [disabled]="!adicionandoTabela() && !editandoTabela()"
-                   [(ngModel)]="tabelaEditando.nome">
-          </mat-form-field>
-
-          <mat-form-field *ngIf="isCategoriaAdesao()" appearance="outline" style="width: 100%">
-            <mat-label>Administradora</mat-label>
-            <input matInput [formControl]="administradoraAutoCompleteControl" [matAutocomplete]="auto2" type="text">
-            <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="administradoraDisplayFn">
-              <mat-option *ngFor="let administradora of administradoraFilteredOptions | async" [value]="administradora">
-                {{administradora.nome}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-
-          <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Operadora</mat-label>
-            <input (ngModelChange)="carregaTabelaProdutoPorOperadora()" matInput [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto3" type="text">
-            <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete" [displayWith]="operadoraDisplayFn">
-              <mat-option *ngFor="let operadora of operadoraFilteredOptions | async" [value]="operadora">
-                {{operadora.nome}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-          <mat-form-field appearance="outline" style="width: 100%">
-            <mat-label>Reajuste</mat-label>
-            <input matInput [formControl]="reajusteAutoCompleteControl" [matAutocomplete]="auto4" type="text">
-            <mat-autocomplete autoActiveFirstOption #auto4="matAutocomplete" [displayWith]="reajusteDisplayFn">
-              <mat-option *ngFor="let reajuste of reajusteFilteredOptions | async" [value]="reajuste">
-                {{reajuste}}
-              </mat-option>
-            </mat-autocomplete>
-          </mat-form-field>
-          <div>
-            <mat-form-field appearance="outline" style="width: 50%">
-              <mat-label>Idade Min.</mat-label>
-              <input type="number" matInput placeholder="Idade Minima" [disabled]="!adicionandoTabela() && !editandoTabela()"
-                     [(ngModel)]="tabelaEditando.idadeMinima">
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Estado</mat-label>
+              <input matInput name="estado" [formControl]="estadoAutoCompleteControl" [matAutocomplete]="auto1" type="text" required>
+              <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" [displayWith]="estadoDisplayFn">
+                <mat-option *ngFor="let estado of estadoFilteredOptions | async" [value]="estado">
+                  {{estado.nome}}
+                </mat-option>
+              </mat-autocomplete>
             </mat-form-field>
-            <mat-form-field appearance="outline" style="width: 50%">
-              <mat-label>Idade Max.</mat-label>
-              <input type="number" matInput placeholder="Idade Maxima" [disabled]="!adicionandoTabela() && !editandoTabela()"
-                     [(ngModel)]="tabelaEditando.idadeMaxima">
-            </mat-form-field>
-          </div>
-          <div>
-            <mat-form-field appearance="outline" style="width: 50%">
-              <mat-label>Qtd Min. Vidas</mat-label>
-              <input type="number" matInput placeholder="Idade Minima" [disabled]="!adicionandoTabela() && !editandoTabela()"
-                     [(ngModel)]="tabelaEditando.qtdMinVidas">
-            </mat-form-field>
-            <mat-form-field appearance="outline" style="width: 50%">
-              <mat-label>Qtd Min. Titulares</mat-label>
-              <input type="number" matInput placeholder="Idade Maxima" [disabled]="!adicionandoTabela() && !editandoTabela()"
-                     [(ngModel)]="tabelaEditando.qtdMinTitulares">
-            </mat-form-field>
-          </div>
 
-          <div style="text-align: right">
-            <span style="padding-left: 25px" *ngIf="categoriaEmpresarial()">
-              <mat-slide-toggle [(ngModel)]="tabelaEditando.contemplaMEI" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">MEI</mat-slide-toggle>
-            </span>
-            <span style="padding-left: 25px" *ngIf="categoriaEmpresarial()">
-              <mat-slide-toggle [(ngModel)]="tabelaEditando.livreAdesao" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">Livre Adesão</mat-slide-toggle>
-            </span>
-            <span style="padding-left: 25px" *ngIf="categoriaEmpresarial()">
-              <mat-slide-toggle [(ngModel)]="tabelaEditando.compulsoria" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">Compulsoria</mat-slide-toggle>
-            </span>
-          </div>
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Nome</mat-label>
+              <input matInput name="nome" placeholder="Nome" [(ngModel)]="tabelaEditando.nome" [disabled]="!adicionandoTabela() && !editandoTabela()" required>
+            </mat-form-field>
 
+            <mat-form-field *ngIf="isCategoriaAdesao()" appearance="outline" style="width: 100%">
+              <mat-label>Administradora</mat-label>
+              <input matInput name="administradora" [formControl]="administradoraAutoCompleteControl" [matAutocomplete]="auto2" type="text" [required]="isCategoriaAdesao()">
+              <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="administradoraDisplayFn">
+                <mat-option *ngFor="let administradora of administradoraFilteredOptions | async" [value]="administradora">
+                  {{administradora.nome}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Operadora</mat-label>
+              <input name="operadora" (ngModelChange)="carregaTabelaProdutoPorOperadora()" matInput [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto3" type="text" required>
+              <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete" [displayWith]="operadoraDisplayFn">
+                <mat-option *ngFor="let operadora of operadoraFilteredOptions | async" [value]="operadora">
+                  {{operadora.nome}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Reajuste</mat-label>
+              <input matInput name="reajuste" [formControl]="reajusteAutoCompleteControl" [matAutocomplete]="auto4" type="text" required>
+              <mat-autocomplete autoActiveFirstOption #auto4="matAutocomplete" [displayWith]="reajusteDisplayFn">
+                <mat-option *ngFor="let reajuste of reajusteFilteredOptions | async" [value]="reajuste">
+                  {{reajuste}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+            <div>
+              <mat-form-field appearance="outline" style="width: 50%">
+                <mat-label>Idade Min.</mat-label>
+                <input type="number" name="idadeMinima" matInput placeholder="Idade Minima" [disabled]="!adicionandoTabela() && !editandoTabela()"
+                       [(ngModel)]="tabelaEditando.idadeMinima">
+              </mat-form-field>
+              <mat-form-field appearance="outline" style="width: 50%">
+                <mat-label>Idade Max.</mat-label>
+                <input type="number" name="idadeMaxima" matInput placeholder="Idade Maxima" [disabled]="!adicionandoTabela() && !editandoTabela()"
+                       [(ngModel)]="tabelaEditando.idadeMaxima">
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field appearance="outline" style="width: 50%">
+                <mat-label>Qtd Min. Vidas</mat-label>
+                <input type="number" name="qtdMinVidas" matInput placeholder="Idade Minima" [disabled]="!adicionandoTabela() && !editandoTabela()"
+                       [(ngModel)]="tabelaEditando.qtdMinVidas">
+              </mat-form-field>
+              <mat-form-field appearance="outline" style="width: 50%">
+                <mat-label>Qtd Min. Titulares</mat-label>
+                <input type="number" name="qtdMinTitulares" matInput placeholder="Idade Maxima" [disabled]="!adicionandoTabela() && !editandoTabela()"
+                       [(ngModel)]="tabelaEditando.qtdMinTitulares">
+              </mat-form-field>
+            </div>
+
+            <div style="text-align: right">
+              <span style="padding-left: 25px" *ngIf="categoriaEmpresarial()">
+                <mat-slide-toggle name="mei" [(ngModel)]="tabelaEditando.contemplaMEI" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">MEI</mat-slide-toggle>
+              </span>
+                <span style="padding-left: 25px" *ngIf="categoriaEmpresarial()">
+                <mat-slide-toggle name="livreAdesao" [(ngModel)]="tabelaEditando.livreAdesao" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">Livre Adesão</mat-slide-toggle>
+              </span>
+                <span style="padding-left: 25px" *ngIf="categoriaEmpresarial()">
+                <mat-slide-toggle name="compulsoria" [(ngModel)]="tabelaEditando.compulsoria" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">Compulsoria</mat-slide-toggle>
+              </span>
+            </div>
+            <button type="submit" hidden></button>
+          </form>
         </mat-card-content>
       </mat-card>
     </div>
