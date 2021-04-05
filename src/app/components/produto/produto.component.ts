@@ -308,6 +308,7 @@ export class ProdutoComponent implements OnInit {
     this.formProduto.form.markAllAsTouched();
     if (!this.operadoraAutoCompleteControl.value.id) {
       this.operadoraAutoCompleteControl.setValue('');
+      this.operadoraAutoCompleteControl.markAllAsTouched()
     }
     this.snackBar.openSnackBar("Preencha todos os campos!");
   }
