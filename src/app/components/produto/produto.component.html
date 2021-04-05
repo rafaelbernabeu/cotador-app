@@ -302,6 +302,7 @@
               <input matInput placeholder="Nome" name="nome" [disabled]="!adicionandoProduto() && !editandoProduto()"
                      [(ngModel)]="produtoEditando.nome" required>
             </mat-form-field>
+
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Operadora</mat-label>
               <input matInput name="operadora" [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto" type="text" required>
@@ -311,17 +312,20 @@
                 </mat-option>
               </mat-autocomplete>
             </mat-form-field>
+
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Abrangência</mat-label>
               <mat-select name="abrangencia" [(ngModel)]="produtoEditando.abrangencia" [disabled]="!adicionandoProduto() && !editandoProduto()" required>
                 <mat-option *ngFor="let abrangencia of todasAbrangencias;" [value]="abrangencia">{{abrangencia}}</mat-option>
               </mat-select>
             </mat-form-field>
+
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Reembolso</mat-label>
               <input matInput name="reembolso" type="number" placeholder="Reembolso" [disabled]="!adicionandoProduto() && !editandoProduto()"
                      [(ngModel)]="produtoEditando.reembolso">
             </mat-form-field>
+
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Observacoes</mat-label>
               <textarea matInput name="observacao" placeholder="Reembolso" [disabled]="!adicionandoProduto() && !editandoProduto()"
