@@ -580,6 +580,10 @@ export class TabelaComponent implements OnInit {
   }
 
   isFormValido(): boolean {
+    if (!this.todosReajustes.some(r => r === this.reajusteAutoCompleteControl.value)) {
+      this.reajusteAutoCompleteControl.setValue('');
+    }
+
     if (this.isCategoriaAdesao()) {
       return this.formTabela.valid &&
         this.estadoAutoCompleteControl.valid && this.estadoAutoCompleteControl.value.sigla &&
