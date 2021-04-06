@@ -210,7 +210,7 @@ export class CotacaoComponent implements OnInit {
 
   private filtraProdutoMenorPreco(opcao: Opcao, index: number, todasOpcoes: Opcao[], context: CotacaoComponent): boolean {
     let opcoesMesmoProduto = todasOpcoes.filter(op => op.produto.id === opcao.produto.id);
-    const fieldCotacao = 'cotacao';
+    const fieldCotacao = 'valorCotacao';
     opcoesMesmoProduto.forEach(op => op[fieldCotacao] = context.calculaValorCotacao(op));
     opcoesMesmoProduto = opcoesMesmoProduto.sort((op1, op2) => op1[fieldCotacao] - op2[fieldCotacao]);
 
