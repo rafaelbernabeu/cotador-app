@@ -93,6 +93,7 @@ export class CotacaoComponent implements OnInit {
   todasAdministradoras: Administradora[];
 
   modoCliente: boolean;
+  menorPrecoProduto: boolean = true;
   todosProdutosCotacao: Produto[];
   filtroCotacao: Cotacao = new Cotacao();
 
@@ -207,8 +208,35 @@ export class CotacaoComponent implements OnInit {
     this.configuraTabelaAptSemCopart(this.todasOpcoes);
   }
 
+  private filtraProdutoMenorPreco(opcao: Opcao, index: number, todasOpcoes: Opcao[], context: CotacaoComponent): boolean {
+    let opcoesMesmoProduto = todasOpcoes.filter(op => op.produto.id === opcao.produto.id);
+    const fieldCotacao = 'cotacao';
+    opcoesMesmoProduto.forEach(op => op[fieldCotacao] = context.calculaValorCotacao(op));
+    opcoesMesmoProduto = opcoesMesmoProduto.sort((op1, op2) => op1[fieldCotacao] - op2[fieldCotacao]);
+
+    let indiceOpcaoAtual = opcoesMesmoProduto.findIndex(op => op.id === opcao.id);
+
+    if (opcoesMesmoProduto.length >= 2) {
+      switch (indiceOpcaoAtual) {
+        case 0:
+          return opcoesMesmoProduto[0].tabela.preferencial ? true : !opcoesMesmoProduto[1].tabela.preferencial;
+        case 1:
+          return !opcoesMesmoProduto[0].tabela.preferencial && opcoesMesmoProduto[1].tabela.preferencial;
+        default:
+          return false;
+      }
+    }
+
+    return indiceOpcaoAtual === 0;
+
+  }
+
   private configuraTabelaAptSemCopart(opcoes: Opcao[]) {
-    this.dataSourceCotacaoAptSemCopart = new MatTableDataSource<Opcao>(opcoes.filter(op => op.acomodacao === 'Apartamento' && !op.coparticipacao));
+    let opcoesAptoSemCopart = opcoes.filter(op => op.acomodacao === 'Apartamento' && !op.coparticipacao);
+    if (this.menorPrecoProduto) {
+      opcoesAptoSemCopart = opcoesAptoSemCopart.filter((op, idx, array) => this.filtraProdutoMenorPreco(op, idx, array, this));
+    }
+    this.dataSourceCotacaoAptSemCopart = new MatTableDataSource<Opcao>(opcoesAptoSemCopart);
     this.dataSourceCotacaoAptSemCopart.sort = this.sortCotacaoAptSemCopart;
     this.dataSourceCotacaoAptSemCopart.paginator = this.paginatorCotacaoAptSemCopart;
     this.dataSourceCotacaoAptSemCopart.sortingDataAccessor = this.getSortingDataAccessor();
@@ -218,7 +246,11 @@ export class CotacaoComponent implements OnInit {
   }
 
   private configuraTabelaAptComCopart(opcoes: Opcao[]) {
-    this.dataSourceCotacaoAptComCopart = new MatTableDataSource<Opcao>(opcoes.filter(op => op.acomodacao === 'Apartamento' && op.coparticipacao));
+    let opcoesAptComCopart = opcoes.filter(op => op.acomodacao === 'Apartamento' && op.coparticipacao);
+    if (this.menorPrecoProduto) {
+      opcoesAptComCopart = opcoesAptComCopart.filter((op, idx, array) => this.filtraProdutoMenorPreco(op, idx, array, this));
+    }
+    this.dataSourceCotacaoAptComCopart = new MatTableDataSource<Opcao>(opcoesAptComCopart);
     this.dataSourceCotacaoAptComCopart.sort = this.sortCotacaoAptComCopart;
     this.dataSourceCotacaoAptComCopart.paginator = this.paginatorCotacaoAptComCopart;
     this.dataSourceCotacaoAptComCopart.sortingDataAccessor = this.getSortingDataAccessor();
@@ -228,7 +260,11 @@ export class CotacaoComponent implements OnInit {
   }
 
   private configuraTabelaEnfSemCopart(opcoes: Opcao[]) {
-    this.dataSourceCotacaoEnfSemCopart = new MatTableDataSource<Opcao>(opcoes.filter(op => op.acomodacao === 'Enfermaria' && !op.coparticipacao));
+    let opcoesEnfSemCopart = opcoes.filter(op => op.acomodacao === 'Enfermaria' && !op.coparticipacao);
+    if (this.menorPrecoProduto) {
+      opcoesEnfSemCopart = opcoesEnfSemCopart.filter((op, idx, array) => this.filtraProdutoMenorPreco(op, idx, array, this));
+    }
+    this.dataSourceCotacaoEnfSemCopart = new MatTableDataSource<Opcao>(opcoesEnfSemCopart);
     this.dataSourceCotacaoEnfSemCopart.sort = this.sortCotacaoEnfSemCopart;
     this.dataSourceCotacaoEnfSemCopart.paginator = this.paginatorCotacaoEnfSemCopart;
     this.dataSourceCotacaoEnfSemCopart.sortingDataAccessor = this.getSortingDataAccessor();
@@ -238,7 +274,11 @@ export class CotacaoComponent implements OnInit {
   }
 
   private configuraTabelaEnfComCopart(opcoes: Opcao[]) {
-    this.dataSourceCotacaoEnfComCopart = new MatTableDataSource<Opcao>(opcoes.filter(op => op.acomodacao === 'Enfermaria' && op.coparticipacao));
+    let opcoesEnfComCopart = opcoes.filter(op => op.acomodacao === 'Enfermaria' && op.coparticipacao);
+    if (this.menorPrecoProduto) {
+      opcoesEnfComCopart = opcoesEnfComCopart.filter((op, idx, array) => this.filtraProdutoMenorPreco(op, idx, array, this));
+    }
+    this.dataSourceCotacaoEnfComCopart = new MatTableDataSource<Opcao>(opcoesEnfComCopart);
     this.dataSourceCotacaoEnfComCopart.sort = this.sortCotacaoEnfComCopart;
     this.dataSourceCotacaoEnfComCopart.paginator = this.paginatorCotacaoEnfComCopart;
     this.dataSourceCotacaoEnfComCopart.sortingDataAccessor = this.getSortingDataAccessor();
