@@ -399,66 +399,66 @@
             </mat-form-field>
 
             <div>
-              <mat-form-field appearance="outline" style="width: 33%">
+              <mat-form-field (keypress)="trataTecladoUsuario($event, valor19a23anos)"  appearance="outline" style="width: 33%">
                 <mat-label>R$ 0 a 18</mat-label>
                 <input name="valor0a18anos" type="number" matInput placeholder="0 a 18" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                        [(ngModel)]="opcaoEditando.valor0a18anos">
               </mat-form-field>
-              <mat-form-field appearance="outline" style="width: 33%">
+              <mat-form-field (keypress)="trataTecladoUsuario($event, valor24a28anos)" appearance="outline" style="width: 33%">
                 <mat-label>R$ 19 a 23</mat-label>
-                <input name="valor19a23anos" type="number" matInput placeholder="19 a 23" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                <input #valor19a23anos name="valor19a23anos" type="number" matInput placeholder="19 a 23" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                        [(ngModel)]="opcaoEditando.valor19a23anos">
               </mat-form-field>
-              <mat-form-field appearance="outline" style="width: 33%">
+              <mat-form-field (keypress)="trataTecladoUsuario($event, valor29a33anos)" appearance="outline" style="width: 33%">
                 <mat-label>R$ 24 a 28</mat-label>
-                <input name="valor24a28anos" type="number" matInput placeholder="24 a 28" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                <input #valor24a28anos name="valor24a28anos" type="number" matInput placeholder="24 a 28" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                        [(ngModel)]="opcaoEditando.valor24a28anos">
               </mat-form-field>
             </div>
             <div>
-              <mat-form-field appearance="outline" style="width: 33%">
+              <mat-form-field (keypress)="trataTecladoUsuario($event, valor34a38anos)" appearance="outline" style="width: 33%">
                 <mat-label>R$ 29 a 33</mat-label>
-                <input name="valor29a33anos" type="number" matInput placeholder="29 a 33" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                <input #valor29a33anos name="valor29a33anos" type="number" matInput placeholder="29 a 33" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                        [(ngModel)]="opcaoEditando.valor29a33anos">
               </mat-form-field>
-              <mat-form-field appearance="outline" style="width: 33%">
+              <mat-form-field (keypress)="trataTecladoUsuario($event, valor39a43anos)" appearance="outline" style="width: 33%">
                 <mat-label>R$ 34 a 38</mat-label>
-                <input name="valor34a38anos" type="number" matInput placeholder="34 a 38" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                <input #valor34a38anos name="valor34a38anos" type="number" matInput placeholder="34 a 38" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                        [(ngModel)]="opcaoEditando.valor34a38anos">
               </mat-form-field>
-              <mat-form-field appearance="outline" style="width: 33%">
+              <mat-form-field (keypress)="trataTecladoUsuario($event, valor44a48anos)" appearance="outline" style="width: 33%">
                 <mat-label>R$ 39 a 43</mat-label>
-                <input name="valor39a43anos" type="number" matInput placeholder="39 a 43" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                <input #valor39a43anos name="valor39a43anos" type="number" matInput placeholder="39 a 43" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                        [(ngModel)]="opcaoEditando.valor39a43anos">
               </mat-form-field>
             </div>
             <div>
-              <mat-form-field appearance="outline" style="width: 33%">
+              <mat-form-field (keypress)="trataTecladoUsuario($event, valor49a53anos)" appearance="outline" style="width: 33%">
                 <mat-label>R$ 44 a 48</mat-label>
-                <input name="valor44a48anos" type="number" matInput placeholder="44 a 48" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                <input #valor44a48anos name="valor44a48anos" type="number" matInput placeholder="44 a 48" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                        [(ngModel)]="opcaoEditando.valor44a48anos">
               </mat-form-field>
-              <mat-form-field appearance="outline" style="width: 33%">
+              <mat-form-field (keypress)="trataTecladoUsuario($event, valor54a58anos)" appearance="outline" style="width: 33%">
                 <mat-label>R$ 49 a 53</mat-label>
-                <input name="valor49a53anos" type="number" matInput placeholder="49 a 53" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                <input #valor49a53anos name="valor49a53anos" type="number" matInput placeholder="49 a 53" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                        [(ngModel)]="opcaoEditando.valor49a53anos">
               </mat-form-field>
-              <mat-form-field appearance="outline" style="width: 33%">
+              <mat-form-field (keypress)="trataTecladoUsuario($event, valor59ouMaisAnos)" appearance="outline" style="width: 33%">
                 <mat-label>R$ 54 a 58</mat-label>
-                <input name="valor54a58anos" type="number" matInput placeholder="54 a 58" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                <input #valor54a58anos name="valor54a58anos" type="number" matInput placeholder="54 a 58" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                        [(ngModel)]="opcaoEditando.valor54a58anos">
               </mat-form-field>
             </div>
             <div>
-              <mat-form-field appearance="outline" style="width: 33%">
+              <mat-form-field (keypress)="trataTecladoUsuario($event, acomodacao)" appearance="outline" style="width: 33%">
                 <mat-label>R$ 59 ou Mais</mat-label>
-                <input name="valor59ouMaisAnos" type="number" matInput placeholder="59 ou mais" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                <input #valor59ouMaisAnos name="valor59ouMaisAnos" type="number" matInput placeholder="59 ou mais" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                        [(ngModel)]="opcaoEditando.valor59ouMaisAnos">
               </mat-form-field>
 
               <mat-form-field appearance="outline" style="width: 66%">
                 <mat-label>Acomodacao</mat-label>
-                <mat-select name="acomodacao" [(ngModel)]="opcaoEditando.acomodacao" [disabled]="!adicionandoOpcao() && !editandoOpcao()" required>
+                <mat-select #acomodacao name="acomodacao" [(ngModel)]="opcaoEditando.acomodacao" [disabled]="!adicionandoOpcao() && !editandoOpcao()" required>
                   <mat-option *ngFor="let acomodacao of todasAcomodacoes;" [value]="acomodacao">{{acomodacao}}</mat-option>
                 </mat-select>
               </mat-form-field>
