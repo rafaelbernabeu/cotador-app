@@ -192,6 +192,7 @@ export class OpcaoComponent implements OnInit {
     this.opcaoEditando.categoria = categoria;
     if (this.adicionandoOpcao() || this.editandoOpcao()) {
       if (this.isCategoriaEmpresarial()) {
+        this.administradoraAutoCompleteControl.disable();
         this.administradoraAutoCompleteControl.setValue('');
       }
       this.carregaEstadoPorCategoria();
@@ -789,8 +790,10 @@ export class OpcaoComponent implements OnInit {
   }
 
   trataTecladoUsuario($event: KeyboardEvent, elementRef: any) {
-    console.log($event);
-    if ($event.code === 'Enter') {
+    if ($event.ctrlKey && $event.code === 'Enter') {
+      $event.preventDefault();
+      this.onSubmit()
+    } else if ($event.code === 'Enter') {
       $event.preventDefault();
       elementRef.focus();
     }

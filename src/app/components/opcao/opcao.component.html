@@ -336,7 +336,7 @@
           <form #formOpcao="ngForm" (submit)="onSubmit()">
             <div style="display: flex; margin-bottom: 20px">
               <div style="width: 60%">
-                <mat-radio-group name="categoria" (ngModelChange)="modelChangeCategoria($event);" [(ngModel)]="opcaoEditando.categoria" [disabled]="!adicionandoOpcao() && !editandoOpcao()" required>
+                <mat-radio-group name="categoria" (ngModelChange)="modelChangeCategoria($event)" [(ngModel)]="opcaoEditando.categoria" [disabled]="!adicionandoOpcao() && !editandoOpcao()" required>
                   <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
                     {{categoria}}
                   </mat-radio-button>
@@ -348,7 +348,7 @@
               </div>
             </div>
 
-            <mat-form-field appearance="outline" style="width: 100%">
+            <mat-form-field (keypress)="trataTecladoUsuario($event, isCategoriaAdesao() ? administradora : operadora)" appearance="outline" style="width: 100%">
               <mat-label>Estado</mat-label>
               <input name="estado" matInput (ngModelChange)="modelChangeEstado()" [formControl]="estadoAutoCompleteControl" [matAutocomplete]="auto1" type="text" required>
               <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" [displayWith]="estadoDisplayFn">
@@ -358,9 +358,9 @@
               </mat-autocomplete>
             </mat-form-field>
 
-            <mat-form-field *ngIf="isCategoriaAdesao()" appearance="outline" style="width: 100%">
+            <mat-form-field (keypress)="trataTecladoUsuario($event, operadora)" appearance="outline" style="width: 100%">
               <mat-label>Administradora</mat-label>
-              <input name="administradora" matInput (ngModelChange)="modelChangeAdministradora()" [formControl]="administradoraAutoCompleteControl" [matAutocomplete]="auto2" type="text" [required]="isCategoriaAdesao()">
+              <input #administradora name="administradora" matInput (ngModelChange)="modelChangeAdministradora()" [formControl]="administradoraAutoCompleteControl" [matAutocomplete]="auto2" type="text" [required]="isCategoriaAdesao()">
               <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="administradoraDisplayFn">
                 <mat-option *ngFor="let administradora of administradoraFilteredOptions | async" [value]="administradora">
                   {{administradora.nome}}
@@ -368,9 +368,9 @@
               </mat-autocomplete>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" style="width: 100%">
+            <mat-form-field (keypress)="trataTecladoUsuario($event, tabela)" appearance="outline" style="width: 100%">
               <mat-label>Operadora</mat-label>
-              <input name="operadora" matInput (ngModelChange)="modelChangeOperadora()" [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto3" type="text" required>
+              <input #operadora name="operadora" matInput (ngModelChange)="modelChangeOperadora()" [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto3" type="text" required>
               <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete" [displayWith]="operadoraDisplayFn">
                 <mat-option *ngFor="let operadora of operadoraFilteredOptions | async" [value]="operadora">
                   {{operadora.nome}}
@@ -378,9 +378,9 @@
               </mat-autocomplete>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" style="width: 100%">
+            <mat-form-field (keypress)="trataTecladoUsuario($event, produto)" appearance="outline" style="width: 100%">
               <mat-label>Tabela</mat-label>
-              <input name="tabela" matInput (ngModelChange)="modelChangeTabela()" [formControl]="tabelaAutoCompleteControl" [matAutocomplete]="auto4" type="text" required>
+              <input #tabela name="tabela" matInput (ngModelChange)="modelChangeTabela()" [formControl]="tabelaAutoCompleteControl" [matAutocomplete]="auto4" type="text" required>
               <mat-autocomplete autoActiveFirstOption #auto4="matAutocomplete" [displayWith]="tabelaDisplayFn">
                 <mat-option *ngFor="let tabela of tabelaFilteredOptions | async" [value]="tabela">
                   {{tabela.nome}}
@@ -388,9 +388,9 @@
               </mat-autocomplete>
             </mat-form-field>
 
-            <mat-form-field appearance="outline" style="width: 100%">
+            <mat-form-field (keypress)="trataTecladoUsuario($event, valor0a18anos)" appearance="outline" style="width: 100%">
               <mat-label>Produto</mat-label>
-              <input name="produto" matInput [formControl]="produtoAutoCompleteControl" [matAutocomplete]="auto5" type="text" required>
+              <input #produto name="produto" matInput [formControl]="produtoAutoCompleteControl" [matAutocomplete]="auto5" type="text" required>
               <mat-autocomplete autoActiveFirstOption #auto5="matAutocomplete" [displayWith]="produtoDisplayFn">
                 <mat-option *ngFor="let produto of produtoFilteredOptions | async" [value]="produto">
                   {{produto.nome}}
@@ -401,7 +401,7 @@
             <div>
               <mat-form-field (keypress)="trataTecladoUsuario($event, valor19a23anos)"  appearance="outline" style="width: 33%">
                 <mat-label>R$ 0 a 18</mat-label>
-                <input name="valor0a18anos" type="number" matInput placeholder="0 a 18" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                <input #valor0a18anos name="valor0a18anos" type="number" matInput placeholder="0 a 18" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                        [(ngModel)]="opcaoEditando.valor0a18anos">
               </mat-form-field>
               <mat-form-field (keypress)="trataTecladoUsuario($event, valor24a28anos)" appearance="outline" style="width: 33%">
