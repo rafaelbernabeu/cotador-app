@@ -196,7 +196,7 @@
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Acomodação</mat-label>
             <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.acomodacao">
-              <mat-option [value]="null"></mat-option>
+              <mat-option [value]="''">Ambas</mat-option>
               <mat-option *ngFor="let acomodacao of todasAcomodacoes;" [value]="acomodacao">{{acomodacao}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -204,7 +204,7 @@
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Coparticipacao</mat-label>
             <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.coparticipacao">
-              <mat-option [value]="null"></mat-option>
+              <mat-option [value]="''">Ambas</mat-option>
               <mat-option [value]="true">Com</mat-option>
               <mat-option [value]="false">Sem</mat-option>
             </mat-select>

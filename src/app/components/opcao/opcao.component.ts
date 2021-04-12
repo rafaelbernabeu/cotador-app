@@ -691,7 +691,7 @@ export class OpcaoComponent implements OnInit {
         opcoesFiltradas = opcoesFiltradas.filter(op => op.acomodacao === this.filtroOpcao.acomodacao);
       }
 
-      if (this.filtroOpcao.coparticipacao != null) {
+      if (this.filtroOpcao.coparticipacao != null && typeof this.filtroOpcao.coparticipacao === "boolean") {
         opcoesFiltradas = opcoesFiltradas.filter(op => op.coparticipacao === this.filtroOpcao.coparticipacao);
       }
 

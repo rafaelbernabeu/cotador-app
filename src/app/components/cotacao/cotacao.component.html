@@ -60,14 +60,14 @@
               <mat-select name="coparticipacao" [(ngModel)]="filtroCotacao.coparticipacao">
                 <mat-option [value]="false">Sem</mat-option>
                 <mat-option [value]="true">Com</mat-option>
-                <mat-option [value]="''">Todas</mat-option>
+                <mat-option [value]="''">Ambas</mat-option>
               </mat-select>
             </mat-form-field>
 
             <mat-form-field appearance="outline" [style.width]="isCotacaoEmpresarial() ? '25%' : '33.3%'">
               <mat-label>Acomodação</mat-label>
               <mat-select name="acomodacao" [(ngModel)]="filtroCotacao.acomodacao">
-                <mat-option [value]="''">Todas</mat-option>
+                <mat-option [value]="''">Ambas</mat-option>
                 <mat-option *ngFor="let acomodacao of todasAcomodacoes;" [value]="acomodacao">{{acomodacao}}</mat-option>
               </mat-select>
             </mat-form-field>
