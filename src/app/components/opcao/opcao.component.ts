@@ -1,4 +1,4 @@
-import {Component, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
@@ -42,6 +42,8 @@ export class OpcaoComponent implements OnInit {
   @ViewChild(NgForm) formOpcao: NgForm;
   @ViewChild(MatSort) sortOpcao: MatSort;
   @ViewChild(MatPaginator) paginatorOpcao: MatPaginator;
+
+  @ViewChild('administradora') administradoraInput: ElementRef
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -804,6 +806,14 @@ export class OpcaoComponent implements OnInit {
     } else if ($event.code === 'Enter') {
       $event.preventDefault();
       elementRef.focus();
+    }
+  }
+
+  trataTecladoUsuarioEstado($event: KeyboardEvent, elementRef: any) {
+    if (this.isCategoriaAdesao()) {
+      this.trataTecladoUsuario($event, this.administradoraInput.nativeElement);
+    } else {
+      this.trataTecladoUsuario($event, elementRef);
     }
   }
 }
