@@ -7,8 +7,6 @@ import {MatDialog} from '@angular/material/dialog';
 import {SnackbarService} from '../../services/snackbar/snackbar.service';
 import {LaboratorioService} from '../../services/laboratorio/laboratorio.service';
 import {DialogComponent} from '../dialog/dialog.component';
-import {EstadoService} from "../../services/estado/estado.service";
-import {Estado} from "../../services/estado/estado";
 import {NgForm} from "@angular/forms";
 
 @Component({
@@ -34,19 +32,16 @@ export class LaboratorioComponent implements OnInit {
   dataSourceLaboratorio = new MatTableDataSource<Laboratorio>();
 
   estado: string;
-  todosEstados: Estado[];
   laboratorioEditando: Laboratorio;
   laboratorioSelecionado: Laboratorio;
 
   constructor(
     private dialog: MatDialog,
     private snackBar: SnackbarService,
-    private estadoService: EstadoService,
     private laboratorioService: LaboratorioService,
   ) {}
 
   ngOnInit(): void {
-    this.estadoService.getAllEstados().subscribe(response => this.todosEstados = response);
     this.carregaTabelaLaboratorio();
   }
 
