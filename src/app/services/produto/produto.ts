@@ -7,14 +7,15 @@ export class Produto {
 
   id: number;
   nome: string = '';
-  ativo: boolean;
+  selected: boolean;
   reembolso: number;
+  observacao: string;
   abrangencia: string;
+  ativo: boolean = true;
+
   hospitais: Hospital[] = [];
   laboratorios: Laboratorio[] = [];
   operadora: Operadora = new Operadora();
   coparticipacao: Coparticipacao = new Coparticipacao();
-  observacao: string;
-  selected: boolean;
 
 }
