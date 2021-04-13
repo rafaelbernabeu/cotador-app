@@ -26,12 +26,12 @@
             <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.nome}} </mat-cell>
           </ng-container>
 
-          <ng-container matColumnDef="abrangencia">
+          <ng-container matColumnDef="abrangencia" sticky>
             <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
             <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.abrangencia}} </mat-cell>
           </ng-container>
 
-          <ng-container matColumnDef="operadora">
+          <ng-container matColumnDef="operadora" sticky>
             <mat-header-cell *matHeaderCellDef mat-sort-header> Operadora </mat-header-cell>
             <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.operadora.nome}} </mat-cell>
           </ng-container>

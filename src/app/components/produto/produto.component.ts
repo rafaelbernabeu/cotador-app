@@ -59,7 +59,7 @@ export class ProdutoComponent implements OnInit {
     }
   }
 
-  displayedColumns: string[] = ['id', 'nome', 'abrangencia', 'operadora', 'reembolso', 'valorProntoSocorro', 'valorConsulta', 'valorExameSimples', 'valorExameEspecial', 'valorInternacao'];
+  displayedColumns: string[] = ['id', 'operadora', 'nome', 'abrangencia', 'reembolso', 'valorProntoSocorro', 'valorConsulta', 'valorExameSimples', 'valorExameEspecial', 'valorInternacao'];
   dataSourceProduto = new MatTableDataSource<Produto>();
   dataSourceHospital = new MatTableDataSource<Hospital>();
   dataSourceLaboratorio = new MatTableDataSource<Laboratorio>();
