@@ -303,24 +303,24 @@
               <mat-form-field appearance="outline" style="width: 50%">
                 <mat-label>Idade Min.</mat-label>
                 <input type="number" name="idadeMinima" matInput placeholder="Idade Minima" [disabled]="!adicionandoTabela() && !editandoTabela()"
-                       [(ngModel)]="tabelaEditando.idadeMinima">
+                       [(ngModel)]="tabelaEditando.idadeMinima" required>
               </mat-form-field>
               <mat-form-field appearance="outline" style="width: 50%">
                 <mat-label>Idade Max.</mat-label>
                 <input type="number" name="idadeMaxima" matInput placeholder="Idade Maxima" [disabled]="!adicionandoTabela() && !editandoTabela()"
-                       [(ngModel)]="tabelaEditando.idadeMaxima">
+                       [(ngModel)]="tabelaEditando.idadeMaxima" required>
               </mat-form-field>
             </div>
             <div>
               <mat-form-field appearance="outline" style="width: 50%">
                 <mat-label>Qtd Min. Vidas</mat-label>
                 <input type="number" name="qtdMinVidas" matInput placeholder="Idade Minima" [disabled]="!adicionandoTabela() && !editandoTabela()"
-                       [(ngModel)]="tabelaEditando.qtdMinVidas">
+                       [(ngModel)]="tabelaEditando.qtdMinVidas" required>
               </mat-form-field>
               <mat-form-field appearance="outline" style="width: 50%">
                 <mat-label>Qtd Min. Titulares</mat-label>
                 <input type="number" name="qtdMinTitulares" matInput placeholder="Idade Maxima" [disabled]="!adicionandoTabela() && !editandoTabela()"
-                       [(ngModel)]="tabelaEditando.qtdMinTitulares">
+                       [(ngModel)]="tabelaEditando.qtdMinTitulares" required>
               </mat-form-field>
             </div>
 

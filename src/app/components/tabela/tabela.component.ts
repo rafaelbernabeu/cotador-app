@@ -352,13 +352,13 @@ export class TabelaComponent implements OnInit {
   }
 
   salvarNovaTabela(): void {
+    this.tabelaEditando.produtos = this.todosProdutos.filter(p => p.selected);
+    this.tabelaEditando.entidades = this.todasEntidades.filter(e => e.selected);
     if (this.isFormValido()) {
       this.tabelaEditando.estado = this.estadoAutoCompleteControl.value;
       this.tabelaEditando.reajuste = this.reajusteAutoCompleteControl.value;
       this.tabelaEditando.operadora = this.operadoraAutoCompleteControl.value;
       this.tabelaEditando.administradora = this.administradoraAutoCompleteControl.value ? this.administradoraAutoCompleteControl.value : null;
-      this.tabelaEditando.produtos = this.todosProdutos.filter(p => p.selected);
-      this.tabelaEditando.entidades = this.todasEntidades.filter(e => e.selected);
       this.tabelaService.adicionarTabela(this.tabelaEditando).subscribe(response => {
         this.snackBar.openSnackBar('Tabela adicionado com sucesso!');
         this.limpar();
@@ -375,13 +375,13 @@ export class TabelaComponent implements OnInit {
   }
 
   atualizarTabela(): void {
+    this.tabelaEditando.produtos = this.todosProdutos.filter(p => p.selected);
+    this.tabelaEditando.entidades = this.todasEntidades.filter(e => e.selected);
     if (this.isFormValido()) {
       this.tabelaEditando.estado = this.estadoAutoCompleteControl.value;
       this.tabelaEditando.reajuste = this.reajusteAutoCompleteControl.value;
       this.tabelaEditando.operadora = this.operadoraAutoCompleteControl.value;
       this.tabelaEditando.administradora = this.administradoraAutoCompleteControl.value ? this.administradoraAutoCompleteControl.value : null;
-      this.tabelaEditando.produtos = this.todosProdutos.filter(p => p.selected);
-      this.tabelaEditando.entidades = this.todasEntidades.filter(e => e.selected);
       this.tabelaService.editarTabela(this.tabelaEditando).subscribe(response => {
         this.snackBar.openSnackBar('Tabela atualizado com sucesso!');
         this.visualizar();
@@ -602,12 +602,14 @@ export class TabelaComponent implements OnInit {
         this.estadoAutoCompleteControl.valid && this.estadoAutoCompleteControl.value.sigla &&
         this.administradoraAutoCompleteControl.valid && this.administradoraAutoCompleteControl.value.id &&
         this.operadoraAutoCompleteControl.valid && this.operadoraAutoCompleteControl.value.id &&
-        this.reajusteAutoCompleteControl.valid && this.reajusteAutoCompleteControl.value;
+        this.reajusteAutoCompleteControl.valid && this.reajusteAutoCompleteControl.value &&
+        this.tabelaEditando.produtos.length > 0 && this.tabelaEditando.entidades.length > 0;
     } else if (this.isCategoriaEmpresarial()) {
       return this.formTabela.valid &&
         this.estadoAutoCompleteControl.valid && this.estadoAutoCompleteControl.value.sigla &&
         this.operadoraAutoCompleteControl.valid && this.operadoraAutoCompleteControl.value.id &&
-        this.reajusteAutoCompleteControl.valid && this.reajusteAutoCompleteControl.value;
+        this.reajusteAutoCompleteControl.valid && this.reajusteAutoCompleteControl.value &&
+        this.tabelaEditando.produtos.length > 0;
     }
     return false;
   }
