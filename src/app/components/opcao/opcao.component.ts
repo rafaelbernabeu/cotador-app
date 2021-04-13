@@ -547,9 +547,9 @@ export class OpcaoComponent implements OnInit {
   }
 
   salvarNovaOpcao(): void {
-    if (this.formOpcao.valid) {
-      this.opcaoEditando.tabela = this.tabelaAutoCompleteControl.value;
-      this.opcaoEditando.produto = this.produtoAutoCompleteControl.value;
+    this.opcaoEditando.tabela = this.tabelaAutoCompleteControl.value;
+    this.opcaoEditando.produto = this.produtoAutoCompleteControl.value;
+    if (this.isFormValido()) {
       this.opcaoService.adicionarOpcao(this.opcaoEditando).subscribe(response => {
         this.snackBar.openSnackBar('Opcao adicionado com sucesso!');
         this.limpar();
@@ -561,9 +561,9 @@ export class OpcaoComponent implements OnInit {
   }
 
   atualizarOpcao(): void {
-    if (this.formOpcao.valid) {
-      this.opcaoEditando.tabela = this.tabelaAutoCompleteControl.value;
-      this.opcaoEditando.produto = this.produtoAutoCompleteControl.value;
+    this.opcaoEditando.tabela = this.tabelaAutoCompleteControl.value;
+    this.opcaoEditando.produto = this.produtoAutoCompleteControl.value;
+    if (this.isFormValido()) {
       this.opcaoService.editarOpcao(this.opcaoEditando).subscribe(response => {
         this.snackBar.openSnackBar('Opcao atualizado com sucesso!');
         this.visualizar();
@@ -819,4 +819,23 @@ export class OpcaoComponent implements OnInit {
       this.handleKeyboardEventForm($event, elementRef);
     }
   }
+
+  isFormValido(): boolean {
+    if (this.isCategoriaAdesao()) {
+      return this.formOpcao.valid &&
+        this.estadoAutoCompleteControl.value?.sigla != null &&
+        this.administradoraAutoCompleteControl.value?.id != null &&
+        this.operadoraAutoCompleteControl.value?.id != null &&
+        this.opcaoEditando.tabela?.id != null &&
+        this.opcaoEditando.produto?.id != null;
+    } else if (this.isCategoriaEmpresarial()) {
+      return this.formOpcao.valid &&
+        this.estadoAutoCompleteControl.value?.sigla != null &&
+        this.operadoraAutoCompleteControl.value?.id != null &&
+        this.opcaoEditando.tabela?.id != null &&
+        this.opcaoEditando.produto?.id != null;
+    }
+    return false;
+  }
+
 }
