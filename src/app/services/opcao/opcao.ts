@@ -7,7 +7,7 @@ export class Opcao {
 
   id: number;
   mei = false;
-  coparticipacao = false;
+  coparticipacao: boolean;
   tabela: Tabela = new Tabela();
   produto: Produto = new Produto();
   acomodacao: Acomodacao = new Acomodacao();

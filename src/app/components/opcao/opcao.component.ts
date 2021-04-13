@@ -493,6 +493,7 @@ export class OpcaoComponent implements OnInit {
 
   adicionar(): void {
     this.estado = 'adicionando';
+    this.formOpcao?.resetForm();
     this.opcaoSelecionada = new Opcao();
     this.opcaoEditando = this.opcaoSelecionada;
     this.tabelaAutoCompleteControl.disable();
