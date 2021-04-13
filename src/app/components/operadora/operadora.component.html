@@ -82,7 +82,7 @@
               <mat-label>Cor</mat-label>
               <input matInput placeholder="Cor" name="cor" [(ngModel)]="operadoraEditando.cor" [(colorPicker)]="operadoraEditando.cor"
                      [disabled]="!adicionandoOperadora() && !editandoOperadora()"
-                     [style.color]="operadoraEditando.cor"/>
+                     [style.color]="operadoraEditando.cor" required/>
             </mat-form-field>
             <button type="submit" hidden></button>
           </form>

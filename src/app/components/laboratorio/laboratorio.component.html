@@ -81,7 +81,7 @@
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Local</mat-label>
               <input matInput placeholder="Local" name="local" [disabled]="!adicionandoLaboratorio() && !editandoLaboratorio()"
-                     [(ngModel)]="laboratorioEditando.local">
+                     [(ngModel)]="laboratorioEditando.local" required>
             </mat-form-field>
             <button type="submit" hidden></button>
           </form>
