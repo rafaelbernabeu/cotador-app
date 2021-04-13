@@ -799,7 +799,7 @@ export class OpcaoComponent implements OnInit {
     }
   }
 
-  trataTecladoUsuario($event: KeyboardEvent, elementRef: any) {
+  handleKeyboardEventForm($event: KeyboardEvent, elementRef: any) {
     if ($event.ctrlKey && $event.code === 'Enter') {
       $event.preventDefault();
       this.onSubmit()
@@ -809,11 +809,11 @@ export class OpcaoComponent implements OnInit {
     }
   }
 
-  trataTecladoUsuarioEstado($event: KeyboardEvent, elementRef: any) {
+  handleKeyboardEventEstadoInput($event: KeyboardEvent, elementRef: any) {
     if (this.isCategoriaAdesao()) {
-      this.trataTecladoUsuario($event, this.administradoraInput.nativeElement);
+      this.handleKeyboardEventForm($event, this.administradoraInput.nativeElement);
     } else {
-      this.trataTecladoUsuario($event, elementRef);
+      this.handleKeyboardEventForm($event, elementRef);
     }
   }
 }
