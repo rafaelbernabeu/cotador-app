@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
@@ -42,6 +42,14 @@ export class OpcaoComponent implements OnInit {
   @ViewChild(NgForm) formOpcao: NgForm;
   @ViewChild(MatSort) sortOpcao: MatSort;
   @ViewChild(MatPaginator) paginatorOpcao: MatPaginator;
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (this.opcaoSelecionada && event.ctrlKey && event.code === 'KeyD') {
+      event.preventDefault();
+      this.copiarOpcao();
+    }
+  }
 
   displayedColumns: string[] = ['id', 'estado', 'tabela', 'idadeMin', 'idadeMax', 'qtdMinVidas', 'qtdMinTitulares', 'acomodacao', 'coparticipacao', 'administradora', 'operadora', 'produto', 'abrangencia', 'valor0a18anos', 'valor19a23anos', 'valor24a28anos', 'valor29a33anos', 'valor34a38anos', 'valor39a43anos', 'valor44a48anos', 'valor49a53anos', 'valor54a58anos', 'valor59ouMaisAnos', 'reajuste'];
   dataSourceOpcao = new MatTableDataSource<Opcao>();
