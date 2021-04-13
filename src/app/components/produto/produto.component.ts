@@ -30,6 +30,7 @@ import {UtilService} from "../../services/util/util.service";
 export class ProdutoComponent implements OnInit {
 
   @ViewChild('formProduto') formProduto: NgForm;
+  @ViewChild('formCoparts') formCoparts: NgForm;
   @ViewChild('sortProduto') sortProduto: MatSort;
   @ViewChild('paginatorProduto') paginatorProduto: MatPaginator;
 
@@ -241,12 +242,13 @@ export class ProdutoComponent implements OnInit {
     this.estado = null;
     this.produtoSelecionado = null;
     this.operadoraAutoCompleteControl.disable();
-    this.paginatorProduto._changePageSize(20);
+    this.paginatorProduto._changePageSize(100);
   }
 
   adicionar(): void {
     this.estado = 'adicionando';
     this.formProduto?.resetForm();
+    this.formCoparts?.resetForm();
     this.operadoraAutoCompleteControl?.reset();
     this.produtoSelecionado = new Produto();
     this.operadoraAutoCompleteControl.enable();
@@ -270,6 +272,7 @@ export class ProdutoComponent implements OnInit {
     this.produtoSelecionado = null;
     this.operadoraAutoCompleteControl.disable();
     this.preparaTodosParaNovaVerificacao();
+    this.paginatorProduto._changePageSize(100);
   }
 
   editandoProduto(): boolean {
@@ -281,10 +284,10 @@ export class ProdutoComponent implements OnInit {
   }
 
   salvarNovoProduto(): void {
+    this.produtoEditando.operadora = this.operadoraAutoCompleteControl.value;
+    this.produtoEditando.hospitais = this.todosHospitais.filter(l => l.selected);
+    this.produtoEditando.laboratorios = this.todosLaboratorios.filter(l => l.selected);
     if (this.isFormValido()) {
-      this.produtoEditando.operadora = this.operadoraAutoCompleteControl.value;
-      this.produtoEditando.hospitais = this.todosHospitais.filter(l => l.selected);
-      this.produtoEditando.laboratorios = this.todosLaboratorios.filter(l => l.selected);
       this.produtoService.adicionarProduto(this.produtoEditando).subscribe(response => {
         this.snackBar.openSnackBar('Produto adicionado com sucesso!');
         this.limpar();
@@ -301,10 +304,10 @@ export class ProdutoComponent implements OnInit {
   }
 
   atualizarProduto(): void {
+    this.produtoEditando.operadora = this.operadoraAutoCompleteControl.value;
+    this.produtoEditando.hospitais = this.todosHospitais.filter(l => l.selected);
+    this.produtoEditando.laboratorios = this.todosLaboratorios.filter(l => l.selected);
     if (this.isFormValido()) {
-      this.produtoEditando.operadora = this.operadoraAutoCompleteControl.value;
-      this.produtoEditando.hospitais = this.todosHospitais.filter(l => l.selected);
-      this.produtoEditando.laboratorios = this.todosLaboratorios.filter(l => l.selected);
       this.produtoService.editarProduto(this.produtoEditando).subscribe(response => {
         this.snackBar.openSnackBar('Produto atualizado com sucesso!');
         this.visualizar();
@@ -319,6 +322,7 @@ export class ProdutoComponent implements OnInit {
 
   private erroFormInvalido(): void {
     this.formProduto.form.markAllAsTouched();
+    this.formCoparts.form.markAllAsTouched();
     if (!this.operadoraAutoCompleteControl.value.id) {
       this.operadoraAutoCompleteControl.setValue('');
       this.operadoraAutoCompleteControl.markAllAsTouched()
@@ -448,8 +452,11 @@ export class ProdutoComponent implements OnInit {
   }
 
   isFormValido(): boolean {
-    return this.formProduto.valid && this.operadoraAutoCompleteControl.valid &&
-      this.operadoraAutoCompleteControl.value.id;
+    return this.formProduto.valid &&
+      this.formCoparts.valid &&
+      this.produtoEditando.operadora?.id &&
+      this.produtoEditando.hospitais.length > 0 &&
+      this.produtoEditando.laboratorios.length > 0;
   }
 
 }
