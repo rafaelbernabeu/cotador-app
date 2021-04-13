@@ -10,15 +10,15 @@ export class Tabela {
 
   id: number;
   nome: string = '';
-  contemplaMEI: boolean;
-  compulsoria: boolean;
-  livreAdesao: boolean;
+  reajuste: string;
   idadeMinima: number;
   idadeMaxima: number;
   qtdMinVidas: number;
   qtdMinTitulares: number;
-  preferencial: boolean;
-  reajuste: string;
+  compulsoria: boolean = false;
+  livreAdesao: boolean = false;
+  contemplaMEI: boolean = false;
+  preferencial: boolean = false;
 
   estado: Estado = new Estado();
   categoria: Categoria = new Categoria();
