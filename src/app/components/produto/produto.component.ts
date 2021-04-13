@@ -247,13 +247,16 @@ export class ProdutoComponent implements OnInit {
 
   adicionar(): void {
     this.estado = 'adicionando';
-    this.formProduto?.resetForm();
-    this.formCoparts?.resetForm();
-    this.operadoraAutoCompleteControl?.reset();
+    this.formProduto?.form.markAsUntouched();
+    this.formProduto?.form.markAsPristine();
+    this.formCoparts?.form.markAsUntouched();
+    this.formCoparts?.form.markAsPristine();
     this.produtoSelecionado = new Produto();
+    this.produtoEditando = this.produtoSelecionado;
     this.operadoraAutoCompleteControl.enable();
     this.operadoraAutoCompleteControl.setValue('');
-    this.produtoEditando = this.produtoSelecionado;
+    this.operadoraAutoCompleteControl.markAsPristine();
+    this.operadoraAutoCompleteControl.markAsUntouched();
     this.paginatorProduto._changePageSize(5);
     this.preparaTodosParaNovaVerificacao();
     this.configuraLaboratoriosParaEdicao();
