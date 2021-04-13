@@ -298,12 +298,6 @@
             </div>
 
             <mat-form-field appearance="outline" style="width: 100%">
-              <mat-label>Nome</mat-label>
-              <input matInput placeholder="Nome" name="nome" [disabled]="!adicionandoProduto() && !editandoProduto()"
-                     [(ngModel)]="produtoEditando.nome" required>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Operadora</mat-label>
               <input matInput name="operadora" [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto" type="text" required>
               <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
@@ -311,6 +305,12 @@
                   {{operadora.nome}}
                 </mat-option>
               </mat-autocomplete>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Nome</mat-label>
+              <input matInput placeholder="Nome" name="nome" [disabled]="!adicionandoProduto() && !editandoProduto()"
+                     [(ngModel)]="produtoEditando.nome" required>
             </mat-form-field>
 
             <mat-form-field appearance="outline" style="width: 100%">
