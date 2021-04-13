@@ -24,22 +24,22 @@
               <mat-cell *matCellDef="let tabela" [style.color]="'white'" [style.background-color]="tabela.operadora.cor" (click)="selecionaTabela(tabela)" class="mouse-pointer"> {{tabela.id}} </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="nome">
+            <ng-container matColumnDef="nome" sticky>
               <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
               <mat-cell *matCellDef="let tabela" [style.color]="'white'" [style.background-color]="tabela.operadora.cor" (click)="selecionaTabela(tabela)" class="mouse-pointer"> {{tabela.nome}} </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="estado">
+            <ng-container matColumnDef="estado" sticky>
               <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
               <mat-cell *matCellDef="let tabela" [style.color]="'white'" [style.background-color]="tabela.operadora.cor" (click)="selecionaTabela(tabela)" class="mouse-pointer"> {{tabela.estado.sigla}} </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="operadora">
+            <ng-container matColumnDef="operadora" sticky>
               <mat-header-cell *matHeaderCellDef mat-sort-header> Operadora </mat-header-cell>
               <mat-cell *matCellDef="let tabela" [style.color]="'white'" [style.background-color]="tabela.operadora.cor" (click)="selecionaTabela(tabela)" class="mouse-pointer"> {{tabela.operadora.nome}} </mat-cell>
             </ng-container>
 
-            <ng-container matColumnDef="administradora">
+            <ng-container matColumnDef="administradora" sticky>
               <mat-header-cell *matHeaderCellDef mat-sort-header> Administradora </mat-header-cell>
               <mat-cell *matCellDef="let tabela" [style.color]="'white'" [style.background-color]="tabela.operadora.cor" (click)="selecionaTabela(tabela)" class="mouse-pointer"> {{tabela.administradora?.nome}} </mat-cell>
             </ng-container>
