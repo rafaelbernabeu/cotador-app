@@ -422,7 +422,7 @@
               </div>
             </mat-expansion-panel>
           </div>
-          <div style="width: 50%; padding-left: 10px">
+          <div [hidden]="!isCategoriaAdesao()" style="width: 50%; padding-left: 10px">
             <mat-expansion-panel #relacionamentoEntidade>
               <mat-expansion-panel-header>
                 <mat-panel-title>

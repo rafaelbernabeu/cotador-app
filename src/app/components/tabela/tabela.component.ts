@@ -489,11 +489,11 @@ export class TabelaComponent implements OnInit {
   }
 
   isCategoriaEmpresarial(): boolean {
-    return this.tabelaEditando.categoria === 'Empresarial';
+    return this.tabelaEditando?.categoria === 'Empresarial';
   }
 
   isCategoriaAdesao(): boolean {
-    return this.tabelaEditando.categoria === 'Adesão';
+    return this.tabelaEditando?.categoria === 'Adesão';
   }
 
   modelChangeCategoria(categoria: string) {
