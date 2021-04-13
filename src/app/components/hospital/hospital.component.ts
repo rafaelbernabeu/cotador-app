@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
@@ -19,6 +19,14 @@ export class HospitalComponent implements OnInit {
   @ViewChild(NgForm) formHospital: NgForm;
   @ViewChild(MatSort) sortHospital: MatSort;
   @ViewChild(MatPaginator) paginatorHospital: MatPaginator;
+
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if ((this.adicionandoHospital() || this.editandoHospital()) && event.ctrlKey && event.code === 'Enter') {
+      event.preventDefault();
+      this.onSubmit();
+    }
+  }
 
   displayedColumns: string[] = ['id', 'nome', 'local'];
   dataSourceHospital = new MatTableDataSource<Hospital>();

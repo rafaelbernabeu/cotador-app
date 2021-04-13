@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatAccordion, MatExpansionPanel} from '@angular/material/expansion';
@@ -53,6 +53,14 @@ export class TabelaComponent implements OnInit {
   @ViewChild(MatAccordion) accordion: MatAccordion;
   @ViewChild('relacionamentoProduto') accordionProduto: MatExpansionPanel;
   @ViewChild('relacionamentoEntidade') accordionEntidade: MatExpansionPanel;
+
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if ((this.adicionandoTabela() || this.editandoTabela()) && event.ctrlKey && event.code === 'Enter') {
+      event.preventDefault();
+      this.onSubmit();
+    }
+  }
 
   displayedColumns: string[] = ['id', 'nome', 'estado', 'operadora', 'administradora', "reajuste", "idadeMinima", "idadeMaxima", "qtdMinVidas", "qtdMinTitulares"];
   dataSourceTabela = new MatTableDataSource<Tabela>();

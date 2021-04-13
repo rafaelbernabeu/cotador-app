@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import {EntidadeService} from '../../services/entidade/entidade.service';
@@ -25,6 +25,14 @@ export class EntidadeComponent implements OnInit {
   @ViewChild('paginatorProfissoes') paginatorProfissao: MatPaginator;
   @ViewChild('profissoesSortEditando') sortProfissaoEditando: MatSort;
   @ViewChild('paginatorEditandoProfissoes') paginatorEditandoProfissao: MatPaginator;
+
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if ((this.adicionandoEntidade() || this.editandoEntidade()) && event.ctrlKey && event.code === 'Enter') {
+      event.preventDefault();
+      this.onSubmit();
+    }
+  }
 
   displayedColumns: string[] = ['id', 'nome'];
   dataSourceProfissao = new MatTableDataSource<Profissao>();

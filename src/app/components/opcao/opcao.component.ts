@@ -47,9 +47,14 @@ export class OpcaoComponent implements OnInit {
 
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (this.opcaoSelecionada && event.ctrlKey && event.code === 'KeyD') {
-      event.preventDefault();
-      this.copiarOpcao();
+    if (event.ctrlKey) {
+      if ((this.adicionandoOpcao() || this.editandoOpcao()) && event.code === 'Enter') {
+        event.preventDefault();
+        this.onSubmit();
+      } else if (this.opcaoSelecionada && event.code === 'KeyD') {
+        event.preventDefault();
+        this.copiarOpcao();
+      }
     }
   }
 
@@ -800,10 +805,7 @@ export class OpcaoComponent implements OnInit {
   }
 
   handleKeyboardEventForm($event: KeyboardEvent, elementRef: any) {
-    if ($event.ctrlKey && $event.code === 'Enter') {
-      $event.preventDefault();
-      this.onSubmit()
-    } else if ($event.code === 'Enter') {
+    if ($event.code === 'Enter') {
       $event.preventDefault();
       elementRef.focus();
     }

@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatSort} from '@angular/material/sort';
 import {UsuarioService} from '../../services/usuario/usuario.service';
@@ -26,6 +26,14 @@ export class UsuarioComponent implements OnInit {
   @ViewChild('paginatorRoles') paginatorProfissao: MatPaginator;
   @ViewChild('rolesSortEditando') sortProfissaoEditando: MatSort;
   @ViewChild('paginatorEditandoRoles') paginatorEditandoProfissao: MatPaginator;
+
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if ((this.adicionandoUsuario() || this.editandoUsuario()) && event.ctrlKey && event.code === 'Enter') {
+      event.preventDefault();
+      this.onSubmit();
+    }
+  }
 
   displayedColumns: string[] = ['id', 'nome', 'email'];
   dataSourceRoles = new MatTableDataSource<Role>();

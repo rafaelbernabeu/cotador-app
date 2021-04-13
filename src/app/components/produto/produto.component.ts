@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
@@ -44,6 +44,14 @@ export class ProdutoComponent implements OnInit {
   @ViewChild('paginatorHospitalEditando') paginatorHospitalEditando: MatPaginator;
 
   @ViewChild(MatAccordion) accordion: MatAccordion;
+
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if ((this.adicionandoProduto() || this.editandoProduto()) && event.ctrlKey && event.code === 'Enter') {
+      event.preventDefault();
+      this.onSubmit();
+    }
+  }
 
   displayedColumns: string[] = ['id', 'nome', 'abrangencia', 'operadora', 'reembolso', 'valorProntoSocorro', 'valorConsulta', 'valorExameSimples', 'valorExameEspecial', 'valorInternacao'];
   dataSourceProduto = new MatTableDataSource<Produto>();

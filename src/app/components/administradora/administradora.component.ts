@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
@@ -19,6 +19,14 @@ export class AdministradoraComponent implements OnInit {
   @ViewChild(NgForm) formAdministradora: NgForm;
   @ViewChild(MatSort) sortAdministradora: MatSort;
   @ViewChild(MatPaginator) paginatorAdministradora: MatPaginator;
+
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if ((this.adicionandoAdministradora() || this.editandoAdministradora()) && event.ctrlKey && event.code === 'Enter') {
+      event.preventDefault();
+      this.onSubmit();
+    }
+  }
 
   displayedColumns: string[] = ['id', 'nome'];
   dataSourceAdministradora = new MatTableDataSource<Administradora>();

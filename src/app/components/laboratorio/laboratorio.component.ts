@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, HostListener, OnInit, ViewChild} from '@angular/core';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
@@ -21,6 +21,14 @@ export class LaboratorioComponent implements OnInit {
   @ViewChild(NgForm) formLaboratorio: NgForm;
   @ViewChild(MatSort) sortLaboratorio: MatSort;
   @ViewChild(MatPaginator) paginatorLaboratorio: MatPaginator;
+
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if ((this.adicionandoLaboratorio() || this.editandoLaboratorio()) && event.ctrlKey && event.code === 'Enter') {
+      event.preventDefault();
+      this.onSubmit();
+    }
+  }
 
   displayedColumns: string[] = ['id', 'nome', 'local'];
   dataSourceLaboratorio = new MatTableDataSource<Laboratorio>();
