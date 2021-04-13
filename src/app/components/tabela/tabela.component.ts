@@ -54,11 +54,16 @@ export class TabelaComponent implements OnInit {
   @ViewChild('relacionamentoProduto') accordionProduto: MatExpansionPanel;
   @ViewChild('relacionamentoEntidade') accordionEntidade: MatExpansionPanel;
 
-  @HostListener('document:keypress', ['$event'])
+  @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if ((this.adicionandoTabela() || this.editandoTabela()) && event.ctrlKey && event.code === 'Enter') {
-      event.preventDefault();
-      this.onSubmit();
+    if (event.ctrlKey) {
+      if ((this.adicionandoTabela() || this.editandoTabela()) && event.code === 'Enter') {
+        event.preventDefault();
+        this.onSubmit();
+      } else if (this.tabelaSelecionada && event.code === 'KeyD') {
+        event.preventDefault();
+        this.copiarTabela();
+      }
     }
   }
 

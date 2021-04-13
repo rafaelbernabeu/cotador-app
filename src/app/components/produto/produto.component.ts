@@ -45,11 +45,16 @@ export class ProdutoComponent implements OnInit {
 
   @ViewChild(MatAccordion) accordion: MatAccordion;
 
-  @HostListener('document:keypress', ['$event'])
+  @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if ((this.adicionandoProduto() || this.editandoProduto()) && event.ctrlKey && event.code === 'Enter') {
-      event.preventDefault();
-      this.onSubmit();
+    if (event.ctrlKey) {
+      if ((this.adicionandoProduto() || this.editandoProduto()) && event.code === 'Enter') {
+        event.preventDefault();
+        this.onSubmit();
+      } else if (this.produtoSelecionado && event.code === 'KeyD') {
+        event.preventDefault();
+        this.copiarProduto();
+      }
     }
   }
 
