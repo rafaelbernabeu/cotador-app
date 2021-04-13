@@ -809,6 +809,7 @@ export class OpcaoComponent implements OnInit {
     if ($event.code === 'Enter') {
       $event.preventDefault();
       elementRef.focus();
+      elementRef.select();
     }
   }
 
