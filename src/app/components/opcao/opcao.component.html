@@ -310,7 +310,7 @@
           <a *ngIf="!editandoOpcao() && !adicionandoOpcao()" (click)="editarOpcao()">
             <mat-icon class="mouse-pointer">create</mat-icon>
           </a>
-          <a *ngIf="!editandoOpcao() && !adicionandoOpcao()" (click)="copiarOpcao()">
+          <a *ngIf="!adicionandoOpcao()" (click)="copiarOpcao()">
             <mat-icon class="mouse-pointer">content_copy</mat-icon>
           </a>
           <a *ngIf="!editandoOpcao() && !adicionandoOpcao()" (click)="removerOpcao()">
@@ -322,7 +322,7 @@
           <a *ngIf="editandoOpcao()" (click)="atualizarOpcao()">
             <mat-icon class="mouse-pointer">save</mat-icon>
           </a>
-          <a *ngIf="adicionandoOpcao()" (click)="cancelarAdicao()">
+          <a *ngIf="adicionandoOpcao() || (!editandoOpcao() && !adicionandoOpcao())" (click)="cancelarAdicao()">
             <mat-icon class="mouse-pointer">close</mat-icon>
           </a>
           <a *ngIf="editandoOpcao()" (click)="cancelarEdicao()">

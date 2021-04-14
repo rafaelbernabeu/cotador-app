@@ -61,7 +61,7 @@
           <a *ngIf="editandoHospital()" (click)="atualizarHospital()">
             <mat-icon class="mouse-pointer">save</mat-icon>
           </a>
-          <a *ngIf="adicionandoHospital()" (click)="cancelarAdicao()">
+          <a *ngIf="adicionandoHospital() || (!editandoHospital() && !adicionandoHospital())" (click)="cancelarAdicao()">
             <mat-icon class="mouse-pointer">close</mat-icon>
           </a>
           <a *ngIf="editandoHospital()" (click)="cancelarEdicao()">

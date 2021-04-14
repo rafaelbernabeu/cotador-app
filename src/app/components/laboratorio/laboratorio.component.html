@@ -61,7 +61,7 @@
           <a *ngIf="editandoLaboratorio()" (click)="atualizarLaboratorio()">
             <mat-icon class="mouse-pointer">save</mat-icon>
           </a>
-          <a *ngIf="adicionandoLaboratorio()" (click)="cancelarAdicao()">
+          <a *ngIf="adicionandoLaboratorio() || (!editandoLaboratorio() && !adicionandoLaboratorio())" (click)="cancelarAdicao()">
             <mat-icon class="mouse-pointer">close</mat-icon>
           </a>
           <a *ngIf="editandoLaboratorio()" (click)="cancelarEdicao()">

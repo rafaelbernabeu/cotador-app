@@ -56,7 +56,7 @@
           <a *ngIf="editandoProfissao()" (click)="atualizarProfissao()">
             <mat-icon class="mouse-pointer">save</mat-icon>
           </a>
-          <a *ngIf="adicionandoProfissao()" (click)="cancelarAdicao()">
+          <a *ngIf="adicionandoProfissao() || (!editandoProfissao() && !adicionandoProfissao())" (click)="cancelarAdicao()">
             <mat-icon class="mouse-pointer">close</mat-icon>
           </a>
           <a *ngIf="editandoProfissao()" (click)="cancelarEdicao()">

@@ -269,7 +269,7 @@
           <a *ngIf="!editandoProduto() && !adicionandoProduto()" (click)="editarProduto()">
             <mat-icon class="mouse-pointer">create</mat-icon>
           </a>
-          <a *ngIf="!editandoProduto() && !adicionandoProduto()" (click)="copiarProduto()">
+          <a *ngIf="!adicionandoProduto()" (click)="copiarProduto()">
             <mat-icon class="mouse-pointer">content_copy</mat-icon>
           </a>
           <a *ngIf="!editandoProduto() && !adicionandoProduto()" (click)="removerProduto()">
@@ -281,7 +281,7 @@
           <a *ngIf="editandoProduto()" (click)="atualizarProduto()">
             <mat-icon class="mouse-pointer">save</mat-icon>
           </a>
-          <a *ngIf="adicionandoProduto()" (click)="cancelarAdicao()">
+          <a *ngIf="adicionandoProduto() || (!editandoProduto() && !adicionandoProduto())" (click)="cancelarAdicao()">
             <mat-icon class="mouse-pointer">close</mat-icon>
           </a>
           <a *ngIf="editandoProduto()" (click)="cancelarEdicao()">

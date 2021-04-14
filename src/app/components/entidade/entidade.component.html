@@ -56,7 +56,7 @@
           <a *ngIf="editandoEntidade()" (click)="atualizarEntidade()">
             <mat-icon class="mouse-pointer">save</mat-icon>
           </a>
-          <a *ngIf="adicionandoEntidade()" (click)="cancelarAdicao()">
+          <a *ngIf="adicionandoEntidade() || (!editandoEntidade() && !adicionandoEntidade())" (click)="cancelarAdicao()">
             <mat-icon class="mouse-pointer">close</mat-icon>
           </a>
           <a *ngIf="editandoEntidade()" (click)="cancelarEdicao()">

@@ -61,7 +61,7 @@
           <a *ngIf="editandoUsuario()" (click)="atualizarUsuario()">
             <mat-icon class="mouse-pointer">save</mat-icon>
           </a>
-          <a *ngIf="adicionandoUsuario()" (click)="cancelarAdicao()">
+          <a *ngIf="adicionandoUsuario() || (!editandoUsuario() && !adicionandoUsuario())" (click)="cancelarAdicao()">
             <mat-icon class="mouse-pointer">close</mat-icon>
           </a>
           <a *ngIf="editandoUsuario()" (click)="cancelarEdicao()">

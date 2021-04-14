@@ -61,7 +61,7 @@
           <a *ngIf="editandoOperadora()" (click)="atualizarOperadora()">
             <mat-icon class="mouse-pointer">save</mat-icon>
           </a>
-          <a *ngIf="adicionandoOperadora()" (click)="cancelarAdicao()">
+          <a *ngIf="adicionandoOperadora() || (!editandoOperadora() && !adicionandoOperadora())" (click)="cancelarAdicao()">
             <mat-icon class="mouse-pointer">close</mat-icon>
           </a>
           <a *ngIf="editandoOperadora()" (click)="cancelarEdicao()">
