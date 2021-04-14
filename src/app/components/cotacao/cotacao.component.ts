@@ -26,8 +26,9 @@ import {Administradora} from "../../services/administradora/administradora";
 import {AdministradoraService} from "../../services/administradora/administradora.service";
 import {OperadoraService} from "../../services/operadora/operadora.service";
 import {BACKSLASH, COMMA, DASH, ENTER, SEMICOLON, SLASH} from "@angular/cdk/keycodes";
-import {MatChipInputEvent} from "@angular/material/chips";
+import {MatChipInputEvent, MatChipList} from "@angular/material/chips";
 import {UtilService} from "../../services/util/util.service";
+import {SnackbarService} from "../../services/snackbar/snackbar.service";
 
 @Component({
   selector: 'app-cotacao',
@@ -59,6 +60,7 @@ export class CotacaoComponent implements OnInit {
   @ViewChild('sortHospital') sortHospital: MatSort;
   @ViewChild('sortReembolso') sortReembolso: MatSort;
   @ViewChild('sortLaboratorio') sortLaboratorio: MatSort;
+  @ViewChild("chipListTitulares") chipListTitulares: MatChipList;
   @ViewChild('paginatorHospital') paginatorHospital: MatPaginator;
   @ViewChild('paginatorReembolso') paginatorReembolso: MatPaginator;
   @ViewChild('paginatorLaboratorio') paginatorLaboratorio: MatPaginator;
@@ -103,6 +105,7 @@ export class CotacaoComponent implements OnInit {
   constructor(
     @Inject('Window') public window: Window,
 
+    private snackBar: SnackbarService,
     private estadoService: EstadoService,
     private cotacaoService: CotacaoService,
     private hospitalService: HospitalService,
@@ -129,14 +132,37 @@ export class CotacaoComponent implements OnInit {
   }
 
   consultaCotacao(): void {
-    this.cotacaoService.getCotacao(this.filtroCotacao).subscribe(response => {
-      this.todasOpcoes = response;
-      this.todasOpcoes.forEach(op => op.selected = true);
-      this.todosProdutosCotacao = this.todasOpcoes.map(op => op.produto).sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).filter(UtilService.filtraDuplicadasId);
-      this.configuraTodasTabelas();
-      this.configuraDisplayedColumns();
-      this.accordion.openAll();
-    });
+    if (this.isFormValido()) {
+      this.chipListTitulares.errorState = false;
+      this.cotacaoService.getCotacao(this.filtroCotacao).subscribe(response => {
+        this.todasOpcoes = response;
+        this.todasOpcoes.forEach(op => op.selected = true);
+        this.todosProdutosCotacao = this.todasOpcoes.map(op => op.produto).sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).filter(UtilService.filtraDuplicadasId);
+        this.configuraTodasTabelas();
+        this.configuraDisplayedColumns();
+        this.accordion.openAll();
+      });
+    } else {
+      this.erroFormInvalido();
+    }
+  }
+
+  private isFormValido(): boolean {
+    if (this.isCotacaoAdesao()) {
+      return this.formCotacao.valid &&
+        this.filtroCotacao.titulares.length > 0 &&
+        this.filtroCotacao.profissoes.length > 0
+    } else if (this.isCotacaoEmpresarial()) {
+      return this.formCotacao.valid &&
+        this.filtroCotacao.titulares.length > 0
+    }
+    return false;
+  }
+
+  private erroFormInvalido(): void {
+    this.formCotacao.form.markAllAsTouched();
+    this.chipListTitulares.errorState = !this.filtroCotacao.titulares.length;
+    this.snackBar.openSnackBar("Preencha todos os campos!");
   }
 
   private configuraTodasTabelas() {

@@ -16,8 +16,11 @@
       </mat-card-title>
       <mat-card-content>
         <form #formCotacao="ngForm" (submit)="consultaCotacao()">
-          <div style="margin-top: 40px; margin-bottom: 30px">
-            <mat-radio-group name="categoria" style="width: 50%" (ngModelChange)="modelChangeCategoria($event)" [(ngModel)]="filtroCotacao.categoria">
+          <div style="margin-top: 30px; margin-bottom: 30px">
+            <div *ngIf="categoria.errors?.required && formCotacao.touched" style="padding-bottom: 10px; color: red">
+              Selecione uma Categoria
+            </div>
+            <mat-radio-group #categoria="ngModel" name="categoria" style="width: 50%" (ngModelChange)="modelChangeCategoria($event)" [(ngModel)]="filtroCotacao.categoria" required>
               <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
                 {{categoria}}
               </mat-radio-button>
@@ -88,7 +91,7 @@
             </mat-form-field>
             <mat-form-field *ngIf="isCotacaoAdesao()" appearance="outline" style="width: 33.33%">
               <mat-label>Profissões</mat-label>
-              <mat-select name="profissoes" [(ngModel)]="filtroCotacao.profissoes" multiple>
+              <mat-select name="profissoes" [(ngModel)]="filtroCotacao.profissoes" [required]="isCotacaoAdesao()" multiple>
                 <mat-option *ngFor="let profissao of todasProfissoes" [value]="profissao">{{profissao.nome}}</mat-option>
               </mat-select>
             </mat-form-field>
@@ -97,30 +100,28 @@
           <div>
             <mat-form-field appearance="outline" style="width: 50%">
               <mat-label>Idades Titulares</mat-label>
-              <mat-chip-list #chipList1 aria-label="Fruit selection">
-                <mat-chip  *ngFor="let vida of filtroCotacao.titulares"
-                           (removed)="removeIdadeTitular(vida)">
+              <mat-chip-list #chipListTitulares aria-label="Fruit selection" required>
+                <mat-chip *ngFor="let vida of filtroCotacao.titulares" (removed)="removeIdadeTitular(vida)">
                   {{vida}}
                   <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip>
                 <input name="idadesTitulares" type="number" placeholder="Idades..."
-                       [matChipInputFor]="chipList1"
+                       [matChipInputFor]="chipListTitulares"
                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                        [matChipInputAddOnBlur]="true"
-                       (matChipInputTokenEnd)="addIdadeTitular($event)">
+                       (matChipInputTokenEnd)="addIdadeTitular($event)" required>
               </mat-chip-list>
             </mat-form-field>
 
             <mat-form-field appearance="outline" style="width: 50%">
               <mat-label>Idades Dependentes</mat-label>
-              <mat-chip-list #chipList2 aria-label="Fruit selection">
-                <mat-chip  *ngFor="let vida of filtroCotacao.dependentes"
-                           (removed)="removeIdadeDependente(vida)">
+              <mat-chip-list #chipListDependentes aria-label="Fruit selection">
+                <mat-chip *ngFor="let vida of filtroCotacao.dependentes" (removed)="removeIdadeDependente(vida)">
                   {{vida}}
                   <mat-icon matChipRemove>cancel</mat-icon>
                 </mat-chip>
                 <input name="idadesDependentes" type="number" placeholder="Idades..."
-                       [matChipInputFor]="chipList2"
+                       [matChipInputFor]="chipListDependentes"
                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
                        [matChipInputAddOnBlur]="true"
                        (matChipInputTokenEnd)="addIdadeDependente($event)">
