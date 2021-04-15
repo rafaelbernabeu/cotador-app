@@ -387,11 +387,11 @@
                   <input #tabela name="tabela" matInput (ngModelChange)="modelChangeTabela()" [formControl]="tabelaAutoCompleteControl" [matAutocomplete]="auto4" type="text" required>
                   <mat-autocomplete autoActiveFirstOption #auto4="matAutocomplete" [displayWith]="tabelaDisplayFn">
                     <mat-option *ngFor="let tabela of tabelaFilteredOptions | async" [value]="tabela">
-                      <span *ngIf="isCategoriaAdesao()">
-                        {{tabela?.nome}} | {{tabela?.administradora.nome}}
+                      <span *ngIf="isCategoriaAdesao() && tabelaAutoCompleteControl.enabled">
+                        {{tabela.nome}} | {{tabela.administradora.nome}}
                       </span>
-                      <span *ngIf="isCategoriaEmpresarial()">
-                        {{tabela?.nome}} {{tabela?.contemplaMEI ? ' | Mei' : ''}} {{tabela?.livreAdesao ? ' | LA' : ''}} {{tabela?.compulsoria ? ' | Comp' : ''}}
+                      <span *ngIf="isCategoriaEmpresarial() && tabelaAutoCompleteControl.enabled">
+                        {{tabela.nome}} {{tabela.contemplaMEI ? ' | Mei' : ''}} {{tabela.livreAdesao ? ' | LA' : ''}} {{tabela.compulsoria ? ' | Comp' : ''}}
                       </span>
                     </mat-option>
                   </mat-autocomplete>
