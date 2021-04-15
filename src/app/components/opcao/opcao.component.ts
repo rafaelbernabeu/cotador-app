@@ -640,12 +640,12 @@ export class OpcaoComponent implements OnInit {
   tabelaDisplayFn(tabela: Tabela): string {
     if (tabela && tabela.nome) {
       if (tabela.categoria === 'Adesão') {
-        return tabela.nome + ' | ' + tabela.administradora.nome;
+        return tabela.nome + ' (' + tabela.operadora.nome + ' + ' + tabela.administradora.nome + ')';
       } else if (tabela.categoria === 'Empresarial') {
-        return tabela.nome +
-          (tabela.contemplaMEI ? ' | Mei' : '') +
-          (tabela.livreAdesao ? ' | LA' : '') +
-          (tabela.compulsoria ? ' | Comp' : '');
+        return tabela.nome + ' (' + tabela.operadora.nome + ' + ' +
+          (tabela.contemplaMEI ? 'Mei' : '') +
+          (tabela.livreAdesao ? tabela.contemplaMEI ? ' | LA' : 'LA' : '') +
+          (tabela.compulsoria ? (tabela.contemplaMEI || tabela.livreAdesao) ? ' | Comp' : 'Comp' : '') + ')';
       }
     }
     return '';

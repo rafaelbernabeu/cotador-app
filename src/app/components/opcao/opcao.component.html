@@ -388,10 +388,10 @@
                   <mat-autocomplete autoActiveFirstOption #auto4="matAutocomplete" [displayWith]="tabelaDisplayFn">
                     <mat-option *ngFor="let tabela of tabelaFilteredOptions | async" [value]="tabela">
                       <span *ngIf="isCategoriaAdesao() && tabelaAutoCompleteControl.enabled">
-                        {{tabela.nome}} | {{tabela.administradora.nome}}
+                        {{tabela.nome}} ({{tabela.operadora?.nome}} + {{tabela.administradora?.nome}})
                       </span>
                       <span *ngIf="isCategoriaEmpresarial() && tabelaAutoCompleteControl.enabled">
-                        {{tabela.nome}} {{tabela.contemplaMEI ? ' | Mei' : ''}} {{tabela.livreAdesao ? ' | LA' : ''}} {{tabela.compulsoria ? ' | Comp' : ''}}
+                        {{tabela.nome}} ({{tabela.operadora?.nome}} + {{tabela.contemplaMEI ? 'Mei' : ''}} {{tabela.livreAdesao ? tabela.contemplaMEI ? ' | LA' : 'LA' : ''}} {{tabela.compulsoria ? (tabela.contemplaMEI || tabela.livreAdesao) ? ' | Comp' : 'Comp' : ''}})
                       </span>
                     </mat-option>
                   </mat-autocomplete>
