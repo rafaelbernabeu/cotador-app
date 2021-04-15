@@ -364,7 +364,7 @@ export class OpcaoComponent implements OnInit {
     const estado = this.estadoAutoCompleteControl.value;
     const operadora = this.operadoraAutoCompleteControl.value;
     if (operadora.id && estado.sigla && this.opcaoEditando.categoria) {
-      this.operadoraService.getTabelasByOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(operadora, null, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
+      this.operadoraService.getTabelasByOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(operadora, null, estado, this.opcaoEditando.categoria, null).subscribe(response => {
         this.todasTabelas = response;
         if (this.editandoOpcao() || this.adicionandoOpcao()) {
           this.tabelaAutoCompleteControl.enable();
