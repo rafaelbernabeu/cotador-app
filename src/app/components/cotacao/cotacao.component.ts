@@ -197,7 +197,7 @@ export class CotacaoComponent implements OnInit {
   }
 
   private configuraTabelaCoparticipacao(): void {
-    this.displayedColumnsCoparticipacao = ['tipoCoparticipacao'].concat(this.todosProdutosCotacao.map(p => p.nome));
+    this.displayedColumnsCoparticipacao = ['tipoCoparticipacao'].concat(this.todosProdutosCotacao.map(p => p.id.toString()));
     this.dataSourceCoparticipacao = new MatTableDataSource<string>(['Pronto Socorro', 'Consultas', 'Exame Simples', 'Exame Especial', 'Internacao']);
     if (!this.dataSourceCoparticipacao.data.length) {
       setTimeout(() => this.panelCoparticipacao.close());
@@ -205,7 +205,7 @@ export class CotacaoComponent implements OnInit {
   }
 
   private configuraTabelaHospital(): void {
-    this.displayedColumnsHospitais = ['nomeHospital'].concat(this.todosProdutosCotacao.map(p => p.nome));
+    this.displayedColumnsHospitais = ['nomeHospital'].concat(this.todosProdutosCotacao.map(p => p.id.toString()));
     this.dataSourceHospitais = new MatTableDataSource<Hospital>(this.todosProdutosCotacao.map(p => p.hospitais)?.reduce((acc, value) => acc.concat(value)).filter(UtilService.filtraDuplicadasId));
     this.dataSourceHospitais.sort = this.sortHospital;
     this.dataSourceHospitais.paginator = this.paginatorHospital;
@@ -216,7 +216,7 @@ export class CotacaoComponent implements OnInit {
   }
 
   private configuraTabelaLaboratorio(): void {
-    this.displayedColumnsLaboratorios = ['nomeLaboratorio'].concat(this.todosProdutosCotacao.map(p => p.nome));
+    this.displayedColumnsLaboratorios = ['nomeLaboratorio'].concat(this.todosProdutosCotacao.map(p => p.id.toString()));
     this.dataSourceLaboratorios = new MatTableDataSource<Laboratorio>(this.todosProdutosCotacao.map(p => p.laboratorios)?.reduce((acc, value) => acc.concat(value)).filter(UtilService.filtraDuplicadasId));
     this.dataSourceLaboratorios.sort = this.sortLaboratorio;
     this.dataSourceLaboratorios.paginator = this.paginatorLaboratorio;

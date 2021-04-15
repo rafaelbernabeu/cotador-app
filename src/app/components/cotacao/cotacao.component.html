@@ -865,7 +865,7 @@
                   <mat-cell *matCellDef="let hospital"> {{hospital.nome}} </mat-cell>
                 </ng-container>
 
-                <ng-container [matColumnDef]="produto.nome" *ngFor="let produto of todosProdutosCotacao" >
+                <ng-container [matColumnDef]="produto.id.toString()" *ngFor="let produto of todosProdutosCotacao" >
                   <mat-header-cell *matHeaderCellDef style="justify-content: center" [style.color]="'white'" [style.background-color]="produto.operadora.cor">
                     <div style="flex-direction: column">
                       <div>{{produto.operadora.nome}}</div>
@@ -906,7 +906,7 @@
                   <mat-cell *matCellDef="let laboratorio"> {{laboratorio.nome}} </mat-cell>
                 </ng-container>
 
-                <ng-container [matColumnDef]="produto.nome" *ngFor="let produto of todosProdutosCotacao" >
+                <ng-container [matColumnDef]="produto.id.toString()" *ngFor="let produto of todosProdutosCotacao" >
                   <mat-header-cell *matHeaderCellDef style="justify-content: center" [style.color]="'white'" [style.background-color]="produto.operadora.cor">
                     <div style="flex-direction: column">
                       <div>{{produto.operadora.nome}}</div>
@@ -945,7 +945,7 @@
                   <mat-cell *matCellDef="let coparticipacao"> {{coparticipacao}} </mat-cell>
                 </ng-container>
 
-                <ng-container [matColumnDef]="produto.nome" *ngFor="let produto of todosProdutosCotacao" >
+                <ng-container [matColumnDef]="produto.id.toString()" *ngFor="let produto of todosProdutosCotacao" >
                   <mat-header-cell *matHeaderCellDef style="justify-content: center" [style.color]="'white'" [style.background-color]="produto.operadora.cor">
                     <div style="flex-direction: column">
                       <div>{{produto.operadora.nome}}</div>
