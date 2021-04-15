@@ -259,7 +259,7 @@ export class OpcaoComponent implements OnInit {
           this.administradoraAutoCompleteControl.enable();
         }
         let novaAdministradoraSelecionada: any = this.administradoraAutoCompleteControl.value;
-        if (this.todasAdministradoras.filter(a => a.nome === novaAdministradoraSelecionada?.nome).length === 0) {
+        if (this.todasAdministradoras.filter(a => a.id === novaAdministradoraSelecionada?.id).length === 0) {
           novaAdministradoraSelecionada = '';
           this.operadoraAutoCompleteControl.disable()
           this.operadoraAutoCompleteControl.setValue('');
@@ -296,7 +296,7 @@ export class OpcaoComponent implements OnInit {
           this.operadoraAutoCompleteControl.enable();
         }
         let novaOperadoraSelecionada: any = this.operadoraAutoCompleteControl.value;
-        if (this.todasOperadoras.filter(o => o.nome === novaOperadoraSelecionada?.nome).length === 0) {
+        if (this.todasOperadoras.filter(o => o.id === novaOperadoraSelecionada?.id).length === 0) {
           novaOperadoraSelecionada = '';
           this.tabelaAutoCompleteControl.disable()
           this.tabelaAutoCompleteControl.setValue('');
@@ -327,7 +327,7 @@ export class OpcaoComponent implements OnInit {
           this.operadoraAutoCompleteControl.enable();
         }
         let novaOperadoraSelecionada: any = this.operadoraAutoCompleteControl.value;
-        if (this.todasOperadoras.filter(o => o.nome === novaOperadoraSelecionada?.nome).length === 0) {
+        if (this.todasOperadoras.filter(o => o.id === novaOperadoraSelecionada?.id).length === 0) {
           novaOperadoraSelecionada = '';
           this.tabelaAutoCompleteControl.disable()
           this.tabelaAutoCompleteControl.setValue('');
@@ -350,7 +350,7 @@ export class OpcaoComponent implements OnInit {
           this.tabelaAutoCompleteControl.enable();
         }
         let novaTabelaSelecionada: any = this.tabelaAutoCompleteControl.value;
-        if (this.todasTabelas.filter(t => t.nome === novaTabelaSelecionada?.nome).length === 0) {
+        if (this.todasTabelas.filter(t => t.id === novaTabelaSelecionada?.id).length === 0) {
           novaTabelaSelecionada = '';
           this.produtoAutoCompleteControl.disable();
           this.produtoAutoCompleteControl.setValue('');
@@ -370,7 +370,7 @@ export class OpcaoComponent implements OnInit {
           this.tabelaAutoCompleteControl.enable();
         }
         let novaTabelaSelecionada: any = this.tabelaAutoCompleteControl.value;
-        if (this.todasTabelas.filter(t => t.nome === novaTabelaSelecionada?.nome).length === 0) {
+        if (this.todasTabelas.filter(t => t.id === novaTabelaSelecionada?.id).length === 0) {
           novaTabelaSelecionada = '';
           this.produtoAutoCompleteControl.disable();
           this.produtoAutoCompleteControl.setValue('');
@@ -402,7 +402,7 @@ export class OpcaoComponent implements OnInit {
           this.produtoAutoCompleteControl.enable();
         }
         let novoProdutoSelecionado: any = this.produtoAutoCompleteControl.value;
-        if (this.todosProdutos.filter(o => o.nome === novoProdutoSelecionado?.nome).length === 0) {
+        if (this.todosProdutos.filter(o => o.id === novoProdutoSelecionado?.id).length === 0) {
           novoProdutoSelecionado = '';
         }
         setTimeout(() => this.produtoAutoCompleteControl.setValue(novoProdutoSelecionado));
@@ -421,7 +421,7 @@ export class OpcaoComponent implements OnInit {
           this.produtoAutoCompleteControl.enable();
         }
         let novoProdutoSelecionado: any = this.produtoAutoCompleteControl.value;
-        if (this.todosProdutos.filter(o => o.nome === novoProdutoSelecionado?.nome).length === 0) {
+        if (this.todosProdutos.filter(o => o.id === novoProdutoSelecionado?.id).length === 0) {
           novoProdutoSelecionado = '';
         }
         setTimeout(() => this.produtoAutoCompleteControl.setValue(novoProdutoSelecionado));
