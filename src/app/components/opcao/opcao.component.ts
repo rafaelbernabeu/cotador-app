@@ -191,16 +191,16 @@ export class OpcaoComponent implements OnInit {
 
   private preparaAutoCompletesParaEdicao(): void {
     this.carregaEstadoPorCategoria();
-    if (this.isCategoriaAdesao()) {
-      this.carregaAdministradoraPorEstadoAndCategoria();
-      this.carregaOperadoraPorAdministradoraAndEstadoAndCategoria();
-      this.carregaTabelaPorOperadoraAndAdministradoraAndEstadoAndCategoria()
-      this.carregaProdutosPorTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoria()
-    } else if (this.isCategoriaEmpresarial()) {
-      this.carregaOperadoraPorEstadoAndCategoria();
-      this.carregaTabelaPorOperadoraAndEstadoAndCategoriaAndMEI()
-      this.carregaProdutosPorTabelaAndOperadoraAndEstadoAndCategoriaAndMEI()
-    }
+    // if (this.isCategoriaAdesao()) {
+    //   this.carregaAdministradoraPorEstadoAndCategoria();
+    //   this.carregaOperadoraPorAdministradoraAndEstadoAndCategoria();
+    //   this.carregaTabelaPorOperadoraAndAdministradoraAndEstadoAndCategoria()
+    //   this.carregaProdutosPorTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoria()
+    // } else if (this.isCategoriaEmpresarial()) {
+    //   this.carregaOperadoraPorEstadoAndCategoria();
+    //   this.carregaTabelaPorOperadoraAndEstadoAndCategoriaAndMEI()
+    //   this.carregaProdutosPorTabelaAndOperadoraAndEstadoAndCategoriaAndMEI()
+    // }
   }
 
   private modelChangeCategoria(categoria: Categoria): void {
@@ -272,11 +272,7 @@ export class OpcaoComponent implements OnInit {
   private modelChangeMEI(contemplaMEI: boolean): void {
     this.opcaoEditando.mei = contemplaMEI;
     if (this.adicionandoOpcao() || this.editandoOpcao()) {
-      if (this.isCategoriaAdesao()) {
-        this.carregaOperadoraPorAdministradoraAndEstadoAndCategoria();
-      } else if (this.isCategoriaEmpresarial()) {
-        this.carregaTabelaPorOperadoraAndEstadoAndCategoriaAndMEI();
-      }
+      this.carregaTabelaPorOperadoraAndEstadoAndCategoriaAndMEI();
     }
   }
 
@@ -290,7 +286,7 @@ export class OpcaoComponent implements OnInit {
     const estado = this.estadoAutoCompleteControl.value;
     const administradora = this.administradoraAutoCompleteControl.value;
     if (estado.sigla && administradora.id && this.opcaoEditando.categoria) {
-      this.administradoraService.getOperadorasByAdministradoraAndEstadoAndCategoriaAndMEI(administradora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
+      this.administradoraService.getOperadorasByAdministradoraAndEstadoAndCategoria(administradora, estado, this.opcaoEditando.categoria).subscribe(response => {
         this.todasOperadoras = response;
         if (this.editandoOpcao() || this.adicionandoOpcao()) {
           this.operadoraAutoCompleteControl.enable();
@@ -311,7 +307,7 @@ export class OpcaoComponent implements OnInit {
   private carregaOperadoraPorEstadoAndCategoria(): void {
     const estado = this.estadoAutoCompleteControl.value;
     if (estado.sigla && this.opcaoEditando.categoria) {
-      this.estadoService.getOperadorasByEstadoAndCategoriaAndMEI(estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
+      this.estadoService.getOperadorasByEstadoAndCategoria(estado, this.opcaoEditando.categoria).subscribe(response => {
         this.todasOperadoras = response;
         if (this.editandoOpcao() || this.adicionandoOpcao()) {
           this.operadoraAutoCompleteControl.enable();

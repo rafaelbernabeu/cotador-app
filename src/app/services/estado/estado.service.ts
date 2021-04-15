@@ -31,12 +31,11 @@ export class EstadoService {
     );
   }
 
-  public getOperadorasByEstadoAndCategoriaAndMEI(estado: Estado, categoria: Categoria, contemplaMEI: boolean): Observable<Operadora[]> {
+  public getOperadorasByEstadoAndCategoria(estado: Estado, categoria: Categoria): Observable<Operadora[]> {
     return this.http.get<Operadora[]>(this.getApiUrl() + '/' + estado.sigla + this.api.OPERADORA_API_URL, {
         headers: this.authServie.getTokenHeader().headers,
         params: new HttpParams()
           .append('categoria', categoria.toString())
-          .append('mei', '' + contemplaMEI)
       }
     );
   }
