@@ -1,6 +1,5 @@
 import {Administradora} from '../administradora/administradora';
 import {Produto} from '../produto/produto';
-import {Opcao} from '../opcao/opcao';
 import {Entidade} from '../entidade/entidade';
 import {Estado} from '../estado/estado';
 import {Categoria} from '../categoria/categoria';
@@ -25,7 +24,6 @@ export class Tabela {
   operadora: Operadora = new Operadora();
   administradora: Administradora = new Administradora();
 
-  opcoes: Opcao[];
   produtos: Produto[];
   entidades: Entidade[];
 

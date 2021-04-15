@@ -233,7 +233,6 @@ export class TabelaComponent implements OnInit {
     this.editarTabela();
     this.tabelaEditando.id = null;
     this.tabelaEditando.nome = '';
-    this.tabelaEditando.opcoes = [];
     this.estado = 'adicionando';
   }
 
