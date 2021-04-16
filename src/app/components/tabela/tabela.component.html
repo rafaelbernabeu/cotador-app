@@ -250,7 +250,7 @@
         <br/>
 
         <mat-card-content>
-          <form #formTabela="ngForm" (submit)="onSubmit()">
+          <form #formTabela="ngForm">
             <div style="margin-bottom: 20px">
               <mat-radio-group name="categoria" (ngModelChange)="modelChangeCategoria($event)" [(ngModel)]="tabelaEditando.categoria" [disabled]="!adicionandoTabela() && !editandoTabela()" required>
                 <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">

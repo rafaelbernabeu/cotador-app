@@ -67,7 +67,7 @@
         <br/>
 
         <mat-card-content>
-          <form #administradoraForm="ngForm" (submit)="onSubmit()">
+          <form #administradoraForm="ngForm">
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Nome</mat-label>
               <input matInput placeholder="Nome" name="nome" [disabled]="!adicionandoAdministradora() && !editandoAdministradora()"

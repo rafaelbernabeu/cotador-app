@@ -72,7 +72,7 @@
         <br/>
 
         <mat-card-content>
-          <form #formLaboratorio="ngForm" (submit)="onSubmit()">
+          <form #formLaboratorio="ngForm">
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Nome</mat-label>
               <input matInput placeholder="Nome" name="nome" [disabled]="!adicionandoLaboratorio() && !editandoLaboratorio()"

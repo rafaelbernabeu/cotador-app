@@ -292,7 +292,7 @@
         <br/>
 
         <mat-card-content>
-          <form #formProduto="ngForm" (submit)="onSubmit()">
+          <form #formProduto="ngForm">
             <div style="float: right; padding-bottom: 10px">
               <mat-slide-toggle [(ngModel)]="produtoEditando.ativo" name="ativo" [disabled]="!adicionandoProduto() && !editandoProduto()" labelPosition="before">Ativo</mat-slide-toggle>
             </div>
@@ -362,7 +362,7 @@
           </mat-expansion-panel-header>
 
           <div>
-            <form class="flex-container" #formCoparts="ngForm" (submit)="onSubmit()">
+            <form class="flex-container" #formCoparts="ngForm">
               <mat-card>
                 <mat-card-title>Pronto Socorro</mat-card-title>
                 <mat-card-content>
