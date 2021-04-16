@@ -33,7 +33,7 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-        <mat-paginator #paginatorUsuarios [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceUsuario.data.length" showFirstLastButtons></mat-paginator>
+        <mat-paginator #paginatorUsuarios [pageSizeOptions]="[100, 500, 1000]" [length]="dataSourceUsuario.data.length" showFirstLastButtons></mat-paginator>
       </mat-card-content>
     </mat-card>
   </div>
