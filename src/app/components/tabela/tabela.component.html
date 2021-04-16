@@ -374,7 +374,7 @@
                 </mat-panel-description>
               </mat-expansion-panel-header>
 
-              <div [hidden]="editandoTabela() || adicionandoTabela()">
+              <div>
                 <mat-table #sortProduto="matSort" [dataSource]="dataSourceProduto" matSort class="mat-elevation-z8">
                   <ng-container matColumnDef="idProduto">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
@@ -391,28 +391,6 @@
                     <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.abrangencia}} </mat-cell>
                   </ng-container>
 
-                  <mat-header-row *matHeaderRowDef="['idProduto', 'nomeProduto', 'abrangenciaProduto']"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: ['idProduto', 'nomeProduto', 'abrangenciaProduto'];"></mat-row>
-                </mat-table>
-                <mat-paginator #paginatorProduto [pageSizeOptions]="[25, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
-              </div>
-              <div [hidden]="!editandoTabela() && !adicionandoTabela()">
-                <mat-table #sortProdutoEditando="matSort" [dataSource]="dataSourceProduto" matSort class="mat-elevation-z8">
-                  <ng-container matColumnDef="idProduto">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-                    <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.id}} </mat-cell>
-                  </ng-container>
-
-                  <ng-container matColumnDef="nomeProduto">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-                    <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.nome}} </mat-cell>
-                  </ng-container>
-
-                  <ng-container matColumnDef="abrangenciaProduto">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
-                    <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.abrangencia}} </mat-cell>
-                  </ng-container>
-
                   <ng-container matColumnDef="selected">
                     <mat-header-cell *matHeaderCellDef mat-sort-header style="justify-content: center"> Selecione </mat-header-cell>
                     <mat-cell *matCellDef="let produto">
@@ -422,10 +400,10 @@
                     </mat-cell>
                   </ng-container>
 
-                  <mat-header-row *matHeaderRowDef="['idProduto', 'nomeProduto', 'abrangenciaProduto', 'selected']"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: ['idProduto', 'nomeProduto', 'abrangenciaProduto', 'selected'];"></mat-row>
+                  <mat-header-row *matHeaderRowDef="getColumnsProduto()"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: getColumnsProduto();"></mat-row>
                 </mat-table>
-                <mat-paginator #paginatorProdutoEditando [pageSizeOptions]="[25, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
+                <mat-paginator #paginatorProduto [pageSizeOptions]="[25, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
               </div>
             </mat-expansion-panel>
           </div>
@@ -440,25 +418,8 @@
                 </mat-panel-description>
               </mat-expansion-panel-header>
 
-              <div [hidden]="editandoTabela() || adicionandoTabela()">
+              <div>
                 <mat-table #sortEntidade="matSort" [dataSource]="dataSourceEntidade" matSort class="mat-elevation-z8">
-                  <ng-container matColumnDef="idEntidade">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-                    <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.id}} </mat-cell>
-                  </ng-container>
-
-                  <ng-container matColumnDef="nomeEntidade">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-                    <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.nome}} </mat-cell>
-                  </ng-container>
-
-                  <mat-header-row *matHeaderRowDef="['idEntidade', 'nomeEntidade',]"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: ['idEntidade', 'nomeEntidade',];"></mat-row>
-                </mat-table>
-                <mat-paginator #paginatorEntidade [pageSizeOptions]="[25, 50, 100]" [length]="dataSourceEntidade.data.length" showFirstLastButtons></mat-paginator>
-              </div>
-              <div [hidden]="!editandoTabela() && !adicionandoTabela()">
-                <mat-table #sortEntidadeEditando="matSort" [dataSource]="dataSourceEntidade" matSort class="mat-elevation-z8">
                   <ng-container matColumnDef="idEntidade">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
                     <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.id}} </mat-cell>
@@ -478,10 +439,10 @@
                     </mat-cell>
                   </ng-container>
 
-                  <mat-header-row *matHeaderRowDef="['idEntidade', 'nomeEntidade', 'selected']"></mat-header-row>
-                  <mat-row *matRowDef="let row; columns: ['idEntidade', 'nomeEntidade', 'selected'];"></mat-row>
+                  <mat-header-row *matHeaderRowDef="getColumnsEntidade()"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: getColumnsEntidade();"></mat-row>
                 </mat-table>
-                <mat-paginator #paginatorEntidadeEditando [pageSizeOptions]="[25, 50, 100]" [length]="dataSourceEntidade.data.length" showFirstLastButtons></mat-paginator>
+                <mat-paginator #paginatorEntidade [pageSizeOptions]="[25, 50, 100]" [length]="dataSourceEntidade.data.length" showFirstLastButtons></mat-paginator>
               </div>
             </mat-expansion-panel>
           </div>

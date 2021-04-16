@@ -42,13 +42,9 @@ export class TabelaComponent implements OnInit {
 
   @ViewChild('sortProduto') sortProduto: MatSort;
   @ViewChild('paginatorProduto') paginatorProduto: MatPaginator;
-  @ViewChild('sortProdutoEditando') sortProdutoEditando: MatSort;
-  @ViewChild('paginatorProdutoEditando') paginatorProdutoEditando: MatPaginator;
 
   @ViewChild('sortEntidade') sortEntidade: MatSort;
   @ViewChild('paginatorEntidade') paginatorEntidade: MatPaginator;
-  @ViewChild('sortEntidadeEditando') sortEntidadeEditando: MatSort;
-  @ViewChild('paginatorEntidadeEditando') paginatorEntidadeEditando: MatPaginator;
 
   @ViewChild(MatAccordion) accordion: MatAccordion;
   @ViewChild('relacionamentoProduto') accordionProduto: MatExpansionPanel;
@@ -192,13 +188,8 @@ export class TabelaComponent implements OnInit {
 
   private carregaTabelaProduto(produtos: Produto[]): void {
     this.dataSourceProduto = new MatTableDataSource<Produto>(produtos);
-    if (this.editandoTabela() || this.adicionandoTabela()) {
-      this.dataSourceProduto.sort = this.sortProdutoEditando;
-      this.dataSourceProduto.paginator = this.paginatorProdutoEditando;
-    } else {
-      this.dataSourceProduto.sort = this.sortProduto;
-      this.dataSourceProduto.paginator = this.paginatorProduto;
-    }
+    this.dataSourceProduto.sort = this.sortProduto;
+    this.dataSourceProduto.paginator = this.paginatorProduto;
     this.dataSourceProduto.sortingDataAccessor = (produto, property) => {
       switch (property) {
         case 'idProduto':
@@ -213,15 +204,17 @@ export class TabelaComponent implements OnInit {
     };
   }
 
+  getColumnsProduto(): string[] {
+    if (this.editandoTabela()) {
+      return ['idProduto', 'nomeProduto', 'abrangenciaProduto', 'selected'];
+    }
+    return ['idProduto', 'nomeProduto', 'abrangenciaProduto'];
+  }
+
   private carregaTabelaEntidade(entidades: Entidade[]): void {
     this.dataSourceEntidade = new MatTableDataSource<Entidade>(entidades);
-    if (this.editandoTabela() || this.adicionandoTabela()) {
-      this.dataSourceEntidade.sort = this.sortEntidadeEditando;
-      this.dataSourceEntidade.paginator = this.paginatorEntidadeEditando;
-    } else {
-      this.dataSourceEntidade.sort = this.sortEntidade;
-      this.dataSourceEntidade.paginator = this.paginatorEntidade;
-    }
+    this.dataSourceEntidade.sort = this.sortEntidade;
+    this.dataSourceEntidade.paginator = this.paginatorEntidade;
     this.dataSourceEntidade.sortingDataAccessor = (entidade, property) => {
       switch (property) {
         case 'idEntidade':
@@ -232,6 +225,13 @@ export class TabelaComponent implements OnInit {
           return entidade[property];
       }
     };
+  }
+
+  getColumnsEntidade(): string[] {
+    if (this.editandoTabela()) {
+      return ['idEntidade', 'nomeEntidade', 'selected'];
+    }
+    return ['idEntidade', 'nomeEntidade'];
   }
 
   selecionaTabela(tabela: Tabela): void {
