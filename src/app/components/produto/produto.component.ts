@@ -463,4 +463,8 @@ export class ProdutoComponent implements OnInit {
       this.produtoEditando.laboratorios.length > 0;
   }
 
+  getTableWidth(): string {
+    return (this.displayedColumns?.length * 115)  +'px';
+  }
+
 }

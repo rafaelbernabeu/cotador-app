@@ -15,7 +15,7 @@
 
     <mat-card-content>
       <div [style.width]="this.produtoSelecionado || filtrandoProduto() ? (window.innerWidth * 0.70) + 'px' : (window.innerWidth * 0.95) + 'px'" style="overflow: auto;">
-        <mat-table style="width: 5000px" #sortProduto="matSort" [dataSource]="dataSourceProduto" matSort>
+        <mat-table [style.width]="getTableWidth()" #sortProduto="matSort" [dataSource]="dataSourceProduto" matSort>
           <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
             <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.id}} </mat-cell>
@@ -488,39 +488,39 @@
                 <mat-card-content>
                   <div [hidden]="editandoProduto() || adicionandoProduto()">
                     <mat-table #sortLaboratorio="matSort" [dataSource]="dataSourceLaboratorio" matSort class="mat-elevation-z8">
-                      <ng-container matColumnDef="id">
+                      <ng-container matColumnDef="idLaboratorio">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
                         <mat-cell *matCellDef="let laboratorio"> {{laboratorio.id}} </mat-cell>
                       </ng-container>
 
-                      <ng-container matColumnDef="nome">
+                      <ng-container matColumnDef="nomeLaboratorio">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
                         <mat-cell *matCellDef="let laboratorio"> {{laboratorio.nome}} </mat-cell>
                       </ng-container>
 
-                      <ng-container matColumnDef="local">
+                      <ng-container matColumnDef="localLaboratorio">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Local </mat-header-cell>
                         <mat-cell *matCellDef="let laboratorio"> {{laboratorio.local}} </mat-cell>
                       </ng-container>
 
-                      <mat-header-row *matHeaderRowDef="['id', 'nome', 'local']"></mat-header-row>
-                      <mat-row *matRowDef="let row; columns: ['id', 'nome', 'local'];"></mat-row>
+                      <mat-header-row *matHeaderRowDef="['idLaboratorio', 'nomeLaboratorio', 'localLaboratorio']"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: ['idLaboratorio', 'nomeLaboratorio', 'localLaboratorio'];"></mat-row>
                     </mat-table>
                     <mat-paginator #paginatorLaboratorio [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceLaboratorio.data.length" showFirstLastButtons></mat-paginator>
                   </div>
                   <div [hidden]="!editandoProduto() && !adicionandoProduto()">
                     <mat-table #sortLaboratorioEditando="matSort" [dataSource]="dataSourceLaboratorio" matSort class="mat-elevation-z8">
-                      <ng-container matColumnDef="id">
+                      <ng-container matColumnDef="idLaboratorio">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
                         <mat-cell *matCellDef="let laboratorio" (click)="laboratorio.selected = !laboratorio.selected" class="mouse-pointer"> {{laboratorio.id}} </mat-cell>
                       </ng-container>
 
-                      <ng-container matColumnDef="nome">
+                      <ng-container matColumnDef="nomeLaboratorio">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
                         <mat-cell *matCellDef="let laboratorio" (click)="laboratorio.selected = !laboratorio.selected" class="mouse-pointer"> {{laboratorio.nome}} </mat-cell>
                       </ng-container>
 
-                      <ng-container matColumnDef="local">
+                      <ng-container matColumnDef="localLaboratorio">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Local </mat-header-cell>
                         <mat-cell *matCellDef="let laboratorio" (click)="laboratorio.selected = !laboratorio.selected" class="mouse-pointer"> {{laboratorio.local}} </mat-cell>
                       </ng-container>
@@ -531,11 +531,11 @@
                           <section>
                             <mat-checkbox [(ngModel)]="laboratorio.selected"></mat-checkbox>
                           </section>
-                        </mat-cell>
+                        </mat-cell>Hospital
                       </ng-container>
 
-                      <mat-header-row *matHeaderRowDef="['id', 'nome', 'local', 'selected']"></mat-header-row>
-                      <mat-row *matRowDef="let row; columns: ['id', 'nome', 'local', 'selected'];"></mat-row>
+                      <mat-header-row *matHeaderRowDef="['idLaboratorio', 'nomeLaboratorio', 'localLaboratorio', 'selected']"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: ['idLaboratorio', 'nomeLaboratorio', 'localLaboratorio', 'selected'];"></mat-row>
 
                     </mat-table>
                     <mat-paginator #paginatorLaboratorioEditando [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceLaboratorio.data.length" showFirstLastButtons></mat-paginator>
@@ -560,40 +560,40 @@
                 <mat-card-content>
                   <div [hidden]="editandoProduto() || adicionandoProduto()">
                     <mat-table #sortHospital="matSort" [dataSource]="dataSourceHospital" matSort class="mat-elevation-z8">
-                      <ng-container matColumnDef="id">
+                      <ng-container matColumnDef="idHospital">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
                         <mat-cell *matCellDef="let hospital"> {{hospital.id}} </mat-cell>
                       </ng-container>
 
-                      <ng-container matColumnDef="nome">
+                      <ng-container matColumnDef="nomeHospital">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
                         <mat-cell *matCellDef="let hospital"> {{hospital.nome}} </mat-cell>
                       </ng-container>
 
-                      <ng-container matColumnDef="local">
+                      <ng-container matColumnDef="localHospital">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Local </mat-header-cell>
                         <mat-cell *matCellDef="let hospital"> {{hospital.local}} </mat-cell>
                       </ng-container>
 
-                      <mat-header-row *matHeaderRowDef="['id', 'nome', 'local']"></mat-header-row>
-                      <mat-row *matRowDef="let row; columns: ['id', 'nome', 'local'];"></mat-row>
+                      <mat-header-row *matHeaderRowDef="['idHospital', 'nomeHospital', 'localHospital']"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: ['idHospital', 'nomeHospital', 'localHospital'];"></mat-row>
 
                     </mat-table>
                     <mat-paginator #paginatorHospital [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceHospital.data.length" showFirstLastButtons></mat-paginator>
                   </div>
                   <div [hidden]="!editandoProduto() && !adicionandoProduto()">
                     <mat-table #sortHospitalEditando="matSort" [dataSource]="dataSourceHospital" matSort class="mat-elevation-z8">
-                      <ng-container matColumnDef="id">
+                      <ng-container matColumnDef="idHospital">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
                         <mat-cell *matCellDef="let hospital" (click)="hospital.selected = !hospital.selected" class="mouse-pointer"> {{hospital.id}} </mat-cell>
                       </ng-container>
 
-                      <ng-container matColumnDef="nome">
+                      <ng-container matColumnDef="nomeHospital">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
                         <mat-cell *matCellDef="let hospital" (click)="hospital.selected = !hospital.selected" class="mouse-pointer"> {{hospital.nome}} </mat-cell>
                       </ng-container>
 
-                      <ng-container matColumnDef="local">
+                      <ng-container matColumnDef="localHospital">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Local </mat-header-cell>
                         <mat-cell *matCellDef="let hospital" (click)="hospital.selected = !hospital.selected" class="mouse-pointer"> {{hospital.local}} </mat-cell>
                       </ng-container>
@@ -607,8 +607,8 @@
                         </mat-cell>
                       </ng-container>
 
-                      <mat-header-row *matHeaderRowDef="['id', 'nome', 'local', 'selected']"></mat-header-row>
-                      <mat-row *matRowDef="let row; columns: ['id', 'nome', 'local', 'selected'];"></mat-row>
+                      <mat-header-row *matHeaderRowDef="['idHospital', 'nomeHospital', 'localHospital', 'selected']"></mat-header-row>
+                      <mat-row *matRowDef="let row; columns: ['idHospital', 'nomeHospital', 'localHospital', 'selected'];"></mat-row>
 
                     </mat-table>
                     <mat-paginator #paginatorHospitalEditando [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceHospital.data.length" showFirstLastButtons></mat-paginator>
