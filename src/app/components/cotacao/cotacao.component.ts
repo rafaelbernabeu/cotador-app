@@ -224,7 +224,6 @@ export class CotacaoComponent implements OnInit {
     if (!this.dataSourceLaboratorios.data.length) {
       setTimeout(() => this.panelLaboratorios.close());
     }
-
   }
 
   modelChangeMelhorPreco(): void {
