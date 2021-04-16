@@ -23,8 +23,6 @@ export class EntidadeComponent implements OnInit {
   @ViewChild('profissoesSort') sortProfissao: MatSort;
   @ViewChild('paginatorEntidades') paginatorEntidade: MatPaginator;
   @ViewChild('paginatorProfissoes') paginatorProfissao: MatPaginator;
-  @ViewChild('profissoesSortEditando') sortProfissaoEditando: MatSort;
-  @ViewChild('paginatorEditandoProfissoes') paginatorEditandoProfissao: MatPaginator;
 
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -119,13 +117,16 @@ export class EntidadeComponent implements OnInit {
 
   private carregaTabelaProfissao(profissoes: Profissao[]): void {
     this.dataSourceProfissao = new MatTableDataSource<Profissao>(profissoes);
-    if (this.editandoEntidade() || this.adicionandoEntidade()) {
-      this.dataSourceProfissao.sort = this.sortProfissaoEditando;
-      this.dataSourceProfissao.paginator = this.paginatorEditandoProfissao;
-    } else {
-      this.dataSourceProfissao.sort = this.sortProfissao;
-      this.dataSourceProfissao.paginator = this.paginatorProfissao;
+    this.dataSourceProfissao.sort = this.sortProfissao;
+    this.dataSourceProfissao.paginator = this.paginatorProfissao;
+  }
+
+  private readonly columnsProfissao = ['id', 'nome'];
+  getColumnsProfissao(): string[] {
+    if (this.editandoEntidade()) {
+      return this.columnsProfissao.concat('selected');
     }
+    return this.columnsProfissao;
   }
 
   private preparaProfissoesParaNovaVerificacao(): void {

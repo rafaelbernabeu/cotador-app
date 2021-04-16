@@ -87,8 +87,8 @@
         <br/>
 
         <mat-card-content>
-          <div [hidden]="!editandoEntidade() && !adicionandoEntidade()">
-            <mat-table #profissoesSortEditando="matSort" [dataSource]="dataSourceProfissao" matSort class="mat-elevation-z8">
+          <div>
+            <mat-table #profissoesSort="matSort" [dataSource]="dataSourceProfissao" matSort class="mat-elevation-z8">
               <ng-container matColumnDef="id">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
                 <mat-cell *matCellDef="let profissao" (click)="profissao.selected = !profissao.selected" class="mouse-pointer"> {{profissao.id}} </mat-cell>
@@ -108,26 +108,8 @@
                 </mat-cell>
               </ng-container>
 
-              <mat-header-row *matHeaderRowDef="['id', 'nome', 'selected']"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: ['id', 'nome', 'selected'];"></mat-row>
-            </mat-table>
-            <mat-paginator #paginatorEditandoProfissoes [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceProfissao.data.length" showFirstLastButtons></mat-paginator>
-          </div>
-
-          <div [hidden]="editandoEntidade() || adicionandoEntidade()">
-            <mat-table #profissoesSort="matSort" [dataSource]="dataSourceProfissao" matSort class="mat-elevation-z8">
-              <ng-container matColumnDef="id">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-                <mat-cell *matCellDef="let profissao"> {{profissao.id}} </mat-cell>
-              </ng-container>
-
-              <ng-container matColumnDef="nome">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-                <mat-cell *matCellDef="let profissao" > {{profissao.nome}} </mat-cell>
-              </ng-container>
-
-              <mat-header-row *matHeaderRowDef="['id', 'nome']"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: ['id', 'nome'];"></mat-row>
+              <mat-header-row *matHeaderRowDef="getColumnsProfissao()"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: getColumnsProfissao();"></mat-row>
             </mat-table>
             <mat-paginator #paginatorProfissoes [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceProfissao.data.length" showFirstLastButtons></mat-paginator>
           </div>
