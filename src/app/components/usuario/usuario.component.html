@@ -40,8 +40,8 @@
 
   <div *ngIf="usuarioSelecionado" style="width: 20px"></div>
 
-  <div *ngIf="usuarioSelecionado" style="flex-direction: column">
-    <div>
+  <div [hidden]="!usuarioSelecionado" style="flex-direction: column">
+    <div *ngIf="usuarioSelecionado">
       <mat-card>
         <mat-card-title>
           <span *ngIf="adicionandoUsuario()">Adicionando Usuario</span>
@@ -94,24 +94,26 @@
         </mat-card-content>
       </mat-card>
     </div>
+
     <div *ngIf="usuarioSelecionado" style="height: 20px"></div>
+
     <div [hidden]="!usuarioSelecionado">
       <mat-card>
         <mat-card-title>
-          Roles do Usuario - {{usuarioSelecionado.nome}}
+          Roles do Usuario - {{usuarioSelecionado?.nome}}
         </mat-card-title>
         <br/>
 
         <mat-card-content>
-          <div [hidden]="!editandoUsuario() && !adicionandoUsuario()">
-            <mat-table #rolesSortEditando="matSort" [dataSource]="dataSourceRoles" matSort class="mat-elevation-z8">
+          <div>
+            <mat-table #rolesSort="matSort" [dataSource]="dataSourceRoles" matSort class="mat-elevation-z8">
               <ng-container matColumnDef="id">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
                 <mat-cell *matCellDef="let role" (click)="role.selected = !role.selected" class="mouse-pointer"> {{role.id}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="role">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Role </mat-header-cell>
                 <mat-cell *matCellDef="let role" (click)="role.selected = !role.selected" class="mouse-pointer"> {{role.role}} </mat-cell>
               </ng-container>
 
@@ -124,26 +126,8 @@
                 </mat-cell>
               </ng-container>
 
-              <mat-header-row *matHeaderRowDef="['id', 'role', 'selected']"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: ['id', 'role', 'selected'];"></mat-row>
-            </mat-table>
-            <mat-paginator #paginatorEditandoRoles [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceRoles.data.length" showFirstLastButtons></mat-paginator>
-          </div>
-
-          <div [hidden]="editandoUsuario() || adicionandoUsuario()">
-            <mat-table #rolesSort="matSort" [dataSource]="dataSourceRoles" matSort class="mat-elevation-z8">
-              <ng-container matColumnDef="id">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-                <mat-cell *matCellDef="let role"> {{role.id}} </mat-cell>
-              </ng-container>
-
-              <ng-container matColumnDef="role">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-                <mat-cell *matCellDef="let role" > {{role.role}} </mat-cell>
-              </ng-container>
-
-              <mat-header-row *matHeaderRowDef="['id', 'role']"></mat-header-row>
-              <mat-row *matRowDef="let row; columns: ['id', 'role'];"></mat-row>
+              <mat-header-row *matHeaderRowDef="getColumnsRoles()"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: getColumnsRoles();"></mat-row>
             </mat-table>
             <mat-paginator #paginatorRoles [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceRoles.data.length" showFirstLastButtons></mat-paginator>
           </div>

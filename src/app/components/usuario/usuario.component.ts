@@ -20,12 +20,11 @@ import {NgForm} from "@angular/forms";
 export class UsuarioComponent implements OnInit {
 
   @ViewChild('usuarioForm') formUsuario: NgForm;
+
+  @ViewChild('rolesSort') sortRoles: MatSort;
   @ViewChild('usuariosSort') sortUsuario: MatSort;
-  @ViewChild('rolesSort') sortProfissao: MatSort;
+  @ViewChild('paginatorRoles') paginatorRoles: MatPaginator;
   @ViewChild('paginatorUsuarios') paginatorUsuario: MatPaginator;
-  @ViewChild('paginatorRoles') paginatorProfissao: MatPaginator;
-  @ViewChild('rolesSortEditando') sortProfissaoEditando: MatSort;
-  @ViewChild('paginatorEditandoRoles') paginatorEditandoProfissao: MatPaginator;
 
   @HostListener('document:keypress', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
@@ -122,13 +121,16 @@ export class UsuarioComponent implements OnInit {
 
   private carregaTabelaRoles(roles: Role[]): void {
     this.dataSourceRoles = new MatTableDataSource<Role>(roles);
-    if (this.editandoUsuario() || this.adicionandoUsuario()) {
-      this.dataSourceRoles.sort = this.sortProfissaoEditando;
-      this.dataSourceRoles.paginator = this.paginatorEditandoProfissao;
-    } else {
-      this.dataSourceRoles.sort = this.sortProfissao;
-      this.dataSourceRoles.paginator = this.paginatorProfissao;
+    this.dataSourceRoles.sort = this.sortRoles;
+    this.dataSourceRoles.paginator = this.paginatorRoles;
+  }
+
+  private readonly columnsRoles = ['id', 'role'];
+  getColumnsRoles(): string[] {
+    if (this.editandoUsuario()) {
+      return this.columnsRoles.concat('selected');
     }
+    return this.columnsRoles;
   }
 
   private preparaRolesParaNovaVerificacao(): void {
