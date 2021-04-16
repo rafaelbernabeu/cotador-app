@@ -31,7 +31,14 @@
 
             <ng-container matColumnDef="tabela" sticky>
               <mat-header-cell *matHeaderCellDef mat-sort-header> Tabela </mat-header-cell>
-              <mat-cell *matCellDef="let opcao" [style.color]="'white'" [style.background-color]="opcao.tabela.operadora.cor" (click)="selecionaOpcao(opcao)" class="mouse-pointer"> {{opcao.tabela.nome}} </mat-cell>
+              <mat-cell *matCellDef="let opcao" [style.color]="'white'" [style.background-color]="opcao.tabela.operadora.cor" (click)="selecionaOpcao(opcao)" class="mouse-pointer">
+                <span *ngIf="opcao.tabela.categoria === 'Adesão'">
+                  {{opcao.tabela.nome}} ({{opcao.tabela.operadora?.nome}} + {{opcao.tabela.administradora?.nome}})
+                </span>
+                <span *ngIf="opcao.tabela.categoria === 'Empresarial'">
+                  {{opcao.tabela.nome}} ({{opcao.tabela.operadora?.nome}} + {{opcao.tabela.contemplaMEI ? 'Mei' : ''}} {{opcao.tabela.livreAdesao ? opcao.tabela.contemplaMEI ? ' | LA' : 'LA' : ''}} {{opcao.tabela.compulsoria ? (opcao.tabela.contemplaMEI || opcao.tabela.livreAdesao) ? ' | Comp' : 'Comp' : ''}})
+                </span>
+              </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="idadeMin">
