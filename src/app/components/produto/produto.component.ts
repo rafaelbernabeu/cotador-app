@@ -36,13 +36,9 @@ export class ProdutoComponent implements OnInit {
 
   @ViewChild('sortLaboratorio') sortLaboratorio: MatSort;
   @ViewChild('paginatorLaboratorio') paginatorLaboratorio: MatPaginator;
-  @ViewChild('sortLaboratorioEditando') sortLaboratorioEditando: MatSort;
-  @ViewChild('paginatorLaboratorioEditando') paginatorLaboratorioEditando: MatPaginator;
 
   @ViewChild('sortHospital') sortHospital: MatSort;
   @ViewChild('paginatorHospital') paginatorHospital: MatPaginator;
-  @ViewChild('sortHospitalEditando') sortHospitalEditando: MatSort;
-  @ViewChild('paginatorHospitalEditando') paginatorHospitalEditando: MatPaginator;
 
   @ViewChild(MatAccordion) accordion: MatAccordion;
 
@@ -156,30 +152,52 @@ export class ProdutoComponent implements OnInit {
 
   private carregaTabelaLaboratorio(laboratorios: Laboratorio[]): void {
     this.dataSourceLaboratorio = new MatTableDataSource<Laboratorio>(laboratorios);
-    if (this.editandoProduto() || this.adicionandoProduto()) {
-      this.dataSourceLaboratorio.sort = this.sortLaboratorioEditando;
-      this.dataSourceLaboratorio.paginator = this.paginatorLaboratorioEditando;
-    } else {
-      this.dataSourceLaboratorio.sort = this.sortLaboratorio;
-      this.dataSourceLaboratorio.paginator = this.paginatorLaboratorio;
-    }
+    this.dataSourceLaboratorio.sort = this.sortLaboratorio;
+    this.dataSourceLaboratorio.paginator = this.paginatorLaboratorio;
     this.dataSourceLaboratorio.sortingDataAccessor = (laboratorio, property) => {
       switch (property) {
+        case 'idLaboratorio':
+          return laboratorio.id;
+        case 'nomeLaboratorio':
+          return laboratorio.nome;
+        case 'localLaboratorio':
+          return laboratorio.local;
         default:
           return laboratorio[property];
       }
     };
   }
 
+  getColumnsLaboratorio(): string[] {
+    if (this.editandoProduto()) {
+      return ['idLaboratorio', 'nomeLaboratorio', 'localLaboratorio', 'selected'];
+    }
+    return ['idLaboratorio', 'nomeLaboratorio', 'localLaboratorio'];
+  }
+
   private carregaTabelaHospital(hospitais: Hospital[]): void {
     this.dataSourceHospital = new MatTableDataSource<Hospital>(hospitais);
-    if (this.editandoProduto() || this.adicionandoProduto()) {
-      this.dataSourceHospital.sort = this.sortHospitalEditando;
-      this.dataSourceHospital.paginator = this.paginatorHospitalEditando;
-    } else {
-      this.dataSourceHospital.sort = this.sortHospital;
-      this.dataSourceHospital.paginator = this.paginatorHospital;
+    this.dataSourceHospital.sort = this.sortHospital;
+    this.dataSourceHospital.paginator = this.paginatorHospital;
+    this.dataSourceHospital.sortingDataAccessor = (hospital, property) => {
+      switch (property) {
+        case 'idHospital':
+          return hospital.id;
+        case 'nomeHospital':
+          return hospital.nome;
+        case 'localHospital':
+          return hospital.local;
+        default:
+          return hospital[property];
+      }
+    };
+  }
+
+  getColumnsHospital(): string[] {
+    if (this.editandoProduto()) {
+      return ['idHospital', 'nomeHospital', 'localHospital', 'selected'];
     }
+    return ['idHospital', 'nomeHospital', 'localHospital'];
   }
 
   selecionaProduto(produto: Produto): void {
