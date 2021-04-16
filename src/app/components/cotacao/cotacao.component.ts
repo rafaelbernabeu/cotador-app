@@ -247,18 +247,7 @@ export class CotacaoComponent implements OnInit {
 
     let indiceOpcaoAtual = opcoesMesmoProduto.findIndex(op => op.id === opcao.id);
 
-    if (opcoesMesmoProduto.length >= 2) {
-      switch (indiceOpcaoAtual) {
-        case 0:
-          return opcoesMesmoProduto[0].tabela.preferencial ? true : !opcoesMesmoProduto[1].tabela.preferencial;
-        case 1:
-          return !opcoesMesmoProduto[0].tabela.preferencial && opcoesMesmoProduto[1].tabela.preferencial;
-        default:
-          return false;
-      }
-    }
-
-    return indiceOpcaoAtual === 0;
+    return opcoesMesmoProduto[0][fieldCotacao] === opcoesMesmoProduto[indiceOpcaoAtual][fieldCotacao];
 
   }
 
