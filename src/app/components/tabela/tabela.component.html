@@ -26,14 +26,7 @@
 
             <ng-container matColumnDef="nome" sticky>
               <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-              <mat-cell *matCellDef="let tabela" [style.color]="'white'" [style.background-color]="tabela.operadora.cor" (click)="selecionaTabela(tabela)" class="mouse-pointer">
-                <span *ngIf="tabela.categoria === 'Adesão'">
-                  {{tabela.nome}} ({{tabela.operadora?.nome}} + {{tabela.administradora?.nome}})
-                </span>
-                <span *ngIf="tabela.categoria === 'Empresarial'">
-                  {{tabela.nome}} ({{tabela.operadora?.nome}} + {{tabela.contemplaMEI ? 'Mei' : ''}} {{tabela.livreAdesao ? tabela.contemplaMEI ? ' | LA' : 'LA' : ''}} {{tabela.compulsoria ? (tabela.contemplaMEI || tabela.livreAdesao) ? ' | Comp' : 'Comp' : ''}})
-                </span>
-              </mat-cell>
+              <mat-cell *matCellDef="let tabela" [style.color]="'white'" [style.background-color]="tabela.operadora.cor" (click)="selecionaTabela(tabela)" class="mouse-pointer"> {{tabela.nome}} </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="estado" sticky>
@@ -48,7 +41,14 @@
 
             <ng-container matColumnDef="administradora" sticky>
               <mat-header-cell *matHeaderCellDef mat-sort-header> Administradora </mat-header-cell>
-              <mat-cell *matCellDef="let tabela" [style.color]="'white'" [style.background-color]="tabela.operadora.cor" (click)="selecionaTabela(tabela)" class="mouse-pointer"> {{tabela.administradora?.nome}} </mat-cell>
+              <mat-cell *matCellDef="let tabela" [style.color]="'white'" [style.background-color]="tabela.operadora.cor" (click)="selecionaTabela(tabela)" class="mouse-pointer">
+                <span *ngIf="tabela.categoria === 'Adesão'">
+                  {{tabela.administradora?.nome}}
+                </span>
+                <span *ngIf="tabela.categoria === 'Empresarial'">
+                 {{tabela.contemplaMEI ? 'Mei' : ''}} {{tabela.livreAdesao ? tabela.contemplaMEI ? ' | LA' : 'LA' : ''}} {{tabela.compulsoria ? (tabela.contemplaMEI || tabela.livreAdesao) ? ' | Comp' : 'Comp' : ''}}
+                </span>
+              </mat-cell>
             </ng-container>
 
             <ng-container matColumnDef="reajuste">
