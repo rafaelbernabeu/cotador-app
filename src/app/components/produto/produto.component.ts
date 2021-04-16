@@ -168,11 +168,12 @@ export class ProdutoComponent implements OnInit {
     };
   }
 
+  private readonly columnsLaboratorio = ['idLaboratorio', 'nomeLaboratorio', 'localLaboratorio'];
   getColumnsLaboratorio(): string[] {
     if (this.editandoProduto()) {
-      return ['idLaboratorio', 'nomeLaboratorio', 'localLaboratorio', 'selected'];
+      return this.columnsLaboratorio.concat('selected');
     }
-    return ['idLaboratorio', 'nomeLaboratorio', 'localLaboratorio'];
+    return this.columnsLaboratorio;
   }
 
   private carregaTabelaHospital(hospitais: Hospital[]): void {
@@ -193,11 +194,12 @@ export class ProdutoComponent implements OnInit {
     };
   }
 
+  private readonly columnsHospital = ['idHospital', 'nomeHospital', 'localHospital'];
   getColumnsHospital(): string[] {
     if (this.editandoProduto()) {
-      return ['idHospital', 'nomeHospital', 'localHospital', 'selected'];
+      return this.columnsHospital.concat('selected');
     }
-    return ['idHospital', 'nomeHospital', 'localHospital'];
+    return this.columnsHospital;
   }
 
   selecionaProduto(produto: Produto): void {

@@ -204,11 +204,12 @@ export class TabelaComponent implements OnInit {
     };
   }
 
+  private readonly columnsProduto = ['idProduto', 'nomeProduto', 'abrangenciaProduto'];
   getColumnsProduto(): string[] {
     if (this.editandoTabela()) {
-      return ['idProduto', 'nomeProduto', 'abrangenciaProduto', 'selected'];
+      return this.columnsProduto.concat('selected');
     }
-    return ['idProduto', 'nomeProduto', 'abrangenciaProduto'];
+    return this.columnsProduto;
   }
 
   private carregaTabelaEntidade(entidades: Entidade[]): void {
@@ -227,11 +228,12 @@ export class TabelaComponent implements OnInit {
     };
   }
 
+  private readonly columnsEntidade = ['idEntidade', 'nomeEntidade'];
   getColumnsEntidade(): string[] {
     if (this.editandoTabela()) {
-      return ['idEntidade', 'nomeEntidade', 'selected'];
+      return this.columnsEntidade.concat('selected');
     }
-    return ['idEntidade', 'nomeEntidade'];
+    return this.columnsEntidade;
   }
 
   selecionaTabela(tabela: Tabela): void {
