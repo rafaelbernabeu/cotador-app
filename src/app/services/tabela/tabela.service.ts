@@ -25,25 +25,23 @@ export class TabelaService {
     return this.http.get<Tabela[]>(this.getApiUrl(), this.authServie.getTokenHeader());
   }
 
-  public getProdutosByTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoria(tabela: Tabela, operadora: Operadora, administradora: Administradora, estado: Estado, categoria: Categoria): Observable<Produto[]> {
-    return this.http.get<Produto[]>(this.getApiUrl() + '/' + tabela.id + this.api.PRODUTO_API_URL, {
-      headers: this.authServie.getTokenHeader().headers,
-      params: new HttpParams()
-        .append('operadora', operadora.id.toString())
-        .append('administradora', administradora.id.toString())
-        .append('estado', estado.sigla)
-        .append('categoria', categoria.toString())
-    });
-  }
+  public getProdutosByTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(tabela: Tabela, operadora: Operadora, administradora: Administradora, estado: Estado, categoria: Categoria, mei: boolean): Observable<Produto[]> {
+    let httpParams = new HttpParams()
+      .append('estado', estado.sigla)
+      .append('categoria', categoria.toString())
+      .append('operadora', operadora.id.toString());
 
-  public getProdutosByTabelaAndOperadoraAndEstadoAndCategoriaAndMEI(tabela: Tabela, operadora: Operadora, estado: Estado, categoria: Categoria, mei: boolean): Observable<Produto[]> {
+    if (administradora) {
+      httpParams = httpParams.append('administradora', administradora.id.toString());
+    }
+
+    if (mei != null) {
+      httpParams = httpParams.append('mei', '' + mei);
+    }
+
     return this.http.get<Produto[]>(this.getApiUrl() + '/' + tabela.id + this.api.PRODUTO_API_URL, {
       headers: this.authServie.getTokenHeader().headers,
-      params: new HttpParams()
-        .append('operadora', operadora.id.toString())
-        .append('estado', estado.sigla)
-        .append('categoria', categoria.toString())
-        .append('mei', '' + mei)
+      params: httpParams
     });
   }
 

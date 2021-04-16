@@ -396,7 +396,7 @@ export class OpcaoComponent implements OnInit {
     const operadora = this.operadoraAutoCompleteControl.value;
     const tabela = this.tabelaAutoCompleteControl.value;
     if (tabela.id && operadora.id && estado.sigla && administradora.id && this.opcaoEditando.categoria) {
-      this.tabelaService.getProdutosByTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoria(tabela, operadora, administradora, estado, this.opcaoEditando.categoria).subscribe(response => {
+      this.tabelaService.getProdutosByTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(tabela, operadora, administradora, estado, this.opcaoEditando.categoria, null).subscribe(response => {
         this.todosProdutos = response;
         if (this.editandoOpcao() || this.adicionandoOpcao()) {
           this.produtoAutoCompleteControl.enable();
@@ -415,7 +415,7 @@ export class OpcaoComponent implements OnInit {
     const operadora = this.operadoraAutoCompleteControl.value;
     const tabela = this.tabelaAutoCompleteControl.value;
     if (tabela.id && operadora.id && estado.sigla && this.opcaoEditando.categoria) {
-      this.tabelaService.getProdutosByTabelaAndOperadoraAndEstadoAndCategoriaAndMEI(tabela, operadora, estado, this.opcaoEditando.categoria, this.opcaoEditando.mei).subscribe(response => {
+      this.tabelaService.getProdutosByTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoriaAndMEI(tabela, operadora, null, estado, this.opcaoEditando.categoria, null).subscribe(response => {
         this.todosProdutos = response;
         if (this.editandoOpcao() || this.adicionandoOpcao()) {
           this.produtoAutoCompleteControl.enable();
