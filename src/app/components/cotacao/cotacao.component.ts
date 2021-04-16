@@ -205,8 +205,9 @@ export class CotacaoComponent implements OnInit {
   }
 
   private configuraTabelaHospital(): void {
+    let hospitais = this.todosProdutosCotacao.map(p => p.hospitais);
     this.displayedColumnsHospitais = ['nomeHospital'].concat(this.todosProdutosCotacao.map(p => p.id.toString()));
-    this.dataSourceHospitais = new MatTableDataSource<Hospital>(this.todosProdutosCotacao.map(p => p.hospitais)?.reduce((acc, value) => acc.concat(value)).filter(UtilService.filtraDuplicadasId));
+    this.dataSourceHospitais = new MatTableDataSource<Hospital>(hospitais.length ? hospitais.reduce((acc, value) => acc.concat(value)).filter(UtilService.filtraDuplicadasId) : []);
     this.dataSourceHospitais.sort = this.sortHospital;
     this.dataSourceHospitais.paginator = this.paginatorHospital;
     this.dataSourceHospitais.sortingDataAccessor = (hospital, property) => hospital.nome;
@@ -217,7 +218,8 @@ export class CotacaoComponent implements OnInit {
 
   private configuraTabelaLaboratorio(): void {
     this.displayedColumnsLaboratorios = ['nomeLaboratorio'].concat(this.todosProdutosCotacao.map(p => p.id.toString()));
-    this.dataSourceLaboratorios = new MatTableDataSource<Laboratorio>(this.todosProdutosCotacao.map(p => p.laboratorios)?.reduce((acc, value) => acc.concat(value)).filter(UtilService.filtraDuplicadasId));
+    let laboratorios = this.todosProdutosCotacao.map(p => p.laboratorios);
+    this.dataSourceLaboratorios = new MatTableDataSource<Laboratorio>(laboratorios.length ? laboratorios.reduce((acc, value) => acc.concat(value)).filter(UtilService.filtraDuplicadasId) : []);
     this.dataSourceLaboratorios.sort = this.sortLaboratorio;
     this.dataSourceLaboratorios.paginator = this.paginatorLaboratorio;
     this.dataSourceLaboratorios.sortingDataAccessor = (laboratorio, property) => laboratorio.nome;
