@@ -377,7 +377,7 @@
               <div [hidden]="editandoTabela() || adicionandoTabela()">
                 <mat-table #sortProduto="matSort" [dataSource]="dataSourceProduto" matSort class="mat-elevation-z8">
                   <ng-container matColumnDef="idProduto">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Id-CU </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
                     <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.id}} </mat-cell>
                   </ng-container>
 
@@ -394,7 +394,7 @@
                   <mat-header-row *matHeaderRowDef="['idProduto', 'nomeProduto', 'abrangenciaProduto']"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: ['idProduto', 'nomeProduto', 'abrangenciaProduto'];"></mat-row>
                 </mat-table>
-                <mat-paginator #paginatorProduto [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
+                <mat-paginator #paginatorProduto [pageSizeOptions]="[25, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
               </div>
               <div [hidden]="!editandoTabela() && !adicionandoTabela()">
                 <mat-table #sortProdutoEditando="matSort" [dataSource]="dataSourceProduto" matSort class="mat-elevation-z8">
@@ -425,7 +425,7 @@
                   <mat-header-row *matHeaderRowDef="['idProduto', 'nomeProduto', 'abrangenciaProduto', 'selected']"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: ['idProduto', 'nomeProduto', 'abrangenciaProduto', 'selected'];"></mat-row>
                 </mat-table>
-                <mat-paginator #paginatorProdutoEditando [pageSizeOptions]="[10, 25, 50]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
+                <mat-paginator #paginatorProdutoEditando [pageSizeOptions]="[25, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
               </div>
             </mat-expansion-panel>
           </div>
@@ -455,7 +455,7 @@
                   <mat-header-row *matHeaderRowDef="['idEntidade', 'nomeEntidade',]"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: ['idEntidade', 'nomeEntidade',];"></mat-row>
                 </mat-table>
-                <mat-paginator #paginatorEntidade [pageSizeOptions]="[15, 50, 100]" [length]="dataSourceEntidade.data.length" showFirstLastButtons></mat-paginator>
+                <mat-paginator #paginatorEntidade [pageSizeOptions]="[25, 50, 100]" [length]="dataSourceEntidade.data.length" showFirstLastButtons></mat-paginator>
               </div>
               <div [hidden]="!editandoTabela() && !adicionandoTabela()">
                 <mat-table #sortEntidadeEditando="matSort" [dataSource]="dataSourceEntidade" matSort class="mat-elevation-z8">
@@ -481,7 +481,7 @@
                   <mat-header-row *matHeaderRowDef="['idEntidade', 'nomeEntidade', 'selected']"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: ['idEntidade', 'nomeEntidade', 'selected'];"></mat-row>
                 </mat-table>
-                <mat-paginator #paginatorEntidadeEditando [pageSizeOptions]="[10, 25, 50]" [length]="dataSourceEntidade.data.length" showFirstLastButtons></mat-paginator>
+                <mat-paginator #paginatorEntidadeEditando [pageSizeOptions]="[25, 50, 100]" [length]="dataSourceEntidade.data.length" showFirstLastButtons></mat-paginator>
               </div>
             </mat-expansion-panel>
           </div>
