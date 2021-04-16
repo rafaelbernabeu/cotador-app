@@ -199,6 +199,18 @@ export class TabelaComponent implements OnInit {
       this.dataSourceProduto.sort = this.sortProduto;
       this.dataSourceProduto.paginator = this.paginatorProduto;
     }
+    this.dataSourceProduto.sortingDataAccessor = (produto, property) => {
+      switch (property) {
+        case 'idProduto':
+          return produto.id;
+        case 'nomeProduto':
+          return produto.nome;
+        case 'abrangenciaProduto':
+          return produto.abrangencia;
+        default:
+          return produto[property];
+      }
+    };
   }
 
   private carregaTabelaEntidade(entidades: Entidade[]): void {
@@ -210,6 +222,16 @@ export class TabelaComponent implements OnInit {
       this.dataSourceEntidade.sort = this.sortEntidade;
       this.dataSourceEntidade.paginator = this.paginatorEntidade;
     }
+    this.dataSourceEntidade.sortingDataAccessor = (entidade, property) => {
+      switch (property) {
+        case 'idEntidade':
+          return entidade.id;
+        case 'nomeEntidade':
+          return entidade.nome;
+        default:
+          return entidade[property];
+      }
+    };
   }
 
   selecionaTabela(tabela: Tabela): void {
