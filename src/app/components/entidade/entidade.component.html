@@ -35,8 +35,8 @@
 
   <div *ngIf="entidadeSelecionada" style="width: 20px"></div>
 
-  <div *ngIf="entidadeSelecionada" style="flex-direction: column">
-    <div>
+  <div [hidden]="!entidadeSelecionada" style="flex-direction: column">
+    <div *ngIf="entidadeSelecionada">
       <mat-card>
         <mat-card-title>
         <span *ngIf="adicionandoEntidade()">Adicionando Entidade</span>
@@ -82,7 +82,7 @@
     <div [hidden]="!entidadeSelecionada">
       <mat-card>
         <mat-card-title>
-          Lista de Profissoes Vinculadas - {{entidadeSelecionada.nome}}
+          Lista de Profissoes Vinculadas - {{entidadeSelecionada?.nome}}
         </mat-card-title>
         <br/>
 
