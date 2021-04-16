@@ -65,7 +65,7 @@ export class CotacaoComponent implements OnInit {
   @ViewChild('paginatorReembolso') paginatorReembolso: MatPaginator;
   @ViewChild('paginatorLaboratorio') paginatorLaboratorio: MatPaginator;
 
-  readonly displayedColumnsInicio: string[] = ['selected', 'id', 'estado', 'tabela', 'idadeMin', 'idadeMax', 'qtdMinVidas', 'qtdMinTitulares', 'acomodacao', 'administradora', 'operadora', 'produto', 'abrangencia', 'coparticipacao', 'valorTotal']
+  readonly displayedColumnsInicio: string[] = ['selected', 'id', 'estado', 'tabela', 'idadeMin', 'idadeMax', 'qtdMinVidas', 'qtdMinTitulares', 'administradora', 'operadora', 'produto', 'abrangencia', 'valorTotal']
   readonly displayedColumnsFim: string[] = ['reajuste'];
   readonly displayedColumnsModoClienteInicio = ['operadora', 'produto', 'abrangencia', 'valorTotal'];
   readonly displayedColumnsModoClienteFim = ['reajuste'];
