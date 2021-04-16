@@ -3,7 +3,7 @@
     <mat-card>
       <mat-card-title>
       <span>
-        Lista de Opcoes
+        Lista de Opções
       </span>
         <span style="float: right">
         <a (click)="filtrar()">
@@ -150,7 +150,7 @@
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
         </div>
-        <mat-paginator [pageSizeOptions]="[25, 50, 100]" [length]="dataSourceOpcao.data.length" showFirstLastButtons></mat-paginator>
+        <mat-paginator [pageSizeOptions]="[100, 500, 1000]" [length]="dataSourceOpcao.data.length" showFirstLastButtons></mat-paginator>
       </mat-card-content>
     </mat-card>
   </div>
