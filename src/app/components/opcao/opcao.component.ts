@@ -64,7 +64,6 @@ export class OpcaoComponent implements OnInit {
   estado: string;
   opcaoEditando: Opcao;
   opcaoSelecionada: Opcao;
-  filtroOpcao: FiltroOpcao;
   todasOpcoes: Opcao[];
   todasTabelas: Tabela[];
   todosEstados: Estado[];
@@ -76,6 +75,7 @@ export class OpcaoComponent implements OnInit {
   todasAcomodacoes: Acomodacao[];
   todasAbrangencias: Abrangencia[];
   todasAdministradoras: Administradora[];
+  filtroOpcao: FiltroOpcao = new FiltroOpcao();
 
   tabelaAutoCompleteControl = new FormControl(Validators.required);
   estadoAutoCompleteControl = new FormControl(Validators.required);
@@ -756,7 +756,6 @@ export class OpcaoComponent implements OnInit {
 
     this.estado = 'filtrando';
     this.opcaoSelecionada = null;
-    this.filtroOpcao = new FiltroOpcao();
   }
 
   private filtraOpcaoPorProduto(opcoesFiltradas: Opcao[], filtro: any, property: string) {

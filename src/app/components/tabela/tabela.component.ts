@@ -81,10 +81,10 @@ export class TabelaComponent implements OnInit {
   todasOperadoras: Operadora[];
   todasAdministradoras: Administradora[];
 
-  filtroTabela: FiltroTabela;
   todosEstadosTabela: Estado[];
   todasOperadorasTabela: Operadora[];
   todasAdministradorasTabela: Administradora[];
+  filtroTabela: FiltroTabela = new FiltroTabela();
 
   reajusteAutoCompleteControl = new FormControl(Validators.required);
   estadoAutoCompleteControl = new FormControl(Validators.required);
@@ -537,7 +537,6 @@ export class TabelaComponent implements OnInit {
 
     this.estado = 'filtrando';
     this.tabelaSelecionada = null;
-    this.filtroTabela = new FiltroTabela();
   }
 
   filtraTabela() {

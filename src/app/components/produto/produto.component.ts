@@ -61,7 +61,6 @@ export class ProdutoComponent implements OnInit {
   dataSourceLaboratorio = new MatTableDataSource<Laboratorio>();
 
   estado: string;
-  filtroProduto: FiltroProduto;
   produtoEditando: Produto;
   produtoSelecionado: Produto;
   todosProdutos: Produto[];
@@ -69,8 +68,9 @@ export class ProdutoComponent implements OnInit {
   todasOperadoras: Operadora[];
   todosLaboratorios: Laboratorio[];
   todasAbrangencias: Abrangencia[];
-  operadoraAutoCompleteControl = new FormControl(Validators.required);
   filteredOptions: Observable<Operadora[]>;
+  filtroProduto: FiltroProduto = new FiltroProduto();
+  operadoraAutoCompleteControl = new FormControl(Validators.required);
 
   constructor(
     @Inject('Window') public window: Window,
@@ -402,7 +402,6 @@ export class ProdutoComponent implements OnInit {
   filtrar(): void {
     this.estado = 'filtrando';
     this.produtoSelecionado = null;
-    this.filtroProduto = new FiltroProduto();
   }
 
   filtraProduto() {
