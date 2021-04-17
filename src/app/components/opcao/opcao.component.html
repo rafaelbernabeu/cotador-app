@@ -65,7 +65,7 @@
             </ng-container>
 
             <ng-container matColumnDef="administradora" sticky>
-              <mat-header-cell *matHeaderCellDef mat-sort-header> Administradora </mat-header-cell>
+              <mat-header-cell *matHeaderCellDef mat-sort-header> Adm | Detalhes </mat-header-cell>
               <mat-cell *matCellDef="let opcao" [style.color]="'white'" [style.background-color]="opcao.tabela.operadora.cor" (click)="selecionaOpcao(opcao)" class="mouse-pointer">
                 <span *ngIf="opcao.tabela.categoria === 'Adesão'">
                   {{opcao.tabela.administradora?.nome}}
