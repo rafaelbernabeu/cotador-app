@@ -430,6 +430,11 @@
                     <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.nome}} </mat-cell>
                   </ng-container>
 
+                  <ng-container matColumnDef="profissoesEntidade">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Profissões </mat-header-cell>
+                    <mat-cell *matCellDef="let produto" (click)="produto.selected = !produto.selected" class="mouse-pointer"> {{produto.profissoes.map(getNomeProfissao).join(', ')}} </mat-cell>
+                  </ng-container>
+
                   <ng-container matColumnDef="selected">
                     <mat-header-cell *matHeaderCellDef mat-sort-header style="justify-content: center"> Selecione </mat-header-cell>
                     <mat-cell *matCellDef="let produto">

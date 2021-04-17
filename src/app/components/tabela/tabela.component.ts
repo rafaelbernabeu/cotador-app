@@ -222,13 +222,15 @@ export class TabelaComponent implements OnInit {
           return entidade.id;
         case 'nomeEntidade':
           return entidade.nome;
+        case 'profissoesEntidade':
+          return entidade.profissoes.map(p => p.nome).join(', ');
         default:
           return entidade[property];
       }
     };
   }
 
-  private readonly columnsEntidade = ['idEntidade', 'nomeEntidade'];
+  private readonly columnsEntidade = ['idEntidade', 'nomeEntidade', 'profissoesEntidade'];
   getColumnsEntidade(): string[] {
     if (this.editandoTabela()) {
       return this.columnsEntidade.concat('selected');
@@ -634,6 +636,10 @@ export class TabelaComponent implements OnInit {
         this.tabelaEditando.produtos.length > 0;
     }
     return false;
+  }
+
+  getNomeProfissao(profissao: Profissao): string {
+    return profissao.nome;
   }
 
 }
