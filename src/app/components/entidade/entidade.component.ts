@@ -32,7 +32,7 @@ export class EntidadeComponent implements OnInit {
     }
   }
 
-  displayedColumns: string[] = ['id', 'nome'];
+  displayedColumns: string[] = ['id', 'nome', 'profissoes'];
   dataSourceProfissao = new MatTableDataSource<Profissao>();
   dataSourceEntidade = new MatTableDataSource<Entidade>();
 
@@ -199,5 +199,9 @@ export class EntidadeComponent implements OnInit {
     } else if (this.editandoEntidade()) {
       this.atualizarEntidade();
     }
+  }
+
+  getNomeProfissao(profissao: Profissao): string {
+    return profissao.nome;
   }
 }

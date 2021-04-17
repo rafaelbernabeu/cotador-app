@@ -25,6 +25,11 @@
             <mat-cell *matCellDef="let entidade" (click)="selecionaEntidade(entidade)" class="mouse-pointer"> {{entidade.nome}} </mat-cell>
           </ng-container>
 
+          <ng-container matColumnDef="profissoes">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Profissões </mat-header-cell>
+            <mat-cell *matCellDef="let entidade" (click)="selecionaEntidade(entidade)" class="mouse-pointer"> {{entidade.profissoes.map(getNomeProfissao).join(', ')}} </mat-cell>
+          </ng-container>
+
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
