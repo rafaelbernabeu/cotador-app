@@ -14,7 +14,6 @@ export class FiltroTabela {
   compulsoria: boolean;
   livreAdesao: boolean;
   contemplaMEI: boolean;
-  preferencial: boolean;
   qtdMinTitulares: number;
   categoria: Categoria;
 

@@ -566,10 +566,6 @@ export class TabelaComponent implements OnInit {
         }
       }
 
-      if (this.filtroTabela.preferencial != null) {
-        tabelasFiltradas = tabelasFiltradas.filter(t => t.preferencial === this.filtroTabela.preferencial);
-      }
-
       if (this.filtroTabela.nome) {
         tabelasFiltradas = tabelasFiltradas.filter(t => t.nome.toLowerCase().includes(this.filtroTabela.nome.toLowerCase()));
       }

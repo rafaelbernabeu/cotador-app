@@ -17,7 +17,6 @@ export class Tabela {
   compulsoria: boolean = false;
   livreAdesao: boolean = false;
   contemplaMEI: boolean = false;
-  preferencial: boolean = false;
 
   estado: Estado = new Estado();
   categoria: Categoria = new Categoria();
