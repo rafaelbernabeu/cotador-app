@@ -751,8 +751,8 @@ export class OpcaoComponent implements OnInit {
     this.todosProdutos = this.todasOpcoes.map(op => op.produto).filter(UtilService.filtraDuplicadasId);
     this.todosEstados = this.todasOpcoes.map(op => op.tabela.estado).filter(UtilService.filtraDuplicadasNome);
     this.todasOperadoras = this.todasOpcoes.map(op => op.tabela.operadora).filter(UtilService.filtraDuplicadasId);
-    this.todasAdministradoras = this.todasOpcoes.filter(op => op.tabela.administradora).map(op => op.tabela.administradora).filter(UtilService.filtraDuplicadasId);
     this.todasAbrangencias = this.todasOpcoes.map(op => op.produto.abrangencia).filter(UtilService.filtraDuplicadasString);
+    this.todasAdministradoras = this.todasOpcoes.filter(op => op.tabela.administradora).map(op => op.tabela.administradora).filter(UtilService.filtraDuplicadasId);
 
     this.estado = 'filtrando';
     this.opcaoSelecionada = null;
