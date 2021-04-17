@@ -604,6 +604,11 @@ export class TabelaComponent implements OnInit {
     this.cancelarAdicao();
   }
 
+  limparFiltro(): void {
+    this.filtroTabela = new FiltroTabela();
+    this.filtraTabela();
+  }
+
   onSubmit(): void {
     if (this.adicionandoTabela()) {
       this.salvarNovaTabela();

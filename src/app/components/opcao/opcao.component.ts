@@ -790,6 +790,11 @@ export class OpcaoComponent implements OnInit {
     this.cancelarAdicao();
   }
 
+  limparFiltro(): void {
+    this.filtroOpcao = new FiltroOpcao();
+    this.filtraOpcao();
+  }
+
   getTableWidth(): string {
     return (this.displayedColumns?.length * 125)  +'px';
   }

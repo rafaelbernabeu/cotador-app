@@ -466,6 +466,11 @@ export class ProdutoComponent implements OnInit {
     this.cancelarAdicao();
   }
 
+  limparFiltro(): void {
+    this.filtroProduto = new FiltroProduto();
+    this.filtraProduto();
+  }
+
   onSubmit(): void {
     if (this.adicionandoProduto()) {
       this.salvarNovoProduto();
