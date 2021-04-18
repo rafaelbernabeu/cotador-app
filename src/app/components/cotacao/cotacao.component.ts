@@ -539,8 +539,8 @@ export class CotacaoComponent implements OnInit {
   }
 
   profissaoSelected(event: MatAutocompleteSelectedEvent): void {
-    this.profissoesInput.nativeElement.value = '';
     this.filtroCotacao.profissoes.push(...this.todasProfissoes.filter(p => p.nome === event.option.viewValue));
+    this.profissoesInput.nativeElement.value = '';
     this.profissaoAutoCompleteControl.setValue('');
   }
 
