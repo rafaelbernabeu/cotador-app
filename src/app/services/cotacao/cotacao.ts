@@ -15,7 +15,7 @@ export class Cotacao {
 
   entidades: Entidade[];
   operadoras: Operadora[];
-  profissoes: Profissao[];
+  profissoes: Profissao[] = [];
   administradoras: Administradora[];
 
   mei: boolean;

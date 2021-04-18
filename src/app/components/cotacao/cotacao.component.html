@@ -89,6 +89,35 @@
                 <mat-option *ngFor="let administradora of todasAdministradoras" [value]="administradora">{{administradora.nome}}</mat-option>
               </mat-select>
             </mat-form-field>
+
+            <mat-form-field *ngIf="isCotacaoAdesao()" appearance="outline" style="width: 33.33%">
+              <mat-label>Profissões</mat-label>
+              <mat-chip-list #chipListProfissoes aria-label="Fruit selection">
+                <mat-chip
+                  *ngFor="let profissao of filtroCotacao.profissoes"
+                  (removed)="removeProfissao(profissao)">
+                  {{profissao.nome}}
+                  <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+                <input
+                  #profisaoAutoCompleteInput
+                  placeholder="Nova profissão..."
+                  [formControl]="profissaoAutoCompleteControl"
+                  [matAutocomplete]="autoCompleteProfissoes"
+                  [matChipInputFor]="chipListProfissoes"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  (matChipInputTokenEnd)="addProfissao($event)">
+              </mat-chip-list>
+              <mat-autocomplete #autoCompleteProfissoes="matAutocomplete" (optionSelected)="profissaoSelected($event)">
+                <mat-option *ngFor="let profissao of profissoesFilteredOptions | async" [value]="profissao">
+                  {{profissao.nome}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+            {{filtroCotacao.profissoes | json}}
+
+
             <mat-form-field *ngIf="isCotacaoAdesao()" appearance="outline" style="width: 33.33%">
               <mat-label>Profissões</mat-label>
               <mat-select name="profissoes" [(ngModel)]="filtroCotacao.profissoes" [required]="isCotacaoAdesao()" multiple>

@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
 import {CotacaoService} from "../../services/cotacao/cotacao.service";
 import {Cotacao} from "../../services/cotacao/cotacao";
 import {CategoriaService} from "../../services/categoria/categoria.service";
@@ -29,6 +29,7 @@ import {BACKSLASH, COMMA, DASH, ENTER, SEMICOLON, SLASH} from "@angular/cdk/keyc
 import {MatChipInputEvent, MatChipList} from "@angular/material/chips";
 import {UtilService} from "../../services/util/util.service";
 import {SnackbarService} from "../../services/snackbar/snackbar.service";
+import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 
 @Component({
   selector: 'app-cotacao',
@@ -65,6 +66,8 @@ export class CotacaoComponent implements OnInit {
   @ViewChild('paginatorReembolso') paginatorReembolso: MatPaginator;
   @ViewChild('paginatorLaboratorio') paginatorLaboratorio: MatPaginator;
 
+  @ViewChild('profisaoAutoCompleteInput') profissoesInput: ElementRef<HTMLInputElement>;
+
   readonly displayedColumnsInicio: string[] = ['selected', 'id', 'estado', 'tabela', 'idadeMin', 'idadeMax', 'qtdMinVidas', 'qtdMinTitulares', 'administradora', 'operadora', 'produto', 'abrangencia', 'valorTotal']
   readonly displayedColumnsFim: string[] = ['reajuste'];
   readonly displayedColumnsModoClienteInicio = ['operadora', 'produto', 'abrangencia', 'valorTotal'];
@@ -100,7 +103,9 @@ export class CotacaoComponent implements OnInit {
   filtroCotacao: Cotacao = new Cotacao();
 
   estadoAutoCompleteControl = new FormControl();
+  profissaoAutoCompleteControl = new FormControl();
   estadoFilteredOptions: Observable<Estado[]>;
+  profissoesFilteredOptions: Observable<Profissao[]>;
 
   constructor(
     @Inject('Window') public window: Window,
@@ -366,11 +371,22 @@ export class CotacaoComponent implements OnInit {
       map(value => typeof value === 'string' ? value : value.name),
       map(value => this.estadoFilterAutoComplete(value))
     );
+
+    this.profissoesFilteredOptions = this.profissaoAutoCompleteControl.valueChanges.pipe(
+      startWith(''),
+      map(value => typeof value === 'string' ? value : value.name),
+      map(value => this.profissaoFilterAutoComplete(value))
+    );
   }
 
   private estadoFilterAutoComplete(value: string): Estado[] {
     const filterValue = value?.toLowerCase();
     return this.todosEstados?.filter(estado => estado.nome.toLowerCase().includes(filterValue) || estado.sigla.toLowerCase().includes(filterValue));
+  }
+
+  private profissaoFilterAutoComplete(value: string): Profissao[] {
+    const filterValue = value?.toLowerCase();
+    return this.todasProfissoes?.filter(profissao => profissao.nome.toLowerCase().includes(filterValue));
   }
 
   estadoDisplayFn(estado: Estado): string {
@@ -499,6 +515,27 @@ export class CotacaoComponent implements OnInit {
     }
   }
 
+  addProfissao(event: MatChipInputEvent): void {
+    const input = event.input;
+    const value = event.value;
+
+    if ((value || '').trim()) {
+      let profissao = this.todasProfissoes.filter(p => p.nome === value);
+      this.filtroCotacao.profissoes.push(...profissao);
+      this.configuraDisplayedColumns();
+
+      if (profissao.length && input) {
+        input.value = '';
+      }
+    }
+  }
+
+  profissaoSelected(event: MatAutocompleteSelectedEvent): void {
+    this.profissoesInput.nativeElement.value = '';
+    this.filtroCotacao.profissoes.push(...this.todasProfissoes.filter(p => p.nome === event.option.viewValue));
+    this.profissaoAutoCompleteControl.setValue('');
+  }
+
   addIdadeTitular(event: MatChipInputEvent): void {
     this.addIdade(event, this.filtroCotacao.titulares)
   }
@@ -524,18 +561,23 @@ export class CotacaoComponent implements OnInit {
   }
 
   removeIdadeTitular(idade: any) {
-    this.removeIdade(idade, this.filtroCotacao.titulares);
+    this.removeFromList(idade, this.filtroCotacao.titulares);
   }
 
   removeIdadeDependente(idade: any) {
-    this.removeIdade(idade, this.filtroCotacao.dependentes);
+    this.removeFromList(idade, this.filtroCotacao.dependentes);
   }
 
-  private removeIdade(idade: any, vidas: number[]) {
-    const index = vidas.indexOf(idade);
+  removeProfissao(profissao: any) {
+    this.removeFromList(profissao, this.filtroCotacao.profissoes);
+    this.configuraDisplayedColumns();
+  }
+
+  private removeFromList(item: any, lista: any[]) {
+    const index = lista.indexOf(item);
 
     if (index >= 0) {
-      vidas.splice(index, 1);
+      lista.splice(index, 1);
     }
   }
 
