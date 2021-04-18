@@ -92,7 +92,7 @@
 
             <mat-form-field *ngIf="isCotacaoAdesao()" appearance="outline" style="width: 33.33%">
               <mat-label>Profissões</mat-label>
-              <mat-chip-list #chipListProfissoes aria-label="Profissao" [required]="isCotacaoAdesao()">
+              <mat-chip-list #chipListProfissoes aria-label="Profissões" [required]="isCotacaoAdesao()">
                 <mat-chip
                   *ngFor="let profissao of filtroCotacao.profissoes"
                   (removed)="removeProfissao(profissao)">
@@ -119,7 +119,7 @@
           <div>
             <mat-form-field appearance="outline" style="width: 50%">
               <mat-label>Idades Titulares</mat-label>
-              <mat-chip-list #chipListTitulares aria-label="Fruit selection" required>
+              <mat-chip-list #chipListTitulares aria-label="Idades Titulares" required>
                 <mat-chip *ngFor="let vida of filtroCotacao.titulares" (removed)="removeIdadeTitular(vida)">
                   {{vida}}
                   <mat-icon matChipRemove>cancel</mat-icon>
@@ -134,7 +134,7 @@
 
             <mat-form-field appearance="outline" style="width: 50%">
               <mat-label>Idades Dependentes</mat-label>
-              <mat-chip-list #chipListDependentes aria-label="Fruit selection">
+              <mat-chip-list #chipListDependentes aria-label="Idades Dependentes">
                 <mat-chip *ngFor="let vida of filtroCotacao.dependentes" (removed)="removeIdadeDependente(vida)">
                   {{vida}}
                   <mat-icon matChipRemove>cancel</mat-icon>
