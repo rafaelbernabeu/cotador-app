@@ -62,6 +62,7 @@ export class CotacaoComponent implements OnInit {
   @ViewChild('sortReembolso') sortReembolso: MatSort;
   @ViewChild('sortLaboratorio') sortLaboratorio: MatSort;
   @ViewChild("chipListTitulares") chipListTitulares: MatChipList;
+  @ViewChild("chipListProfissoes") chipListProfissoes: MatChipList;
   @ViewChild('paginatorHospital') paginatorHospital: MatPaginator;
   @ViewChild('paginatorReembolso') paginatorReembolso: MatPaginator;
   @ViewChild('paginatorLaboratorio') paginatorLaboratorio: MatPaginator;
@@ -139,6 +140,9 @@ export class CotacaoComponent implements OnInit {
   consultaCotacao(): void {
     if (this.isFormValido()) {
       this.chipListTitulares.errorState = false;
+      if (this.chipListProfissoes) {
+        this.chipListProfissoes.errorState = false;
+      }
       this.cotacaoService.getCotacao(this.filtroCotacao).subscribe(response => {
         this.todasOpcoes = response;
         this.todasOpcoes.forEach(op => op.selected = true);
@@ -167,6 +171,9 @@ export class CotacaoComponent implements OnInit {
   private erroFormInvalido(): void {
     this.formCotacao.form.markAllAsTouched();
     this.chipListTitulares.errorState = !this.filtroCotacao.titulares.length;
+    if (this.chipListProfissoes) {
+      this.chipListProfissoes.errorState = !this.filtroCotacao.profissoes.length;
+    }
     this.snackBar.openSnackBar("Preencha todos os campos!");
   }
 
@@ -518,14 +525,15 @@ export class CotacaoComponent implements OnInit {
   addProfissao(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
+    let profissao: Profissao[];
 
-    if ((value || '').trim()) {
-      let profissao = this.todasProfissoes.filter(p => p.nome === value);
+    profissao = this.profissaoFilterAutoComplete(value);
+
+    if (profissao.length === 1) {
       this.filtroCotacao.profissoes.push(...profissao);
-      this.configuraDisplayedColumns();
-
-      if (profissao.length && input) {
+      if (input) {
         input.value = '';
+        this.profissaoAutoCompleteControl.setValue('');
       }
     }
   }
@@ -562,15 +570,16 @@ export class CotacaoComponent implements OnInit {
 
   removeIdadeTitular(idade: any) {
     this.removeFromList(idade, this.filtroCotacao.titulares);
+    this.configuraDisplayedColumns();
   }
 
   removeIdadeDependente(idade: any) {
     this.removeFromList(idade, this.filtroCotacao.dependentes);
+    this.configuraDisplayedColumns();
   }
 
   removeProfissao(profissao: any) {
     this.removeFromList(profissao, this.filtroCotacao.profissoes);
-    this.configuraDisplayedColumns();
   }
 
   private removeFromList(item: any, lista: any[]) {

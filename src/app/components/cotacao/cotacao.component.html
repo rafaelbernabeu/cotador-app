@@ -92,7 +92,7 @@
 
             <mat-form-field *ngIf="isCotacaoAdesao()" appearance="outline" style="width: 33.33%">
               <mat-label>Profissões</mat-label>
-              <mat-chip-list #chipListProfissoes aria-label="Fruit selection">
+              <mat-chip-list #chipListProfissoes aria-label="Profissao" [required]="isCotacaoAdesao()">
                 <mat-chip
                   *ngFor="let profissao of filtroCotacao.profissoes"
                   (removed)="removeProfissao(profissao)">
@@ -113,16 +113,6 @@
                   {{profissao.nome}}
                 </mat-option>
               </mat-autocomplete>
-            </mat-form-field>
-
-            {{filtroCotacao.profissoes | json}}
-
-
-            <mat-form-field *ngIf="isCotacaoAdesao()" appearance="outline" style="width: 33.33%">
-              <mat-label>Profissões</mat-label>
-              <mat-select name="profissoes" [(ngModel)]="filtroCotacao.profissoes" [required]="isCotacaoAdesao()" multiple>
-                <mat-option *ngFor="let profissao of todasProfissoes" [value]="profissao">{{profissao.nome}}</mat-option>
-              </mat-select>
             </mat-form-field>
           </div>
 
