@@ -124,17 +124,23 @@
             </div>
           </div>
 
-          <div *ngIf="filtroTabela.categoria === 'Empresarial'" style="float: right; padding-bottom: 15px">
+          <div *ngIf="filtroTabela.categoria === 'Empresarial'" style="padding-bottom: 15px">
             <span>
-              <mat-slide-toggle (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.contemplaMEI" labelPosition="before">MEI</mat-slide-toggle>
-            </span>
-            <span style="padding-left: 25px">
               <mat-slide-toggle (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.livreAdesao" labelPosition="before">Livre Adesão</mat-slide-toggle>
             </span>
             <span style="padding-left: 25px">
               <mat-slide-toggle (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.compulsoria" labelPosition="before">Compulsoria</mat-slide-toggle>
             </span>
           </div>
+
+          <mat-form-field *ngIf="filtroTabela.categoria === 'Empresarial'" appearance="outline" style="width: 100%">
+            <mat-label>MEI</mat-label>
+            <mat-select (ngModelChange)="filtraTabela()" [(ngModel)]="filtroTabela.contemplaMEI">
+              <mat-option [value]="true">Mei</mat-option>
+              <mat-option [value]="false">Não Mei</mat-option>
+              <mat-option [value]="''">Ambos</mat-option>
+            </mat-select>
+          </mat-form-field>
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Nome</mat-label>

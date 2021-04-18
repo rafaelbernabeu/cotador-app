@@ -552,7 +552,7 @@ export class TabelaComponent implements OnInit {
             tabelasFiltradas = tabelasFiltradas.filter(t => t.administradora).filter(t => this.filtroTabela.administradoras.filter(adm => adm.id === t.administradora.id).length);
         } else if (this.filtroTabela.categoria === 'Empresarial') {
 
-          if (this.filtroTabela.contemplaMEI != null) {
+          if (this.filtroTabela.contemplaMEI != null && typeof this.filtroTabela.contemplaMEI === 'boolean') {
             tabelasFiltradas = tabelasFiltradas.filter(t => t.contemplaMEI === this.filtroTabela.contemplaMEI);
           }
 
