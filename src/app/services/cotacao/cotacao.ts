@@ -5,6 +5,7 @@ import {Acomodacao} from "../acomodacao/Acomodacao";
 import {Estado} from "../estado/estado";
 import {Operadora} from "../operadora/operadora";
 import {Administradora} from "../administradora/administradora";
+import {Opcao} from "../opcao/opcao";
 
 export class Cotacao {
 
@@ -13,6 +14,7 @@ export class Cotacao {
   categoria: Categoria;
   acomodacao: Acomodacao;
 
+  opcoes: Opcao[];
   entidades: Entidade[];
   operadoras: Operadora[];
   profissoes: Profissao[] = [];

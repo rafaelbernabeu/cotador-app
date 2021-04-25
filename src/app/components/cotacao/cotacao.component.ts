@@ -30,6 +30,7 @@ import {MatChipInputEvent, MatChipList} from "@angular/material/chips";
 import {UtilService} from "../../services/util/util.service";
 import {SnackbarService} from "../../services/snackbar/snackbar.service";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-cotacao',
@@ -89,6 +90,7 @@ export class CotacaoComponent implements OnInit {
   dataSourceHospitais = new MatTableDataSource<Hospital>();
   dataSourceReembolso = new MatTableDataSource<Produto>();
 
+  cotacao: Cotacao;
   todasOpcoes: Opcao[];
   todosEstados: Estado[];
   todosHospitais: Hospital[];
@@ -111,8 +113,10 @@ export class CotacaoComponent implements OnInit {
   constructor(
     @Inject('Window') public window: Window,
 
+    private router: Router,
     private snackBar: SnackbarService,
     private estadoService: EstadoService,
+    private activatedRoute: ActivatedRoute,
     private cotacaoService: CotacaoService,
     private hospitalService: HospitalService,
     private categoriaService: CategoriaService,
@@ -123,6 +127,8 @@ export class CotacaoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.activatedRoute.paramMap.subscribe(params => console.log(params.get('id')));
+
     this.hospitalService.getAllHospitais().subscribe(response => this.todosHospitais = response);
     this.operadoraService.getAllOperadoras().subscribe(response => this.todasOperadoras = response);
     this.profissaoService.getAllProfissoes().subscribe(response => this.todasProfissoes = response);
@@ -143,8 +149,11 @@ export class CotacaoComponent implements OnInit {
       if (this.chipListProfissoes) {
         this.chipListProfissoes.errorState = false;
       }
+      this.filtroCotacao.estado = this.estadoAutoCompleteControl.value;
       this.cotacaoService.getCotacao(this.filtroCotacao).subscribe(response => {
-        this.todasOpcoes = response;
+        this.router.navigate(['/cotacao', response.id])
+        this.cotacao = response;
+        this.todasOpcoes = response.opcoes;
         this.todasOpcoes.forEach(op => op.selected = true);
         this.todosProdutosCotacao = this.todasOpcoes.map(op => op.produto).sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).filter(UtilService.filtraDuplicadasId);
         this.configuraTodasTabelas();

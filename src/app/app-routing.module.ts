@@ -22,7 +22,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'opcoes', component: OpcaoComponent },
   { path: 'tabela', component: TabelaComponent },
-  { path: 'cotacao', component: CotacaoComponent },
+  { path: 'cotacao/:id', component: CotacaoComponent },
   { path: 'usuarios', component: UsuarioComponent },
   { path: 'produtos', component: ProdutoComponent },
   { path: 'entidades', component: EntidadeComponent },
