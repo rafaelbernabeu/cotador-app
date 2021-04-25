@@ -31,6 +31,7 @@ import {UtilService} from "../../services/util/util.service";
 import {SnackbarService} from "../../services/snackbar/snackbar.service";
 import {MatAutocompleteSelectedEvent} from "@angular/material/autocomplete";
 import {ActivatedRoute, Router} from "@angular/router";
+import {Clipboard} from "@angular/cdk/clipboard";
 
 @Component({
   selector: 'app-cotacao',
@@ -114,6 +115,7 @@ export class CotacaoComponent implements OnInit {
     @Inject('Window') public window: Window,
 
     private router: Router,
+    private clipboard: Clipboard,
     private snackBar: SnackbarService,
     private estadoService: EstadoService,
     private activatedRoute: ActivatedRoute,
@@ -127,20 +129,58 @@ export class CotacaoComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.paramMap.subscribe(params => console.log(params.get('id')));
-
+    this.estadoService.getAllEstados().subscribe(response => this.todosEstados = response);
     this.hospitalService.getAllHospitais().subscribe(response => this.todosHospitais = response);
     this.operadoraService.getAllOperadoras().subscribe(response => this.todasOperadoras = response);
     this.profissaoService.getAllProfissoes().subscribe(response => this.todasProfissoes = response);
     this.categoriaService.getAllCategorias().subscribe(response => this.todasCategorias = response);
     this.acomodacaoService.getAllAcomodacoes().subscribe(response => this.todasAcomodacoes = response);
     this.administradoraService.getAllAdministradoras().subscribe(response => this.todasAdministradoras = response);
-    this.estadoService.getAllEstados().subscribe(response => {
-      this.todosEstados = response;
-      setTimeout(() => this.estadoAutoCompleteControl.setValue(''));
-    });
 
     this.iniciaAutoCompletes();
+    this.activatedRoute.paramMap.subscribe(params => {
+      const id = Number.parseInt(params.get('id'));
+      if (id > 0) {
+        this.cotacaoService.recuperaCotacao(id).subscribe(response => {
+          if (response.id) {
+            this.cotacao = response;
+            this.filtroCotacao.mei = response.mei;
+            this.filtroCotacao.categoria = response.categoria;
+            this.filtroCotacao.tipoAdesao = response.tipoAdesao;
+            this.filtroCotacao.coparticipacao = response.coparticipacao === null ? null : response.coparticipacao === 'Ambas' ? response.coparticipacao : response.coparticipacao == 'true';
+            this.filtroCotacao.acomodacao = response.acomodacao;
+            this.filtroCotacao.operadoras = this.todasOperadoras.filter(p => response.operadoras?.filter(ro => p.id === ro.id)?.length);
+            this.filtroCotacao.administradoras = this.todasAdministradoras.filter(p => response.administradoras?.filter(ra => p.id === ra.id)?.length);
+            this.filtroCotacao.profissoes = this.todasProfissoes.filter(p => response.profissoes?.filter(rp => p.id === rp.id)?.length);
+            this.filtroCotacao.titulares = response.titulares;
+            this.filtroCotacao.dependentes = response.dependentes;
+
+            this.estadoAutoCompleteControl.setValue(response.estado);
+            setTimeout(() => this.consultaCotacao());
+          } else {
+            this.snackBar.openSnackBar("Cotação não encontrada!")
+            this.limpar();
+          }
+        })
+      } else {
+        this.limpar();
+      }
+    });
+  }
+
+  limpar(): void {
+    setTimeout(() => {
+      this.todasOpcoes = [];
+      this.todosProdutosCotacao = [];
+      this.filtroCotacao = new Cotacao();
+      this.estadoAutoCompleteControl.setValue('');
+      this.configuraTodasTabelas();
+    })
+  }
+
+  copiarLink(): void {
+    window.history.pushState(null, window.document.title, '#/cotacao/' + this.cotacao.id)
+    this.clipboard.copy(window.location.href)
   }
 
   consultaCotacao(): void {
@@ -150,8 +190,7 @@ export class CotacaoComponent implements OnInit {
         this.chipListProfissoes.errorState = false;
       }
       this.filtroCotacao.estado = this.estadoAutoCompleteControl.value ? this.estadoAutoCompleteControl.value : null ;
-      this.cotacaoService.getCotacao(this.filtroCotacao).subscribe(response => {
-        this.router.navigate(['/cotacao', response.id])
+      this.cotacaoService.geraCotacao(this.filtroCotacao).subscribe(response => {
         this.cotacao = response;
         this.todasOpcoes = response.opcoes;
         this.todasOpcoes.forEach(op => op.selected = true);
@@ -612,7 +651,6 @@ export class CotacaoComponent implements OnInit {
     this.filtroCotacao.qtdVidas49a53anos = vidas.filter(n => n >= 49 && n <= 53).length
     this.filtroCotacao.qtdVidas54a58anos = vidas.filter(n => n >= 54 && n <= 58).length
     this.filtroCotacao.qtdVidas59ouMaisAnos = vidas.filter(n => n >= 59).length
-
   }
 
   isCotacaoAdesao(): boolean {

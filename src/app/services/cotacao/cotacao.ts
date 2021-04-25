@@ -26,7 +26,7 @@ export class Cotacao {
   tipoAdesao: string;
   titulares: number[] = [];
   dependentes: number[] = [];
-  coparticipacao: boolean;
+  coparticipacao: boolean | string;
   qtdVidas0a18anos: number = 0;
   qtdVidas19a23anos: number = 0;
   qtdVidas24a28anos: number = 0;

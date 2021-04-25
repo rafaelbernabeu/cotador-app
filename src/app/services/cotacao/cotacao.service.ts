@@ -16,7 +16,11 @@ export class CotacaoService {
     private api: ApiService,
   ) { }
 
-  public getCotacao(cotacao: Cotacao): Observable<Cotacao> {
+  public recuperaCotacao(id: number): Observable<Cotacao> {
+    return this.http.get<Cotacao>(this.getApiUrl() + '/' + id, this.authServie.getTokenHeader());
+  }
+
+  public geraCotacao(cotacao: Cotacao): Observable<Cotacao> {
     return this.http.post<Cotacao>(this.getApiUrl(), cotacao, this.authServie.getTokenHeader());
   }
 

@@ -8,10 +8,13 @@
           Cotação
         </span>
         <span style="float: right">
-          <div (click)="consultaCotacao()" class="mouse-pointer" style="font-size: initial">
+          <span (click)="consultaCotacao()" class="mouse-pointer" style="font-size: initial">
             <span style="vertical-align: super"> Cotar </span>
             <a><mat-icon>search</mat-icon></a>
-          </div>
+          </span>
+          <span *ngIf="cotacao?.id" (click)="copiarLink()" class="mouse-pointer" style="padding-left: 10px;">
+            <a><mat-icon>add_link</mat-icon></a>
+          </span>
         </span>
       </mat-card-title>
       <mat-card-content>

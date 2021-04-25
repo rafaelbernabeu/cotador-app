@@ -11,6 +11,7 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatTabsModule} from "@angular/material/tabs";
 import {AppRoutingModule} from './app-routing.module';
 import {HttpClientModule} from '@angular/common/http';
+import {ClipboardModule} from "@angular/cdk/clipboard";
 import {MatRippleModule} from '@angular/material/core';
 import {MatChipsModule} from "@angular/material/chips";
 import {MatInputModule} from '@angular/material/input';
@@ -90,6 +91,7 @@ registerLocaleData(localePt, 'pt');
     MatTableModule,
     MatChipsModule,
     MatRadioModule,
+    ClipboardModule,
     MatButtonModule,
     MatSelectModule,
     MatDialogModule,
@@ -113,9 +115,9 @@ registerLocaleData(localePt, 'pt');
   ],
   providers: [
     AuthService,
+    { provide: LOCALE_ID, useValue: "pt" },
     { provide: 'Window',  useValue: window },
     { provide: 'Navigator',  useValue: navigator },
-    { provide: LOCALE_ID, useValue: "pt" },
   ],
   bootstrap: [AppComponent]
 })
