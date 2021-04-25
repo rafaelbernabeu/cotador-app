@@ -16,6 +16,7 @@ export class Cotacao {
 
   opcoes: Opcao[];
   entidades: Entidade[];
+  opcoesOcultas: number[]
   operadoras: Operadora[];
   profissoes: Profissao[] = [];
   administradoras: Administradora[];

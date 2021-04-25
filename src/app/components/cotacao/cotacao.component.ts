@@ -155,7 +155,7 @@ export class CotacaoComponent implements OnInit {
             this.filtroCotacao.titulares = response.titulares;
             this.filtroCotacao.dependentes = response.dependentes;
 
-            this.estadoAutoCompleteControl.setValue(response.estado);
+            this.estadoAutoCompleteControl.setValue(response.estado == null ? '' : response.estado);
             setTimeout(() => this.consultaCotacao());
           } else {
             this.snackBar.openSnackBar("Cotação não encontrada!")
@@ -179,8 +179,11 @@ export class CotacaoComponent implements OnInit {
   }
 
   copiarLink(): void {
-    window.history.pushState(null, window.document.title, '#/cotacao/' + this.cotacao.id)
-    this.clipboard.copy(window.location.href)
+    this.cotacaoService.atualizaOpcoesOcultas(this.cotacao.id, this.todasOpcoes.filter(op => !op.selected).map(op => op.id)).subscribe(response => {
+      window.history.pushState(null, window.document.title, '#/cotacao/' + response);
+      this.clipboard.copy(window.location.href);
+      this.snackBar.openSnackBar("Link copiado!");
+    });
   }
 
   consultaCotacao(): void {
@@ -191,10 +194,13 @@ export class CotacaoComponent implements OnInit {
       }
       this.filtroCotacao.estado = this.estadoAutoCompleteControl.value ? this.estadoAutoCompleteControl.value : null ;
       this.cotacaoService.geraCotacao(this.filtroCotacao).subscribe(response => {
-        this.cotacao = response;
         this.todasOpcoes = response.opcoes;
         this.todasOpcoes.forEach(op => op.selected = true);
         this.todosProdutosCotacao = this.todasOpcoes.map(op => op.produto).sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).filter(UtilService.filtraDuplicadasId);
+        if (this.cotacao.opcoesOcultas?.length) {
+          this.todasOpcoes.filter(op => this.cotacao.opcoesOcultas.filter(opOc => opOc === op.id).length).forEach(op => op.selected = false);
+        }
+        this.cotacao = response;
         this.configuraTodasTabelas();
         this.configuraDisplayedColumns();
         this.accordion.openAll();

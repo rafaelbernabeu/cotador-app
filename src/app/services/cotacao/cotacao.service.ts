@@ -24,6 +24,10 @@ export class CotacaoService {
     return this.http.post<Cotacao>(this.getApiUrl(), cotacao, this.authServie.getTokenHeader());
   }
 
+  public atualizaOpcoesOcultas(id: number, idsOcultos: number[]): Observable<Cotacao> {
+    return this.http.post<Cotacao>(this.getApiUrl() + '/' + id, idsOcultos, this.authServie.getTokenHeader());
+  }
+
   private getApiUrl(): string {
     return this.api.BASE_API_URL + this.api.COTACAO_API_URL;
   }
