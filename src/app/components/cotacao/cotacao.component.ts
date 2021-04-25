@@ -149,7 +149,7 @@ export class CotacaoComponent implements OnInit {
       if (this.chipListProfissoes) {
         this.chipListProfissoes.errorState = false;
       }
-      this.filtroCotacao.estado = this.estadoAutoCompleteControl.value;
+      this.filtroCotacao.estado = this.estadoAutoCompleteControl.value ? this.estadoAutoCompleteControl.value : null ;
       this.cotacaoService.getCotacao(this.filtroCotacao).subscribe(response => {
         this.router.navigate(['/cotacao', response.id])
         this.cotacao = response;
