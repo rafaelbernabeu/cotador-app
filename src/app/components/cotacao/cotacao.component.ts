@@ -156,6 +156,7 @@ export class CotacaoComponent implements OnInit {
             this.filtroCotacao.dependentes = response.dependentes;
 
             this.estadoAutoCompleteControl.setValue(response.estado == null ? '' : response.estado);
+            this.configuraQtdVidas();
             setTimeout(() => this.consultaCotacao());
           } else {
             this.snackBar.openSnackBar("Cotação não encontrada!")
@@ -197,7 +198,7 @@ export class CotacaoComponent implements OnInit {
         this.todasOpcoes = response.opcoes;
         this.todasOpcoes.forEach(op => op.selected = true);
         this.todosProdutosCotacao = this.todasOpcoes.map(op => op.produto).sort((p1, p2) => p1.operadora.nome.localeCompare(p2.operadora.nome)).filter(UtilService.filtraDuplicadasId);
-        if (this.cotacao.opcoesOcultas?.length) {
+        if (this.cotacao?.opcoesOcultas?.length) {
           this.todasOpcoes.filter(op => this.cotacao.opcoesOcultas.filter(opOc => opOc === op.id).length).forEach(op => op.selected = false);
         }
         this.cotacao = response;
@@ -518,34 +519,34 @@ export class CotacaoComponent implements OnInit {
   }
 
   private adicionaColunasPorQtdVidas(columns: string[]): string[] {
-    if (this.filtroCotacao.qtdVidas0a18anos > 0) {
+    if (this.filtroCotacao.qtdVidas0a18anos) {
       columns.push('valor0a18anos')
     }
-    if (this.filtroCotacao.qtdVidas19a23anos > 0) {
+    if (this.filtroCotacao.qtdVidas19a23anos) {
       columns.push('valor19a23anos')
     }
-    if (this.filtroCotacao.qtdVidas24a28anos > 0) {
+    if (this.filtroCotacao.qtdVidas24a28anos) {
       columns.push('valor24a28anos')
     }
-    if (this.filtroCotacao.qtdVidas29a33anos > 0) {
+    if (this.filtroCotacao.qtdVidas29a33anos) {
       columns.push('valor29a33anos')
     }
-    if (this.filtroCotacao.qtdVidas34a38anos > 0) {
+    if (this.filtroCotacao.qtdVidas34a38anos) {
       columns.push('valor34a38anos')
     }
-    if (this.filtroCotacao.qtdVidas39a43anos > 0) {
+    if (this.filtroCotacao.qtdVidas39a43anos) {
       columns.push('valor39a43anos')
     }
-    if (this.filtroCotacao.qtdVidas44a48anos > 0) {
+    if (this.filtroCotacao.qtdVidas44a48anos) {
       columns.push('valor44a48anos')
     }
-    if (this.filtroCotacao.qtdVidas49a53anos > 0) {
+    if (this.filtroCotacao.qtdVidas49a53anos) {
       columns.push('valor49a53anos')
     }
-    if (this.filtroCotacao.qtdVidas54a58anos > 0) {
+    if (this.filtroCotacao.qtdVidas54a58anos) {
       columns.push('valor54a58anos')
     }
-    if (this.filtroCotacao.qtdVidas59ouMaisAnos > 0) {
+    if (this.filtroCotacao.qtdVidas59ouMaisAnos) {
       columns.push('valor59ouMaisAnos')
     }
 
