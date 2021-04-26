@@ -23,7 +23,6 @@ export class TokenService {
     this.rawToken = token;
     localStorage.setItem('token', token);
     this.parseToken(token);
-    console.log(this.token);
   }
 
   private parseToken(token: string): void {
