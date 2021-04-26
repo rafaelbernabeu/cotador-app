@@ -17,4 +17,20 @@ export class AppComponent {
     this.authService.logout();
   }
 
+  isUsrAdmin(): boolean {
+    return this.authService.isUsrAdmin();
+  }
+
+  isUsrVendedor(): boolean {
+    return this.authService.isUsrVendedor();
+  }
+
+  isUsrOperador(): boolean {
+    return this.authService.isUsrOperador();
+  }
+
+  isUsrPosVendas(): boolean {
+    return this.authService.isUsrPosVendas();
+  }
+
 }

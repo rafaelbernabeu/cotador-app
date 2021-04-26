@@ -39,10 +39,11 @@ export class AuthService {
     });
   }
 
-  public logout(): void {
-    this.usuarioAutenticado = false;
-    this.tokenService.limpar();
-    this.router.navigate(['/login']);
+  private tentaCarregarTokenLocalStorage(): boolean {
+    if (this.tokenService.tentaCarregarTokenLocalStorage()) {
+      this.usuarioAutenticado = true;
+    }
+    return this.usuarioAutenticado;
   }
 
   public isUsuarioAutenticado(): boolean {
@@ -55,6 +56,36 @@ export class AuthService {
     return true;
   }
 
+  public getNomeUsuarioAutenticado(): string {
+    return this.tokenService.getTokenObject().sub;
+  }
+
+  public getRolesUsuarioAutenticado(): string[] {
+    return this.tokenService.getTokenObject().groups
+  }
+
+  public logout(): void {
+    this.usuarioAutenticado = false;
+    this.tokenService.limpar();
+    this.router.navigate(['/login']);
+  }
+
+  isUsrAdmin(): boolean {
+    return this.getRolesUsuarioAutenticado().some(r => r === 'ADMIN')
+  }
+
+  isUsrVendedor(): boolean {
+    return this.getRolesUsuarioAutenticado().some(r => r === 'VENDEDOR')
+  }
+
+  isUsrOperador(): boolean {
+    return this.getRolesUsuarioAutenticado().some(r => r === 'OPERADOR')
+  }
+
+  isUsrPosVendas(): boolean {
+    return this.getRolesUsuarioAutenticado().some(r => r === 'POS-VENDAS')
+  }
+
   public getTokenHeader(): {headers} {
     if (this.isUsuarioAutenticado()) {
       return {
@@ -62,21 +93,6 @@ export class AuthService {
       };
     }
     throw new Error('Usuario nao autenticado ou token expirado.');
-  }
-
-  public getRolesUsuarioAutenticado(): string[] {
-    return this.tokenService.getTokenObject().groups
-  }
-
-  public getNomeUsuarioAutenticado(): string {
-    return this.tokenService.getTokenObject().sub;
-  }
-
-  private tentaCarregarTokenLocalStorage(): boolean {
-    if (this.tokenService.tentaCarregarTokenLocalStorage()) {
-      this.usuarioAutenticado = true;
-    }
-    return this.usuarioAutenticado;
   }
 
   private getBasicAuthHeader(usuario: Usuario): object {
