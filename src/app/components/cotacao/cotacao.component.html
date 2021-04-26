@@ -214,325 +214,6 @@
     <mat-card-content>
       <mat-accordion multi>
 
-        <div [hidden]="filtroCotacao.coparticipacao === true || filtroCotacao.acomodacao === 'Enfermaria'">
-          <mat-expansion-panel #panelAptSemCopart>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                <mat-icon>attach_money</mat-icon>
-              </mat-panel-title>
-              <mat-panel-description>
-                <b>Apartamento - Sem Coparticipação</b>
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-
-            <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
-              <mat-table style="margin: auto" [style.width]="getTableWidth()" #sortCotacaoAptSemCopart='matSort' [dataSource]="dataSourceCotacaoAptSemCopart" matSort class="mat-elevation-z8">
-                <ng-container matColumnDef="selected">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Exibir</mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer">
-                    <mat-checkbox [(ngModel)]="cotacao.selected" ></mat-checkbox>
-                  </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="id">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.id}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="estado">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.estado.sigla}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="tabela">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Tabela </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.nome}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="idadeMin">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Idade Min. </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.idadeMinima}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="idadeMax">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Idade Max. </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.idadeMaxima}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="qtdMinVidas">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Qtd. Min. Vidas </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.qtdMinVidas}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="qtdMinTitulares">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Qtd. Min. Titulares </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.qtdMinTitulares}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="administradora" sticky>
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Adm | Detalhes </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer">
-                    <span *ngIf="cotacao.tabela.categoria === 'Adesão'">
-                      {{cotacao.tabela.administradora?.nome}}
-                    </span>
-                        <span *ngIf="cotacao.tabela.categoria === 'Empresarial'">
-                     {{cotacao.tabela.contemplaMEI ? 'Mei' : ''}} {{cotacao.tabela.livreAdesao ? cotacao.tabela.contemplaMEI ? ' | LA' : 'LA' : ''}} {{cotacao.tabela.compulsoria ? (cotacao.tabela.contemplaMEI || cotacao.tabela.livreAdesao) ? ' | Comp' : 'Comp' : ''}}
-                    </span>
-                  </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="operadora">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Operadora </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.operadora.nome}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="produto">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.produto.nome}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="abrangencia">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.produto.abrangencia}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valor0a18anos">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 0 a 18 </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.valor0a18anos * filtroCotacao.qtdVidas0a18anos | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valor19a23anos">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 19 a 23 </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.valor19a23anos * filtroCotacao.qtdVidas19a23anos | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valor24a28anos">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 24 a 28  </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.valor24a28anos * filtroCotacao.qtdVidas24a28anos | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valor29a33anos">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 29 a 33 </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.valor29a33anos * filtroCotacao.qtdVidas29a33anos | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valor34a38anos">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 34 a 38 </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.valor34a38anos * filtroCotacao.qtdVidas34a38anos | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valor39a43anos">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 39 a 43 </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.valor39a43anos * filtroCotacao.qtdVidas39a43anos | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valor44a48anos">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 44 a 48 </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.valor44a48anos * filtroCotacao.qtdVidas44a48anos | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valor49a53anos">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 49 a 53 </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.valor49a53anos * filtroCotacao.qtdVidas49a53anos | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valor54a58anos">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 54 a 58 </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.valor54a58anos * filtroCotacao.qtdVidas54a58anos | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valor59ouMaisAnos">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 59 ou Mais </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.valor59ouMaisAnos * filtroCotacao.qtdVidas59ouMaisAnos | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valorTotal">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ Total Mensal </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ calculaValorCotacao(cotacao) | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="reajuste">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Reajuste </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.tabela.reajuste }} </mat-cell>
-                </ng-container>
-
-                <ng-container [matColumnDef]="profissao.nome" *ngFor="let profissao of filtroCotacao.profissoes">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> {{profissao.nome }} </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer">
-                    <div style="overflow: auto; height: 48px;">
-                      {{ getNomesEntidadesPorProfissao(cotacao, profissao.nome) }}
-                    </div>
-                  </mat-cell>
-                </ng-container>
-
-                <mat-header-row *matHeaderRowDef="displayedColumnsCotacao"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumnsCotacao;"></mat-row>
-              </mat-table>
-              <mat-paginator style="margin: auto" [style.width]="getTableWidth()"  #paginatorCotacaoAptSemCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoAptSemCopart.data.length" showFirstLastButtons></mat-paginator>
-            </div>
-
-          </mat-expansion-panel>
-        </div>
-        <div style="padding-top: 20px" [hidden]="filtroCotacao.coparticipacao === false || filtroCotacao.acomodacao === 'Enfermaria'">
-          <mat-expansion-panel #panelAptComCopart>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                <mat-icon>attach_money</mat-icon>
-              </mat-panel-title>
-              <mat-panel-description>
-                <b>Apartamento - Com Coparticipação</b>
-              </mat-panel-description>
-            </mat-expansion-panel-header>
-
-            <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
-              <mat-table style="margin: auto" [style.width]="getTableWidth()" #sortCotacaoAptComCopart='matSort' [dataSource]="dataSourceCotacaoAptComCopart" matSort class="mat-elevation-z8">
-
-                <ng-container matColumnDef="selected">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Exibir</mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer">
-                    <mat-checkbox [(ngModel)]="cotacao.selected" ></mat-checkbox>
-                  </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="id">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.id}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="estado">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.estado.sigla}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="tabela">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Tabela </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.nome}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="idadeMin">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Idade Min. </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.idadeMinima}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="idadeMax">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Idade Max. </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.idadeMaxima}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="qtdMinVidas">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Qtd. Min. Vidas </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.qtdMinVidas}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="qtdMinTitulares">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Qtd. Min. Titulares </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.qtdMinTitulares}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="administradora" sticky>
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Adm | Detalhes </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer">
-                    <span *ngIf="cotacao.tabela.categoria === 'Adesão'">
-                      {{cotacao.tabela.administradora?.nome}}
-                    </span>
-                    <span *ngIf="cotacao.tabela.categoria === 'Empresarial'">
-                     {{cotacao.tabela.contemplaMEI ? 'Mei' : ''}} {{cotacao.tabela.livreAdesao ? cotacao.tabela.contemplaMEI ? ' | LA' : 'LA' : ''}} {{cotacao.tabela.compulsoria ? (cotacao.tabela.contemplaMEI || cotacao.tabela.livreAdesao) ? ' | Comp' : 'Comp' : ''}}
-                    </span>
-                  </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="operadora">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Operadora </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.operadora.nome}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="produto">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.produto.nome}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="abrangencia">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.produto.abrangencia}} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valor0a18anos">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 0 a 18 </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.valor0a18anos * filtroCotacao.qtdVidas0a18anos | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valor19a23anos">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 19 a 23 </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.valor19a23anos * filtroCotacao.qtdVidas19a23anos | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valor24a28anos">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 24 a 28  </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.valor24a28anos * filtroCotacao.qtdVidas24a28anos | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valor29a33anos">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 29 a 33 </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.valor29a33anos * filtroCotacao.qtdVidas29a33anos | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valor34a38anos">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 34 a 38 </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.valor34a38anos * filtroCotacao.qtdVidas34a38anos | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valor39a43anos">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 39 a 43 </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.valor39a43anos * filtroCotacao.qtdVidas39a43anos | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valor44a48anos">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 44 a 48 </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.valor44a48anos * filtroCotacao.qtdVidas44a48anos | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valor49a53anos">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 49 a 53 </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.valor49a53anos * filtroCotacao.qtdVidas49a53anos | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valor54a58anos">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 54 a 58 </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.valor54a58anos * filtroCotacao.qtdVidas54a58anos | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valor59ouMaisAnos">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 59 ou Mais </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.valor59ouMaisAnos * filtroCotacao.qtdVidas59ouMaisAnos | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="valorTotal">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ Total Mensal </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ calculaValorCotacao(cotacao) | currency: 'BRL' }} </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="reajuste">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> Reajuste </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.tabela.reajuste }} </mat-cell>
-                </ng-container>
-
-                <ng-container [matColumnDef]="profissao.nome" *ngFor="let profissao of filtroCotacao.profissoes">
-                  <mat-header-cell *matHeaderCellDef mat-sort-header> {{profissao.nome }} </mat-header-cell>
-                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer">
-                    <div style="overflow: auto; height: 48px;">
-                      {{ getNomesEntidadesPorProfissao(cotacao, profissao.nome) }}
-                    </div>
-                  </mat-cell>
-                </ng-container>
-
-                <mat-header-row *matHeaderRowDef="displayedColumnsCotacao"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumnsCotacao;"></mat-row>
-              </mat-table>
-              <mat-paginator style="margin: auto" [style.width]="getTableWidth()" #paginatorCotacaoAptComCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoAptComCopart.data.length" showFirstLastButtons></mat-paginator>
-            </div>
-
-          </mat-expansion-panel>
-        </div>
         <div style="padding-top: 20px" [hidden]="filtroCotacao.coparticipacao === true || filtroCotacao.acomodacao === 'Apartamento'">
           <mat-expansion-panel #panelEnfSemCopart>
             <mat-expansion-panel-header>
@@ -543,7 +224,6 @@
                 <b>Enfermaria - Sem Coparticipação</b>
               </mat-panel-description>
             </mat-expansion-panel-header>
-
             <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
               <mat-table style="margin: auto" [style.width]="getTableWidth()" #sortCotacaoEnfSemCopart='matSort' [dataSource]="dataSourceCotacaoEnfSemCopart" matSort class="mat-elevation-z8">
 
@@ -690,9 +370,167 @@
               </mat-table>
               <mat-paginator style="margin: auto" [style.width]="getTableWidth()" #paginatorCotacaoEnfSemCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoEnfSemCopart.data.length" showFirstLastButtons></mat-paginator>
             </div>
-
           </mat-expansion-panel>
         </div>
+
+        <div [hidden]="filtroCotacao.coparticipacao === true || filtroCotacao.acomodacao === 'Enfermaria'">
+          <mat-expansion-panel #panelAptSemCopart>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>attach_money</mat-icon>
+              </mat-panel-title>
+              <mat-panel-description>
+                <b>Apartamento - Sem Coparticipação</b>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
+              <mat-table style="margin: auto" [style.width]="getTableWidth()" #sortCotacaoAptSemCopart='matSort' [dataSource]="dataSourceCotacaoAptSemCopart" matSort class="mat-elevation-z8">
+                <ng-container matColumnDef="selected">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Exibir</mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer">
+                    <mat-checkbox [(ngModel)]="cotacao.selected" ></mat-checkbox>
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="id">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.id}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="estado">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.estado.sigla}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="tabela">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Tabela </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.nome}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="idadeMin">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Idade Min. </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.idadeMinima}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="idadeMax">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Idade Max. </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.idadeMaxima}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="qtdMinVidas">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Qtd. Min. Vidas </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.qtdMinVidas}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="qtdMinTitulares">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Qtd. Min. Titulares </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.qtdMinTitulares}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="administradora" sticky>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Adm | Detalhes </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer">
+                    <span *ngIf="cotacao.tabela.categoria === 'Adesão'">
+                      {{cotacao.tabela.administradora?.nome}}
+                    </span>
+                        <span *ngIf="cotacao.tabela.categoria === 'Empresarial'">
+                     {{cotacao.tabela.contemplaMEI ? 'Mei' : ''}} {{cotacao.tabela.livreAdesao ? cotacao.tabela.contemplaMEI ? ' | LA' : 'LA' : ''}} {{cotacao.tabela.compulsoria ? (cotacao.tabela.contemplaMEI || cotacao.tabela.livreAdesao) ? ' | Comp' : 'Comp' : ''}}
+                    </span>
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="operadora">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Operadora </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.operadora.nome}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="produto">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.produto.nome}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="abrangencia">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.produto.abrangencia}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor0a18anos">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 0 a 18 </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.valor0a18anos * filtroCotacao.qtdVidas0a18anos | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor19a23anos">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 19 a 23 </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.valor19a23anos * filtroCotacao.qtdVidas19a23anos | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor24a28anos">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 24 a 28  </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.valor24a28anos * filtroCotacao.qtdVidas24a28anos | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor29a33anos">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 29 a 33 </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.valor29a33anos * filtroCotacao.qtdVidas29a33anos | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor34a38anos">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 34 a 38 </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.valor34a38anos * filtroCotacao.qtdVidas34a38anos | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor39a43anos">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 39 a 43 </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.valor39a43anos * filtroCotacao.qtdVidas39a43anos | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor44a48anos">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 44 a 48 </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.valor44a48anos * filtroCotacao.qtdVidas44a48anos | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor49a53anos">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 49 a 53 </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.valor49a53anos * filtroCotacao.qtdVidas49a53anos | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor54a58anos">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 54 a 58 </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.valor54a58anos * filtroCotacao.qtdVidas54a58anos | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor59ouMaisAnos">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 59 ou Mais </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.valor59ouMaisAnos * filtroCotacao.qtdVidas59ouMaisAnos | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valorTotal">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ Total Mensal </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ calculaValorCotacao(cotacao) | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="reajuste">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Reajuste </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.tabela.reajuste }} </mat-cell>
+                </ng-container>
+
+                <ng-container [matColumnDef]="profissao.nome" *ngFor="let profissao of filtroCotacao.profissoes">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> {{profissao.nome }} </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer">
+                    <div style="overflow: auto; height: 48px;">
+                      {{ getNomesEntidadesPorProfissao(cotacao, profissao.nome) }}
+                    </div>
+                  </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumnsCotacao"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnsCotacao;"></mat-row>
+              </mat-table>
+              <mat-paginator style="margin: auto" [style.width]="getTableWidth()"  #paginatorCotacaoAptSemCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoAptSemCopart.data.length" showFirstLastButtons></mat-paginator>
+            </div>
+          </mat-expansion-panel>
+        </div>
+
         <div style="padding-top: 20px" [hidden]="filtroCotacao.coparticipacao === false || filtroCotacao.acomodacao === 'Apartamento'">
           <mat-expansion-panel #panelEnfComCopart>
             <mat-expansion-panel-header>
@@ -703,7 +541,6 @@
                 <b>Enfermaria - Com Coparticipação</b>
               </mat-panel-description>
             </mat-expansion-panel-header>
-
             <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
               <mat-table style="margin: auto" [style.width]="getTableWidth()" #sortCotacaoEnfComCopart='matSort' [dataSource]="dataSourceCotacaoEnfComCopart" matSort class="mat-elevation-z8">
 
@@ -850,7 +687,165 @@
               </mat-table>
               <mat-paginator style="margin: auto" [style.width]="getTableWidth()" #paginatorCotacaoEnfComCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoEnfComCopart.data.length" showFirstLastButtons></mat-paginator>
             </div>
+          </mat-expansion-panel>
+        </div>
 
+        <div style="padding-top: 20px" [hidden]="filtroCotacao.coparticipacao === false || filtroCotacao.acomodacao === 'Enfermaria'">
+          <mat-expansion-panel #panelAptComCopart>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon>attach_money</mat-icon>
+              </mat-panel-title>
+              <mat-panel-description>
+                <b>Apartamento - Com Coparticipação</b>
+              </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
+              <mat-table style="margin: auto" [style.width]="getTableWidth()" #sortCotacaoAptComCopart='matSort' [dataSource]="dataSourceCotacaoAptComCopart" matSort class="mat-elevation-z8">
+
+                <ng-container matColumnDef="selected">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Exibir</mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer">
+                    <mat-checkbox [(ngModel)]="cotacao.selected" ></mat-checkbox>
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="id">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.id}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="estado">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Estado </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.estado.sigla}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="tabela">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Tabela </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.nome}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="idadeMin">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Idade Min. </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.idadeMinima}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="idadeMax">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Idade Max. </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.idadeMaxima}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="qtdMinVidas">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Qtd. Min. Vidas </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.qtdMinVidas}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="qtdMinTitulares">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Qtd. Min. Titulares </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.qtdMinTitulares}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="administradora" sticky>
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Adm | Detalhes </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer">
+                    <span *ngIf="cotacao.tabela.categoria === 'Adesão'">
+                      {{cotacao.tabela.administradora?.nome}}
+                    </span>
+                    <span *ngIf="cotacao.tabela.categoria === 'Empresarial'">
+                     {{cotacao.tabela.contemplaMEI ? 'Mei' : ''}} {{cotacao.tabela.livreAdesao ? cotacao.tabela.contemplaMEI ? ' | LA' : 'LA' : ''}} {{cotacao.tabela.compulsoria ? (cotacao.tabela.contemplaMEI || cotacao.tabela.livreAdesao) ? ' | Comp' : 'Comp' : ''}}
+                    </span>
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="operadora">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Operadora </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.tabela.operadora.nome}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="produto">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Produto </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.produto.nome}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="abrangencia">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{cotacao.produto.abrangencia}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor0a18anos">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 0 a 18 </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.valor0a18anos * filtroCotacao.qtdVidas0a18anos | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor19a23anos">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 19 a 23 </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.valor19a23anos * filtroCotacao.qtdVidas19a23anos | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor24a28anos">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 24 a 28  </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.valor24a28anos * filtroCotacao.qtdVidas24a28anos | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor29a33anos">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 29 a 33 </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.valor29a33anos * filtroCotacao.qtdVidas29a33anos | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor34a38anos">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 34 a 38 </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.valor34a38anos * filtroCotacao.qtdVidas34a38anos | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor39a43anos">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 39 a 43 </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.valor39a43anos * filtroCotacao.qtdVidas39a43anos | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor44a48anos">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 44 a 48 </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.valor44a48anos * filtroCotacao.qtdVidas44a48anos | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor49a53anos">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 49 a 53 </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.valor49a53anos * filtroCotacao.qtdVidas49a53anos | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor54a58anos">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 54 a 58 </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.valor54a58anos * filtroCotacao.qtdVidas54a58anos | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valor59ouMaisAnos">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ 59 ou Mais </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.valor59ouMaisAnos * filtroCotacao.qtdVidas59ouMaisAnos | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="valorTotal">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> R$ Total Mensal </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ calculaValorCotacao(cotacao) | currency: 'BRL' }} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="reajuste">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> Reajuste </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer"> {{ cotacao.tabela.reajuste }} </mat-cell>
+                </ng-container>
+
+                <ng-container [matColumnDef]="profissao.nome" *ngFor="let profissao of filtroCotacao.profissoes">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header> {{profissao.nome }} </mat-header-cell>
+                  <mat-cell *matCellDef="let cotacao" [style.color]="'white'" [style.background-color]="cotacao.tabela.operadora.cor" class="mouse-pointer">
+                    <div style="overflow: auto; height: 48px;">
+                      {{ getNomesEntidadesPorProfissao(cotacao, profissao.nome) }}
+                    </div>
+                  </mat-cell>
+                </ng-container>
+
+                <mat-header-row *matHeaderRowDef="displayedColumnsCotacao"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnsCotacao;"></mat-row>
+              </mat-table>
+              <mat-paginator style="margin: auto" [style.width]="getTableWidth()" #paginatorCotacaoAptComCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoAptComCopart.data.length" showFirstLastButtons></mat-paginator>
+            </div>
           </mat-expansion-panel>
         </div>
 
@@ -864,7 +859,6 @@
                 <b>Hospitais</b>
               </mat-panel-description>
             </mat-expansion-panel-header>
-
             <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
               <mat-table #sortHospital='matSort' [dataSource]="dataSourceHospitais" matSort class="mat-elevation-z8">
 
@@ -892,7 +886,6 @@
               </mat-table>
               <mat-paginator #paginatorHospital [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceHospitais.data.length" showFirstLastButtons></mat-paginator>
             </div>
-
           </mat-expansion-panel>
         </div>
 
@@ -906,7 +899,6 @@
                 <b>Laboratorios</b>
               </mat-panel-description>
             </mat-expansion-panel-header>
-
             <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
               <mat-table #sortLaboratorio='matSort' [dataSource]="dataSourceLaboratorios" matSort class="mat-elevation-z8">
                 <ng-container matColumnDef="nomeLaboratorio">
@@ -933,7 +925,6 @@
               </mat-table>
               <mat-paginator #paginatorLaboratorio [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceLaboratorios.data.length" showFirstLastButtons></mat-paginator>
             </div>
-
           </mat-expansion-panel>
         </div>
 
@@ -947,7 +938,6 @@
                 <b>Coparticipação</b>
               </mat-panel-description>
             </mat-expansion-panel-header>
-
             <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
               <mat-table [dataSource]="dataSourceCoparticipacao" class="mat-elevation-z8">
                 <ng-container matColumnDef="tipoCoparticipacao">
@@ -990,7 +980,6 @@
                 <mat-row *matRowDef="let row; columns: displayedColumnsCoparticipacao;"></mat-row>
               </mat-table>
             </div>
-
           </mat-expansion-panel>
         </div>
 
@@ -1004,7 +993,6 @@
                 <b>Reembolso</b>
               </mat-panel-description>
             </mat-expansion-panel-header>
-
             <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
               <mat-table #sortReembolso='matSort' [dataSource]="dataSourceReembolso" matSort class="mat-elevation-z8">
                 <ng-container matColumnDef="operadora">
@@ -1027,7 +1015,6 @@
               </mat-table>
               <mat-paginator #paginatorReembolso [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceLaboratorios.data.length" showFirstLastButtons></mat-paginator>
             </div>
-
           </mat-expansion-panel>
         </div>
 
