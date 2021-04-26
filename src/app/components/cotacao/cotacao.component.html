@@ -29,7 +29,7 @@
               </mat-radio-button>
             </mat-radio-group>
             <span *ngIf="isCotacaoEmpresarial()" style="padding-left: 20px;">
-              <mat-slide-toggle name="mei" [(ngModel)]="filtroCotacao.mei" labelPosition="before">MEI</mat-slide-toggle>
+              <mat-slide-toggle name="mei" (ngModelChange)="modelChangeMei($event)" [(ngModel)]="filtroCotacao.mei" labelPosition="before">MEI</mat-slide-toggle>
             </span>
 
             <span style="float: right;">
@@ -55,7 +55,7 @@
 
             <mat-form-field *ngIf="isCotacaoEmpresarial()" appearance="outline" [style.width]="isCotacaoEmpresarial() ? '25%' : '33%'">
               <mat-label>Tipo Adesão</mat-label>
-              <mat-select name="tipoAdesao" [(ngModel)]="filtroCotacao.tipoAdesao">
+              <mat-select name="tipoAdesao" [(ngModel)]="filtroCotacao.tipoAdesao" [disabled]="filtroCotacao.mei">
                 <mat-option [value]="'Livre Adesão'">Livre Adesão</mat-option>
                 <mat-option [value]="'Compulsória'">Compulsória</mat-option>
               </mat-select>

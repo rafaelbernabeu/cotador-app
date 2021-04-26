@@ -471,13 +471,14 @@ export class CotacaoComponent implements OnInit {
   }
 
   modelChangeCategoria(categoria: Categoria): void {
-    if (categoria === 'Empresarial') {
-      this.filtroCotacao.mei = false;
-      this.filtroCotacao.profissoes = [];
+    this.filtroCotacao.categoria = categoria;
+    if (this.isCotacaoAdesao()) {
+      this.filtroCotacao.mei = null;
       this.filtroCotacao.tipoAdesao = null;
+    } else if (this.isCotacaoEmpresarial()) {
+      this.filtroCotacao.profissoes = [];
       this.filtroCotacao.administradoras = [];
     }
-    this.filtroCotacao.categoria = categoria;
   }
 
   displayEntidades(cotacao: Opcao): string {
@@ -666,5 +667,11 @@ export class CotacaoComponent implements OnInit {
 
   isCotacaoEmpresarial(): boolean {
     return this.filtroCotacao.categoria === 'Empresarial';
+  }
+
+  modelChangeMei(mei: boolean) {
+    if (mei) {
+      this.filtroCotacao.tipoAdesao = null;
+    }
   }
 }
