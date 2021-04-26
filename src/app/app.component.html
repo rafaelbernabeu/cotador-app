@@ -11,62 +11,62 @@
         <mat-icon class="icon-spacer">query_stats</mat-icon>
         Cotaçao
       </mat-list-item>
-      <mat-divider></mat-divider>
+      <mat-divider *ngIf="isUsrAdmin() || isUsrVendedor()"></mat-divider>
       <mat-list-item *ngIf="isUsrAdmin() || isUsrOperador()" routerLink="/opcoes" class="mouse-pointer">
         <mat-icon class="icon-spacer">mediation</mat-icon>
         Opcoes
       </mat-list-item>
-      <mat-divider></mat-divider>
+      <mat-divider *ngIf="isUsrAdmin() || isUsrOperador()"></mat-divider>
       <mat-list-item *ngIf="isUsrAdmin() || isUsrOperador()" routerLink="/tabela" class="mouse-pointer">
         <mat-icon class="icon-spacer">table_chart</mat-icon>
         Tabela
       </mat-list-item>
-      <mat-divider></mat-divider>
+      <mat-divider *ngIf="isUsrAdmin() || isUsrOperador()"></mat-divider>
       <mat-list-item *ngIf="isUsrAdmin() || isUsrOperador()" routerLink="/produtos" class="mouse-pointer">
         <mat-icon class="icon-spacer">book</mat-icon>
         Produtos
       </mat-list-item>
-      <mat-divider></mat-divider>
+      <mat-divider *ngIf="isUsrAdmin() || isUsrOperador()"></mat-divider>
       <mat-list-item *ngIf="isUsrAdmin() || isUsrOperador()" routerLink="/hospitais" class="mouse-pointer">
         <mat-icon class="icon-spacer">local_hospital</mat-icon>
         Hospitais
       </mat-list-item>
-      <mat-divider></mat-divider>
+      <mat-divider *ngIf="isUsrAdmin() || isUsrOperador()"></mat-divider>
       <mat-list-item *ngIf="isUsrAdmin() || isUsrOperador()" routerLink="/laboratorios" class="mouse-pointer">
         <mat-icon class="icon-spacer">science</mat-icon>
         Laboratorios
       </mat-list-item>
-      <mat-divider></mat-divider>
+      <mat-divider *ngIf="isUsrAdmin() || isUsrOperador()"></mat-divider>
       <mat-list-item *ngIf="isUsrAdmin() || isUsrOperador() || isUsrPosVendas()" routerLink="/entidades" class="mouse-pointer">
         <mat-icon class="icon-spacer">groups</mat-icon>
         Entidades
       </mat-list-item>
-      <mat-divider></mat-divider>
+      <mat-divider *ngIf="isUsrAdmin() || isUsrOperador() || isUsrPosVendas()"></mat-divider>
       <mat-list-item *ngIf="isUsrAdmin() || isUsrOperador() || isUsrPosVendas()" routerLink="/profissoes" class="mouse-pointer">
         <mat-icon class="icon-spacer">business_center</mat-icon>
         Profissoes
       </mat-list-item>
-      <mat-divider></mat-divider>
+      <mat-divider *ngIf="isUsrAdmin() || isUsrOperador() || isUsrPosVendas()"></mat-divider>
       <mat-list-item *ngIf="isUsrAdmin() || isUsrOperador()" routerLink="/operadoras" class="mouse-pointer">
         <mat-icon class="icon-spacer">corporate_fare</mat-icon>
         Operadoras
       </mat-list-item>
-      <mat-divider></mat-divider>
+      <mat-divider *ngIf="isUsrAdmin() || isUsrOperador()"></mat-divider>
       <mat-list-item *ngIf="isUsrAdmin() || isUsrOperador()" routerLink="/administradoras" class="mouse-pointer">
         <mat-icon class="icon-spacer">business</mat-icon>
         Administradoras
       </mat-list-item>
-      <mat-divider></mat-divider>
+      <mat-divider *ngIf="isUsrAdmin() || isUsrOperador()"></mat-divider>
       <mat-list-item *ngIf="isUsrAdmin()" routerLink="/usuarios" class="mouse-pointer">
         <mat-icon class="icon-spacer">manage_accounts</mat-icon>
         Usuarios
       </mat-list-item>
-      <mat-divider></mat-divider>
+      <mat-divider *ngIf="isUsrAdmin()"></mat-divider>
       <mat-list-item *ngIf="isUsrAdmin()" routerLink="/auditoria" class="mouse-pointer">
         <mat-icon class="icon-spacer">security</mat-icon>
         Auditoria
       </mat-list-item>
-      <mat-divider></mat-divider>
+      <mat-divider *ngIf="isUsrAdmin()"></mat-divider>
     </mat-list>
   </mat-sidenav>
 
