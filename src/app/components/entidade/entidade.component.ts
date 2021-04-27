@@ -32,7 +32,7 @@ export class EntidadeComponent implements OnInit {
     }
   }
 
-  displayedColumns: string[] = ['id', 'nome', 'profissoes'];
+  displayedColumns: string[] = ['id', 'nome', 'valorAssociacao', 'documentacao', 'observacoes', 'profissoes'];
   dataSourceProfissao = new MatTableDataSource<Profissao>();
   dataSourceEntidade = new MatTableDataSource<Entidade>();
 
@@ -123,7 +123,7 @@ export class EntidadeComponent implements OnInit {
 
   private readonly columnsProfissao = ['id', 'nome'];
   getColumnsProfissao(): string[] {
-    if (this.editandoEntidade()) {
+    if (this.adicionandoEntidade() || this.editandoEntidade()) {
       return this.columnsProfissao.concat('selected');
     }
     return this.columnsProfissao;

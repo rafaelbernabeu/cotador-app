@@ -1,5 +1,5 @@
 <div class="flex-container" xmlns="http://www.w3.org/1999/html">
-  <div>
+  <div style="width: 80%">
     <mat-card>
       <mat-card-title>
         <span>
@@ -23,6 +23,21 @@
           <ng-container matColumnDef="nome">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
             <mat-cell *matCellDef="let entidade" (click)="selecionaEntidade(entidade)" class="mouse-pointer"> {{entidade.nome}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="valorAssociacao">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Valor Associação </mat-header-cell>
+            <mat-cell *matCellDef="let entidade" (click)="selecionaEntidade(entidade)" class="mouse-pointer"> {{entidade.valorAssociacao}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="documentacao">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Documentação </mat-header-cell>
+            <mat-cell *matCellDef="let entidade" (click)="selecionaEntidade(entidade)" class="mouse-pointer"> {{entidade.documentacao}} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="observacoes">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Observações </mat-header-cell>
+            <mat-cell *matCellDef="let entidade" (click)="selecionaEntidade(entidade)" class="mouse-pointer"> {{entidade.observacoes}} </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="profissoes">
@@ -77,6 +92,21 @@
               <mat-label>Nome</mat-label>
               <input matInput placeholder="Nome" name="nome" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
                      [(ngModel)]="entidadeEditando.nome" required>
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Valor Associação</mat-label>
+              <input matInput placeholder="Valor Associação" name="valorAssociacao" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
+                     [(ngModel)]="entidadeEditando.valorAssociacao">
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Documentação</mat-label>
+              <input matInput placeholder="Documentação" name="documentacao" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
+                     [(ngModel)]="entidadeEditando.documentacao">
+            </mat-form-field>
+            <mat-form-field appearance="outline" style="width: 100%">
+              <mat-label>Observações</mat-label>
+              <input matInput placeholder="Observações" name="observacoes" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
+                     [(ngModel)]="entidadeEditando.observacoes">
             </mat-form-field>
             <button type="submit" hidden></button>
           </form>
