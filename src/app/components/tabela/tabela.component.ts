@@ -206,7 +206,7 @@ export class TabelaComponent implements OnInit {
 
   private readonly columnsProduto = ['idProduto', 'nomeProduto', 'abrangenciaProduto'];
   getColumnsProduto(): string[] {
-    if (this.editandoTabela()) {
+    if (this.adicionandoTabela() || this.editandoTabela()) {
       return this.columnsProduto.concat('selected');
     }
     return this.columnsProduto;
@@ -232,7 +232,7 @@ export class TabelaComponent implements OnInit {
 
   private readonly columnsEntidade = ['idEntidade', 'nomeEntidade', 'profissoesEntidade'];
   getColumnsEntidade(): string[] {
-    if (this.editandoTabela()) {
+    if (this.adicionandoTabela() || this.editandoTabela()) {
       return this.columnsEntidade.concat('selected');
     }
     return this.columnsEntidade;
