@@ -10,7 +10,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatSortModule} from '@angular/material/sort';
 import {MatTabsModule} from "@angular/material/tabs";
 import {AppRoutingModule} from './app-routing.module';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import {MatRippleModule} from '@angular/material/core';
 import {MatChipsModule} from "@angular/material/chips";
@@ -53,6 +53,7 @@ import {AdministradoraComponent} from './components/administradora/administrador
 import {AuditoriaLoginComponent} from './components/auditoria-login/auditoria-login.component';
 import {AuditoriaCotacaoComponent} from './components/auditoria-cotacao/auditoria-cotacao.component';
 import {AuditoriaAlteracoesComponent} from './components/auditoria-alteracoes/auditoria-alteracoes.component';
+import {HttpInterceptorService} from "./services/interceptor/http-interceptor.service";
 
 registerLocaleData(localePt, 'pt');
 
@@ -118,6 +119,7 @@ registerLocaleData(localePt, 'pt');
     { provide: LOCALE_ID, useValue: "pt" },
     { provide: 'Window',  useValue: window },
     { provide: 'Navigator',  useValue: navigator },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpInterceptorService, multi: true }
   ],
   bootstrap: [AppComponent]
 })

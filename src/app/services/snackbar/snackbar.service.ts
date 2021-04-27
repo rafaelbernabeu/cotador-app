@@ -10,9 +10,9 @@ export class SnackbarService {
     private snackBar: MatSnackBar,
   ) { }
 
-  public openSnackBar(mensagem: string): void {
+  public openSnackBar(mensagem: string, time?: number): void {
     this.snackBar.open(mensagem, 'Ok', {
-      duration: 2000,
+      duration: time ? time : 2000,
       verticalPosition: 'top',
       horizontalPosition: 'center',
     });
