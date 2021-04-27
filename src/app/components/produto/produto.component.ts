@@ -170,7 +170,7 @@ export class ProdutoComponent implements OnInit {
 
   private readonly columnsLaboratorio = ['idLaboratorio', 'nomeLaboratorio', 'localLaboratorio'];
   getColumnsLaboratorio(): string[] {
-    if (this.editandoProduto()) {
+    if (this.adicionandoProduto() || this.editandoProduto()) {
       return this.columnsLaboratorio.concat('selected');
     }
     return this.columnsLaboratorio;
@@ -196,7 +196,7 @@ export class ProdutoComponent implements OnInit {
 
   private readonly columnsHospital = ['idHospital', 'nomeHospital', 'localHospital'];
   getColumnsHospital(): string[] {
-    if (this.editandoProduto()) {
+    if (this.adicionandoProduto() || this.editandoProduto()) {
       return this.columnsHospital.concat('selected');
     }
     return this.columnsHospital;
