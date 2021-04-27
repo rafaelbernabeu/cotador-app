@@ -330,8 +330,8 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline" style="width: 100%">
-              <mat-label>Observacoes</mat-label>
-              <textarea matInput name="observacao" placeholder="Reembolso" [disabled]="!adicionandoProduto() && !editandoProduto()"
+              <mat-label>Observações</mat-label>
+              <textarea matInput name="observacao" placeholder="Observações" [disabled]="!adicionandoProduto() && !editandoProduto()"
                         [(ngModel)]="produtoEditando.observacao" maxlength="100"></textarea>
             </mat-form-field>
             <button type="submit" hidden></button>
