@@ -100,13 +100,13 @@
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Documentação</mat-label>
-              <input matInput placeholder="Documentação" name="documentacao" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
-                     [(ngModel)]="entidadeEditando.documentacao">
+              <textarea matInput placeholder="Documentação" name="documentacao" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
+                     [(ngModel)]="entidadeEditando.documentacao"></textarea>
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Observações</mat-label>
-              <input matInput placeholder="Observações" name="observacoes" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
-                     [(ngModel)]="entidadeEditando.observacoes">
+              <textarea matInput placeholder="Observações" name="observacoes" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
+                     [(ngModel)]="entidadeEditando.observacoes"></textarea>
             </mat-form-field>
             <button type="submit" hidden></button>
           </form>
