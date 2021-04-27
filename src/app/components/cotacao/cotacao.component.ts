@@ -493,10 +493,6 @@ export class CotacaoComponent implements OnInit {
     return produto.laboratorios.filter(l => l.id === laboratorio.id).length > 0;
   }
 
-  updateDisplayedColumns() {
-    setTimeout(() => this.configuraDisplayedColumns());
-  }
-
   configuraDisplayedColumns(): void {
     let columns: string[];
 
@@ -513,9 +509,10 @@ export class CotacaoComponent implements OnInit {
       this.displayedColumnsCotacao = columns.concat(this.displayedColumnsModoClienteFim);
     } else {
       this.displayedColumnsCotacao = columns.concat(this.displayedColumnsFim);
-      if (this.isCotacaoAdesao() && this.filtroCotacao.profissoes) {
-        this.displayedColumnsCotacao.push(...this.filtroCotacao.profissoes.map(p => p.nome));
-      }
+    }
+
+    if (this.isCotacaoAdesao() && this.filtroCotacao.profissoes) {
+      this.displayedColumnsCotacao.push(...this.filtroCotacao.profissoes.map(p => p.nome));
     }
   }
 
@@ -555,11 +552,14 @@ export class CotacaoComponent implements OnInit {
   }
 
   getNomesEntidadesPorProfissao(opcao: Opcao, profissao: string): string {
+    if (this.modoCliente) {
+      return opcao.tabela.entidades.filter(e => e.profissoes.filter(p => p.nome === profissao).length > 0).map(e => e.valorAssociacao ? e.nome + ': ' + e.valorAssociacao : e.nome).join(' / ');
+    }
     return opcao.tabela.entidades.filter(e => e.profissoes.filter(p => p.nome === profissao).length > 0).map(e => e.nome).join(' / ');
   }
 
   getTableWidth(): string {
-    return (this.displayedColumnsCotacao?.length * 120)  +'px';
+    return (this.displayedColumnsCotacao?.length * (this.modoCliente ? 150 : 120))  +'px';
   }
 
   alteraModo(modoCliente: boolean) {
