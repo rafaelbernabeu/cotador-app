@@ -24,11 +24,27 @@ export class EntidadeComponent implements OnInit {
   @ViewChild('paginatorEntidades') paginatorEntidade: MatPaginator;
   @ViewChild('paginatorProfissoes') paginatorProfissao: MatPaginator;
 
-  @HostListener('document:keypress', ['$event'])
+  @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if ((this.adicionandoEntidade() || this.editandoEntidade()) && event.ctrlKey && event.code === 'Enter') {
-      event.preventDefault();
-      this.onSubmit();
+    if (event.ctrlKey) {
+      if ((this.adicionandoEntidade() || this.editandoEntidade()) && event.code === 'Enter') {
+        event.preventDefault();
+        this.onSubmit();
+      } else if (event.code === 'KeyA') {
+        event.preventDefault();
+        this.adicionar();
+      } else if (this.entidadeSelecionada && event.code === 'KeyE') {
+        event.preventDefault();
+        this.editarEntidade();
+      }
+    } else if (event.code === 'Escape') {
+      if (this.editandoEntidade()) {
+        event.preventDefault();
+        this.cancelarEdicao();
+      } else {
+        event.preventDefault();
+        this.cancelarAdicao();
+      }
     }
   }
 

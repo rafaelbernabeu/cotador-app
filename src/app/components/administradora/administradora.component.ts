@@ -20,11 +20,27 @@ export class AdministradoraComponent implements OnInit {
   @ViewChild(MatSort) sortAdministradora: MatSort;
   @ViewChild(MatPaginator) paginatorAdministradora: MatPaginator;
 
-  @HostListener('document:keypress', ['$event'])
+  @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if ((this.adicionandoAdministradora() || this.editandoAdministradora()) && event.ctrlKey && event.code === 'Enter') {
-      event.preventDefault();
-      this.onSubmit();
+    if (event.ctrlKey) {
+      if ((this.adicionandoAdministradora() || this.editandoAdministradora()) && event.code === 'Enter') {
+        event.preventDefault();
+        this.onSubmit();
+      } else if (event.code === 'KeyA') {
+        event.preventDefault();
+        this.adicionar();
+      } else if (this.administradoraSelecionada && event.code === 'KeyE') {
+        event.preventDefault();
+        this.editarAdministradora();
+      }
+    } else if (event.code === 'Escape') {
+      if (this.editandoAdministradora()) {
+        event.preventDefault();
+        this.cancelarEdicao();
+      } else {
+        event.preventDefault();
+        this.cancelarAdicao();
+      }
     }
   }
 

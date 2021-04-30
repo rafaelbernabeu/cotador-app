@@ -56,9 +56,31 @@ export class TabelaComponent implements OnInit {
       if ((this.adicionandoTabela() || this.editandoTabela()) && event.code === 'Enter') {
         event.preventDefault();
         this.onSubmit();
-      } else if (this.tabelaSelecionada && event.code === 'KeyD') {
+      } else if (event.code === 'KeyA') {
         event.preventDefault();
-        this.copiarTabela();
+        this.adicionar();
+      } else if (event.code === 'KeyB') {
+        event.preventDefault();
+        this.filtrar()
+      } else if (this.tabelaSelecionada) {
+        if (event.code === 'KeyD') {
+          event.preventDefault();
+          this.copiarTabela();
+        } else if (event.code === 'KeyE') {
+          event.preventDefault();
+          this.editarTabela();
+        }
+      }
+    } else if (event.code === 'Escape') {
+      if (this.editandoTabela()) {
+        event.preventDefault();
+        this.cancelarEdicao();
+      } else if (this.filtrandoTabela()) {
+        event.preventDefault();
+        this.cancelarFiltro()
+      } else {
+        event.preventDefault();
+        this.cancelarAdicao();
       }
     }
   }

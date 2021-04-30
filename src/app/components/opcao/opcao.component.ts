@@ -51,9 +51,31 @@ export class OpcaoComponent implements OnInit {
       if ((this.adicionandoOpcao() || this.editandoOpcao()) && event.code === 'Enter') {
         event.preventDefault();
         this.onSubmit();
-      } else if (this.opcaoSelecionada && event.code === 'KeyD') {
+      } else if (event.code === 'KeyA') {
         event.preventDefault();
-        this.copiarOpcao();
+        this.adicionar();
+      } else if (event.code === 'KeyB') {
+        event.preventDefault();
+        this.filtrar()
+      } else if (this.opcaoSelecionada) {
+        if (event.code === 'KeyD') {
+          event.preventDefault();
+          this.copiarOpcao();
+        } else if (event.code === 'KeyE') {
+          event.preventDefault();
+          this.editarOpcao();
+        }
+      }
+    } else if (event.code === 'Escape') {
+      if (this.editandoOpcao()) {
+        event.preventDefault();
+        this.cancelarEdicao();
+      } else if (this.filtrandoOpcao()) {
+        event.preventDefault();
+        this.cancelarFiltro()
+      } else {
+        event.preventDefault();
+        this.cancelarAdicao();
       }
     }
   }

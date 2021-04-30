@@ -26,11 +26,27 @@ export class UsuarioComponent implements OnInit {
   @ViewChild('paginatorRoles') paginatorRoles: MatPaginator;
   @ViewChild('paginatorUsuarios') paginatorUsuario: MatPaginator;
 
-  @HostListener('document:keypress', ['$event'])
+  @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if ((this.adicionandoUsuario() || this.editandoUsuario()) && event.ctrlKey && event.code === 'Enter') {
-      event.preventDefault();
-      this.onSubmit();
+    if (event.ctrlKey) {
+      if ((this.adicionandoUsuario() || this.editandoUsuario()) && event.code === 'Enter') {
+        event.preventDefault();
+        this.onSubmit();
+      } else if (event.code === 'KeyA') {
+        event.preventDefault();
+        this.adicionar();
+      } else if (this.usuarioSelecionado && event.code === 'KeyE') {
+        event.preventDefault();
+        this.editarUsuario();
+      }
+    } else if (event.code === 'Escape') {
+      if (this.editandoUsuario()) {
+        event.preventDefault();
+        this.cancelarEdicao();
+      } else {
+        event.preventDefault();
+        this.cancelarAdicao();
+      }
     }
   }
 

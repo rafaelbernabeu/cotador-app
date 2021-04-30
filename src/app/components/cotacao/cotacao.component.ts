@@ -1,4 +1,4 @@
-import {Component, ElementRef, Inject, OnInit, ViewChild} from '@angular/core';
+import {Component, ElementRef, HostListener, Inject, OnInit, ViewChild} from '@angular/core';
 import {CotacaoService} from "../../services/cotacao/cotacao.service";
 import {Cotacao} from "../../services/cotacao/cotacao";
 import {CategoriaService} from "../../services/categoria/categoria.service";
@@ -70,6 +70,14 @@ export class CotacaoComponent implements OnInit {
   @ViewChild('paginatorLaboratorio') paginatorLaboratorio: MatPaginator;
 
   @ViewChild('profisaoAutoCompleteInput') profissoesInput: ElementRef<HTMLInputElement>;
+
+  @HostListener('document:keypress', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
+    if (event.ctrlKey && event.code === 'Enter') {
+      event.preventDefault();
+      this.consultaCotacao();
+    }
+  }
 
   readonly displayedColumnsInicio: string[] = ['selected', 'id', 'estado', 'tabela', 'idadeMin', 'idadeMax', 'qtdMinVidas', 'qtdMinTitulares', 'administradora', 'operadora', 'produto', 'abrangencia', 'valorTotal']
   readonly displayedColumnsFim: string[] = ['reajuste'];

@@ -48,9 +48,31 @@ export class ProdutoComponent implements OnInit {
       if ((this.adicionandoProduto() || this.editandoProduto()) && event.code === 'Enter') {
         event.preventDefault();
         this.onSubmit();
-      } else if (this.produtoSelecionado && event.code === 'KeyD') {
+      } else if (event.code === 'KeyA') {
         event.preventDefault();
-        this.copiarProduto();
+        this.adicionar();
+      } else if (event.code === 'KeyB') {
+        event.preventDefault();
+        this.filtrar()
+      } else if (this.produtoSelecionado) {
+        if (event.code === 'KeyD') {
+          event.preventDefault();
+          this.copiarProduto();
+        } else if (event.code === 'KeyE') {
+          event.preventDefault();
+          this.editarProduto();
+        }
+      }
+    } else if (event.code === 'Escape') {
+      if (this.editandoProduto()) {
+        event.preventDefault();
+        this.cancelarEdicao();
+      } else if (this.filtrandoProduto()) {
+        event.preventDefault();
+        this.cancelarFiltro()
+      } else {
+        event.preventDefault();
+        this.cancelarAdicao();
       }
     }
   }

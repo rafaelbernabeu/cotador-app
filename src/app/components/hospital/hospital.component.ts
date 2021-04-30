@@ -20,11 +20,27 @@ export class HospitalComponent implements OnInit {
   @ViewChild(MatSort) sortHospital: MatSort;
   @ViewChild(MatPaginator) paginatorHospital: MatPaginator;
 
-  @HostListener('document:keypress', ['$event'])
+  @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if ((this.adicionandoHospital() || this.editandoHospital()) && event.ctrlKey && event.code === 'Enter') {
-      event.preventDefault();
-      this.onSubmit();
+    if (event.ctrlKey) {
+      if ((this.adicionandoHospital() || this.editandoHospital()) && event.code === 'Enter') {
+        event.preventDefault();
+        this.onSubmit();
+      } else if (event.code === 'KeyA') {
+        event.preventDefault();
+        this.adicionar();
+      } else if (this.hospitalSelecionado && event.code === 'KeyE') {
+        event.preventDefault();
+        this.editarHospital();
+      }
+    } else if (event.code === 'Escape') {
+      if (this.editandoHospital()) {
+        event.preventDefault();
+        this.cancelarEdicao();
+      } else {
+        event.preventDefault();
+        this.cancelarAdicao();
+      }
     }
   }
 

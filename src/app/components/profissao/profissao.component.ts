@@ -20,11 +20,27 @@ export class ProfissaoComponent implements OnInit {
   @ViewChild(MatSort) sortProfissao: MatSort;
   @ViewChild(MatPaginator) paginatorProfissao: MatPaginator;
 
-  @HostListener('document:keypress', ['$event'])
+  @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if ((this.adicionandoProfissao() || this.editandoProfissao()) && event.ctrlKey && event.code === 'Enter') {
-      event.preventDefault();
-      this.onSubmit();
+    if (event.ctrlKey) {
+      if ((this.adicionandoProfissao() || this.editandoProfissao()) && event.code === 'Enter') {
+        event.preventDefault();
+        this.onSubmit();
+      } else if (event.code === 'KeyA') {
+        event.preventDefault();
+        this.adicionar();
+      } else if (this.profissaoSelecionada && event.code === 'KeyE') {
+        event.preventDefault();
+        this.editarProfissao();
+      }
+    } else if (event.code === 'Escape') {
+      if (this.editandoProfissao()) {
+        event.preventDefault();
+        this.cancelarEdicao();
+      } else {
+        event.preventDefault();
+        this.cancelarAdicao();
+      }
     }
   }
 

@@ -20,11 +20,27 @@ export class OperadoraComponent implements OnInit {
   @ViewChild(MatSort) sortOperadora: MatSort;
   @ViewChild(MatPaginator) paginatorOperadora: MatPaginator;
 
-  @HostListener('document:keypress', ['$event'])
+  @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if ((this.adicionandoOperadora() || this.editandoOperadora()) && event.ctrlKey && event.code === 'Enter') {
-      event.preventDefault();
-      this.onSubmit();
+    if (event.ctrlKey) {
+      if ((this.adicionandoOperadora() || this.editandoOperadora()) && event.code === 'Enter') {
+        event.preventDefault();
+        this.onSubmit();
+      } else if (event.code === 'KeyA') {
+        event.preventDefault();
+        this.adicionar();
+      } else if (this.operadoraSelecionada && event.code === 'KeyE') {
+        event.preventDefault();
+        this.editarOperadora();
+      }
+    } else if (event.code === 'Escape') {
+      if (this.editandoOperadora()) {
+        event.preventDefault();
+        this.cancelarEdicao();
+      } else {
+        event.preventDefault();
+        this.cancelarAdicao();
+      }
     }
   }
 

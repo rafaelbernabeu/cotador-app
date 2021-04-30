@@ -20,11 +20,27 @@ export class LaboratorioComponent implements OnInit {
   @ViewChild(MatSort) sortLaboratorio: MatSort;
   @ViewChild(MatPaginator) paginatorLaboratorio: MatPaginator;
 
-  @HostListener('document:keypress', ['$event'])
+  @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if ((this.adicionandoLaboratorio() || this.editandoLaboratorio()) && event.ctrlKey && event.code === 'Enter') {
-      event.preventDefault();
-      this.onSubmit();
+    if (event.ctrlKey) {
+      if ((this.adicionandoLaboratorio() || this.editandoLaboratorio()) && event.code === 'Enter') {
+        event.preventDefault();
+        this.onSubmit();
+      } else if (event.code === 'KeyA') {
+        event.preventDefault();
+        this.adicionar();
+      } else if (this.laboratorioSelecionado && event.code === 'KeyE') {
+        event.preventDefault();
+        this.editarLaboratorio();
+      }
+    } else if (event.code === 'Escape') {
+      if (this.editandoLaboratorio()) {
+        event.preventDefault();
+        this.cancelarEdicao();
+      } else {
+        event.preventDefault();
+        this.cancelarAdicao();
+      }
     }
   }
 
