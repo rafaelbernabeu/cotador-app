@@ -1,2 +1,2 @@
 
-export class Acomodacao extends String{}
+export class Acomodacao extends String {}

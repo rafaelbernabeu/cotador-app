@@ -137,6 +137,18 @@ export class CotacaoComponent implements OnInit {
     this.acomodacaoService.getAllAcomodacoes().subscribe(response => this.todasAcomodacoes = response);
     this.administradoraService.getAllAdministradoras().subscribe(response => this.todasAdministradoras = response);
 
+    this.esperaCarregamentoDosCampos();
+  }
+
+  esperaCarregamentoDosCampos(): void {
+    if (this.isCarregamentoCompleto()) {
+      this.inicializaCotacao();
+    } else {
+      setTimeout(() => this.esperaCarregamentoDosCampos(), 200);
+    }
+  }
+
+  inicializaCotacao(): void {
     this.iniciaAutoCompletes();
     this.activatedRoute.paramMap.subscribe(params => {
       const id = Number.parseInt(params.get('id'));
@@ -149,11 +161,11 @@ export class CotacaoComponent implements OnInit {
             this.filtroCotacao.tipoAdesao = response.tipoAdesao;
             this.filtroCotacao.coparticipacao = response.coparticipacao === null ? null : response.coparticipacao === 'Ambas' ? response.coparticipacao : response.coparticipacao == 'true';
             this.filtroCotacao.acomodacao = response.acomodacao;
-            this.filtroCotacao.operadoras = this.todasOperadoras.filter(p => response.operadoras?.filter(ro => p.id === ro.id)?.length);
-            this.filtroCotacao.administradoras = this.todasAdministradoras.filter(p => response.administradoras?.filter(ra => p.id === ra.id)?.length);
-            this.filtroCotacao.profissoes = this.todasProfissoes.filter(p => response.profissoes?.filter(rp => p.id === rp.id)?.length);
             this.filtroCotacao.titulares = response.titulares;
             this.filtroCotacao.dependentes = response.dependentes;
+            this.filtroCotacao.operadoras = this.todasOperadoras.filter(p => response.operadoras?.filter(ro => p.id === ro.id)?.length);
+            this.filtroCotacao.profissoes = this.todasProfissoes.filter(p => response.profissoes?.filter(rp => p.id === rp.id)?.length);
+            this.filtroCotacao.administradoras = this.todasAdministradoras.filter(p => response.administradoras?.filter(ra => p.id === ra.id)?.length);
 
             this.estadoAutoCompleteControl.setValue(response.estado == null ? '' : response.estado);
             this.configuraQtdVidas();
@@ -167,6 +179,11 @@ export class CotacaoComponent implements OnInit {
         this.limpar();
       }
     });
+  }
+
+  isCarregamentoCompleto(): boolean {
+    return this.todosEstados && this.todosHospitais && this.todasOperadoras && this.todasProfissoes &&
+      this.todasCategorias && this.todasAcomodacoes && (this.todasAdministradoras != null);
   }
 
   limpar(): void {
