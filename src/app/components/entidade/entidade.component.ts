@@ -32,7 +32,7 @@ export class EntidadeComponent implements OnInit {
     }
   }
 
-  displayedColumns: string[] = ['id', 'nome', 'valorAssociacao', 'documentacao', 'observacoes', 'profissoes'];
+  displayedColumns: string[] = ['id', 'nome', 'profissoes', 'valorAssociacao', 'documentacao', 'observacoes'];
   dataSourceProfissao = new MatTableDataSource<Profissao>();
   dataSourceEntidade = new MatTableDataSource<Entidade>();
 
