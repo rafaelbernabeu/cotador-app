@@ -577,10 +577,7 @@ export class CotacaoComponent implements OnInit {
   }
 
   getNomesEntidadesPorProfissao(opcao: Opcao, profissao: string): string {
-    if (this.modoCliente) {
-      return opcao.tabela.entidades.filter(e => e.profissoes.filter(p => p.nome === profissao).length > 0).map(e => e.valorAssociacao ? e.nome + ': ' + e.valorAssociacao : e.nome).join(' / ');
-    }
-    return opcao.tabela.entidades.filter(e => e.profissoes.filter(p => p.nome === profissao).length > 0).map(e => e.nome).join(' / ');
+    return opcao.tabela.entidades.filter(e => e.profissoes.filter(p => p.nome === profissao).length > 0).map(e => e.valorAssociacao ? e.nome + ': ' + e.valorAssociacao : e.nome).join(' / ');
   }
 
   getTableWidth(): string {
@@ -611,7 +608,7 @@ export class CotacaoComponent implements OnInit {
     profissao = this.profissaoFilterAutoComplete(value);
 
     if (profissao.length === 1) {
-      this.filtroCotacao.profissoes.push(...profissao);
+      this.filtroCotacao.profissoes = this.filtroCotacao.profissoes.concat(...profissao).filter(UtilService.filtraDuplicadasId);
       if (input) {
         input.value = '';
         this.profissaoAutoCompleteControl.setValue('');
@@ -620,7 +617,7 @@ export class CotacaoComponent implements OnInit {
   }
 
   profissaoSelected(event: MatAutocompleteSelectedEvent): void {
-    this.filtroCotacao.profissoes.push(...this.todasProfissoes.filter(p => p.nome === event.option.viewValue));
+    this.filtroCotacao.profissoes = this.filtroCotacao.profissoes.concat(...this.todasProfissoes.filter(p => p.nome === event.option.viewValue)).filter(UtilService.filtraDuplicadasId);
     this.profissoesInput.nativeElement.value = '';
     this.profissaoAutoCompleteControl.setValue('');
   }
