@@ -8,11 +8,17 @@
           Cotação
         </span>
         <span style="float: right">
-          <span (click)="consultaCotacao()" class="mouse-pointer" style="font-size: initial">
+          <span *ngIf="!isBloquearInputs()" (click)="consultaCotacao()" class="mouse-pointer" style="font-size: initial">
             <span style="vertical-align: super"> Cotar </span>
             <a><mat-icon>search</mat-icon></a>
           </span>
-          <span *ngIf="cotacao?.id" (click)="copiarLink()" class="mouse-pointer" style="padding-left: 10px;">
+          <span *ngIf="isBloquearInputs()" (click)="desbloquearInputs()" class="mouse-pointer" style="padding-left: 10px;">
+            <a><mat-icon>create</mat-icon></a>
+          </span>
+          <span *ngIf="cotacao?.id && !isBloquearInputs()" (click)="limpar()" class="mouse-pointer" style="padding-left: 10px;">
+            <a><mat-icon>cleaning_services</mat-icon></a>
+          </span>
+          <span *ngIf="cotacao?.id && isBloquearInputs()" (click)="copiarLink()" class="mouse-pointer" style="padding-left: 10px;">
             <a><mat-icon>add_link</mat-icon></a>
           </span>
         </span>
@@ -23,13 +29,13 @@
             <div *ngIf="categoria.errors?.required && formCotacao.touched" style="padding-bottom: 10px; color: red">
               Selecione uma Categoria
             </div>
-            <mat-radio-group #categoria="ngModel" name="categoria" style="width: 50%" (ngModelChange)="modelChangeCategoria($event)" [(ngModel)]="filtroCotacao.categoria" required>
+            <mat-radio-group #categoria="ngModel" name="categoria" style="width: 50%" (ngModelChange)="modelChangeCategoria($event)" [(ngModel)]="filtroCotacao.categoria" [disabled]="isBloquearInputs()" required>
               <mat-radio-button style="padding-right: 15px" *ngFor="let categoria of todasCategorias" [value]="categoria">
                 {{categoria}}
               </mat-radio-button>
             </mat-radio-group>
             <span *ngIf="isCotacaoEmpresarial()" style="padding-left: 20px;">
-              <mat-slide-toggle name="mei" (ngModelChange)="modelChangeMei($event)" [(ngModel)]="filtroCotacao.mei" labelPosition="before">MEI</mat-slide-toggle>
+              <mat-slide-toggle name="mei" (ngModelChange)="modelChangeMei($event)" [(ngModel)]="filtroCotacao.mei" [disabled]="isBloquearInputs()" labelPosition="before">MEI</mat-slide-toggle>
             </span>
 
             <span style="float: right;">
@@ -55,7 +61,7 @@
 
             <mat-form-field *ngIf="isCotacaoEmpresarial()" appearance="outline" [style.width]="isCotacaoEmpresarial() ? '25%' : '33%'">
               <mat-label>Tipo Adesão</mat-label>
-              <mat-select name="tipoAdesao" [(ngModel)]="filtroCotacao.tipoAdesao" [disabled]="filtroCotacao.mei">
+              <mat-select name="tipoAdesao" [(ngModel)]="filtroCotacao.tipoAdesao" [disabled]="isBloquearInputs() || filtroCotacao.mei">
                 <mat-option [value]="'Livre Adesão'">Livre Adesão</mat-option>
                 <mat-option [value]="'Compulsória'">Compulsória</mat-option>
               </mat-select>
@@ -63,7 +69,7 @@
 
             <mat-form-field appearance="outline" [style.width]="isCotacaoEmpresarial() ? '25%' : '33.3%'">
               <mat-label>Coparticipação</mat-label>
-              <mat-select name="coparticipacao" [(ngModel)]="filtroCotacao.coparticipacao">
+              <mat-select name="coparticipacao" [(ngModel)]="filtroCotacao.coparticipacao" [disabled]="isBloquearInputs()">
                 <mat-option [value]="false">Sem</mat-option>
                 <mat-option [value]="true">Com</mat-option>
                 <mat-option [value]="'Ambas'">Ambas</mat-option>
@@ -72,7 +78,7 @@
 
             <mat-form-field appearance="outline" [style.width]="isCotacaoEmpresarial() ? '25%' : '33.3%'">
               <mat-label>Acomodação</mat-label>
-              <mat-select name="acomodacao" [(ngModel)]="filtroCotacao.acomodacao">
+              <mat-select name="acomodacao" [(ngModel)]="filtroCotacao.acomodacao" [disabled]="isBloquearInputs()">
                 <mat-option [value]="'Ambas'">Ambas</mat-option>
                 <mat-option *ngFor="let acomodacao of todasAcomodacoes;" [value]="acomodacao">{{acomodacao}}</mat-option>
               </mat-select>
@@ -82,20 +88,20 @@
           <div>
             <mat-form-field appearance="outline" [style.width]="filtroCotacao.categoria === 'Adesão' ? '33.33%' : '100%'">
               <mat-label>Operadora</mat-label>
-              <mat-select name="operadora" [(ngModel)]="filtroCotacao.operadoras" multiple>
+              <mat-select name="operadora" [(ngModel)]="filtroCotacao.operadoras" [disabled]="isBloquearInputs()" multiple>
                 <mat-option *ngFor="let operadora of todasOperadoras" [value]="operadora">{{operadora.nome}}</mat-option>
               </mat-select>
             </mat-form-field>
             <mat-form-field appearance="outline" *ngIf="isCotacaoAdesao()" style="width: 33.33%">
               <mat-label>Administradora</mat-label>
-              <mat-select name="administradora" [(ngModel)]="filtroCotacao.administradoras" multiple>
+              <mat-select name="administradora" [(ngModel)]="filtroCotacao.administradoras" [disabled]="isBloquearInputs()" multiple>
                 <mat-option *ngFor="let administradora of todasAdministradoras" [value]="administradora">{{administradora.nome}}</mat-option>
               </mat-select>
             </mat-form-field>
 
             <mat-form-field *ngIf="isCotacaoAdesao()" appearance="outline" style="width: 33.33%">
               <mat-label>Profissões</mat-label>
-              <mat-chip-list #chipListProfissoes aria-label="Profissões" [required]="isCotacaoAdesao()">
+              <mat-chip-list #chipListProfissoes aria-label="Profissões" [disabled]="isBloquearInputs()" [required]="isCotacaoAdesao()">
                 <mat-chip
                   *ngFor="let profissao of filtroCotacao.profissoes"
                   (removed)="removeProfissao(profissao)">
@@ -122,7 +128,7 @@
           <div>
             <mat-form-field appearance="outline" style="width: 50%">
               <mat-label>Idades Titulares</mat-label>
-              <mat-chip-list #chipListTitulares aria-label="Idades Titulares" required>
+              <mat-chip-list #chipListTitulares aria-label="Idades Titulares" [disabled]="isBloquearInputs()" required>
                 <mat-chip *ngFor="let vida of filtroCotacao.titulares" (removed)="removeIdadeTitular(vida)">
                   {{vida}}
                   <mat-icon matChipRemove>cancel</mat-icon>
@@ -137,7 +143,7 @@
 
             <mat-form-field appearance="outline" style="width: 50%">
               <mat-label>Idades Dependentes</mat-label>
-              <mat-chip-list #chipListDependentes aria-label="Idades Dependentes">
+              <mat-chip-list #chipListDependentes aria-label="Idades Dependentes" [disabled]="isBloquearInputs()">
                 <mat-chip *ngFor="let vida of filtroCotacao.dependentes" (removed)="removeIdadeDependente(vida)">
                   {{vida}}
                   <mat-icon matChipRemove>cancel</mat-icon>

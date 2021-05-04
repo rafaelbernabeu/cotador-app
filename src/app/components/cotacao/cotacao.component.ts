@@ -197,8 +197,10 @@ export class CotacaoComponent implements OnInit {
   limpar(): void {
     setTimeout(() => {
       this.todasOpcoes = [];
+      this.cotacao = new Cotacao();
       this.todosProdutosCotacao = [];
       this.filtroCotacao = new Cotacao();
+      this.estadoAutoCompleteControl.enable();
       this.estadoAutoCompleteControl.setValue('');
       this.configuraTodasTabelas();
     })
@@ -230,6 +232,7 @@ export class CotacaoComponent implements OnInit {
         this.configuraTodasTabelas();
         this.configuraDisplayedColumns();
         this.accordion.openAll();
+        this.estadoAutoCompleteControl.disable();
       });
     } else {
       this.erroFormInvalido();
@@ -696,4 +699,16 @@ export class CotacaoComponent implements OnInit {
       this.filtroCotacao.tipoAdesao = null;
     }
   }
+
+  isBloquearInputs(): boolean {
+    return this.todasOpcoes?.length > 0;
+  }
+
+  desbloquearInputs(): void {
+    this.todasOpcoes = [];
+    this.estadoAutoCompleteControl.enable();
+    this.configuraTodasTabelas();
+    window.history.pushState(null, window.document.title, '#/cotacao/nova');
+  }
+
 }
