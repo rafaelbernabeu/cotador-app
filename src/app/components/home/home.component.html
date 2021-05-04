@@ -1,3 +1,20 @@
-<p>Bem-vindo {{nomeUsuario}}!</p>
+<h1>Bem-vindo {{nomeUsuario}}!</h1>
 
-<p>Permissoes: {{rolesUsuario.join(',')}}</p>
+<br/>
+
+<mat-card>
+  <mat-card-title style="text-align: center">Atalhos do Sistema</mat-card-title>
+  <br/>
+  <mat-card-content>
+    <p>Quando disponíveis, as ações abaixo podem ser acessadas via teclas de atalho:</p>
+    <ul>
+      <li><strong>ESC:</strong> Cancelar/Fechar *</li>
+      <li><strong>Ctrl + Enter:</strong> Salvar/Consulta cotação *</li>
+      <li><strong>Ctrl + A:</strong> Adicionar</li>
+      <li><strong>Ctrl + B:</strong> Buscar/Filtrar</li>
+      <li><strong>Ctrl + D:</strong> Duplicar *</li>
+      <li><strong>Ctrl + E:</strong> Editar *</li>
+    </ul>
+    <p>* Necessita de um item selecionado.</p>
+  </mat-card-content>
+</mat-card>
