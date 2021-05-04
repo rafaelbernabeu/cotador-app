@@ -37,15 +37,6 @@
             <span *ngIf="isCotacaoEmpresarial()" style="padding-left: 20px;">
               <mat-slide-toggle name="mei" (ngModelChange)="modelChangeMei($event)" [(ngModel)]="filtroCotacao.mei" [disabled]="isBloquearInputs()" labelPosition="before">MEI</mat-slide-toggle>
             </span>
-
-            <span style="float: right;">
-              <span style="padding-left: 20px">
-                <mat-slide-toggle name="melhorPrecoProduto" (ngModelChange)="modelChangeMelhorPreco()" [(ngModel)]="melhorPrecoProduto" labelPosition="before">Melhor Preço</mat-slide-toggle>
-              </span>
-              <span style="padding-left: 20px">
-                <mat-slide-toggle name="modoCliente" (ngModelChange)="alteraModo($event)" [(ngModel)]="modoCliente" labelPosition="before">Modo Cliente</mat-slide-toggle>
-              </span>
-            </span>
           </div>
 
           <div>
@@ -198,6 +189,15 @@
               <mat-label>59 - Mais</mat-label>
               <input name="qtdVidas59ouMaisAnos" type="number" matInput placeholder="59 ou Mais" [ngModel]="filtroCotacao.qtdVidas59ouMaisAnos" [disabled]="true">
             </mat-form-field>
+          </div>
+
+          <div style="text-align: center">
+            <span style="padding-left: 20px">
+              <mat-slide-toggle name="melhorPrecoProduto" (ngModelChange)="modelChangeMelhorPreco()" [(ngModel)]="melhorPrecoProduto" labelPosition="before">Melhor Preço</mat-slide-toggle>
+            </span>
+            <span style="padding-left: 20px">
+              <mat-slide-toggle name="modoCliente" (ngModelChange)="alteraModo($event)" [(ngModel)]="modoCliente" labelPosition="before">Modo Cliente</mat-slide-toggle>
+            </span>
           </div>
           <button type="submit" hidden></button>
         </form>
