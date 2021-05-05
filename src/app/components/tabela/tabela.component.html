@@ -333,14 +333,14 @@
             </div>
 
             <div style="text-align: right">
-              <span style="padding-left: 25px" *ngIf="categoriaEmpresarial()">
+              <span *ngIf="categoriaEmpresarial()">
                 <mat-slide-toggle name="mei" [(ngModel)]="tabelaEditando.contemplaMEI" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">MEI</mat-slide-toggle>
               </span>
                 <span style="padding-left: 25px" *ngIf="categoriaEmpresarial()">
                 <mat-slide-toggle name="livreAdesao" [(ngModel)]="tabelaEditando.livreAdesao" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">Livre Adesão</mat-slide-toggle>
               </span>
                 <span style="padding-left: 25px" *ngIf="categoriaEmpresarial()">
-                <mat-slide-toggle name="compulsoria" [(ngModel)]="tabelaEditando.compulsoria" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">Compulsoria</mat-slide-toggle>
+                <mat-slide-toggle name="compulsoria" [(ngModel)]="tabelaEditando.compulsoria" [disabled]="!adicionandoTabela() && !editandoTabela()" labelPosition="before">Compulsória</mat-slide-toggle>
               </span>
             </div>
             <button type="submit" hidden></button>

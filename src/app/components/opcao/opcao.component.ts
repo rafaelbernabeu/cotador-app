@@ -711,8 +711,17 @@ export class OpcaoComponent implements OnInit {
 
         if (this.filtroOpcao.categoria === 'Adesão' && this.filtroOpcao.administradoras.length) {
           opcoesFiltradas = opcoesFiltradas.filter(op => this.filtroOpcao.administradoras.filter(adm => op.tabela.administradora && adm.id === op.tabela.administradora.id).length);
-        } else if (this.filtroOpcao.categoria === 'Empresarial' && typeof this.filtroOpcao.mei === 'boolean') {
-          opcoesFiltradas = opcoesFiltradas.filter(op => op.tabela.contemplaMEI === this.filtroOpcao.mei);
+        } else if (this.filtroOpcao.categoria === 'Empresarial') {
+          if (typeof this.filtroOpcao.mei === 'boolean') {
+            opcoesFiltradas = opcoesFiltradas.filter(op => op.tabela.contemplaMEI === this.filtroOpcao.mei);
+          }
+          if (this.filtroOpcao.tipoAdesao != null) {
+            if (this.filtroOpcao.tipoAdesao === 'Livre Adesão') {
+              opcoesFiltradas = opcoesFiltradas.filter(op => op.tabela.livreAdesao);
+            } else if (this.filtroOpcao.tipoAdesao === 'Compulsória') {
+              opcoesFiltradas = opcoesFiltradas.filter(op => op.tabela.compulsoria);
+            }
+          }
         }
       }
 

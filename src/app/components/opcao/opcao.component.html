@@ -186,6 +186,15 @@
           </div>
 
           <mat-form-field *ngIf="filtroOpcao.categoria === 'Empresarial'" appearance="outline" style="width: 100%">
+            <mat-label>Tipo Adesão</mat-label>
+            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.tipoAdesao">
+              <mat-option [value]="'Livre Adesão'">Livre Adesão</mat-option>
+              <mat-option [value]="'Compulsória'">Compulsória</mat-option>
+              <mat-option [value]="''">Ambas</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field *ngIf="filtroOpcao.categoria === 'Empresarial'" appearance="outline" style="width: 100%">
             <mat-label>MEI</mat-label>
             <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.mei">
               <mat-option [value]="true">Mei</mat-option>

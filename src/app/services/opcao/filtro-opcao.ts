@@ -13,6 +13,7 @@ export class FiltroOpcao {
 
   id: number;
   mei: boolean;
+  tipoAdesao: string;
   idadeMinima: number;
   idadeMaxima: number;
   reembolso: number;
