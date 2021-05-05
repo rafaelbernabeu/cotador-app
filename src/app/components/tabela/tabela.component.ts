@@ -235,6 +235,7 @@ export class TabelaComponent implements OnInit {
   }
 
   private carregaTabelaEntidade(entidades: Entidade[]): void {
+    entidades.forEach(e => e["nomesProfissoes"] = e.profissoes.map(this.getNomeProfissao).join(', '))
     this.dataSourceEntidade = new MatTableDataSource<Entidade>(entidades);
     this.dataSourceEntidade.sort = this.sortEntidade;
     this.dataSourceEntidade.paginator = this.paginatorEntidade;
@@ -665,4 +666,13 @@ export class TabelaComponent implements OnInit {
     return profissao.nome;
   }
 
+  applyFilterProduto(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceProduto.filter = filterValue.trim().toLowerCase();
+  }
+
+  applyFilterEntidade(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceEntidade.filter = filterValue.trim().toLowerCase();
+  }
 }

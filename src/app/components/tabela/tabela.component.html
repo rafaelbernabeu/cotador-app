@@ -376,6 +376,10 @@
               </mat-expansion-panel-header>
 
               <div>
+                <mat-form-field style="width: 100%">
+                  <mat-label>Filtro</mat-label>
+                  <input matInput (keyup)="applyFilterProduto($event)" placeholder="Filtro" #inputFiltroProduto>
+                </mat-form-field>
                 <mat-table #sortProduto="matSort" [dataSource]="dataSourceProduto" matSort class="mat-elevation-z8">
                   <ng-container matColumnDef="idProduto">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
@@ -403,6 +407,10 @@
 
                   <mat-header-row *matHeaderRowDef="getColumnsProduto()"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: getColumnsProduto();"></mat-row>
+
+                  <tr class="mat-row" *matNoDataRow>
+                    <td style="text-align: center; width: 100%; margin: auto" class="mat-cell">Nenhum resultado encontrado para o filtro: "{{inputFiltroProduto.value}}"</td>
+                  </tr>
                 </mat-table>
                 <mat-paginator #paginatorProduto [pageSizeOptions]="[25, 50, 100]" [length]="dataSourceProduto.data.length" showFirstLastButtons></mat-paginator>
               </div>
@@ -420,6 +428,10 @@
               </mat-expansion-panel-header>
 
               <div>
+                <mat-form-field style="width: 100%">
+                  <mat-label>Filtro</mat-label>
+                  <input matInput (keyup)="applyFilterEntidade($event)" placeholder="Filtro" #inputFiltroEntidade>
+                </mat-form-field>
                 <mat-table #sortEntidade="matSort" [dataSource]="dataSourceEntidade" matSort class="mat-elevation-z8">
                   <ng-container matColumnDef="idEntidade">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
@@ -447,6 +459,10 @@
 
                   <mat-header-row *matHeaderRowDef="getColumnsEntidade()"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: getColumnsEntidade();"></mat-row>
+
+                  <tr class="mat-row" *matNoDataRow>
+                    <td style="text-align: center; width: 100%; margin: auto" class="mat-cell">Nenhum resultado encontrado para o filtro: "{{inputFiltroEntidade.value}}"</td>
+                  </tr>
                 </mat-table>
                 <mat-paginator #paginatorEntidade [pageSizeOptions]="[25, 50, 100]" [length]="dataSourceEntidade.data.length" showFirstLastButtons></mat-paginator>
               </div>

@@ -489,6 +489,10 @@
             <div class="flex-container" style="flex-direction: row">
               <mat-card style="width: 100%">
                 <mat-card-content>
+                  <mat-form-field style="width: 100%">
+                    <mat-label>Filtro</mat-label>
+                    <input matInput (keyup)="applyFilterLaboratorio($event)" placeholder="Filtro" #inputFiltroLaboratorio>
+                  </mat-form-field>
                   <div>
                     <mat-table #sortLaboratorio="matSort" [dataSource]="dataSourceLaboratorio" matSort class="mat-elevation-z8">
                       <ng-container matColumnDef="idLaboratorio">
@@ -518,6 +522,9 @@
                       <mat-header-row *matHeaderRowDef="getColumnsLaboratorio()"></mat-header-row>
                       <mat-row *matRowDef="let row; columns: getColumnsLaboratorio();"></mat-row>
 
+                      <tr class="mat-row" *matNoDataRow>
+                        <td style="text-align: center; width: 100%; margin: auto" class="mat-cell">Nenhum resultado encontrado para o filtro: "{{inputFiltroLaboratorio.value}}"</td>
+                      </tr>
                     </mat-table>
                     <mat-paginator #paginatorLaboratorio [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceLaboratorio.data.length" showFirstLastButtons></mat-paginator>
                   </div>
@@ -539,6 +546,10 @@
             <div class="flex-container" style="flex-direction: row">
               <mat-card style="width: 100%">
                 <mat-card-content>
+                  <mat-form-field style="width: 100%">
+                    <mat-label>Filtro</mat-label>
+                    <input matInput (keyup)="applyFilterHospital($event)" placeholder="Filtro" #inputFiltroHospital>
+                  </mat-form-field>
                   <div>
                     <mat-table #sortHospital="matSort" [dataSource]="dataSourceHospital" matSort class="mat-elevation-z8">
                       <ng-container matColumnDef="idHospital">
@@ -568,6 +579,9 @@
                       <mat-header-row *matHeaderRowDef="getColumnsHospital()"></mat-header-row>
                       <mat-row *matRowDef="let row; columns: getColumnsHospital();"></mat-row>
 
+                      <tr class="mat-row" *matNoDataRow>
+                        <td style="text-align: center; width: 100%; margin: auto" class="mat-cell">Nenhum resultado encontrado para o filtro: "{{inputFiltroHospital.value}}"</td>
+                      </tr>
                     </mat-table>
                     <mat-paginator #paginatorHospital [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceHospital.data.length" showFirstLastButtons></mat-paginator>
                   </div>

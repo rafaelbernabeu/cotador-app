@@ -513,4 +513,14 @@ export class ProdutoComponent implements OnInit {
     return (this.displayedColumns?.length * 115)  +'px';
   }
 
+  applyFilterHospital(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceHospital.filter = filterValue.trim().toLowerCase();
+  }
+
+  applyFilterLaboratorio(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceLaboratorio.filter = filterValue.trim().toLowerCase();
+  }
+
 }

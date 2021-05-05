@@ -14,6 +14,10 @@
       <br/>
 
       <mat-card-content>
+        <mat-form-field style="width: 100%">
+          <mat-label>Filtro</mat-label>
+          <input matInput (keyup)="applyFilterEntidade($event)" placeholder="Filtro" #inputFiltroEntidade>
+        </mat-form-field>
         <mat-table #entidadesSort="matSort" [dataSource]="dataSourceEntidade" matSort class="mat-elevation-z8">
           <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
@@ -47,6 +51,10 @@
 
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td style="text-align: center; width: 100%; margin: auto" class="mat-cell">Nenhum resultado encontrado para o filtro: "{{inputFiltroEntidade.value}}"</td>
+          </tr>
         </mat-table>
         <mat-paginator #paginatorEntidades [pageSizeOptions]="[100, 500, 1000]" [length]="dataSourceEntidade.data.length" showFirstLastButtons></mat-paginator>
       </mat-card-content>
@@ -122,6 +130,10 @@
         <br/>
 
         <mat-card-content>
+          <mat-form-field style="width: 100%">
+            <mat-label>Filtro</mat-label>
+            <input matInput (keyup)="applyFilterProfissao($event)" placeholder="Filtro" #inputFiltroProfissao>
+          </mat-form-field>
           <div>
             <mat-table #profissoesSort="matSort" [dataSource]="dataSourceProfissao" matSort class="mat-elevation-z8">
               <ng-container matColumnDef="id">
@@ -145,6 +157,10 @@
 
               <mat-header-row *matHeaderRowDef="getColumnsProfissao()"></mat-header-row>
               <mat-row *matRowDef="let row; columns: getColumnsProfissao();"></mat-row>
+
+              <tr class="mat-row" *matNoDataRow>
+                <td style="text-align: center; width: 100%; margin: auto" class="mat-cell">Nenhum resultado encontrado para o filtro: "{{inputFiltroProfissao.value}}"</td>
+              </tr>
             </mat-table>
             <mat-paginator #paginatorProfissoes [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceProfissao.data.length" showFirstLastButtons></mat-paginator>
           </div>

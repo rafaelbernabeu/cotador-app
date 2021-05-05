@@ -74,11 +74,11 @@ export class EntidadeComponent implements OnInit {
 
   private carregaTabelaEntidade(): void {
     this.entidadeService.getAllEntidades().subscribe(response => {
-        this.dataSourceEntidade = new MatTableDataSource<Entidade>(response);
-        this.dataSourceEntidade.sort = this.sortEntidade;
-        this.dataSourceEntidade.paginator = this.paginatorEntidade;
-      }
-    );
+      response.forEach(e => e["nomesProfissoes"] = e.profissoes.map(this.getNomeProfissao).join(', '))
+      this.dataSourceEntidade = new MatTableDataSource<Entidade>(response);
+      this.dataSourceEntidade.sort = this.sortEntidade;
+      this.dataSourceEntidade.paginator = this.paginatorEntidade;
+    });
   }
 
   selecionaEntidade(entidade: Entidade): void {
@@ -219,5 +219,15 @@ export class EntidadeComponent implements OnInit {
 
   getNomeProfissao(profissao: Profissao): string {
     return profissao.nome;
+  }
+
+  applyFilterProfissao(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceProfissao.filter = filterValue.trim().toLowerCase();
+  }
+
+  applyFilterEntidade(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceEntidade.filter = filterValue.trim().toLowerCase();
   }
 }
