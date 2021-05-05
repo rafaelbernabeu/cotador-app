@@ -579,12 +579,12 @@ export class TabelaComponent implements OnInit {
             tabelasFiltradas = tabelasFiltradas.filter(t => t.contemplaMEI === this.filtroTabela.contemplaMEI);
           }
 
-          if (this.filtroTabela.livreAdesao != null) {
-            tabelasFiltradas = tabelasFiltradas.filter(t => t.livreAdesao === this.filtroTabela.livreAdesao);
-          }
-
-          if (this.filtroTabela.compulsoria != null) {
-            tabelasFiltradas = tabelasFiltradas.filter(t => t.compulsoria === this.filtroTabela.compulsoria);
+          if (this.filtroTabela.tipoAdesao != null) {
+            if (this.filtroTabela.tipoAdesao === 'Livre Adesão') {
+              tabelasFiltradas = tabelasFiltradas.filter(t => t.livreAdesao);
+            } else if (this.filtroTabela.tipoAdesao === 'Compulsória') {
+              tabelasFiltradas = tabelasFiltradas.filter(t => t.compulsoria);
+            }
           }
         }
       }

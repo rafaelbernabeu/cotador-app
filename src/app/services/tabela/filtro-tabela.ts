@@ -7,6 +7,7 @@ import {Profissao} from "../profissao/profissao";
 export class FiltroTabela {
 
   nome: string = '';
+  tipoAdesao: string;
   tipoFiltro: string;
   idadeMinima: number;
   idadeMaxima: number;
@@ -22,6 +23,5 @@ export class FiltroTabela {
   operadoras: Operadora[] = [];
   profissoes: Profissao[] = [];
   administradoras: Administradora[] = [];
-
 
 }
