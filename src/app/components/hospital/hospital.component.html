@@ -14,7 +14,7 @@
       <br/>
 
       <mat-card-content style="width: 850px">
-        <mat-table style="width: 100%" [dataSource]="dataSourceHospital" matSort class="mat-elevation-z8">
+        <mat-table style="width: 100%" [dataSource]="dataSourceHospital" matSortActive="nome" matSortDirection="asc" matSort class="mat-elevation-z8">
           <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
             <mat-cell *matCellDef="let hospital" (click)="selecionaHospital(hospital)" class="mouse-pointer"> {{hospital.id}} </mat-cell>

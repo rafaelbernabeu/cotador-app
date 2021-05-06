@@ -18,7 +18,7 @@
           <mat-label>Filtro</mat-label>
           <input matInput (keyup)="applyFilterEntidade($event)" placeholder="Filtro" #inputFiltroEntidade>
         </mat-form-field>
-        <mat-table #entidadesSort="matSort" [dataSource]="dataSourceEntidade" matSort class="mat-elevation-z8">
+        <mat-table #entidadesSort="matSort" [dataSource]="dataSourceEntidade" matSortActive="nome" matSortDirection="asc" matSort class="mat-elevation-z8">
           <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
             <mat-cell *matCellDef="let entidade" (click)="selecionaEntidade(entidade)" class="mouse-pointer"> {{entidade.id}} </mat-cell>

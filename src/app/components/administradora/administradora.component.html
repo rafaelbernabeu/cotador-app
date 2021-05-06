@@ -14,7 +14,7 @@
       <br/>
 
       <mat-card-content>
-        <mat-table [dataSource]="dataSourceAdministradora" matSort class="mat-elevation-z8">
+        <mat-table [dataSource]="dataSourceAdministradora" matSortActive="nome" matSortDirection="asc" matSort class="mat-elevation-z8">
           <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
             <mat-cell *matCellDef="let administradora" (click)="selecionaAdministradora(administradora)" class="mouse-pointer"> {{administradora.id}} </mat-cell>
