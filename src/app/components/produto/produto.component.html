@@ -494,7 +494,7 @@
                     <input matInput (keyup)="applyFilterLaboratorio($event)" placeholder="Filtro" #inputFiltroLaboratorio>
                   </mat-form-field>
                   <div>
-                    <mat-table #sortLaboratorio="matSort" [dataSource]="dataSourceLaboratorio" matSort class="mat-elevation-z8">
+                    <mat-table #sortLaboratorio="matSort" [dataSource]="dataSourceLaboratorio" matSortActive="selected" matSortDirection="desc" matSort class="mat-elevation-z8">
                       <ng-container matColumnDef="idLaboratorio">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
                         <mat-cell *matCellDef="let laboratorio" (click)="laboratorio.selected = !laboratorio.selected" class="mouse-pointer"> {{laboratorio.id}} </mat-cell>
@@ -551,7 +551,7 @@
                     <input matInput (keyup)="applyFilterHospital($event)" placeholder="Filtro" #inputFiltroHospital>
                   </mat-form-field>
                   <div>
-                    <mat-table #sortHospital="matSort" [dataSource]="dataSourceHospital" matSort class="mat-elevation-z8">
+                    <mat-table #sortHospital="matSort" [dataSource]="dataSourceHospital" matSortActive="selected" matSortDirection="desc" matSort class="mat-elevation-z8">
                       <ng-container matColumnDef="idHospital">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
                         <mat-cell *matCellDef="let hospital" (click)="hospital.selected = !hospital.selected" class="mouse-pointer"> {{hospital.id}} </mat-cell>

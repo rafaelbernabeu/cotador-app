@@ -86,6 +86,7 @@ export class EntidadeComponent implements OnInit {
     this.entidadeSelecionada = entidade;
     this.entidadeEditando = {...entidade};
     this.carregaTabelaProfissao(this.entidadeSelecionada.profissoes);
+    this.editarEntidade();
   }
 
   editarEntidade(): void {

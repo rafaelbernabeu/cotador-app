@@ -135,7 +135,7 @@
             <input matInput (keyup)="applyFilterProfissao($event)" placeholder="Filtro" #inputFiltroProfissao>
           </mat-form-field>
           <div>
-            <mat-table #profissoesSort="matSort" [dataSource]="dataSourceProfissao" matSort class="mat-elevation-z8">
+            <mat-table #profissoesSort="matSort" [dataSource]="dataSourceProfissao" matSortActive="selected" matSortDirection="desc" matSort class="mat-elevation-z8">
               <ng-container matColumnDef="id">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
                 <mat-cell *matCellDef="let profissao" (click)="profissao.selected = !profissao.selected" class="mouse-pointer"> {{profissao.id}} </mat-cell>

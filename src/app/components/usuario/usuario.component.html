@@ -106,7 +106,7 @@
 
         <mat-card-content>
           <div>
-            <mat-table #rolesSort="matSort" [dataSource]="dataSourceRoles" matSort class="mat-elevation-z8">
+            <mat-table #rolesSort="matSort" [dataSource]="dataSourceRoles" matSortActive="selected" matSortDirection="desc" matSort class="mat-elevation-z8">
               <ng-container matColumnDef="id">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
                 <mat-cell *matCellDef="let role" (click)="role.selected = !role.selected" class="mouse-pointer"> {{role.id}} </mat-cell>
