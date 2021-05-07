@@ -178,7 +178,7 @@
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Nome</mat-label>
-            <input matInput (ngModelChange)="filtraProduto()" placeholder="Nome" [(ngModel)]="filtroProduto.nome">
+            <input matInput #inputFiltroNome (focusin)="inputFiltroNome.select()" (ngModelChange)="filtraProduto()" placeholder="Nome" [(ngModel)]="filtroProduto.nome">
           </mat-form-field>
 
           <mat-form-field appearance="outline" style="width: 100%">
@@ -222,36 +222,36 @@
 
             <mat-form-field appearance="outline" style="width: 70%">
               <mat-label>Reembolso</mat-label>
-              <input matInput [disabled]="!filtroProduto.tipoFiltro" (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.reembolso" type="number" placeholder="Reembolso">
+              <input matInput #inputFiltroReembolso (focusin)="inputFiltroReembolso.select()" [disabled]="!filtroProduto.tipoFiltro" (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.reembolso" type="number" placeholder="Reembolso">
             </mat-form-field>
           </div>
 
           <div>
             <mat-form-field appearance="outline" style="width: 50%">
               <mat-label>Exame Simples</mat-label>
-              <input matInput [disabled]="!filtroProduto.tipoFiltro" (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.coparticipacao.valorExameSimples" type="number" placeholder="Exame Simples">
+              <input matInput #inputFiltroExameSimples (focusin)="inputFiltroExameSimples.select()" [disabled]="!filtroProduto.tipoFiltro" (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.coparticipacao.valorExameSimples" type="number" placeholder="Exame Simples">
             </mat-form-field>
 
             <mat-form-field appearance="outline" style="width: 50%">
               <mat-label>Exame Especial</mat-label>
-              <input matInput [disabled]="!filtroProduto.tipoFiltro" (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.coparticipacao.valorExameEspecial" type="number" placeholder="Exame Especial">
+              <input matInput #inputFiltroExameEspecial (focusin)="inputFiltroExameEspecial.select()" [disabled]="!filtroProduto.tipoFiltro" (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.coparticipacao.valorExameEspecial" type="number" placeholder="Exame Especial">
             </mat-form-field>
           </div>
 
           <div>
             <mat-form-field appearance="outline" style="width: 33%">
               <mat-label>Pronto Socorro</mat-label>
-              <input matInput [disabled]="!filtroProduto.tipoFiltro" (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.coparticipacao.valorProntoSocorro" type="number" placeholder="Pronto Socorro">
+              <input matInput #inputFiltroProntoSocorro (focusin)="inputFiltroProntoSocorro.select()" [disabled]="!filtroProduto.tipoFiltro" (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.coparticipacao.valorProntoSocorro" type="number" placeholder="Pronto Socorro">
             </mat-form-field>
 
             <mat-form-field appearance="outline" style="width: 33%">
               <mat-label>Consulta</mat-label>
-              <input matInput [disabled]="!filtroProduto.tipoFiltro" (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.coparticipacao.valorConsulta" type="number" placeholder="Consulta">
+              <input matInput #inputFiltroConsulta (focusin)="inputFiltroConsulta.select()" [disabled]="!filtroProduto.tipoFiltro" (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.coparticipacao.valorConsulta" type="number" placeholder="Consulta">
             </mat-form-field>
 
             <mat-form-field appearance="outline" style="width: 33%">
                 <mat-label>Internaçao</mat-label>
-              <input matInput [disabled]="!filtroProduto.tipoFiltro" (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.coparticipacao.valorInternacao" type="number" placeholder="Internaçao">
+              <input matInput #inputFiltroInternacao (focusin)="inputFiltroInternacao.select()" [disabled]="!filtroProduto.tipoFiltro" (ngModelChange)="filtraProduto()" [(ngModel)]="filtroProduto.coparticipacao.valorInternacao" type="number" placeholder="Internaçao">
             </mat-form-field>
           </div>
 
@@ -302,7 +302,7 @@
 
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Operadora</mat-label>
-              <input matInput name="operadora" [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto" type="text" required>
+              <input matInput #inputOperadora (focusin)="inputOperadora.select()" name="operadora" [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto" type="text" required>
               <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
                 <mat-option *ngFor="let operadora of filteredOptions | async" [value]="operadora">
                   {{operadora.nome}}
@@ -312,7 +312,7 @@
 
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Nome</mat-label>
-              <input matInput placeholder="Nome" name="nome" [disabled]="!adicionandoProduto() && !editandoProduto()"
+              <input matInput #inputNome (focusin)="inputNome.select()" placeholder="Nome" name="nome" [disabled]="!adicionandoProduto() && !editandoProduto()"
                      [(ngModel)]="produtoEditando.nome" required>
             </mat-form-field>
 
@@ -325,13 +325,13 @@
 
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Reembolso</mat-label>
-              <input matInput name="reembolso" type="number" placeholder="Reembolso" [disabled]="!adicionandoProduto() && !editandoProduto()"
+              <input matInput #inputReembolso (focusin)="inputReembolso.select()" name="reembolso" type="number" placeholder="Reembolso" [disabled]="!adicionandoProduto() && !editandoProduto()"
                      [(ngModel)]="produtoEditando.reembolso" required>
             </mat-form-field>
 
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Observações</mat-label>
-              <textarea matInput name="observacao" placeholder="Observações" [disabled]="!adicionandoProduto() && !editandoProduto()"
+              <textarea matInput #inputObservacoes (focusin)="inputObservacoes.select()" name="observacao" placeholder="Observações" [disabled]="!adicionandoProduto() && !editandoProduto()"
                         [(ngModel)]="produtoEditando.observacao" maxlength="100"></textarea>
             </mat-form-field>
             <button type="submit" hidden></button>
@@ -372,7 +372,7 @@
                   <div>
                     <mat-form-field appearance="outline">
                       <mat-label>Percentual</mat-label>
-                      <input matInput name="percentualProntoSocorro" placeholder="Percentual" [disabled]="!editandoProduto() && !adicionandoProduto()"
+                      <input matInput #inputPercentProntoSocorro (focusin)="inputPercentProntoSocorro.select()" name="percentualProntoSocorro" placeholder="Percentual" [disabled]="!editandoProduto() && !adicionandoProduto()"
                              [(ngModel)]="produtoEditando.coparticipacao.percentualProntoSocorro">
                     </mat-form-field>
                   </div>
@@ -380,7 +380,7 @@
                   <div>
                     <mat-form-field appearance="outline">
                       <mat-label>Limite R$</mat-label>
-                      <input matInput name="valorProntoSocorro" placeholder="Limite R$" [disabled]="!editandoProduto() && !adicionandoProduto()"
+                      <input matInput #inputValorProntoSocorro (focusin)="inputValorProntoSocorro.select()" name="valorProntoSocorro" placeholder="Limite R$" [disabled]="!editandoProduto() && !adicionandoProduto()"
                              [(ngModel)]="produtoEditando.coparticipacao.valorProntoSocorro">
                     </mat-form-field>
                   </div>
@@ -393,7 +393,7 @@
                   <div>
                     <mat-form-field appearance="outline">
                       <mat-label>Percentual</mat-label>
-                      <input matInput name="percentualConsulta" placeholder="Percentual" [disabled]="!editandoProduto() && !adicionandoProduto()"
+                      <input matInput #inputPercentConsulta (focusin)="inputPercentConsulta.select()" name="percentualConsulta" placeholder="Percentual" [disabled]="!editandoProduto() && !adicionandoProduto()"
                              [(ngModel)]="produtoEditando.coparticipacao.percentualConsulta">
                     </mat-form-field>
                   </div>
@@ -401,7 +401,7 @@
                   <div>
                     <mat-form-field appearance="outline">
                       <mat-label>Limite R$</mat-label>
-                      <input matInput name="valorConsulta" placeholder="Limite R$" [disabled]="!editandoProduto() && !adicionandoProduto()"
+                      <input matInput #inputValorConsulta (focusin)="inputValorConsulta.select()" name="valorConsulta" placeholder="Limite R$" [disabled]="!editandoProduto() && !adicionandoProduto()"
                              [(ngModel)]="produtoEditando.coparticipacao.valorConsulta">
                     </mat-form-field>
                   </div>
@@ -414,7 +414,7 @@
                   <div>
                     <mat-form-field appearance="outline">
                       <mat-label>Percentual</mat-label>
-                      <input matInput name="percentualExameSimples" placeholder="Percentual" [disabled]="!editandoProduto() && !adicionandoProduto()"
+                      <input matInput #inputPercentExameSimples (focusin)="inputPercentExameSimples.select()" name="percentualExameSimples" placeholder="Percentual" [disabled]="!editandoProduto() && !adicionandoProduto()"
                              [(ngModel)]="produtoEditando.coparticipacao.percentualExameSimples">
                     </mat-form-field>
                   </div>
@@ -422,7 +422,7 @@
                   <div>
                     <mat-form-field appearance="outline">
                       <mat-label>Limite R$</mat-label>
-                      <input matInput name="valorExameSimples" placeholder="Limite R$" [disabled]="!editandoProduto() && !adicionandoProduto()"
+                      <input matInput #inputValorExameSimples (focusin)="inputValorExameSimples.select()" name="valorExameSimples" placeholder="Limite R$" [disabled]="!editandoProduto() && !adicionandoProduto()"
                              [(ngModel)]="produtoEditando.coparticipacao.valorExameSimples">
                     </mat-form-field>
                   </div>
@@ -435,7 +435,7 @@
                   <div>
                     <mat-form-field appearance="outline">
                       <mat-label>Percentual</mat-label>
-                      <input matInput name="percentualExameEspecial" placeholder="Percentual" [disabled]="!editandoProduto() && !adicionandoProduto()"
+                      <input matInput #inputPercentExameEspecial (focusin)="inputPercentExameEspecial.select()" name="percentualExameEspecial" placeholder="Percentual" [disabled]="!editandoProduto() && !adicionandoProduto()"
                              [(ngModel)]="produtoEditando.coparticipacao.percentualExameEspecial">
                     </mat-form-field>
                   </div>
@@ -443,7 +443,7 @@
                   <div>
                     <mat-form-field appearance="outline">
                       <mat-label>Limite R$</mat-label>
-                      <input matInput name="valorExameEspecial" placeholder="Limite R$" [disabled]="!editandoProduto() && !adicionandoProduto()"
+                      <input matInput #inputValorExameEspecial (focusin)="inputValorExameEspecial.select()" name="valorExameEspecial" placeholder="Limite R$" [disabled]="!editandoProduto() && !adicionandoProduto()"
                              [(ngModel)]="produtoEditando.coparticipacao.valorExameEspecial">
                     </mat-form-field>
                   </div>
@@ -456,7 +456,7 @@
                   <div>
                     <mat-form-field appearance="outline">
                       <mat-label>Percentual</mat-label>
-                      <input matInput name="percentualInternacao" placeholder="Percentual" [disabled]="!editandoProduto() && !adicionandoProduto()"
+                      <input matInput #inputPercentInternacao (focusin)="inputPercentInternacao.select()" name="percentualInternacao" placeholder="Percentual" [disabled]="!editandoProduto() && !adicionandoProduto()"
                              [(ngModel)]="produtoEditando.coparticipacao.percentualInternacao">
                     </mat-form-field>
                   </div>
@@ -464,7 +464,7 @@
                   <div>
                     <mat-form-field appearance="outline">
                       <mat-label>Limite R$</mat-label>
-                      <input matInput name="valorInternacao" placeholder="Limite R$" [disabled]="!editandoProduto() && !adicionandoProduto()"
+                      <input matInput #inputValorInternacao (focusin)="inputValorInternacao.select()" name="valorInternacao" placeholder="Limite R$" [disabled]="!editandoProduto() && !adicionandoProduto()"
                              [(ngModel)]="produtoEditando.coparticipacao.valorInternacao">
                     </mat-form-field>
                   </div>

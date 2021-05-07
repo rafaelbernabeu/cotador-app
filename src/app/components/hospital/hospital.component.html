@@ -75,12 +75,12 @@
           <form #formHospital="ngForm">
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Nome</mat-label>
-              <input matInput placeholder="Nome" name="nome" [disabled]="!adicionandoHospital() && !editandoHospital()"
+              <input matInput #inputNome (focusin)="inputNome.select()" placeholder="Nome" name="nome" [disabled]="!adicionandoHospital() && !editandoHospital()"
                      [(ngModel)]="hospitalEditando.nome" required>
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Local</mat-label>
-              <input matInput placeholder="Local" name="local" [disabled]="!adicionandoHospital() && !editandoHospital()"
+              <input matInput #inputLocal (focusin)="inputLocal.select()" placeholder="Local" name="local" [disabled]="!adicionandoHospital() && !editandoHospital()"
                      [(ngModel)]="hospitalEditando.local" required  >
             </mat-form-field>
             <button type="submit" hidden></button>

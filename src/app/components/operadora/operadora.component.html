@@ -75,12 +75,12 @@
           <form #operadoraForm="ngForm">
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Nome</mat-label>
-              <input matInput placeholder="Nome" name="nome" [disabled]="!adicionandoOperadora() && !editandoOperadora()"
+              <input matInput #inputNome (focusin)="inputNome.select()" placeholder="Nome" name="nome" [disabled]="!adicionandoOperadora() && !editandoOperadora()"
                      [(ngModel)]="operadoraEditando.nome" required>
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Cor</mat-label>
-              <input matInput placeholder="Cor" name="cor" [(ngModel)]="operadoraEditando.cor" [(colorPicker)]="operadoraEditando.cor"
+              <input matInput #inputCor (focusin)="inputCor.select()" placeholder="Cor" name="cor" [(ngModel)]="operadoraEditando.cor" [(colorPicker)]="operadoraEditando.cor"
                      [disabled]="!adicionandoOperadora() && !editandoOperadora()"
                      [style.color]="operadoraEditando.cor" required/>
             </mat-form-field>

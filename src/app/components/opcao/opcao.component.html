@@ -289,31 +289,31 @@
 
             <mat-form-field appearance="outline" style="width: 70%">
               <mat-label>Reembolso</mat-label>
-              <input matInput [disabled]="!filtroOpcao.tipoFiltro" (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.reembolso" type="number" placeholder="Reembolso">
+              <input matInput #inputFiltroReembolso (focusin)="inputFiltroReembolso.select()" [disabled]="!filtroOpcao.tipoFiltro" (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.reembolso" type="number" placeholder="Reembolso">
             </mat-form-field>
           </div>
 
           <div>
             <mat-form-field appearance="outline" style="width: 50%">
               <mat-label>Idade Min.</mat-label>
-              <input matInput [disabled]="!filtroOpcao.tipoFiltro" (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.idadeMinima" type="number" placeholder="Idade Min.">
+              <input matInput #inputFiltroIdadeMin (focusin)="inputFiltroIdadeMin.select()" [disabled]="!filtroOpcao.tipoFiltro" (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.idadeMinima" type="number" placeholder="Idade Min.">
             </mat-form-field>
 
             <mat-form-field appearance="outline" style="width: 50%">
               <mat-label>Idade Max</mat-label>
-              <input matInput [disabled]="!filtroOpcao.tipoFiltro" (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.idadeMaxima" type="number" placeholder="Idade Max.">
+              <input matInput #inputFiltroIdadeMax (focusin)="inputFiltroIdadeMax.select()" [disabled]="!filtroOpcao.tipoFiltro" (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.idadeMaxima" type="number" placeholder="Idade Max.">
             </mat-form-field>
           </div>
 
           <div>
             <mat-form-field appearance="outline" style="width: 50%">
               <mat-label>Qtd. Min. Vidas</mat-label>
-              <input matInput [disabled]="!filtroOpcao.tipoFiltro" (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.qtdMinVidas" type="number" placeholder="Qtd. Min. Vidas">
+              <input matInput #inputFiltroQtdMinVidas (focusin)="inputFiltroQtdMinVidas.select()" [disabled]="!filtroOpcao.tipoFiltro" (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.qtdMinVidas" type="number" placeholder="Qtd. Min. Vidas">
             </mat-form-field>
 
             <mat-form-field appearance="outline" style="width: 50%">
               <mat-label>Qtd. Min. Titulares<Titulares></Titulares></mat-label>
-              <input matInput [disabled]="!filtroOpcao.tipoFiltro" (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.qtdMinTitulares" type="number" placeholder="Qtd. Min. Titulares">
+              <input matInput #inputFiltroQtdMinTitulares (focusin)="inputFiltroQtdMinTitulares.select()" [disabled]="!filtroOpcao.tipoFiltro" (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.qtdMinTitulares" type="number" placeholder="Qtd. Min. Titulares">
             </mat-form-field>
           </div>
 
@@ -378,7 +378,7 @@
 
                 <mat-form-field (keypress)="handleKeyboardEventEstadoInput($event, operadora)" appearance="outline" style="width: 100%">
                   <mat-label>Estado</mat-label>
-                  <input name="estado" matInput (ngModelChange)="modelChangeEstado()" [formControl]="estadoAutoCompleteControl" [matAutocomplete]="auto1" type="text" required>
+                  <input name="estado" #inputEstado (focusin)="inputEstado.select()" matInput (ngModelChange)="modelChangeEstado()" [formControl]="estadoAutoCompleteControl" [matAutocomplete]="auto1" type="text" required>
                   <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" [displayWith]="estadoDisplayFn">
                     <mat-option *ngFor="let estado of estadoFilteredOptions | async" [value]="estado">
                       {{estado.nome}}
@@ -388,7 +388,7 @@
 
                 <mat-form-field (keypress)="handleKeyboardEventForm($event, operadora)" *ngIf="isCategoriaAdesao()" appearance="outline" style="width: 100%">
                   <mat-label>Administradora</mat-label>
-                  <input #administradora name="administradora" matInput (ngModelChange)="modelChangeAdministradora()" [formControl]="administradoraAutoCompleteControl" [matAutocomplete]="auto2" type="text" [required]="isCategoriaAdesao()">
+                  <input #administradora (focusin)="administradora.select()" name="administradora" matInput (ngModelChange)="modelChangeAdministradora()" [formControl]="administradoraAutoCompleteControl" [matAutocomplete]="auto2" type="text" [required]="isCategoriaAdesao()">
                   <mat-autocomplete autoActiveFirstOption #auto2="matAutocomplete" [displayWith]="administradoraDisplayFn">
                     <mat-option *ngFor="let administradora of administradoraFilteredOptions | async" [value]="administradora">
                       {{administradora.nome}}
@@ -398,7 +398,7 @@
 
                 <mat-form-field (keypress)="handleKeyboardEventForm($event, tabela)" appearance="outline" style="width: 100%">
                   <mat-label>Operadora</mat-label>
-                  <input #operadora name="operadora" matInput (ngModelChange)="modelChangeOperadora()" [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto3" type="text" required>
+                  <input #operadora (focusin)="operadora.select()" name="operadora" matInput (ngModelChange)="modelChangeOperadora()" [formControl]="operadoraAutoCompleteControl" [matAutocomplete]="auto3" type="text" required>
                   <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete" [displayWith]="operadoraDisplayFn">
                     <mat-option *ngFor="let operadora of operadoraFilteredOptions | async" [value]="operadora">
                       {{operadora.nome}}
@@ -408,7 +408,7 @@
 
                 <mat-form-field (keypress)="handleKeyboardEventForm($event, produto)" appearance="outline" style="width: 100%">
                   <mat-label>Tabela</mat-label>
-                  <input #tabela name="tabela" matInput (ngModelChange)="modelChangeTabela()" [formControl]="tabelaAutoCompleteControl" [matAutocomplete]="auto4" type="text" required>
+                  <input #tabela (focusin)="tabela.select()" name="tabela" matInput (ngModelChange)="modelChangeTabela()" [formControl]="tabelaAutoCompleteControl" [matAutocomplete]="auto4" type="text" required>
                   <mat-autocomplete autoActiveFirstOption #auto4="matAutocomplete" [displayWith]="tabelaDisplayFn">
                     <mat-option *ngFor="let tabela of tabelaFilteredOptions | async" [value]="tabela">
                       <span *ngIf="isCategoriaAdesao() && tabelaAutoCompleteControl.enabled">
@@ -431,7 +431,7 @@
               <mat-card-content>
                 <mat-form-field (keypress)="handleKeyboardEventForm($event, valor0a18anos)" appearance="outline" style="width: 100%">
                   <mat-label>Produto</mat-label>
-                  <input #produto name="produto" matInput [formControl]="produtoAutoCompleteControl" [matAutocomplete]="auto5" type="text" required>
+                  <input #produto (focusin)="produto.select()" name="produto" matInput [formControl]="produtoAutoCompleteControl" [matAutocomplete]="auto5" type="text" required>
                   <mat-autocomplete autoActiveFirstOption #auto5="matAutocomplete" [displayWith]="produtoDisplayFn">
                     <mat-option *ngFor="let produto of produtoFilteredOptions | async" [value]="produto">
                       {{produto.nome}}
@@ -459,54 +459,54 @@
                 <div>
                   <mat-form-field (keypress)="handleKeyboardEventForm($event, valor19a23anos)" appearance="outline" style="width: 20%">
                     <mat-label>0 a 18</mat-label>
-                    <input #valor0a18anos (focus)="valor0a18anos.select()" name="valor0a18anos" type="number" matInput placeholder="0 a 18" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                    <input #valor0a18anos (focusin)="valor0a18anos.select()" name="valor0a18anos" type="number" matInput placeholder="0 a 18" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                            [(ngModel)]="opcaoEditando.valor0a18anos" required>
                   </mat-form-field>
                   <mat-form-field (keypress)="handleKeyboardEventForm($event, valor24a28anos)" appearance="outline" style="width: 20%">
                     <mat-label>19 a 23</mat-label>
-                    <input #valor19a23anos (focus)="valor19a23anos.select()" name="valor19a23anos" type="number" matInput placeholder="19 a 23" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                    <input #valor19a23anos (focusin)="valor19a23anos.select()" name="valor19a23anos" type="number" matInput placeholder="19 a 23" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                            [(ngModel)]="opcaoEditando.valor19a23anos" required>
                   </mat-form-field>
                   <mat-form-field (keypress)="handleKeyboardEventForm($event, valor29a33anos)" appearance="outline" style="width: 20%">
                     <mat-label>24 a 28</mat-label>
-                    <input #valor24a28anos (focus)="valor24a28anos.select()" name="valor24a28anos" type="number" matInput placeholder="24 a 28" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                    <input #valor24a28anos (focusin)="valor24a28anos.select()" name="valor24a28anos" type="number" matInput placeholder="24 a 28" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                            [(ngModel)]="opcaoEditando.valor24a28anos" required>
                   </mat-form-field>
                   <mat-form-field (keypress)="handleKeyboardEventForm($event, valor34a38anos)" appearance="outline" style="width: 20%">
                     <mat-label>29 a 33</mat-label>
-                    <input #valor29a33anos (focus)="valor29a33anos.select()" name="valor29a33anos" type="number" matInput placeholder="29 a 33" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                    <input #valor29a33anos (focusin)="valor29a33anos.select()" name="valor29a33anos" type="number" matInput placeholder="29 a 33" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                            [(ngModel)]="opcaoEditando.valor29a33anos" required>
                   </mat-form-field>
                   <mat-form-field (keypress)="handleKeyboardEventForm($event, valor39a43anos)" appearance="outline" style="width: 20%">
                     <mat-label>34 a 38</mat-label>
-                    <input #valor34a38anos (focus)="valor34a38anos.select()" name="valor34a38anos" type="number" matInput placeholder="34 a 38" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                    <input #valor34a38anos (focusin)="valor34a38anos.select()" name="valor34a38anos" type="number" matInput placeholder="34 a 38" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                            [(ngModel)]="opcaoEditando.valor34a38anos" required>
                   </mat-form-field>
                 </div>
                 <div>
                   <mat-form-field (keypress)="handleKeyboardEventForm($event, valor44a48anos)" appearance="outline" style="width: 20%">
                     <mat-label>39 a 43</mat-label>
-                    <input #valor39a43anos (focus)="valor39a43anos.select()" name="valor39a43anos" type="number" matInput placeholder="39 a 43" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                    <input #valor39a43anos (focusin)="valor39a43anos.select()" name="valor39a43anos" type="number" matInput placeholder="39 a 43" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                            [(ngModel)]="opcaoEditando.valor39a43anos" required>
                   </mat-form-field>
                   <mat-form-field (keypress)="handleKeyboardEventForm($event, valor49a53anos)" appearance="outline" style="width: 20%">
                     <mat-label>44 a 48</mat-label>
-                    <input #valor44a48anos (focus)="valor44a48anos.select()" name="valor44a48anos" type="number" matInput placeholder="44 a 48" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                    <input #valor44a48anos (focusin)="valor44a48anos.select()" name="valor44a48anos" type="number" matInput placeholder="44 a 48" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                            [(ngModel)]="opcaoEditando.valor44a48anos" required>
                   </mat-form-field>
                   <mat-form-field (keypress)="handleKeyboardEventForm($event, valor54a58anos)" appearance="outline" style="width: 20%">
                     <mat-label>49 a 53</mat-label>
-                    <input #valor49a53anos (focus)="valor49a53anos.select()" name="valor49a53anos" type="number" matInput placeholder="49 a 53" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                    <input #valor49a53anos (focusin)="valor49a53anos.select()" name="valor49a53anos" type="number" matInput placeholder="49 a 53" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                            [(ngModel)]="opcaoEditando.valor49a53anos" required>
                   </mat-form-field>
                   <mat-form-field (keypress)="handleKeyboardEventForm($event, valor59ouMaisAnos)" appearance="outline" style="width: 20%">
                     <mat-label>54 a 58</mat-label>
-                    <input #valor54a58anos (focus)="valor54a58anos.select()" name="valor54a58anos" type="number" matInput placeholder="54 a 58" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                    <input #valor54a58anos (focusin)="valor54a58anos.select()" name="valor54a58anos" type="number" matInput placeholder="54 a 58" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                            [(ngModel)]="opcaoEditando.valor54a58anos" required>
                   </mat-form-field>
                   <mat-form-field (keypress)="handleKeyboardEventForm($event, valor59ouMaisAnos)" appearance="outline" style="width: 20%">
                     <mat-label>59 ou +</mat-label>
-                    <input #valor59ouMaisAnos (focus)="valor59ouMaisAnos.select()" name="valor59ouMaisAnos" type="number" matInput placeholder="59 ou +" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
+                    <input #valor59ouMaisAnos (focusin)="valor59ouMaisAnos.select()" name="valor59ouMaisAnos" type="number" matInput placeholder="59 ou +" [disabled]="!adicionandoOpcao() && !editandoOpcao()"
                            [(ngModel)]="opcaoEditando.valor59ouMaisAnos" required>
                   </mat-form-field>
                 </div>

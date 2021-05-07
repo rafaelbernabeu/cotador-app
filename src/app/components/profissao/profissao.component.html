@@ -70,7 +70,7 @@
           <form #profissaoForm="ngForm">
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Nome</mat-label>
-              <input matInput placeholder="Nome" name="nome" [disabled]="!adicionandoProfissao() && !editandoProfissao()"
+              <input matInput #inputNome (focusin)="inputNome.select()" placeholder="Nome" name="nome" [disabled]="!adicionandoProfissao() && !editandoProfissao()"
                      [(ngModel)]="profissaoEditando.nome" required>
             </mat-form-field>
             <button type="submit" hidden></button>

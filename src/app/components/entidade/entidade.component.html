@@ -98,22 +98,22 @@
           <form #formEntidade="ngForm">
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Nome</mat-label>
-              <input matInput placeholder="Nome" name="nome" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
+              <input matInput #inputNome (focusin)="inputNome.select()" placeholder="Nome" name="nome" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
                      [(ngModel)]="entidadeEditando.nome" required>
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Valor Associação</mat-label>
-              <input matInput placeholder="Valor Associação" name="valorAssociacao" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
+              <input matInput #inputValorAssociacao (focusin)="inputValorAssociacao.select()" placeholder="Valor Associação" name="valorAssociacao" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
                      [(ngModel)]="entidadeEditando.valorAssociacao">
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Documentação</mat-label>
-              <textarea matInput placeholder="Documentação" name="documentacao" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
+              <textarea matInput #inputDocumentacao (focusin)="inputDocumentacao.select()" placeholder="Documentação" name="documentacao" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
                      [(ngModel)]="entidadeEditando.documentacao"></textarea>
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Observações</mat-label>
-              <textarea matInput placeholder="Observações" name="observacoes" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
+              <textarea matInput #inputObservacoes (focusin)="inputObservacoes.select()" placeholder="Observações" name="observacoes" [disabled]="!adicionandoEntidade() && !editandoEntidade()"
                      [(ngModel)]="entidadeEditando.observacoes"></textarea>
             </mat-form-field>
             <button type="submit" hidden></button>

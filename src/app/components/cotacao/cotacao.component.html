@@ -2,7 +2,6 @@
 
   <div>
     <mat-card>
-
       <mat-card-title>
         <span>
           Cotação
@@ -42,7 +41,7 @@
           <div>
             <mat-form-field appearance="outline" [style.width]="isCotacaoEmpresarial() ? '25%' : '33.3%'">
               <mat-label>Estado</mat-label>
-              <input matInput name="estado" [formControl]="estadoAutoCompleteControl" [matAutocomplete]="auto1" type="text">
+              <input matInput name="estado" #inputEstado (focusin)="inputEstado.select()" [formControl]="estadoAutoCompleteControl" [matAutocomplete]="auto1" type="text">
               <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete" [displayWith]="estadoDisplayFn">
                 <mat-option *ngFor="let estado of estadoFilteredOptions | async" [value]="estado">
                   {{estado.nome}}
@@ -210,7 +209,6 @@
 <div *ngIf="todasOpcoes?.length > 0" style="height: 20px"></div>
 
 <div [hidden]="!(todasOpcoes?.length > 0)">
-
   <mat-card>
     <mat-card-title>Resultados Consulta</mat-card-title>
     <div style="text-align: right; padding-bottom: 10px;">

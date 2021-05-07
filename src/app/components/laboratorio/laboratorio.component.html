@@ -75,12 +75,12 @@
           <form #formLaboratorio="ngForm">
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Nome</mat-label>
-              <input matInput placeholder="Nome" name="nome" [disabled]="!adicionandoLaboratorio() && !editandoLaboratorio()"
+              <input matInput #inputNome (focusin)="inputNome.select()" placeholder="Nome" name="nome" [disabled]="!adicionandoLaboratorio() && !editandoLaboratorio()"
                      [(ngModel)]="laboratorioEditando.nome" required>
             </mat-form-field>
             <mat-form-field appearance="outline" style="width: 100%">
               <mat-label>Local</mat-label>
-              <input matInput placeholder="Local" name="local" [disabled]="!adicionandoLaboratorio() && !editandoLaboratorio()"
+              <input matInput #inputLocal (focusin)="inputLocal.select()" placeholder="Local" name="local" [disabled]="!adicionandoLaboratorio() && !editandoLaboratorio()"
                      [(ngModel)]="laboratorioEditando.local" required>
             </mat-form-field>
             <button type="submit" hidden></button>
