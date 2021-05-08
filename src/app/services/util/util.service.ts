@@ -8,10 +8,6 @@ export class UtilService {
 
   constructor() { }
 
-  public static isFormInvalido(...models: NgModel[]): boolean {
-    return models.some(m => m.invalid && (m.dirty || m.touched))
-  }
-
   public getDate(dataHora: any): Date {
     return new Date(dataHora[0], (dataHora[1] - 1), dataHora[2], dataHora[3], dataHora[4], dataHora[5]);
   }
