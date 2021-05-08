@@ -175,7 +175,7 @@ export class CotacaoComponent implements OnInit {
             this.filtroCotacao.profissoes = this.todasProfissoes.filter(p => response.profissoes?.filter(rp => p.id === rp.id)?.length);
             this.filtroCotacao.administradoras = this.todasAdministradoras.filter(p => response.administradoras?.filter(ra => p.id === ra.id)?.length);
 
-            this.estadoAutoCompleteControl.setValue(response.estado == null ? '' : response.estado);
+            this.estadoAutoCompleteControl.setValue(response.estado ? '' : response.estado);
             this.configuraQtdVidas();
             setTimeout(() => this.consultaCotacao());
           } else {
@@ -456,12 +456,14 @@ export class CotacaoComponent implements OnInit {
   }
 
   private iniciaAutoCompletes(): void {
+    this.estadoAutoCompleteControl.setValue('');
     this.estadoFilteredOptions = this.estadoAutoCompleteControl.valueChanges.pipe(
       startWith(''),
       map(value => typeof value === 'string' ? value : value.name),
       map(value => this.estadoFilterAutoComplete(value))
     );
 
+    this.profissaoAutoCompleteControl.setValue('');
     this.profissoesFilteredOptions = this.profissaoAutoCompleteControl.valueChanges.pipe(
       startWith(''),
       map(value => typeof value === 'string' ? value : value.name),
@@ -672,7 +674,7 @@ export class CotacaoComponent implements OnInit {
   }
 
   configuraQtdVidas(): void {
-    let vidas = this.filtroCotacao.titulares.concat(this.filtroCotacao.dependentes);
+    const vidas = this.filtroCotacao.titulares.concat(this.filtroCotacao.dependentes);
 
     this.filtroCotacao.qtdVidas0a18anos = vidas.filter(n => n >= 0 && n <= 18).length;
     this.filtroCotacao.qtdVidas19a23anos = vidas.filter(n => n >= 19 && n <= 23).length
