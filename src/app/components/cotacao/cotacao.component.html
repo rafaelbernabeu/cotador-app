@@ -6,21 +6,6 @@
         <span>
           Cotação
         </span>
-        <span style="float: right">
-          <span *ngIf="!isBloquearInputs()" (click)="consultaCotacao()" class="mouse-pointer" style="font-size: initial">
-            <span style="vertical-align: super"> Cotar </span>
-            <a><mat-icon>search</mat-icon></a>
-          </span>
-          <span *ngIf="isBloquearInputs()" (click)="desbloquearInputs()" class="mouse-pointer" style="padding-left: 10px;">
-            <a><mat-icon>create</mat-icon></a>
-          </span>
-          <span *ngIf="cotacao?.id && !isBloquearInputs()" (click)="limpar()" class="mouse-pointer" style="padding-left: 10px;">
-            <a><mat-icon>cleaning_services</mat-icon></a>
-          </span>
-          <span *ngIf="cotacao?.id && isBloquearInputs()" (click)="copiarLink()" class="mouse-pointer" style="padding-left: 10px;">
-            <a><mat-icon>add_link</mat-icon></a>
-          </span>
-        </span>
       </mat-card-title>
       <mat-card-content>
         <form #formCotacao="ngForm" (submit)="consultaCotacao()">
@@ -190,12 +175,29 @@
             </mat-form-field>
           </div>
 
-          <div style="text-align: center">
-            <span>
-              <mat-slide-toggle name="melhorPrecoProduto" (ngModelChange)="modelChangeMelhorPreco()" [(ngModel)]="melhorPrecoProduto" labelPosition="before">Melhor Preço</mat-slide-toggle>
+          <div style="display: flex; width: 100%">
+            <span style="text-align: right; width: 50%; padding-right: 50px">
+              <span>
+                <mat-slide-toggle name="melhorPrecoProduto" (ngModelChange)="modelChangeMelhorPreco()" [(ngModel)]="melhorPrecoProduto" labelPosition="before">Melhor Preço</mat-slide-toggle>
+              </span>
+              <span style="padding-left: 20px">
+                <mat-slide-toggle name="modoCliente" (ngModelChange)="alteraModo($event)" [(ngModel)]="modoCliente" labelPosition="before">Modo Cliente</mat-slide-toggle>
+              </span>
             </span>
-            <span style="padding-left: 20px">
-              <mat-slide-toggle name="modoCliente" (ngModelChange)="alteraModo($event)" [(ngModel)]="modoCliente" labelPosition="before">Modo Cliente</mat-slide-toggle>
+            <span style="text-align: left; width: 50%; padding-left: 50px">
+              <span *ngIf="!isBloquearInputs()" (click)="consultaCotacao()" class="mouse-pointer" style="font-size: initial">
+                <span style="vertical-align: super"> Cotar </span>
+                <a><mat-icon>search</mat-icon></a>
+              </span>
+              <span *ngIf="isBloquearInputs()" (click)="desbloquearInputs()" class="mouse-pointer" style="padding-left: 10px;">
+                <a><mat-icon>create</mat-icon></a>
+              </span>
+              <span *ngIf="cotacao?.id && !isBloquearInputs()" (click)="limpar()" class="mouse-pointer" style="padding-left: 10px;">
+                <a><mat-icon>cleaning_services</mat-icon></a>
+              </span>
+              <span *ngIf="cotacao?.id && isBloquearInputs()" (click)="copiarLink()" class="mouse-pointer" style="padding-left: 10px;">
+                <a><mat-icon>add_link</mat-icon></a>
+              </span>
             </span>
           </div>
           <button type="submit" hidden></button>
