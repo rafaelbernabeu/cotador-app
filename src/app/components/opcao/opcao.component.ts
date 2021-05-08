@@ -709,9 +709,20 @@ export class OpcaoComponent implements OnInit {
       if (this.filtroOpcao.categoria) {
         opcoesFiltradas = opcoesFiltradas.filter(op => op.tabela.categoria === this.filtroOpcao.categoria);
 
-        if (this.filtroOpcao.categoria === 'Adesão' && this.filtroOpcao.administradoras.length) {
-          opcoesFiltradas = opcoesFiltradas.filter(op => this.filtroOpcao.administradoras.filter(adm => op.tabela.administradora && adm.id === op.tabela.administradora.id).length);
+        if (this.filtroOpcao.categoria === 'Adesão') {
+
+
+          if (this.filtroOpcao.administradoras.length) {
+            opcoesFiltradas = opcoesFiltradas.filter(op => this.filtroOpcao.administradoras.filter(adm => op.tabela.administradora && adm.id === op.tabela.administradora.id).length);
+          }
+          if (this.filtroOpcao.profissoes.length) {
+            opcoesFiltradas = opcoesFiltradas.filter(op => op.tabela.entidades.filter(e => e.profissoes.filter(p => this.filtroOpcao.profissoes.filter(fp => p.id === fp.id).length).length).length);
+          }
+
+
         } else if (this.filtroOpcao.categoria === 'Empresarial') {
+
+
           if (typeof this.filtroOpcao.mei === 'boolean') {
             opcoesFiltradas = opcoesFiltradas.filter(op => op.tabela.contemplaMEI === this.filtroOpcao.mei);
           }
@@ -722,6 +733,8 @@ export class OpcaoComponent implements OnInit {
               opcoesFiltradas = opcoesFiltradas.filter(op => op.tabela.compulsoria);
             }
           }
+
+
         }
       }
 
@@ -747,10 +760,6 @@ export class OpcaoComponent implements OnInit {
 
       if (this.filtroOpcao.produtos.length) {
         opcoesFiltradas = opcoesFiltradas.filter(op => this.filtroOpcao.produtos.filter(p => p.id === op.produto.id).length);
-      }
-
-      if (this.filtroOpcao.profissoes.length) {
-        opcoesFiltradas = opcoesFiltradas.filter(op => op.tabela.entidades.filter(e => e.profissoes.filter(p => this.filtroOpcao.profissoes.filter(fp => p.id === fp.id).length).length).length);
       }
 
       if (this.filtroOpcao.abrangencia) {
