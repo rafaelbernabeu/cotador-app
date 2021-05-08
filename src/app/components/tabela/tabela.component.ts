@@ -571,9 +571,19 @@ export class TabelaComponent implements OnInit {
       if (this.filtroTabela.categoria) {
         tabelasFiltradas = tabelasFiltradas.filter(t => t.categoria === this.filtroTabela.categoria);
 
-        if (this.filtroTabela.categoria === 'Adesão' && this.filtroTabela.administradoras.length) {
+        if (this.filtroTabela.categoria === 'Adesão') {
+
+
+          if (this.filtroTabela.administradoras.length) {
             tabelasFiltradas = tabelasFiltradas.filter(t => t.administradora).filter(t => this.filtroTabela.administradoras.filter(adm => adm.id === t.administradora.id).length);
+          }
+          if (this.filtroTabela.profissoes.length) {
+            tabelasFiltradas = tabelasFiltradas.filter(t => t.entidades.filter(e => e.profissoes.filter(p => this.filtroTabela.profissoes.filter(fp => p.id === fp.id).length).length).length);
+          }
+
+
         } else if (this.filtroTabela.categoria === 'Empresarial') {
+
 
           if (this.filtroTabela.contemplaMEI != null && typeof this.filtroTabela.contemplaMEI === 'boolean') {
             tabelasFiltradas = tabelasFiltradas.filter(t => t.contemplaMEI === this.filtroTabela.contemplaMEI);
@@ -586,6 +596,8 @@ export class TabelaComponent implements OnInit {
               tabelasFiltradas = tabelasFiltradas.filter(t => t.compulsoria);
             }
           }
+
+
         }
       }
 
@@ -603,10 +615,6 @@ export class TabelaComponent implements OnInit {
 
       if (this.filtroTabela.reajustes.length) {
         tabelasFiltradas = tabelasFiltradas.filter(t => this.filtroTabela.reajustes.filter(r => r === t.reajuste).length);
-      }
-
-      if (this.filtroTabela.profissoes.length) {
-        tabelasFiltradas = tabelasFiltradas.filter(t => t.entidades.filter(e => e.profissoes.filter(p => this.filtroTabela.profissoes.filter(fp => p.id === fp.id).length).length).length);
       }
 
       if (this.filtroTabela.tipoFiltro) {
