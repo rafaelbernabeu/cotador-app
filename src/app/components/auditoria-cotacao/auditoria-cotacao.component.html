@@ -1,2 +1,45 @@
-<br/>
-<p>Auditoria cotaçao is under construction, come back soon!</p>
+<div>
+  <div style="padding-top: 30px">
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>Período da pesquisa</mat-label>
+      <mat-date-range-input [rangePicker]="picker" [formGroup]="datasSelecionadas" required>
+        <input matStartDate formControlName="dataInicio" placeholder="Data início" required>
+        <input matEndDate (dateChange)="carregaCotacoes()" formControlName="dataFim" placeholder="Data fim" required>
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <br/>
+
+    <mat-table [dataSource]="dataSourceCotacao" matSort class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+        <mat-cell *matCellDef="let cotacao" class="mouse-pointer"> {{cotacao.id}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="usuario">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </mat-header-cell>
+        <mat-cell *matCellDef="let cotacao" class="mouse-pointer"> {{cotacao.usuario.email}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="link">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Link </mat-header-cell>
+        <mat-cell *matCellDef="let cotacao" class="mouse-pointer">
+          <a target="_blank" [routerLink]="'/cotacao/' + cotacao.id" >
+              Link Cotação
+          </a>
+        </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="dataHora">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Data </mat-header-cell>
+        <mat-cell *matCellDef="let cotacao" class="mouse-pointer"> {{ getDate(cotacao.dataHora) | date: 'medium' }} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[100, 500, 1000]" [length]="dataSourceCotacao.data.length" showFirstLastButtons></mat-paginator>
+  </div>
+</div>
