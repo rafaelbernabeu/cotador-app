@@ -6,6 +6,7 @@ import {Observable} from "rxjs";
 import {AuditoriaLogin} from "./auditoria-login";
 import {AuditoriaCotacao} from "./auditoria-cotacao";
 import {AuditoriaAlteracao} from "./auditoria-alteracao";
+import {ConsultaAuditoria} from "./consulta-auditoria";
 
 @Injectable({
   providedIn: 'root'
@@ -18,16 +19,16 @@ export class AuditoriaService {
     private api: ApiService,
   ) { }
 
-  public getAllLogins(): Observable<AuditoriaLogin[]> {
-    return this.http.get<AuditoriaLogin[]>(this.getLoginApiUrl(), this.authServie.getTokenHeader());
+  public getAllLogins(consultaAuditoria: ConsultaAuditoria): Observable<AuditoriaLogin[]> {
+    return this.http.post<AuditoriaLogin[]>(this.getLoginApiUrl(), consultaAuditoria, this.authServie.getTokenHeader());
   }
 
-  public getAllCotacoes(): Observable<AuditoriaCotacao[]> {
-    return this.http.get<AuditoriaCotacao[]>(this.getCotacaoApiUrl(), this.authServie.getTokenHeader());
+  public getAllCotacoes(consultaAuditoria: ConsultaAuditoria): Observable<AuditoriaCotacao[]> {
+    return this.http.post<AuditoriaCotacao[]>(this.getCotacaoApiUrl(), consultaAuditoria, this.authServie.getTokenHeader());
   }
 
-  public getAllAlteracoes(): Observable<AuditoriaAlteracao[]> {
-    return this.http.get<AuditoriaAlteracao[]>(this.getAlteracaoApiUrl(), this.authServie.getTokenHeader());
+  public getAllAlteracoes(consultaAuditoria: ConsultaAuditoria): Observable<AuditoriaAlteracao[]> {
+    return this.http.post<AuditoriaAlteracao[]>(this.getAlteracaoApiUrl(), consultaAuditoria, this.authServie.getTokenHeader());
   }
 
   private getLoginApiUrl(): string {

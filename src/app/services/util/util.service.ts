@@ -8,7 +8,7 @@ export class UtilService {
 
   constructor() { }
 
-  public getDate(dataHora: any): Date {
+  public static getDate(dataHora: any): Date {
     return new Date(dataHora[0], (dataHora[1] - 1), dataHora[2], dataHora[3], dataHora[4], dataHora[5]);
   }
 
