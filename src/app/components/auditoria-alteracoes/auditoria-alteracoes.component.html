@@ -1,2 +1,53 @@
-<br/>
-<p>Auditoria alteraçoes is under construction, come back soon!</p>
+<div>
+  <div style="padding-top: 30px">
+    <mat-form-field appearance="outline" style="width: 100%">
+      <mat-label>Período da pesquisa</mat-label>
+      <mat-date-range-input [rangePicker]="picker" [formGroup]="datasSelecionadas" required>
+        <input matStartDate formControlName="dataInicio" placeholder="Data início" required>
+        <input matEndDate (dateChange)="carregaAlteracoes()" formControlName="dataFim" placeholder="Data fim" required>
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <br/>
+
+    <mat-table [dataSource]="dataSourceAlteracao" matSort class="mat-elevation-z8">
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
+        <mat-cell *matCellDef="let alteracao" class="mouse-pointer"> {{alteracao.id}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="usuario">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </mat-header-cell>
+        <mat-cell *matCellDef="let alteracao" class="mouse-pointer"> {{alteracao.usuario}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="tipoEntidade">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Tipo Entidade </mat-header-cell>
+        <mat-cell *matCellDef="let alteracao" class="mouse-pointer"> {{alteracao.tipoEntidade}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="tipoAlteracao">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Tipo Alteraçao </mat-header-cell>
+        <mat-cell *matCellDef="let alteracao" class="mouse-pointer"> {{alteracao.tipoAlteracao}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="idEntidade">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Id Entidade </mat-header-cell>
+        <mat-cell *matCellDef="let alteracao" class="mouse-pointer"> {{alteracao.idEntidade}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="dataHora">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Data </mat-header-cell>
+        <mat-cell *matCellDef="let alteracao" class="mouse-pointer"> {{ getDate(alteracao.dataHora) | date: 'medium' }} </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <mat-paginator [pageSizeOptions]="[100, 500, 1000]" [length]="dataSourceAlteracao.data.length" showFirstLastButtons></mat-paginator>
+  </div>
+</div>

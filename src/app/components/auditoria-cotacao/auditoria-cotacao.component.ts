@@ -2,7 +2,6 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatSort} from "@angular/material/sort";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatTableDataSource} from "@angular/material/table";
-import {AuditoriaLogin} from "../../services/auditoria/auditoria-login";
 import {FormControl, FormGroup} from "@angular/forms";
 import {AuditoriaService} from "../../services/auditoria/auditoria.service";
 import {UtilService} from "../../services/util/util.service";
@@ -15,8 +14,8 @@ import {AuditoriaCotacao} from "../../services/auditoria/auditoria-cotacao";
 })
 export class AuditoriaCotacaoComponent implements OnInit {
 
-  @ViewChild(MatSort) sortLogin: MatSort;
-  @ViewChild(MatPaginator) paginatorLogin: MatPaginator;
+  @ViewChild(MatSort) sortCotacao: MatSort;
+  @ViewChild(MatPaginator) paginatorCotacao: MatPaginator;
 
   displayedColumns: string[] = ["dataHora", "usuario", "link"];
   dataSourceCotacao = new MatTableDataSource<AuditoriaCotacao>();
@@ -39,14 +38,14 @@ export class AuditoriaCotacaoComponent implements OnInit {
     if (this.datasSelecionadas.valid) {
       this.auditoriaService.getAllCotacoes(this.datasSelecionadas.value).subscribe(response => {
         this.dataSourceCotacao = new MatTableDataSource<AuditoriaCotacao>(response);
-        this.dataSourceCotacao.sort = this.sortLogin;
-        this.dataSourceCotacao.paginator = this.paginatorLogin;
-        this.dataSourceCotacao.sortingDataAccessor = (login, property) => {
+        this.dataSourceCotacao.sort = this.sortCotacao;
+        this.dataSourceCotacao.paginator = this.paginatorCotacao;
+        this.dataSourceCotacao.sortingDataAccessor = (cotacao, property) => {
           switch (property) {
             case 'dataHora':
-              return login[property];
+              return this.getDate(cotacao.dataHora).getTime();
             default:
-              return login[property];
+              return cotacao[property];
           }
         }
       })
