@@ -37,24 +37,11 @@ export class AuditoriaAlteracoesComponent implements OnInit {
   carregaAlteracoes() {
     if (this.datasSelecionadas.valid) {
       this.auditoriaService.getAllAlteracoes(this.datasSelecionadas.value).subscribe(response => {
+        response.forEach(r => r.dataHora = UtilService.getDate(r.dataHora));
         this.dataSourceAlteracao = new MatTableDataSource<AuditoriaAlteracao>(response);
         this.dataSourceAlteracao.sort = this.sortAlteracao;
         this.dataSourceAlteracao.paginator = this.paginatorAlteracao;
-        this.dataSourceAlteracao.sortingDataAccessor = (alteracao, property) => {
-          switch (property) {
-            case 'dataHora':
-              return this.getDate(alteracao.dataHora).getTime();
-            default:
-              return alteracao[property];
-          }
-        }
       })
     }
   }
-
-  getDate(dataHora: any) {
-    return UtilService.getDate(dataHora);
-  }
-
-
 }

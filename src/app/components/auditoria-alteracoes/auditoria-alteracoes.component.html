@@ -42,7 +42,7 @@
 
       <ng-container matColumnDef="dataHora">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Data </mat-header-cell>
-        <mat-cell *matCellDef="let alteracao" class="mouse-pointer"> {{ getDate(alteracao.dataHora) | date: 'medium' }} </mat-cell>
+        <mat-cell *matCellDef="let alteracao" class="mouse-pointer"> {{ alteracao.dataHora | date: 'medium' }} </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

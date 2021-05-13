@@ -6,7 +6,6 @@ import {AuditoriaLogin} from "../../services/auditoria/auditoria-login";
 import {AuditoriaService} from "../../services/auditoria/auditoria.service";
 import {UtilService} from "../../services/util/util.service";
 import {FormControl, FormGroup} from "@angular/forms";
-import {map, tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-auditoria-login',
@@ -38,23 +37,11 @@ export class AuditoriaLoginComponent implements OnInit {
   carregaLogins() {
     if (this.datasSelecionadas.valid) {
       this.auditoriaService.getAllLogins(this.datasSelecionadas.value).subscribe(response => {
+        response.forEach(r => r.dataHora = UtilService.getDate(r.dataHora));
         this.dataSourceLogin = new MatTableDataSource<AuditoriaLogin>(response);
         this.dataSourceLogin.sort = this.sortLogin;
         this.dataSourceLogin.paginator = this.paginatorLogin;
-        this.dataSourceLogin.sortingDataAccessor = (login, property) => {
-          switch (property) {
-            case 'dataHora':
-              return this.getDate(login.dataHora).getTime();
-            default:
-              return login[property];
-          }
-        }
       })
     }
   }
-
-  getDate(dataHora: any) {
-    return UtilService.getDate(dataHora);
-  }
-
 }

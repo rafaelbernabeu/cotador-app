@@ -37,23 +37,11 @@ export class AuditoriaCotacaoComponent implements OnInit {
   carregaCotacoes() {
     if (this.datasSelecionadas.valid) {
       this.auditoriaService.getAllCotacoes(this.datasSelecionadas.value).subscribe(response => {
+        response.forEach(r => r.dataHora = UtilService.getDate(r.dataHora));
         this.dataSourceCotacao = new MatTableDataSource<AuditoriaCotacao>(response);
         this.dataSourceCotacao.sort = this.sortCotacao;
         this.dataSourceCotacao.paginator = this.paginatorCotacao;
-        this.dataSourceCotacao.sortingDataAccessor = (cotacao, property) => {
-          switch (property) {
-            case 'dataHora':
-              return this.getDate(cotacao.dataHora).getTime();
-            default:
-              return cotacao[property];
-          }
-        }
       })
     }
   }
-
-  getDate(dataHora: any) {
-    return UtilService.getDate(dataHora);
-  }
-
 }
