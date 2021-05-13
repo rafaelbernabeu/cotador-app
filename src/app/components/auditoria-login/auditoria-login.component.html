@@ -14,7 +14,7 @@
   <div>
     <br/>
 
-    <mat-table [dataSource]="dataSourceLogin" matSort class="mat-elevation-z8">
+    <mat-table [dataSource]="dataSourceLogin" matSortActive="dataHora" matSortDirection="desc" matSort class="mat-elevation-z8">
       <ng-container matColumnDef="id">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
         <mat-cell *matCellDef="let login" class="mouse-pointer"> {{login.id}} </mat-cell>

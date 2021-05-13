@@ -14,7 +14,7 @@
   <div>
     <br/>
 
-    <mat-table [dataSource]="dataSourceCotacao" matSort class="mat-elevation-z8">
+    <mat-table [dataSource]="dataSourceCotacao" matSortActive="dataHora" matSortDirection="desc" matSort class="mat-elevation-z8">
       <ng-container matColumnDef="id">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
         <mat-cell *matCellDef="let cotacao" class="mouse-pointer"> {{cotacao.id}} </mat-cell>
@@ -22,7 +22,7 @@
 
       <ng-container matColumnDef="usuario">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </mat-header-cell>
-        <mat-cell *matCellDef="let cotacao" class="mouse-pointer"> {{cotacao.usuario.email}} </mat-cell>
+        <mat-cell *matCellDef="let cotacao" class="mouse-pointer"> {{cotacao.usuario}} </mat-cell>
       </ng-container>
       <ng-container matColumnDef="link">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Link </mat-header-cell>
