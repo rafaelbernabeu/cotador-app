@@ -1,5 +1,4 @@
 import {Injectable} from '@angular/core';
-import {NgModel} from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +38,12 @@ export class UtilService {
       }
     }
     return lista;
+  }
+
+  public static downloadFile(data: any) {
+    const blob = new Blob([data], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    window.open(url);
   }
 
 }

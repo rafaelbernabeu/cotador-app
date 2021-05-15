@@ -27,7 +27,7 @@ export class AuditoriaLoginComponent implements OnInit {
   });
 
   constructor(
-    private auditoriaService: AuditoriaService,
+    private auditoriaService: AuditoriaService
   ) { }
 
   ngOnInit(): void {
@@ -43,5 +43,14 @@ export class AuditoriaLoginComponent implements OnInit {
         this.dataSourceLogin.paginator = this.paginatorLogin;
       })
     }
+  }
+
+  downloadLogins() {
+    this.auditoriaService.downloadLoginsCSV(this.datasSelecionadas.value).subscribe(response => {
+      let anchor = document.createElement("a");
+      anchor.download = "auditoria-logins.csv";
+      anchor.href = window.URL.createObjectURL(response);;
+      anchor.click();
+    })
   }
 }

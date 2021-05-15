@@ -44,4 +44,13 @@ export class AuditoriaAlteracoesComponent implements OnInit {
       })
     }
   }
+
+  downloadAlteracoes() {
+    this.auditoriaService.downloadAlteracoesCSV(this.datasSelecionadas.value).subscribe(response => {
+      let anchor = document.createElement("a");
+      anchor.download = "auditoria-alteracoes.csv";
+      anchor.href = window.URL.createObjectURL(response);;
+      anchor.click();
+    })
+  }
 }

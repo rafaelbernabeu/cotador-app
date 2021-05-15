@@ -1,5 +1,5 @@
 <div>
-  <div style="padding-top: 30px">
+  <div style="display: flex; padding-top: 30px">
     <mat-form-field appearance="outline" style="width: 100%">
       <mat-label>Período da pesquisa</mat-label>
       <mat-date-range-input [rangePicker]="picker" [formGroup]="datasSelecionadas" required>
@@ -9,6 +9,11 @@
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-date-range-picker #picker></mat-date-range-picker>
     </mat-form-field>
+    <span style="margin: auto; padding-left: 10px;">
+      <a (click)="downloadCotacoes()">
+        <mat-icon class="mouse-pointer">download</mat-icon>
+      </a>
+    </span>
   </div>
 
   <div>

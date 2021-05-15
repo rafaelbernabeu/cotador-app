@@ -19,6 +19,27 @@ export class AuditoriaService {
     private api: ApiService,
   ) { }
 
+  public downloadLoginsCSV(consultaAuditoria: ConsultaAuditoria): Observable<Blob> {
+    return this.http.post(this.getLoginApiUrl() + '/download', consultaAuditoria, {
+      headers: this.authServie.getTokenHeader().headers,
+      responseType: 'blob'
+    });
+  }
+
+  public downloadCotacoesCSV(consultaAuditoria: ConsultaAuditoria): Observable<Blob> {
+    return this.http.post(this.getCotacaoApiUrl() + '/download', consultaAuditoria, {
+      headers: this.authServie.getTokenHeader().headers,
+      responseType: 'blob'
+    });
+  }
+
+  public downloadAlteracoesCSV(consultaAuditoria: ConsultaAuditoria): Observable<Blob> {
+    return this.http.post(this.getAlteracaoApiUrl() + '/download', consultaAuditoria, {
+      headers: this.authServie.getTokenHeader().headers,
+      responseType: 'blob'
+    });
+  }
+
   public getAllLogins(consultaAuditoria: ConsultaAuditoria): Observable<AuditoriaLogin[]> {
     return this.http.post<AuditoriaLogin[]>(this.getLoginApiUrl(), consultaAuditoria, this.authServie.getTokenHeader());
   }

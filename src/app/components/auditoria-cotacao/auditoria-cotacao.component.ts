@@ -44,4 +44,13 @@ export class AuditoriaCotacaoComponent implements OnInit {
       })
     }
   }
+
+  downloadCotacoes() {
+    this.auditoriaService.downloadCotacoesCSV(this.datasSelecionadas.value).subscribe(response => {
+      let anchor = document.createElement("a");
+      anchor.download = "auditoria-cotacao.csv";
+      anchor.href = window.URL.createObjectURL(response);;
+      anchor.click();
+    })
+  }
 }
