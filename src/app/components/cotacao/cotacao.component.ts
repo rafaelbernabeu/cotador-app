@@ -71,11 +71,16 @@ export class CotacaoComponent implements OnInit {
 
   @ViewChild('profisaoAutoCompleteInput') profissoesInput: ElementRef<HTMLInputElement>;
 
-  @HostListener('document:keypress', ['$event'])
+  @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-    if (event.ctrlKey && event.code === 'Enter') {
-      event.preventDefault();
-      this.consultaCotacao();
+    if (event.ctrlKey) {
+      if (event.code === 'Enter') {
+        event.preventDefault();
+        this.consultaCotacao();
+      } else if (event.code === 'KeyE' && this.isBloquearInputs()) {
+        event.preventDefault();
+        this.desbloquearInputs();
+      }
     }
   }
 
