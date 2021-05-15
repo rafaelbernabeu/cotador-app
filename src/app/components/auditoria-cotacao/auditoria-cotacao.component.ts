@@ -53,4 +53,9 @@ export class AuditoriaCotacaoComponent implements OnInit {
       anchor.click();
     })
   }
+
+  applyFilterCotacao(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceCotacao.filter = filterValue.trim().toLowerCase();
+  }
 }

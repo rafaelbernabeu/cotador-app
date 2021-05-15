@@ -53,4 +53,9 @@ export class AuditoriaAlteracoesComponent implements OnInit {
       anchor.click();
     })
   }
+
+  applyFilterAlteracoes(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceAlteracao.filter = filterValue.trim().toLowerCase();
+  }
 }

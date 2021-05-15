@@ -15,6 +15,12 @@
       </a>
     </span>
   </div>
+  <div>
+    <mat-form-field style="width: 100%">
+      <mat-label>Filtro</mat-label>
+      <input matInput (keyup)="applyFilterCotacao($event)" placeholder="Filtro" #inputFiltroEntidade>
+    </mat-form-field>
+  </div>
 
   <div>
     <br/>

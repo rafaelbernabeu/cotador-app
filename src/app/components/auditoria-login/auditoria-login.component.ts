@@ -53,4 +53,9 @@ export class AuditoriaLoginComponent implements OnInit {
       anchor.click();
     })
   }
+
+  applyFilterLogin(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceLogin.filter = filterValue.trim().toLowerCase();
+  }
 }
