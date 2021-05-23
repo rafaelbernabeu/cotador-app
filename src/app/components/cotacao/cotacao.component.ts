@@ -180,7 +180,7 @@ export class CotacaoComponent implements OnInit {
             this.filtroCotacao.profissoes = this.todasProfissoes.filter(p => response.profissoes?.filter(rp => p.id === rp.id)?.length);
             this.filtroCotacao.administradoras = this.todasAdministradoras.filter(p => response.administradoras?.filter(ra => p.id === ra.id)?.length);
 
-            this.estadoAutoCompleteControl.setValue(response.estado ? '' : response.estado);
+            this.estadoAutoCompleteControl.setValue(response.estado ? response.estado : '');
             this.configuraQtdVidas();
             setTimeout(() => this.consultaCotacao());
           } else {
@@ -461,14 +461,12 @@ export class CotacaoComponent implements OnInit {
   }
 
   private iniciaAutoCompletes(): void {
-    this.estadoAutoCompleteControl.setValue('');
     this.estadoFilteredOptions = this.estadoAutoCompleteControl.valueChanges.pipe(
       startWith(''),
       map(value => typeof value === 'string' ? value : value.name),
       map(value => this.estadoFilterAutoComplete(value))
     );
 
-    this.profissaoAutoCompleteControl.setValue('');
     this.profissoesFilteredOptions = this.profissaoAutoCompleteControl.valueChanges.pipe(
       startWith(''),
       map(value => typeof value === 'string' ? value : value.name),
