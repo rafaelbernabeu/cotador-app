@@ -84,7 +84,7 @@ export class CotacaoComponent implements OnInit {
     }
   }
 
-  readonly displayedColumnsInicio: string[] = ['selected', 'id', 'estado', 'tabela', 'idadeMin', 'idadeMax', 'qtdMinVidas', 'qtdMinTitulares', 'administradora', 'operadora', 'produto', 'abrangencia', 'valorTotal']
+  readonly displayedColumnsInicio: string[] = ['selected', 'id', 'estado', 'administradora', 'operadora', 'tabela', 'qtdMinVidas', 'idadeMin', 'idadeMax', 'qtdMinTitulares', 'produto', 'abrangencia', 'valorTotal']
   readonly displayedColumnsFim: string[] = ['reajuste'];
   readonly displayedColumnsModoClienteInicio = ['operadora', 'produto', 'abrangencia', 'valorTotal'];
   readonly displayedColumnsModoClienteFim = ['reajuste'];

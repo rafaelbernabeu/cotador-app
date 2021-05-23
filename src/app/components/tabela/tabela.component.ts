@@ -85,7 +85,7 @@ export class TabelaComponent implements OnInit {
     }
   }
 
-  displayedColumns: string[] = ['id', 'nome', 'estado', 'operadora', 'administradora', "reajuste", "idadeMinima", "idadeMaxima", "qtdMinVidas", "qtdMinTitulares"];
+  displayedColumns: string[] = ['id', 'estado', 'administradora', 'operadora', 'nome', "qtdMinVidas", "idadeMinima", "idadeMaxima", "qtdMinTitulares", "reajuste"];
   dataSourceTabela = new MatTableDataSource<Tabela>();
   dataSourceProduto = new MatTableDataSource<Produto>();
   dataSourceEntidade = new MatTableDataSource<Entidade>();

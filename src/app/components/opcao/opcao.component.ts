@@ -80,7 +80,7 @@ export class OpcaoComponent implements OnInit {
     }
   }
 
-  displayedColumns: string[] = ['id', 'estado', 'tabela', 'idadeMin', 'idadeMax', 'qtdMinVidas', 'qtdMinTitulares', 'acomodacao', 'coparticipacao', 'administradora', 'operadora', 'produto', 'abrangencia', 'valor0a18anos', 'valor19a23anos', 'valor24a28anos', 'valor29a33anos', 'valor34a38anos', 'valor39a43anos', 'valor44a48anos', 'valor49a53anos', 'valor54a58anos', 'valor59ouMaisAnos', 'reajuste'];
+  displayedColumns: string[] = ['id', 'estado', 'administradora', 'operadora', 'tabela', 'qtdMinVidas', 'idadeMin', 'idadeMax', 'qtdMinTitulares', 'coparticipacao', 'acomodacao', 'produto', 'abrangencia', 'valor0a18anos', 'valor19a23anos', 'valor24a28anos', 'valor29a33anos', 'valor34a38anos', 'valor39a43anos', 'valor44a48anos', 'valor49a53anos', 'valor54a58anos', 'valor59ouMaisAnos', 'reajuste'];
   dataSourceOpcao = new MatTableDataSource<Opcao>();
 
   estado: string;

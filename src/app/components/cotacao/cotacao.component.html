@@ -220,7 +220,7 @@
     <mat-card-content>
       <mat-accordion multi>
 
-        <div style="padding-top: 20px" [hidden]="filtroCotacao.coparticipacao === true || filtroCotacao.acomodacao === 'Apartamento'">
+        <div [hidden]="filtroCotacao.coparticipacao === true || filtroCotacao.acomodacao === 'Apartamento'">
           <mat-expansion-panel #panelEnfSemCopart>
             <mat-expansion-panel-header>
               <mat-panel-title>
@@ -379,7 +379,7 @@
           </mat-expansion-panel>
         </div>
 
-        <div [hidden]="filtroCotacao.coparticipacao === true || filtroCotacao.acomodacao === 'Enfermaria'">
+        <div style="padding-top: 20px" [hidden]="filtroCotacao.coparticipacao === true || filtroCotacao.acomodacao === 'Enfermaria'">
           <mat-expansion-panel #panelAptSemCopart>
             <mat-expansion-panel-header>
               <mat-panel-title>
