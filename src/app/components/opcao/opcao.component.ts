@@ -836,7 +836,8 @@ export class OpcaoComponent implements OnInit {
   }
 
   getTableWidth(): string {
-    return (this.displayedColumns?.length * 125)  +'px';
+    const size = this.displayedColumns?.length * 125;
+    return window.innerWidth < size ? size + 'px' : '100%';
   }
 
   onSubmit(): void {

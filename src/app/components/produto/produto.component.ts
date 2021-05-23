@@ -510,7 +510,8 @@ export class ProdutoComponent implements OnInit {
   }
 
   getTableWidth(): string {
-    return (this.displayedColumns?.length * 115)  +'px';
+    const size = this.displayedColumns?.length * 115;
+    return window.innerWidth < size ? size + 'px' : '100%';
   }
 
   applyFilterHospital(event: Event) {
