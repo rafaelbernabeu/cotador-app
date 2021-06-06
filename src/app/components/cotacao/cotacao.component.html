@@ -866,31 +866,33 @@
               </mat-panel-description>
             </mat-expansion-panel-header>
             <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
-              <mat-table #sortHospital='matSort' [dataSource]="dataSourceHospitais" matSort class="mat-elevation-z8">
+              <div [style.width]="(dataSourceHospitais.data.length * 90) + 'px'">
+                <mat-table #sortHospital='matSort' [dataSource]="dataSourceHospitais" matSort class="mat-elevation-z8">
 
-                <ng-container matColumnDef="nomeHospital">
-                  <mat-header-cell *matHeaderCellDef [style.color]="'white'" [style.background-color]="'black'" mat-sort-header>
-                    Hospital
-                  </mat-header-cell>
-                  <mat-cell *matCellDef="let hospital"> {{hospital.nome}} </mat-cell>
-                </ng-container>
+                  <ng-container matColumnDef="nomeHospital">
+                    <mat-header-cell *matHeaderCellDef [style.color]="'white'" [style.background-color]="'black'" mat-sort-header>
+                      Hospital
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let hospital"> {{hospital.nome}} </mat-cell>
+                  </ng-container>
 
-                <ng-container [matColumnDef]="produto.id.toString()" *ngFor="let produto of todosProdutosCotacao" >
-                  <mat-header-cell *matHeaderCellDef style="justify-content: center" [style.color]="'white'" [style.background-color]="produto.operadora.cor">
-                    <div style="flex-direction: column">
-                      <div>{{produto.operadora.nome}}</div>
-                      <div>{{produto.nome}}</div>
-                    </div>
-                  </mat-header-cell>
-                  <mat-cell *matCellDef="let hospital" style="justify-content: center">
-                    <mat-checkbox [disabled]="true" [ngModel]="verificaSeHospitalSelecionado(produto, hospital)"></mat-checkbox>
-                  </mat-cell>
-                </ng-container>
+                  <ng-container [matColumnDef]="produto.id.toString()" *ngFor="let produto of todosProdutosCotacao" >
+                    <mat-header-cell *matHeaderCellDef style="justify-content: center" [style.color]="'white'" [style.background-color]="produto.operadora.cor">
+                      <div style="flex-direction: column">
+                        <div>{{produto.operadora.nome}}</div>
+                        <div>{{produto.nome}}</div>
+                      </div>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let hospital" style="justify-content: center">
+                      <mat-checkbox [disabled]="true" [ngModel]="verificaSeHospitalSelecionado(produto, hospital)"></mat-checkbox>
+                    </mat-cell>
+                  </ng-container>
 
-                <mat-header-row *matHeaderRowDef="displayedColumnsHospitais"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumnsHospitais;"></mat-row>
-              </mat-table>
-              <mat-paginator #paginatorHospital [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceHospitais.data.length" showFirstLastButtons></mat-paginator>
+                  <mat-header-row *matHeaderRowDef="displayedColumnsHospitais"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumnsHospitais;"></mat-row>
+                </mat-table>
+                <mat-paginator #paginatorHospital [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceHospitais.data.length" showFirstLastButtons></mat-paginator>
+              </div>
             </div>
           </mat-expansion-panel>
         </div>
@@ -906,30 +908,32 @@
               </mat-panel-description>
             </mat-expansion-panel-header>
             <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
-              <mat-table #sortLaboratorio='matSort' [dataSource]="dataSourceLaboratorios" matSort class="mat-elevation-z8">
-                <ng-container matColumnDef="nomeLaboratorio">
-                  <mat-header-cell *matHeaderCellDef [style.color]="'white'" [style.background-color]="'black'" mat-sort-header>
-                    Laboratorio
-                  </mat-header-cell>
-                  <mat-cell *matCellDef="let laboratorio"> {{laboratorio.nome}} </mat-cell>
-                </ng-container>
+              <div style="width: max-content">
+                <mat-table #sortLaboratorio='matSort' [dataSource]="dataSourceLaboratorios" matSort class="mat-elevation-z8">
+                  <ng-container matColumnDef="nomeLaboratorio">
+                    <mat-header-cell *matHeaderCellDef [style.color]="'white'" [style.background-color]="'black'" mat-sort-header>
+                      Laboratorio
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let laboratorio"> {{laboratorio.nome}} </mat-cell>
+                  </ng-container>
 
-                <ng-container [matColumnDef]="produto.id.toString()" *ngFor="let produto of todosProdutosCotacao" >
-                  <mat-header-cell *matHeaderCellDef style="justify-content: center" [style.color]="'white'" [style.background-color]="produto.operadora.cor">
-                    <div style="flex-direction: column">
-                      <div>{{produto.operadora.nome}}</div>
-                      <div>{{produto.nome}}</div>
-                    </div>
-                  </mat-header-cell>
-                  <mat-cell *matCellDef="let laboratorio" style="justify-content: center">
-                    <mat-checkbox [disabled]="true" [ngModel]="verificaSeLaboratorioSelecionado(produto, laboratorio)"></mat-checkbox>
-                  </mat-cell>
-                </ng-container>
+                  <ng-container [matColumnDef]="produto.id.toString()" *ngFor="let produto of todosProdutosCotacao" >
+                    <mat-header-cell *matHeaderCellDef style="justify-content: center" [style.color]="'white'" [style.background-color]="produto.operadora.cor">
+                      <div style="flex-direction: column">
+                        <div>{{produto.operadora.nome}}</div>
+                        <div>{{produto.nome}}</div>
+                      </div>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let laboratorio" style="justify-content: center">
+                      <mat-checkbox [disabled]="true" [ngModel]="verificaSeLaboratorioSelecionado(produto, laboratorio)"></mat-checkbox>
+                    </mat-cell>
+                  </ng-container>
 
-                <mat-header-row *matHeaderRowDef="displayedColumnsLaboratorios"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumnsLaboratorios;"></mat-row>
-              </mat-table>
-              <mat-paginator #paginatorLaboratorio [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceLaboratorios.data.length" showFirstLastButtons></mat-paginator>
+                  <mat-header-row *matHeaderRowDef="displayedColumnsLaboratorios"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumnsLaboratorios;"></mat-row>
+                </mat-table>
+                <mat-paginator #paginatorLaboratorio [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceLaboratorios.data.length" showFirstLastButtons></mat-paginator>
+              </div>
             </div>
           </mat-expansion-panel>
         </div>
@@ -945,46 +949,48 @@
               </mat-panel-description>
             </mat-expansion-panel-header>
             <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
-              <mat-table [dataSource]="dataSourceCoparticipacao" class="mat-elevation-z8">
-                <ng-container matColumnDef="tipoCoparticipacao">
-                  <mat-header-cell *matHeaderCellDef [style.color]="'white'" [style.background-color]="'black'">Coparticipação</mat-header-cell>
-                  <mat-cell *matCellDef="let coparticipacao"> {{coparticipacao}} </mat-cell>
-                </ng-container>
+              <div [style.width]="(dataSourceCoparticipacao.data.length * 450) + 'px'">
+                <mat-table [dataSource]="dataSourceCoparticipacao" class="mat-elevation-z8">
+                  <ng-container matColumnDef="tipoCoparticipacao">
+                    <mat-header-cell *matHeaderCellDef [style.color]="'white'" [style.background-color]="'black'">Coparticipação</mat-header-cell>
+                    <mat-cell *matCellDef="let coparticipacao"> {{coparticipacao}} </mat-cell>
+                  </ng-container>
 
-                <ng-container [matColumnDef]="produto.id.toString()" *ngFor="let produto of todosProdutosCotacao" >
-                  <mat-header-cell *matHeaderCellDef style="justify-content: center" [style.color]="'white'" [style.background-color]="produto.operadora.cor">
-                    <div style="flex-direction: column">
-                      <div>{{produto.operadora.nome}}</div>
-                      <div>{{produto.nome}}</div>
-                    </div>
-                  </mat-header-cell>
-                  <mat-cell *matCellDef="let coparticipacao; let index = index" style="justify-content: center">
-                    <div *ngIf="index === 0">
-                      {{produto.coparticipacao.percentualProntoSocorro}}% |
-                      {{produto.coparticipacao.valorProntoSocorro | currency: 'BRL'}}
-                    </div>
-                    <div *ngIf="index === 1">
-                      {{produto.coparticipacao.percentualConsulta}}% |
-                      {{produto.coparticipacao.valorConsulta | currency: 'BRL'}}
-                    </div>
-                    <div *ngIf="index === 2">
-                      {{produto.coparticipacao.percentualExameSimples}}% |
-                      {{produto.coparticipacao.valorExameSimples | currency: 'BRL'}}
-                    </div>
-                    <div *ngIf="index === 3">
-                      {{produto.coparticipacao.percentualExameEspecial}}% |
-                      {{produto.coparticipacao.valorExameEspecial | currency: 'BRL'}}
-                    </div>
-                    <div *ngIf="index === 4">
-                      {{produto.coparticipacao.percentualInternacao}}% |
-                      {{produto.coparticipacao.valorInternacao | currency: 'BRL'}}
-                    </div>
-                  </mat-cell>
-                </ng-container>
+                  <ng-container [matColumnDef]="produto.id.toString()" *ngFor="let produto of todosProdutosCotacao" >
+                    <mat-header-cell *matHeaderCellDef style="justify-content: center" [style.color]="'white'" [style.background-color]="produto.operadora.cor">
+                      <div style="flex-direction: column">
+                        <div>{{produto.operadora.nome}}</div>
+                        <div>{{produto.nome}}</div>
+                      </div>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let coparticipacao; let index = index" style="justify-content: center">
+                      <div *ngIf="index === 0">
+                        {{produto.coparticipacao.percentualProntoSocorro}}% |
+                        {{produto.coparticipacao.valorProntoSocorro | currency: 'BRL'}}
+                      </div>
+                      <div *ngIf="index === 1">
+                        {{produto.coparticipacao.percentualConsulta}}% |
+                        {{produto.coparticipacao.valorConsulta | currency: 'BRL'}}
+                      </div>
+                      <div *ngIf="index === 2">
+                        {{produto.coparticipacao.percentualExameSimples}}% |
+                        {{produto.coparticipacao.valorExameSimples | currency: 'BRL'}}
+                      </div>
+                      <div *ngIf="index === 3">
+                        {{produto.coparticipacao.percentualExameEspecial}}% |
+                        {{produto.coparticipacao.valorExameEspecial | currency: 'BRL'}}
+                      </div>
+                      <div *ngIf="index === 4">
+                        {{produto.coparticipacao.percentualInternacao}}% |
+                        {{produto.coparticipacao.valorInternacao | currency: 'BRL'}}
+                      </div>
+                    </mat-cell>
+                  </ng-container>
 
-                <mat-header-row *matHeaderRowDef="displayedColumnsCoparticipacao"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumnsCoparticipacao;"></mat-row>
-              </mat-table>
+                  <mat-header-row *matHeaderRowDef="displayedColumnsCoparticipacao"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumnsCoparticipacao;"></mat-row>
+                </mat-table>
+              </div>
             </div>
           </mat-expansion-panel>
         </div>
