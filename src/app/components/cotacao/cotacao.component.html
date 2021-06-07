@@ -374,7 +374,7 @@
                 <mat-header-row *matHeaderRowDef="displayedColumnsCotacao"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumnsCotacao;"></mat-row>
               </mat-table>
-              <mat-paginator style="margin: auto" [style.width]="getTableWidth()" #paginatorCotacaoEnfSemCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoEnfSemCopart.data.length" showFirstLastButtons></mat-paginator>
+              <mat-paginator style="margin: auto" [style.width]="getTableWidth()" #paginatorCotacaoEnfSemCopart [pageSizeOptions]="[100, 500, 1000]" [length]="dataSourceCotacaoEnfSemCopart.data.length" showFirstLastButtons></mat-paginator>
             </div>
           </mat-expansion-panel>
         </div>
@@ -532,7 +532,7 @@
                 <mat-header-row *matHeaderRowDef="displayedColumnsCotacao"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumnsCotacao;"></mat-row>
               </mat-table>
-              <mat-paginator style="margin: auto" [style.width]="getTableWidth()"  #paginatorCotacaoAptSemCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoAptSemCopart.data.length" showFirstLastButtons></mat-paginator>
+              <mat-paginator style="margin: auto" [style.width]="getTableWidth()"  #paginatorCotacaoAptSemCopart [pageSizeOptions]="[100, 500, 1000]" [length]="dataSourceCotacaoAptSemCopart.data.length" showFirstLastButtons></mat-paginator>
             </div>
           </mat-expansion-panel>
         </div>
@@ -691,7 +691,7 @@
                 <mat-header-row *matHeaderRowDef="displayedColumnsCotacao"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumnsCotacao;"></mat-row>
               </mat-table>
-              <mat-paginator style="margin: auto" [style.width]="getTableWidth()" #paginatorCotacaoEnfComCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoEnfComCopart.data.length" showFirstLastButtons></mat-paginator>
+              <mat-paginator style="margin: auto" [style.width]="getTableWidth()" #paginatorCotacaoEnfComCopart [pageSizeOptions]="[100, 500, 1000]" [length]="dataSourceCotacaoEnfComCopart.data.length" showFirstLastButtons></mat-paginator>
             </div>
           </mat-expansion-panel>
         </div>
@@ -850,7 +850,7 @@
                 <mat-header-row *matHeaderRowDef="displayedColumnsCotacao"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: displayedColumnsCotacao;"></mat-row>
               </mat-table>
-              <mat-paginator style="margin: auto" [style.width]="getTableWidth()" #paginatorCotacaoAptComCopart [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceCotacaoAptComCopart.data.length" showFirstLastButtons></mat-paginator>
+              <mat-paginator style="margin: auto" [style.width]="getTableWidth()" #paginatorCotacaoAptComCopart [pageSizeOptions]="[100, 500, 1000]" [length]="dataSourceCotacaoAptComCopart.data.length" showFirstLastButtons></mat-paginator>
             </div>
           </mat-expansion-panel>
         </div>
@@ -891,7 +891,7 @@
                   <mat-header-row *matHeaderRowDef="displayedColumnsHospitais"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: displayedColumnsHospitais;"></mat-row>
                 </mat-table>
-                <mat-paginator #paginatorHospital [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceHospitais.data.length" showFirstLastButtons></mat-paginator>
+                <mat-paginator #paginatorHospital [pageSizeOptions]="[100, 500, 1000]" [length]="dataSourceHospitais.data.length" showFirstLastButtons></mat-paginator>
               </div>
             </div>
           </mat-expansion-panel>
@@ -932,7 +932,7 @@
                   <mat-header-row *matHeaderRowDef="displayedColumnsLaboratorios"></mat-header-row>
                   <mat-row *matRowDef="let row; columns: displayedColumnsLaboratorios;"></mat-row>
                 </mat-table>
-                <mat-paginator #paginatorLaboratorio [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceLaboratorios.data.length" showFirstLastButtons></mat-paginator>
+                <mat-paginator #paginatorLaboratorio [pageSizeOptions]="[100, 500, 1000]" [length]="dataSourceLaboratorios.data.length" showFirstLastButtons></mat-paginator>
               </div>
             </div>
           </mat-expansion-panel>
@@ -1025,7 +1025,7 @@
                 <mat-header-row *matHeaderRowDef="['operadora', 'produto', 'reembolso']"></mat-header-row>
                 <mat-row *matRowDef="let row; columns: ['operadora', 'produto', 'reembolso'];"></mat-row>
               </mat-table>
-              <mat-paginator #paginatorReembolso [pageSizeOptions]="[10, 50, 100]" [length]="dataSourceLaboratorios.data.length" showFirstLastButtons></mat-paginator>
+              <mat-paginator #paginatorReembolso [pageSizeOptions]="[100, 500, 1000]" [length]="dataSourceLaboratorios.data.length" showFirstLastButtons></mat-paginator>
             </div>
           </mat-expansion-panel>
         </div>
