@@ -233,7 +233,6 @@ export class ProdutoComponent implements OnInit {
     this.operadoraAutoCompleteControl.setValue(this.produtoEditando.operadora);
     this.carregaTabelasAdicionais(this.produtoEditando);
     this.editarProduto();
-    this.paginatorProduto._changePageSize(5);
   }
 
   copiarProduto(): void {
@@ -285,7 +284,6 @@ export class ProdutoComponent implements OnInit {
     this.estado = null;
     this.produtoSelecionado = null;
     this.operadoraAutoCompleteControl.disable();
-    this.paginatorProduto._changePageSize(100);
   }
 
   adicionar(): void {
@@ -300,7 +298,6 @@ export class ProdutoComponent implements OnInit {
     this.operadoraAutoCompleteControl.setValue('');
     this.operadoraAutoCompleteControl.markAsPristine();
     this.operadoraAutoCompleteControl.markAsUntouched();
-    this.paginatorProduto._changePageSize(5);
     this.preparaTodosParaNovaVerificacao();
     this.configuraLaboratoriosParaEdicao();
     this.configuraHospitaisParaEdicao();
@@ -318,7 +315,6 @@ export class ProdutoComponent implements OnInit {
     this.produtoSelecionado = null;
     this.operadoraAutoCompleteControl.disable();
     this.preparaTodosParaNovaVerificacao();
-    this.paginatorProduto._changePageSize(100);
   }
 
   editandoProduto(): boolean {

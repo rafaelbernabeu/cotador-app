@@ -14,7 +14,7 @@
     <br/>
 
     <mat-card-content>
-      <div [style.width]="this.produtoSelecionado || filtrandoProduto() ? (window.innerWidth * 0.70) + 'px' : (window.innerWidth * 0.95) + 'px'" style="overflow: auto;">
+      <div [style.height]="produtoSelecionado ? '430px' : '100%'" [style.width]="produtoSelecionado || filtrandoProduto() ? (window.innerWidth * 0.70) + 'px' : (window.innerWidth * 0.95) + 'px'" style="overflow: auto;">
         <mat-table [style.width]="getTableWidth()" #sortProduto="matSort" [dataSource]="dataSourceProduto" matSort>
           <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>

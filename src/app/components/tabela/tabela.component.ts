@@ -273,7 +273,6 @@ export class TabelaComponent implements OnInit {
     this.estadoAutoCompleteControl.setValue(this.tabelaEditando.estado);
     this.operadoraAutoCompleteControl.setValue(this.tabelaEditando.operadora);
     this.administradoraAutoCompleteControl.setValue(this.tabelaEditando.administradora);
-    this.paginatorTabela._changePageSize(10);
     this.carregaTabelasAdicionais(this.tabelaEditando);
     this.editarTabela();
   }
@@ -341,7 +340,6 @@ export class TabelaComponent implements OnInit {
     this.estadoAutoCompleteControl.disable();
     this.operadoraAutoCompleteControl.disable();
     this.administradoraAutoCompleteControl.disable();
-    this.paginatorTabela._changePageSize(20);
   }
 
   adicionar(): void {
@@ -365,7 +363,6 @@ export class TabelaComponent implements OnInit {
     this.estadoAutoCompleteControl.markAsUntouched();
     this.operadoraAutoCompleteControl.markAsUntouched();
     this.administradoraAutoCompleteControl.markAsUntouched();
-    this.paginatorTabela._changePageSize(10);
     this.preparaTodosParaNovaVerificacao();
     this.accordionProduto.close();
     this.accordionEntidade.open();

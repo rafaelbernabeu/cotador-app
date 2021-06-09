@@ -17,7 +17,7 @@
       <br/>
 
       <mat-card-content>
-        <div [style.width]="this.tabelaSelecionada || filtrandoTabela() ? (window.innerWidth * 0.70) + 'px' : (window.innerWidth * 0.95) + 'px'" style="overflow: auto;">
+        <div [style.height]="tabelaSelecionada ? '525px' : '100%'" [style.width]="tabelaSelecionada || filtrandoTabela() ? (window.innerWidth * 0.70) + 'px' : (window.innerWidth * 0.95) + 'px'" style="overflow: auto;">
           <mat-table [style.width]="getTableWidth()" #sortTabela="matSort" [dataSource]="dataSourceTabela" matSort class="mat-elevation-z8">
             <ng-container matColumnDef="id">
               <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
@@ -365,7 +365,7 @@
       <mat-accordion multi>
         <div class="flex-container" style="flex-direction: row; width: 100%; margin-top: 5px">
           <div style="width: 50%">
-            <mat-expansion-panel #relacionamentoProduto [disabled]="!this.tabelaEditando?.operadora?.id">
+            <mat-expansion-panel #relacionamentoProduto [disabled]="!tabelaEditando?.operadora?.id">
               <mat-expansion-panel-header>
                 <mat-panel-title>
                   <mat-icon>book</mat-icon>
