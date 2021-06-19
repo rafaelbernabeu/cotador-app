@@ -205,8 +205,10 @@ export class CotacaoComponent implements OnInit {
       this.cotacao = new Cotacao();
       this.todosProdutosCotacao = [];
       this.filtroCotacao = new Cotacao();
-      this.estadoAutoCompleteControl.enable();
+      this.profissaoAutoCompleteControl.setValue('');
+      this.profissaoAutoCompleteControl.enable();
       this.estadoAutoCompleteControl.setValue('');
+      this.estadoAutoCompleteControl.enable();
       this.configuraTodasTabelas();
     })
   }
