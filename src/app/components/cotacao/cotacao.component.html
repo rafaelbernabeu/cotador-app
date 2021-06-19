@@ -869,7 +869,7 @@
               <div [style.width]="(dataSourceHospitais.data.length * 90) + 'px'">
                 <mat-table #sortHospital='matSort' [dataSource]="dataSourceHospitais" matSort class="mat-elevation-z8">
 
-                  <ng-container matColumnDef="nomeHospital">
+                  <ng-container matColumnDef="nomeHospital" sticky>
                     <mat-header-cell *matHeaderCellDef [style.color]="'white'" [style.background-color]="'black'" mat-sort-header>
                       Hospital
                     </mat-header-cell>
@@ -910,7 +910,7 @@
             <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
               <div style="width: max-content">
                 <mat-table #sortLaboratorio='matSort' [dataSource]="dataSourceLaboratorios" matSort class="mat-elevation-z8">
-                  <ng-container matColumnDef="nomeLaboratorio">
+                  <ng-container matColumnDef="nomeLaboratorio" sticky>
                     <mat-header-cell *matHeaderCellDef [style.color]="'white'" [style.background-color]="'black'" mat-sort-header>
                       Laboratorio
                     </mat-header-cell>
@@ -951,7 +951,7 @@
             <div [style.width]="(window.innerWidth * 0.94) + 'px'" style="overflow: auto;">
               <div [style.width]="(dataSourceCoparticipacao.data.length * 450) + 'px'">
                 <mat-table [dataSource]="dataSourceCoparticipacao" class="mat-elevation-z8">
-                  <ng-container matColumnDef="tipoCoparticipacao">
+                  <ng-container matColumnDef="tipoCoparticipacao" sticky>
                     <mat-header-cell *matHeaderCellDef [style.color]="'white'" [style.background-color]="'black'">Coparticipação</mat-header-cell>
                     <mat-cell *matCellDef="let coparticipacao"> {{coparticipacao}} </mat-cell>
                   </ng-container>
