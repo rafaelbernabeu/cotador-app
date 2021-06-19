@@ -209,6 +209,7 @@ export class CotacaoComponent implements OnInit {
       this.profissaoAutoCompleteControl.enable();
       this.estadoAutoCompleteControl.setValue('');
       this.estadoAutoCompleteControl.enable();
+      this.configuraDisplayedColumns();
       this.configuraTodasTabelas();
     })
   }
