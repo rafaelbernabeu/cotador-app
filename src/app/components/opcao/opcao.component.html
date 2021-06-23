@@ -17,7 +17,7 @@
       <br/>
 
       <mat-card-content>
-        <div [style.width]="opcaoSelecionada || filtrandoOpcao() ? (window.innerWidth * 0.70) + 'px' : (window.innerWidth * 0.95) + 'px'" style="overflow: auto;">
+        <div [style.height]="window.innerHeight + 'px'" [style.width]="opcaoSelecionada || filtrandoOpcao() ? (window.innerWidth * 0.70) + 'px' : (window.innerWidth * 0.95) + 'px'" style="overflow: auto;">
           <mat-table [style.width]="getTableWidth()" [dataSource]="dataSourceOpcao" matSort class="mat-elevation-z8">
             <ng-container matColumnDef="id">
               <mat-header-cell *matHeaderCellDef mat-sort-header>Id</mat-header-cell>
@@ -146,7 +146,7 @@
               </mat-cell>
             </ng-container>
 
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
           </mat-table>
         </div>
