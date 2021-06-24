@@ -40,6 +40,14 @@ export class UtilService {
     return lista;
   }
 
+  public static equalsById(item1: {id}, item2: {id}): boolean {
+    return item1 && item2 ? item1.id === item2.id : item1 === item2;
+  }
+
+  public static equalsByNome(item1: {nome}, item2: {nome}): boolean {
+    return item1 && item2 ? item1.nome === item2.nome : item1 === item2;
+  }
+
   public static downloadFile(data: any) {
     const blob = new Blob([data], { type: 'text/csv' });
     const url = window.URL.createObjectURL(blob);
