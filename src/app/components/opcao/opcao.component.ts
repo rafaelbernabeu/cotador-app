@@ -873,4 +873,21 @@ export class OpcaoComponent implements OnInit {
     return false;
   }
 
+  getFontStyle(opcao: Opcao): string {
+    return this.opcaoSelecionada?.id === opcao.id ?
+      'font-weight: bold;' +
+      'background-color: black' : '';
+  }
+
+  getBackgroundColor(opcao: Opcao): string {
+    return this.opcaoSelecionada?.id === opcao.id ? 'black' : opcao.tabela.operadora.cor;
+  }
+
+  isObjIgualById(obj1, obj2): boolean {
+    return UtilService.equalsById(obj1, obj2);
+  }
+
+  isObjIgualByNome(obj1, obj2): boolean {
+    return UtilService.equalsByNome(obj1, obj2);
+  }
 }
