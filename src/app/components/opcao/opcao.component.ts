@@ -213,16 +213,6 @@ export class OpcaoComponent implements OnInit {
 
   private preparaAutoCompletesParaEdicao(): void {
     this.carregaEstadoPorCategoria();
-    // if (this.isCategoriaAdesao()) {
-    //   this.carregaAdministradoraPorEstadoAndCategoria();
-    //   this.carregaOperadoraPorAdministradoraAndEstadoAndCategoria();
-    //   this.carregaTabelaPorOperadoraAndAdministradoraAndEstadoAndCategoria()
-    //   this.carregaProdutosPorTabelaAndOperadoraAndAdministradoraAndEstadoAndCategoria()
-    // } else if (this.isCategoriaEmpresarial()) {
-    //   this.carregaOperadoraPorEstadoAndCategoria();
-    //   this.carregaTabelaPorOperadoraAndEstadoAndCategoriaAndMEI()
-    //   this.carregaProdutosPorTabelaAndOperadoraAndEstadoAndCategoriaAndMEI()
-    // }
   }
 
   private modelChangeCategoria(categoria: Categoria): void {
@@ -796,6 +786,7 @@ export class OpcaoComponent implements OnInit {
 
     this.estado = 'filtrando';
     this.opcaoSelecionada = null;
+    this.filtraOpcao();
   }
 
   private filtraOpcaoPorProduto(opcoesFiltradas: Opcao[], filtro: any, property: string) {

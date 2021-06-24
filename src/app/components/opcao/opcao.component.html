@@ -205,14 +205,14 @@
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Estado</mat-label>
-            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.estados" multiple>
+            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.estados" [compareWith]="isObjIgualByNome" multiple>
               <mat-option *ngFor="let estado of todosEstados;" [value]="estado">{{estado.sigla}}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Tabela</mat-label>
-            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.tabelas" multiple>
+            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.tabelas" [compareWith]="isObjIgualById" multiple>
               <mat-option *ngFor="let tabela of todasTabelas;" [value]="tabela">{{tabela.nome}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -236,21 +236,21 @@
 
           <mat-form-field *ngIf="filtroOpcao.categoria === 'Adesão'" appearance="outline" style="width: 100%">
             <mat-label>Administradora</mat-label>
-            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.administradoras" multiple>
+            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.administradoras" [compareWith]="isObjIgualById" multiple>
               <mat-option *ngFor="let administradora of todasAdministradoras;" [value]="administradora">{{administradora.nome}}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Operadora</mat-label>
-            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.operadoras" multiple>
+            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.operadoras" [compareWith]="isObjIgualById" multiple>
               <mat-option *ngFor="let operadora of todasOperadoras;" [value]="operadora">{{operadora.nome}}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline" style="width: 100%">
             <mat-label>Produto</mat-label>
-            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.produtos" multiple>
+            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.produtos" [compareWith]="isObjIgualById" multiple>
               <mat-option *ngFor="let produto of todosProdutos;" [value]="produto">{{produto.nome}}</mat-option>
             </mat-select>
           </mat-form-field>
@@ -272,7 +272,7 @@
 
           <mat-form-field *ngIf="filtroOpcao.categoria === 'Adesão'" appearance="outline" style="width: 100%">
             <mat-label>Profissão</mat-label>
-            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.profissoes" multiple>
+            <mat-select (ngModelChange)="filtraOpcao()" [(ngModel)]="filtroOpcao.profissoes" [compareWith]="isObjIgualById" multiple>
               <mat-option *ngFor="let profissao of todasProfissoes;" [value]="profissao">{{profissao.nome}}</mat-option>
             </mat-select>
           </mat-form-field>
