@@ -18,32 +18,32 @@
         <mat-table [style.width]="getTableWidth()" #sortProduto="matSort" [dataSource]="dataSourceProduto" matSort>
           <ng-container matColumnDef="id">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Id </mat-header-cell>
-            <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.id}} </mat-cell>
+            <mat-cell *matCellDef="let produto" [style]="getFontStyle(produto)" [style.background-color]="getBackgroundColor(produto)" (click)="selecionaProduto(produto)" class="mouse-pointer mat-cell-white"> {{produto.id}} </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="nome" sticky>
             <mat-header-cell *matHeaderCellDef mat-sort-header> Nome </mat-header-cell>
-            <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.nome}} </mat-cell>
+            <mat-cell *matCellDef="let produto" [style]="getFontStyle(produto)" [style.background-color]="getBackgroundColor(produto)" (click)="selecionaProduto(produto)" class="mouse-pointer mat-cell-white"> {{produto.nome}} </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="abrangencia" sticky>
             <mat-header-cell *matHeaderCellDef mat-sort-header> Abrangencia </mat-header-cell>
-            <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.abrangencia}} </mat-cell>
+            <mat-cell *matCellDef="let produto" [style]="getFontStyle(produto)" [style.background-color]="getBackgroundColor(produto)" (click)="selecionaProduto(produto)" class="mouse-pointer mat-cell-white"> {{produto.abrangencia}} </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="operadora" sticky>
             <mat-header-cell *matHeaderCellDef mat-sort-header> Operadora </mat-header-cell>
-            <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.operadora.nome}} </mat-cell>
+            <mat-cell *matCellDef="let produto" [style]="getFontStyle(produto)" [style.background-color]="getBackgroundColor(produto)" (click)="selecionaProduto(produto)" class="mouse-pointer mat-cell-white"> {{produto.operadora.nome}} </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="reembolso">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Reembolso </mat-header-cell>
-            <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer"> {{produto.reembolso | currency:'BRL':'symbol':'0.2'}} </mat-cell>
+            <mat-cell *matCellDef="let produto" [style]="getFontStyle(produto)" [style.background-color]="getBackgroundColor(produto)" (click)="selecionaProduto(produto)" class="mouse-pointer mat-cell-white"> {{produto.reembolso | currency:'BRL':'symbol':'0.2'}} </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="valorProntoSocorro">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Pronto Socorro </mat-header-cell>
-            <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer">
+            <mat-cell *matCellDef="let produto" [style]="getFontStyle(produto)" [style.background-color]="getBackgroundColor(produto)" (click)="selecionaProduto(produto)" class="mouse-pointer mat-cell-white">
               <span style="padding-right: 10px;">
                 {{produto.coparticipacao.percentualProntoSocorro}}%
               </span> |
@@ -55,7 +55,7 @@
 
           <ng-container matColumnDef="valorConsulta">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Consulta </mat-header-cell>
-            <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer">
+            <mat-cell *matCellDef="let produto" [style]="getFontStyle(produto)" [style.background-color]="getBackgroundColor(produto)" (click)="selecionaProduto(produto)" class="mouse-pointer mat-cell-white">
               <span style="padding-right: 10px;">
                 {{produto.coparticipacao.percentualConsulta}}%
               </span> |
@@ -67,7 +67,7 @@
 
           <ng-container matColumnDef="valorExameSimples">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Exame Simples </mat-header-cell>
-            <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer">
+            <mat-cell *matCellDef="let produto" [style]="getFontStyle(produto)" [style.background-color]="getBackgroundColor(produto)" (click)="selecionaProduto(produto)" class="mouse-pointer mat-cell-white">
               <span style="padding-right: 10px;">
                 {{produto.coparticipacao.percentualExameSimples}}%
               </span> |
@@ -79,7 +79,7 @@
 
           <ng-container matColumnDef="valorExameEspecial">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Exame Especial </mat-header-cell>
-            <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer">
+            <mat-cell *matCellDef="let produto" [style]="getFontStyle(produto)" [style.background-color]="getBackgroundColor(produto)" (click)="selecionaProduto(produto)" class="mouse-pointer mat-cell-white">
               <span style="padding-right: 10px;">
                 {{produto.coparticipacao.percentualExameEspecial}}%
               </span> |
@@ -91,7 +91,7 @@
 
           <ng-container matColumnDef="valorInternacao">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Internacao </mat-header-cell>
-            <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer">
+            <mat-cell *matCellDef="let produto" [style]="getFontStyle(produto)" [style.background-color]="getBackgroundColor(produto)" (click)="selecionaProduto(produto)" class="mouse-pointer mat-cell-white">
               <span style="padding-right: 10px;">
                 {{produto.coparticipacao.percentualInternacao}}%
               </span> |
@@ -108,14 +108,14 @@
                 <div>{{laboratorio.nome}}</div>
               </div>
             </mat-header-cell>
-            <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer">
+            <mat-cell *matCellDef="let produto" [style]="getFontStyle(produto)" [style.background-color]="getBackgroundColor(produto)" (click)="selecionaProduto(produto)" class="mouse-pointer mat-cell-white">
               <mat-checkbox [disabled]="true" [ngModel]="verificaSeLaboratorioSelecionado(produto, laboratorio)"></mat-checkbox>
             </mat-cell>
           </ng-container>
 
           <ng-container matColumnDef="totalLaboratorios">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Qtd. Laboratorios </mat-header-cell>
-            <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer">
+            <mat-cell *matCellDef="let produto" [style]="getFontStyle(produto)" [style.background-color]="getBackgroundColor(produto)" (click)="selecionaProduto(produto)" class="mouse-pointer mat-cell-white">
               {{produto.laboratorios.length}}
             </mat-cell>
 
@@ -126,7 +126,7 @@
                 <div>{{hospital.nome}}</div>
               </div>
             </mat-header-cell>
-            <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer">
+            <mat-cell *matCellDef="let produto" [style]="getFontStyle(produto)" [style.background-color]="getBackgroundColor(produto)" (click)="selecionaProduto(produto)" class="mouse-pointer mat-cell-white">
               <mat-checkbox [disabled]="true" [ngModel]="verificaSeHospitalSelecionado(produto, hospital)"></mat-checkbox>
             </mat-cell>
           </ng-container>
@@ -134,7 +134,7 @@
 
           <ng-container matColumnDef="totalHospitais">
             <mat-header-cell *matHeaderCellDef mat-sort-header> Qtd. Hospitais </mat-header-cell>
-            <mat-cell *matCellDef="let produto" [style.color]="'white'" [style.background-color]="produto.operadora.cor" (click)="selecionaProduto(produto)" class="mouse-pointer">
+            <mat-cell *matCellDef="let produto" [style]="getFontStyle(produto)" [style.background-color]="getBackgroundColor(produto)" (click)="selecionaProduto(produto)" class="mouse-pointer mat-cell-white">
               {{produto.hospitais.length}}
             </mat-cell>
           </ng-container>

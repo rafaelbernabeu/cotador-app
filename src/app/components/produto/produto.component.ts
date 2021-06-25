@@ -420,6 +420,7 @@ export class ProdutoComponent implements OnInit {
   filtrar(): void {
     this.estado = 'filtrando';
     this.produtoSelecionado = null;
+    this.filtraProduto();
   }
 
   filtraProduto() {
@@ -518,6 +519,16 @@ export class ProdutoComponent implements OnInit {
   applyFilterLaboratorio(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceLaboratorio.filter = filterValue.trim().toLowerCase();
+  }
+
+  getFontStyle(produto: Produto): string {
+    return this.produtoSelecionado?.id === produto.id ?
+      'font-weight: bold;' +
+      'background-color: black' : '';
+  }
+
+  getBackgroundColor(produto: Produto): string {
+    return this.produtoSelecionado?.id === produto.id ? 'black' : produto.operadora.cor;
   }
 
 }

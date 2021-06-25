@@ -560,6 +560,7 @@ export class TabelaComponent implements OnInit {
 
     this.estado = 'filtrando';
     this.tabelaSelecionada = null;
+    this.filtraTabela();
   }
 
   filtraTabela() {
@@ -680,5 +681,23 @@ export class TabelaComponent implements OnInit {
   applyFilterEntidade(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceEntidade.filter = filterValue.trim().toLowerCase();
+  }
+
+  getFontStyle(tabela: Tabela): string {
+    return this.tabelaSelecionada?.id === tabela.id ?
+      'font-weight: bold;' +
+      'background-color: black' : '';
+  }
+
+  getBackgroundColor(tabela: Tabela): string {
+    return this.tabelaSelecionada?.id === tabela.id ? 'black' : tabela.operadora.cor;
+  }
+
+  isObjIgualById(obj1, obj2): boolean {
+    return UtilService.equalsById(obj1, obj2);
+  }
+
+  isObjIgualByNome(obj1, obj2): boolean {
+    return UtilService.equalsByNome(obj1, obj2);
   }
 }
